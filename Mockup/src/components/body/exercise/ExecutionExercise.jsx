@@ -52,6 +52,8 @@ class EsecutionExercise extends Component {
                       return <Word key={"s" + item} parola={item} ger={this.state.it} />;
                     })}
                 </ul>
+
+                <button className="btn btn-success">Completa</button>
               </div>
             </div>
           </div>
