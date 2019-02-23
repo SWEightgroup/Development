@@ -42,7 +42,7 @@ class EsecutionExercise extends Component {
     if (this.props.phrase && this.props.phrase.length) {
       out = (
         <div className="row">
-          <div className="col-sm-12 col-md-6">
+          <div className="col-12">
             <div className="main-card mb-3 card">
               <div className="card-body">
                 <h5 className="card-title">Esegui l'esercizio</h5>
@@ -53,7 +53,11 @@ class EsecutionExercise extends Component {
                     })}
                 </ul>
 
-                <button className="btn btn-success">Completa</button>
+                <div className="row justify-content-end px-3">
+                  <div className="col-12 col-sm-4 py-2 px-0">
+                    <button className="btn btn-success btn-block">Completa</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -63,6 +67,9 @@ class EsecutionExercise extends Component {
 
     return <React.Fragment>{out}</React.Fragment>;
   }
+
+
+  
 }
 
 export default EsecutionExercise;

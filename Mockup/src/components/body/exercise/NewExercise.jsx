@@ -15,10 +15,10 @@ class NewExsercise extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div className="col-12 col-md-8">
         <InputPhrase pippo={this.prepareExercise} />
         <EsecutionExercise phrase={this.state.phrase} />
-      </React.Fragment>
+      </div>
     );
   }
 }

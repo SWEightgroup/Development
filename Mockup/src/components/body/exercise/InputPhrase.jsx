@@ -18,7 +18,7 @@ class InputPhrase extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-12">
           <div className="main-card mb-3 card">
             <div className="card-body">
               <h5 className="card-title">Inserisci la frase</h5>

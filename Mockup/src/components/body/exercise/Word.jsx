@@ -43,7 +43,12 @@ class Words extends Component {
     return (
       <li className="list-group-item">
         <p>
-          <span>{parola}</span>
+          <span>
+            <button className="border-0 btn btn-outline-danger btn-sm">
+              <i className="material-icons">settings_backup_restore</i>
+            </button>{" "}
+            {parola}
+          </span>
           {" : "}
           <span>{this.state.solution}</span>
         </p>
