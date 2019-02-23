@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan({"controller","service"})
-
+@ComponentScan({"controller", "service"})
 public class Application extends SpringBootServletInitializer {
-  //Main
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+  // Main
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
 }
