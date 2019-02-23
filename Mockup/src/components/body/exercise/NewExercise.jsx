@@ -16,7 +16,7 @@ class NewExsercise extends Component {
   render() {
     return (
       <React.Fragment>
-        <InputPhrase prepareExercise={this.prepareExercise} />
+        <InputPhrase pippo={this.prepareExercise} />
         <EsecutionExercise phrase={this.state.phrase} />
       </React.Fragment>
     );

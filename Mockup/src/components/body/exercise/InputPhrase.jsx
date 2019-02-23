@@ -6,12 +6,13 @@ class InputPhrase extends Component {
   };
 
   handleChange = e => {
+    e.preventDefault();
     this.setState({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.prepareExercise(this.state.phrase);
+    this.props.pippo(this.state.phrase);
   };
 
   render() {
@@ -20,7 +21,7 @@ class InputPhrase extends Component {
         <div className="col-md-6">
           <div className="main-card mb-3 card">
             <div className="card-body">
-              <h5 className="card-title">Input Group Button Shorthand</h5>
+              <h5 className="card-title">Inserisci la frase</h5>
 
               <form onSubmit={this.handleSubmit} className="needs-validation was-validated">
                 <div className="input-group">

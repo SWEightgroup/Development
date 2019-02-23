@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Navbar from "./components/header/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -41,8 +40,6 @@ class App extends Component {
             <Footer />
           </div>
         </div>
-
-
       </div>
     );
   }
