@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class Words extends Component {
   constructor(props) {
@@ -7,7 +7,7 @@ class Words extends Component {
       pulsanti: [],
       indice: -1,
       livelloZero: [],
-      solution: ""
+      solution: ''
     };
   }
 
@@ -19,7 +19,13 @@ class Words extends Component {
   generaLivelloUno = item => {
     console.log(this);
     const livello = Object.values(item.data)[0];
-    if (livello) this.setState({ indice: 0, pulsanti: livello, livelloZero: item, solution: item.text });
+    if (livello)
+      this.setState({
+        indice: 0,
+        pulsanti: livello,
+        livelloZero: item,
+        solution: item.text
+      });
   };
 
   /**
@@ -29,9 +35,9 @@ class Words extends Component {
    */
   generaSuccessivo = item => {
     const indice = this.state.indice + 1;
-    console.log("item " + indice + " : ", item);
+    console.log(`item ${indice} : `, item);
     const pulsanti = Object.values(this.state.livelloZero.data)[indice];
-    const solution = this.state.solution + " " + item[0];
+    const solution = `${this.state.solution} ${item[0]}`;
     if (pulsanti) {
       this.setState({ indice, pulsanti, solution });
     } else this.setState({ pulsanti: [], solution });
@@ -45,12 +51,15 @@ class Words extends Component {
       <li className="list-group-item">
         <p>
           <span>
-            <button className="border-0 btn btn-outline-danger btn-sm">
+            <button
+              type="button"
+              className="border-0 btn btn-outline-danger btn-sm"
+            >
               <i className="material-icons">settings_backup_restore</i>
-            </button>{" "}
+            </button>{' '}
             {parola}
           </span>
-          {" : "}
+          {' : '}
           <span>{this.state.solution}</span>
         </p>
 
@@ -58,7 +67,12 @@ class Words extends Component {
         {this.state.indice === -1 &&
           livello1.map((item, index) => {
             return (
-              <button className="btn btn-outline-primary m-1" key={"index" + index} onClick={() => this.generaLivelloUno(item, 0)}>
+              <button
+                type="button"
+                className="btn btn-outline-primary m-1"
+                key={`index${index}`}
+                onClick={() => this.generaLivelloUno(item, 0)}
+              >
                 {item.text}
               </button>
             );
@@ -70,7 +84,14 @@ class Words extends Component {
         {pulsanti.length > 0 &&
           pulsanti.map((item, index) => {
             return (
-              <button className="btn btn-outline-primary m-1" key={"index" + index} onClick={() => this.generaSuccessivo(item, this.state.indice + 1)}>
+              <button
+                type="button"
+                className="btn btn-outline-primary m-1"
+                key={`index${index}`}
+                onClick={() =>
+                  this.generaSuccessivo(item, this.state.indice + 1)
+                }
+              >
                 {item[0]}
               </button>
             );

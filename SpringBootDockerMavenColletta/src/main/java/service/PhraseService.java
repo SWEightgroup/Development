@@ -8,7 +8,7 @@ import java.io.IOException;
 
 @Service
 public class PhraseService {
-  private final String HOST = "3.17.205.197";
+  private final String HOST = "18.197.54.200";
   private final int PORT = 50005;
 
   /** Constructor */
