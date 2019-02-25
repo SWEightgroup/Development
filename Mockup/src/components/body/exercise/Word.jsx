@@ -16,17 +16,18 @@ class Words extends Component {
    *
    * @param {*} item Elemento selezionato(livello 0)
    */
-  generaLivelloUno(item) {
+  generaLivelloUno = item => {
+    console.log(this);
     const livello = Object.values(item.data)[0];
     if (livello) this.setState({ indice: 0, pulsanti: livello, livelloZero: item, solution: item.text });
-  }
+  };
 
   /**
    * Genero la lista di pulsanti successiva
    *
    * @param {*} item  Elemento selezionato(secondo livello)
    */
-  generaSuccessivo(item) {
+  generaSuccessivo = item => {
     const indice = this.state.indice + 1;
     console.log("item " + indice + " : ", item);
     const pulsanti = Object.values(this.state.livelloZero.data)[indice];
@@ -34,7 +35,7 @@ class Words extends Component {
     if (pulsanti) {
       this.setState({ indice, pulsanti, solution });
     } else this.setState({ pulsanti: [], solution });
-  }
+  };
 
   render() {
     const { parola, ger } = this.props;
@@ -69,11 +70,7 @@ class Words extends Component {
         {pulsanti.length > 0 &&
           pulsanti.map((item, index) => {
             return (
-              <button
-                className="btn btn-outline-primary m-1"
-                key={"index" + index}
-                onClick={() => this.generaSuccessivo(item, this.state.indice + 1)}
-              >
+              <button className="btn btn-outline-primary m-1" key={"index" + index} onClick={() => this.generaSuccessivo(item, this.state.indice + 1)}>
                 {item[0]}
               </button>
             );
