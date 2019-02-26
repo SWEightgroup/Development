@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Word from "./Word";
-class EsecutionExercise extends Component {
+class ExecutionExercise extends Component {
   state = {
     it: {
       adjective: {
@@ -72,4 +72,4 @@ class EsecutionExercise extends Component {
   
 }
 
-export default EsecutionExercise;
+export default ExecutionExercise;

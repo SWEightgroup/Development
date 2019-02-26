@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import InputPhrase from "./InputPhrase";
-import EsecutionExercise from "./ExecutionExercise";
+import ExecutionExercise from "./ExecutionExercise";
 class NewExsercise extends Component {
   state = {
     phrase: []
@@ -16,8 +16,8 @@ class NewExsercise extends Component {
   render() {
     return (
       <div className="col-12 col-md-8">
-        <InputPhrase pippo={this.prepareExercise} />
-        <EsecutionExercise phrase={this.state.phrase} />
+        <InputPhrase prepareExercise={this.prepareExercise} />
+        <ExecutionExercise phrase={this.state.phrase} />
       </div>
     );
   }

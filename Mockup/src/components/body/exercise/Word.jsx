@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Words extends Component {
+class Word extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,9 +16,10 @@ class Words extends Component {
    *
    * @param {*} item Elemento selezionato(livello 0)
    */
+  
   generaLivelloUno = item => {
     console.log(this);
-    const livello = Object.values(item.data)[0];
+    const livello = Object.values(item.data)[0]; 
     if (livello)
       this.setState({
         indice: 0,
@@ -35,7 +36,6 @@ class Words extends Component {
    */
   generaSuccessivo = item => {
     const indice = this.state.indice + 1;
-    console.log(`item ${indice} : `, item);
     const pulsanti = Object.values(this.state.livelloZero.data)[indice];
     const solution = `${this.state.solution} ${item[0]}`;
     if (pulsanti) {
@@ -100,4 +100,4 @@ class Words extends Component {
     );
   }
 }
-export default Words;
+export default Word;

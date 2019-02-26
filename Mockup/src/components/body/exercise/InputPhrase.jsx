@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class InputPhrase extends Component {
   state = {
-    phrase: ""
+    phrase: ''
   };
 
   handleChange = e => {
@@ -12,7 +12,7 @@ class InputPhrase extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.pippo(this.state.phrase);
+    this.props.prepareExercise(this.state.phrase);
   };
 
   render() {
@@ -23,7 +23,10 @@ class InputPhrase extends Component {
             <div className="card-body">
               <h5 className="card-title">Inserisci la frase</h5>
 
-              <form onSubmit={this.handleSubmit} className="needs-validation was-validated">
+              <form
+                onSubmit={this.handleSubmit}
+                className="needs-validation was-validated"
+              >
                 <div className="input-group">
                   <input
                     id="phrase"
