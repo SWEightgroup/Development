@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import SignedInLinks from "./SignedInLinks";
-import SignedOutLinks from "./SignedOutLinks";
-import { connect } from "react-redux";
-import "materialize-css/dist/css/materialize.min.css";
-import "jquery/dist/jquery.slim";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import SignedInLinks from './SignedInLinks';
+import SignedOutLinks from './SignedOutLinks';
+import 'materialize-css/dist/css/materialize.min.css';
+import 'jquery/dist/jquery.slim';
 
-import M from "materialize-css/dist/js/materialize.min.js";
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 class Navbar extends Component {
   componentDidMount() {
-    M.Sidenav.init(this.sidenav, { edge: "right" });
+    M.Sidenav.init(this.sidenav, { edge: 'right' });
   }
 
   render() {

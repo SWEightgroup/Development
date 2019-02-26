@@ -6,7 +6,7 @@ import ExerciseReducer from './ExerciseReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  issue: ExerciseReducer,
+  exercise: ExerciseReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

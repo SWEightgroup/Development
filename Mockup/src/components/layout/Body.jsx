@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import NewExsercise from './body/exercise/NewExercise';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import NewExsercise from '../exercise/NewExercise';
 
 class Body extends Component {
   state = {};
 
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to="/signin" />;
     return (
       <div className="app-main__inner">
         <NewExsercise />
@@ -13,4 +17,10 @@ class Body extends Component {
   }
 }
 
-export default Body;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  };
+};
+
+export default connect(mapStateToProps)(Body);

@@ -40,7 +40,7 @@ class Dashboard extends Component {
       const requisiti = usecase.filter(item => item.tipo === 'RQ');
       const us = usecase.filter(item => item.tipo === 'UC');
 
-      let table = this.state.risultato.length ? (
+      /*let table = this.state.risultato.length ? (
         <div className="row">
           <div className="col s12 m6 white mt-2 lighten-1">
             <table>
@@ -71,7 +71,7 @@ class Dashboard extends Component {
         </div>
       ) : (
         ''
-      );
+      );*/
 
       return (
         <div className="dashboard container ">
@@ -90,7 +90,7 @@ class Dashboard extends Component {
                 </button>
               </div>
             </form>
-            {table}
+            {/*table*/}
           </div>
           <div className="row">
             <div className="col s12 m6 pb-2 ">
@@ -124,5 +124,3 @@ export default compose(
     /*{ collection: "notifications", limit: 3, orderBy: ["time", "desc"] },*/
   ])
 )(Dashboard);
-
-firestoreConnect([]);
