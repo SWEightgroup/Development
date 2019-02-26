@@ -54,7 +54,6 @@ const App = () => {
               <Route path="/signup" component={SignUp} />
               <Route component={Error} />
             </Switch>
-            <Body />
             <Footer />
           </div>
         </div>

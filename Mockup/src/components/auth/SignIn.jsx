@@ -16,7 +16,7 @@ class SignIn extends Component {
   };
 
   handleSubmit = e => {
-    console.log('ciaoooo');
+    const { signIn } = this.props;
     e.preventDefault();
     signIn(this.state);
   };

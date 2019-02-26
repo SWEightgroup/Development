@@ -4,6 +4,7 @@ class SignedInLinks extends Component {
   state = {};
 
   render() {
+    const { profile } = this.props;
     return (
       <React.Fragment>
         <div className="app-header-left">
@@ -57,13 +58,15 @@ class SignedInLinks extends Component {
                       className="p-0 btn"
                       href=""
                     >
-                      <img
+                      {/* <img
                         width="42"
                         className="rounded-circle"
                         src="assets/images/avatars/1.jpg"
                         alt=""
-                      />
-                      <i className="fa fa-angle-down ml-2 opacity-8" />
+                      /> */}
+                      <span className="rounded-circle bg-info py-1 px-2 h3 text-light">
+                        {profile.initials}
+                      </span>
                     </a>
                     <div
                       tabIndex="-1"
@@ -107,8 +110,9 @@ class SignedInLinks extends Component {
                   </div>
                 </div>
                 <div className="widget-content-left  ml-3 header-user-info">
-                  <div className="widget-heading">Alina Mclourd</div>
-                  <div className="widget-subheading">VP People Manager</div>
+                  <div className="widget-heading">
+                    {profile.firstName} {profile.lastName}
+                  </div>
                 </div>
                 <div className="widget-content-right header-user-info ml-3" />
               </div>

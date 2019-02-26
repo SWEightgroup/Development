@@ -19,8 +19,8 @@ class SignUp extends Component {
   };
 
   handleSubmit = e => {
+    const { signUp } = this.props;
     e.preventDefault();
-    console.log('tentativo registrazione');
     signUp(this.state);
   };
 
