@@ -1,23 +1,30 @@
-import React, { Component } from "react";
-import moment from "moment";
-import "moment/locale/it";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
-import { compose } from "redux";
-import DoneIssue from "./DoneIssue";
-import IssueDetails from "./IssueDetails";
-import { PulseLoader } from "react-spinners";
+import React, { Component } from 'react';
+import moment from 'moment';
+import 'moment/locale/it';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { compose } from 'redux';
+import DoneIssue from './DoneIssue';
+import IssueDetails from './IssueDetails';
+import { PulseLoader } from 'react-spinners';
+import M from 'materialize-css';
 
 class IssueSummary extends Component {
+  creaDoneIssue = () => {
+    M.Modal.init(document.getElementById(this.props.id));
+    var select = document.getElementById(this.props.id).querySelectorAll('select');
+    M.FormSelect.init(select);
+  };
+
   render() {
     const { issueId, usecase, thisUsecase, usersObj } = this.props;
-    moment.locale("it");
+    moment.locale('it');
 
     if (isLoaded(thisUsecase)) {
       const lista = usecase && usecase.filter(item => item.tipo !== thisUsecase.tipo);
-      const done = issueId + "Done";
-      const details = issueId + "Details";
+      const done = issueId + 'Done';
+      const details = issueId + 'Details';
 
       const elenco = thisUsecase.lista.length ? (
         <ul className="collection">
@@ -34,17 +41,19 @@ class IssueSummary extends Component {
 
       return (
         <div className="card sticky-action z-depth-0 mt-0">
-          <span to={"/issue/" + issueId} className="block card-content grey-text text-darken-3 pt-2 pb-0">
+          <span to={'/issue/' + issueId} className="block card-content grey-text text-darken-3 pt-2 pb-0">
             <span className="grey-text">{thisUsecase.tipo}</span>
             <span className="card-title truncate uppercase mb-0">{thisUsecase.title}</span>
             <span className="grey-text lighten-2">{thisUsecase.fonte}</span> <br />
             <span className="grey-text lighten-1">{thisUsecase.content}</span>
             <span>{elenco}</span>
           </span>
-          {/*<DoneIssue issue={thisUsecase} lista={lista} id={done} idIssue={issueId} tipo={thisUsecase.tipo} />
-            /*<IssueDetails thisUsecase={thisUsecase} id={details} user={usersObj.find(user => user.id === thisUsecase.authorId)} /> */}
-          <div className="card-action">
-            <button data-target={done} className="btn green white-text modal-trigger">
+          {
+            <DoneIssue issue={thisUsecase} lista={lista} id={done} idIssue={issueId} tipo={thisUsecase.tipo} />
+            /*<IssueDetails thisUsecase={thisUsecase} id={details} user={usersObj.find(user => user.id === thisUsecase.authorId)} /> */
+          }
+          <div className="card-action ">
+            <button data-target={done} className="btn green white-text modal-trigger" onClick={this.creaDoneIssue}>
               Risolvi
             </button>
             {/*<button data-target={details} className="btn yellow white-text modal-trigger">
@@ -56,7 +65,7 @@ class IssueSummary extends Component {
     } else {
       return (
         <div className="card sticky-action z-depth-0 mt-0">
-          <PulseLoader sizeUnit={"px"} size={15} color={"#123abc"} loading={true} />
+          <PulseLoader sizeUnit={'px'} size={15} color={'#123abc'} loading={true} />
         </div>
       );
     }
@@ -74,5 +83,5 @@ export default /*connect(mapStateToProps)(IssueSummary);*/
 
 compose(
   connect(mapStateToProps),
-  firestoreConnect(props => [{ collection: "usecase", storeAs: props.issueId, doc: props.issueId }])
+  firestoreConnect(props => [{ collection: 'usecase', storeAs: props.issueId, doc: props.issueId }])
 )(IssueSummary);

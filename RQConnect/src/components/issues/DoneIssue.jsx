@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import M from "materialize-css";
-import { connect } from "react-redux";
-import { updateUC } from "../../store/actions/IssueActions";
+import React, { Component } from 'react';
+
+import { connect } from 'react-redux';
+import { updateUC } from '../../store/actions/IssueActions';
 
 class DoneIssue extends Component {
   state = { lista: [] };
@@ -26,12 +26,7 @@ class DoneIssue extends Component {
     //this.props.history && this.props.history.push("/");
   };
 
-  componentDidMount() {
-    var elems = document.querySelectorAll(".modal");
-    M.Modal.init(elems);
-    var select = document.querySelectorAll("select");
-    M.FormSelect.init(select);
-  }
+  componentDidMount() {}
 
   render() {
     const { lista } = this.props;
@@ -45,14 +40,14 @@ class DoneIssue extends Component {
             <div className="col s12">
               <label>Tipo di elemento</label>
               <select multiple className="" onChange={this.handleChange}>
-                {/*lista &&
+                {lista &&
                   lista.map(element => {
                     return (
                       <option key={element.id} value={element.id}>
                         {element.title}
                       </option>
                     );
-                  })*/}
+                  })}
               </select>
             </div>
 

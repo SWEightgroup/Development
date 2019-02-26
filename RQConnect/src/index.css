@@ -2,7 +2,9 @@
   max-width: 800px;
   margin: 0 auto !important;
 }
-
+.z-index-10 {
+  z-index: 10;
+}
 .uppercase {
   text-transform: uppercase;
 }
@@ -86,18 +88,18 @@ form h5 {
   margin: 20px 0;
 }
 
-input[type="text"]:not(.browser-default):focus:not([readonly]),
-input[type="email"]:not(.browser-default):focus:not([readonly]),
-input[type="password"]:not(.browser-default):focus:not([readonly]),
+input[type='text']:not(.browser-default):focus:not([readonly]),
+input[type='email']:not(.browser-default):focus:not([readonly]),
+input[type='password']:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
   border-color: #ec407a;
   box-shadow: none;
 }
 
-input[type="text"]:not(.browser-default):focus:not([readonly]) + label,
+input[type='text']:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label,
-input[type="email"]:not(.browser-default):focus:not([readonly]) + label,
-input[type="password"]:not(.browser-default):focus:not([readonly]) + label {
+input[type='email']:not(.browser-default):focus:not([readonly]) + label,
+input[type='password']:not(.browser-default):focus:not([readonly]) + label {
   color: #ec407a !important;
 }
 

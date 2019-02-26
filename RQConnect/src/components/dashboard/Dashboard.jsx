@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import IssueList from "../issues/IssueList";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import IssueList from '../issues/IssueList';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { Redirect } from 'react-router-dom';
 class Dashboard extends Component {
   state = {
-    frase: "",
+    frase: '',
     risultato: []
   };
 
@@ -15,30 +15,30 @@ class Dashboard extends Component {
       [e.target.id]: e.target.value
     });
 
-    let error = e.target.parentNode.querySelector(".error");
-    if (error && e.target.value === "") {
-      error.innerHTML = "Campo obbligatorio";
+    let error = e.target.parentNode.querySelector('.error');
+    if (error && e.target.value === '') {
+      error.innerHTML = 'Campo obbligatorio';
     } else if (error) {
-      error.innerHTML = "";
+      error.innerHTML = '';
     }
   };
   handleSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:8081/grammatical-analysis/" + this.state.frase)
+    fetch('http://localhost:8081/grammatical-analysis/' + this.state.frase)
       .then(res => res.json())
       .then(res => {
         this.setState({ risultato: res });
         console.log(res);
       })
-      .catch(console.log("error"));
+      .catch(console.log('error'));
   };
 
   render() {
     const { usecase, auth, users } = this.props;
     if (!auth.uid) return <Redirect to="/signin" />;
     if (usecase) {
-      const requisiti = usecase.filter(item => item.tipo === "RQ");
-      const us = usecase.filter(item => item.tipo === "UC");
+      const requisiti = usecase.filter(item => item.tipo === 'RQ');
+      const us = usecase.filter(item => item.tipo === 'UC');
 
       let table = this.state.risultato.length ? (
         <div className="row">
@@ -70,7 +70,7 @@ class Dashboard extends Component {
           </div>
         </div>
       ) : (
-        ""
+        ''
       );
 
       return (
@@ -102,7 +102,7 @@ class Dashboard extends Component {
           </div>
         </div>
       );
-    } else return "loading";
+    } else return 'loading';
   }
 }
 
@@ -119,8 +119,8 @@ const mapStateToProps = state => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect([
-    { collection: "users", orderBy: ["firstName", "asc"] },
-    { collection: "usecase", orderBy: ["createdAt", "desc"] }
+    { collection: 'users', orderBy: ['firstName', 'asc'] },
+    { collection: 'usecase', orderBy: ['title', 'asc'] }
     /*{ collection: "notifications", limit: 3, orderBy: ["time", "desc"] },*/
   ])
 )(Dashboard);
