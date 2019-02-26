@@ -4,48 +4,49 @@ class Word extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pulsanti: [],
-      indice: -1,
-      livelloZero: [],
+      buttons: [],
+      index: -1,
+      levelZero: [],
       solution: ''
     };
   }
 
   /**
-   * Genero la prima lista dei pulsanti in base all'elemento selezionato
+   * 
+   * Generates the first set of buttons given by the user choice
    *
-   * @param {*} item Elemento selezionato(livello 0)
+   * @param {*} item Selected item (level 0)
    */
 
-  generaLivelloUno = item => {
+  generateLevelOne = item => {
     const livello = Object.values(item.data)[0];
     if (livello)
       this.setState({
-        indice: 0,
-        pulsanti: livello,
-        livelloZero: item,
+        index: 0,
+        buttons: livello,
+        levelZero: item,
         solution: item.text
       });
   };
 
   /**
-   * Genero la lista di pulsanti successiva
+   * Genrates next list of buttons
    *
-   * @param {*} item  Elemento selezionato(secondo livello)
+   * @param {*} item  Selected elementend (level 1+)
    */
-  generaSuccessivo = item => {
-    const indice = this.state + 1;
-    const { livelloZero, solution } = this.state;
-    const pulsanti = Object.values(livelloZero.data)[indice];
+  generateNext = item => {
+    const index = this.state + 1;
+    const { levelZero, solution } = this.state;
+    const buttons = Object.values(levelZero.data)[index];
     const nextSolution = `${solution} ${item[0]}`;
-    if (pulsanti) {
-      this.setState({ indice, pulsanti, solution: nextSolution });
-    } else this.setState({ pulsanti: [], solution: nextSolution });
+    if (buttons) {
+      this.setState({ index, buttons, solution: nextSolution });
+    } else this.setState({ buttons: [], solution: nextSolution });
   };
 
   render() {
     const { parola, ger } = this.props;
-    const { pulsanti, solution, indice } = this.state;
+    const { buttons, solution, index } = this.state;
     const livello1 = Object.values(ger);
     return (
       <li className="list-group-item">
@@ -63,15 +64,15 @@ class Word extends Component {
           <span>{solution}</span>
         </p>
 
-        {/* questa parte viene eseguita solo per gli elementi di primo livello (agettivo, pronome, nome, ecc..) */}
-        {indice === -1 &&
+        {/*Only for first level element(adjective, pronoun, ecc) */}
+        {index === -1 &&
           livello1.map((item, index) => {
             return (
               <button
                 type="button"
                 className="btn btn-outline-primary m-1"
                 key={`index${index}`}
-                onClick={() => this.generaLivelloUno(item, 0)}
+                onClick={() => this.generateLevelOne(item, 0)}
               >
                 {item.text}
               </button>
@@ -79,16 +80,16 @@ class Word extends Component {
           })}
 
         {/**
-          questa parte viene eseguita solo per gli elementi di secondo livello
+          Only for 1+ level elements
           */}
-        {pulsanti.length > 0 &&
-          pulsanti.map((item, index) => {
+        {buttons.length > 0 &&
+          buttons.map((item, index) => {
             return (
               <button
                 type="button"
                 className="btn btn-outline-primary m-1"
                 key={`index${index}`}
-                onClick={() => this.generaSuccessivo(item, indice + 1)}
+                onClick={() => this.generateNext(item, index + 1)}
               >
                 {item[0]}
               </button>
