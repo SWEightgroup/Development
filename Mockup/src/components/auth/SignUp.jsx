@@ -27,52 +27,80 @@ class SignUp extends Component {
     const { auth, authError } = this.props;
     if (auth.uid) return <Redirect to="/" />;
     return (
-      <div className="container">
-        <form className="white" onSubmit={this.handleSubmit}>
-          <h5 className="grey-text text-darken-3">Registrazione</h5>
-          <div className="input-field">
-            <label htmlFor="email">
-              Email
-              <input type="email" id="email" onChange={this.handleChange} />
-            </label>
-          </div>
-          <div className="input-field">
-            <label htmlFor="password">
-              Password
-              <input
-                type="password"
-                id="password"
-                onChange={this.handleChange}
-              />
-            </label>
-          </div>
-          <div className="input-field">
-            <label htmlFor="firstName">
-              Nome
-              <input type="text" id="firstName" onChange={this.handleChange} />
-            </label>
-          </div>
-          <div className="input-field">
-            <label htmlFor="lastName">
-              Cognome
-              <input type="text" id="lastName" onChange={this.handleChange} />
-            </label>
-          </div>
-          <div className="input-field">
-            <label htmlFor="linkPhoto">
-              Link di un immagine per la foto profilo
-              <input type="text" id="linkPhoto" onChange={this.handleChange} />
-            </label>
-          </div>
-          <div className="input-field">
-            <button type="button" className="btn pink lighten-1 z-depth-0">
-              Registrati
-            </button>
-            <div className="center red-text">
-              {authError ? <p>{authError}</p> : null}
+      <div className="app-main__inner">
+        <div className="row">
+          <div className="col-sm-12 col-md-8 col-lg-8">
+            <div className="main-card mb-3 card">
+              <div className="card-body">
+                <h5 className="card-title">Login</h5>
+
+                <form onSubmit={this.handleSubmit}>
+                  <div className="position-relative form-group">
+                    <label htmlFor="firstName">Nome</label>
+                    <input
+                      name="firstName"
+                      id="firstName"
+                      placeholder="Nome"
+                      type="text"
+                      className="form-control"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="firstName">Cognome</label>
+                    <input
+                      name="lastName"
+                      id="lastName"
+                      placeholder="Cognome"
+                      type="text"
+                      className="form-control"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      name="address"
+                      id="email"
+                      placeholder="Email"
+                      type="email"
+                      className="form-control"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                      name="address2"
+                      id="password"
+                      placeholder="Passowrd"
+                      type="password"
+                      className="form-control"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="linkPhoto">Link immagine del profile</label>
+                    <input
+                      name="linkPhoto"
+                      id="linkPhoto"
+                      placeholder="http://ilmiosito.it/laMiaImmagine.jpg"
+                      type="text"
+                      className="form-control"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <button type="submit" className="mt-2 btn btn-primary">
+                    Accedi
+                  </button>
+                  <div className="">
+                    {authError ? <p>{authError}</p> : null}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
