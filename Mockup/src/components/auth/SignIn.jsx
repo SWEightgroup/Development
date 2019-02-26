@@ -16,6 +16,7 @@ class SignIn extends Component {
   };
 
   handleSubmit = e => {
+    console.log('ciaoooo');
     e.preventDefault();
     signIn(this.state);
   };

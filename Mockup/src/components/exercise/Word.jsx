@@ -12,7 +12,7 @@ class Word extends Component {
   }
 
   /**
-   * 
+   *
    * Generates the first set of buttons given by the user choice
    *
    * @param {*} item Selected item (level 0)
@@ -64,7 +64,7 @@ class Word extends Component {
           <span>{solution}</span>
         </p>
 
-        {/*Only for first level element(adjective, pronoun, ecc) */}
+        {/* Only for first level element(adjective, pronoun, ecc) */}
         {index === -1 &&
           livello1.map((item, index) => {
             return (
