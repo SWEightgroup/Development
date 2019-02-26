@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class Footer extends Component {
   state = {};
+
   render() {
     return (
       <div className="app-wrapper-footer">

@@ -16,10 +16,9 @@ class Word extends Component {
    *
    * @param {*} item Elemento selezionato(livello 0)
    */
-  
+
   generaLivelloUno = item => {
-    console.log(this);
-    const livello = Object.values(item.data)[0]; 
+    const livello = Object.values(item.data)[0];
     if (livello)
       this.setState({
         indice: 0,
@@ -35,17 +34,18 @@ class Word extends Component {
    * @param {*} item  Elemento selezionato(secondo livello)
    */
   generaSuccessivo = item => {
-    const indice = this.state.indice + 1;
-    const pulsanti = Object.values(this.state.livelloZero.data)[indice];
-    const solution = `${this.state.solution} ${item[0]}`;
+    const indice = this.state + 1;
+    const { livelloZero, solution } = this.state;
+    const pulsanti = Object.values(livelloZero.data)[indice];
+    const nextSolution = `${solution} ${item[0]}`;
     if (pulsanti) {
-      this.setState({ indice, pulsanti, solution });
-    } else this.setState({ pulsanti: [], solution });
+      this.setState({ indice, pulsanti, solution: nextSolution });
+    } else this.setState({ pulsanti: [], solution: nextSolution });
   };
 
   render() {
     const { parola, ger } = this.props;
-    const { pulsanti } = this.state;
+    const { pulsanti, solution, indice } = this.state;
     const livello1 = Object.values(ger);
     return (
       <li className="list-group-item">
@@ -60,11 +60,11 @@ class Word extends Component {
             {parola}
           </span>
           {' : '}
-          <span>{this.state.solution}</span>
+          <span>{solution}</span>
         </p>
 
         {/* questa parte viene eseguita solo per gli elementi di primo livello (agettivo, pronome, nome, ecc..) */}
-        {this.state.indice === -1 &&
+        {indice === -1 &&
           livello1.map((item, index) => {
             return (
               <button
@@ -88,9 +88,7 @@ class Word extends Component {
                 type="button"
                 className="btn btn-outline-primary m-1"
                 key={`index${index}`}
-                onClick={() =>
-                  this.generaSuccessivo(item, this.state.indice + 1)
-                }
+                onClick={() => this.generaSuccessivo(item, indice + 1)}
               >
                 {item[0]}
               </button>

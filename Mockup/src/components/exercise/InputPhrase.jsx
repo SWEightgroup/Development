@@ -12,7 +12,9 @@ class InputPhrase extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.prepareExercise(this.state.phrase);
+    const { phrase } = this.state;
+    const { prepareExercise } = this.props;
+    prepareExercise(phrase);
   };
 
   render() {

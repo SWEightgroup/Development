@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class Navbar extends Component {
   state = {};
+
   render() {
     return (
       <div className="app-header header-shadow">
@@ -9,7 +10,11 @@ class Navbar extends Component {
           <div className="logo-src" />
           <div className="header__pane ml-auto">
             <div>
-              <button type="button" className="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+              <button
+                type="button"
+                className="hamburger close-sidebar-btn hamburger--elastic"
+                data-class="closed-sidebar"
+              >
                 <span className="hamburger-box">
                   <span className="hamburger-inner" />
                 </span>
@@ -19,7 +24,10 @@ class Navbar extends Component {
         </div>
         <div className="app-header__mobile-menu">
           <div>
-            <button type="button" className="hamburger hamburger--elastic mobile-toggle-nav">
+            <button
+              type="button"
+              className="hamburger hamburger--elastic mobile-toggle-nav"
+            >
               <span className="hamburger-box">
                 <span className="hamburger-inner" />
               </span>
@@ -28,7 +36,10 @@ class Navbar extends Component {
         </div>
         <div className="app-header__menu">
           <span>
-            <button type="button" className="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+            <button
+              type="button"
+              className="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav"
+            >
               <span className="btn-icon-wrapper">
                 <i className="fa fa-ellipsis-v fa-w-6" />
               </span>
@@ -39,17 +50,21 @@ class Navbar extends Component {
           <div className="app-header-left">
             <div className="search-wrapper">
               <div className="input-holder">
-                <input type="text" className="search-input" placeholder="Type to search" />
-                <button className="search-icon">
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Type to search"
+                />
+                <button type="button" className="search-icon">
                   <span />
                 </button>
               </div>
-              <button className="close" />
+              <button type="button" className="close" />
             </div>
             <ul className="header-menu nav">
               <li className="nav-item">
                 <a href="" className="nav-link">
-                  <i className="nav-link-icon fa fa-database"> </i>
+                  <i className="nav-link-icon fa fa-database" />
                   Statistics
                 </a>
               </li>
@@ -65,7 +80,7 @@ class Navbar extends Component {
                   Settings
                 </a>
               </li>
-            </ul>{" "}
+            </ul>{' '}
           </div>
           <div className="app-header-right">
             <div className="header-btn-lg pr-0">
@@ -73,25 +88,57 @@ class Navbar extends Component {
                 <div className="widget-content-wrapper">
                   <div className="widget-content-left">
                     <div className="btn-group">
-                      <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="p-0 btn" href="">
-                        <img width="42" className="rounded-circle" src="assets/images/avatars/1.jpg" alt="" />
+                      <a
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        className="p-0 btn"
+                        href=""
+                      >
+                        <img
+                          width="42"
+                          className="rounded-circle"
+                          src="assets/images/avatars/1.jpg"
+                          alt=""
+                        />
                         <i className="fa fa-angle-down ml-2 opacity-8" />
                       </a>
-                      <div tabIndex="-1" role="menu" aria-hidden="true" className="dropdown-menu dropdown-menu-right">
-                        <button type="button" tabIndex="0" className="dropdown-item">
+                      <div
+                        tabIndex="-1"
+                        role="menu"
+                        aria-hidden="true"
+                        className="dropdown-menu dropdown-menu-right"
+                      >
+                        <button
+                          type="button"
+                          tabIndex="0"
+                          className="dropdown-item"
+                        >
                           User Account
                         </button>
-                        <button type="button" tabIndex="0" className="dropdown-item">
+                        <button
+                          type="button"
+                          tabIndex="0"
+                          className="dropdown-item"
+                        >
                           Settings
                         </button>
                         <h6 tabIndex="-1" className="dropdown-header">
                           Header
                         </h6>
-                        <button type="button" tabIndex="0" className="dropdown-item">
+                        <button
+                          type="button"
+                          tabIndex="0"
+                          className="dropdown-item"
+                        >
                           Actions
                         </button>
                         <div tabIndex="-1" className="dropdown-divider" />
-                        <button type="button" tabIndex="0" className="dropdown-item">
+                        <button
+                          type="button"
+                          tabIndex="0"
+                          className="dropdown-item"
+                        >
                           Dividers
                         </button>
                       </div>
