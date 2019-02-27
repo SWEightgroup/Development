@@ -5,10 +5,11 @@ class Word extends Component {
   constructor(props) {
     super(props);
     const { gerarchy } = props;
-    const language_iterator = new LanguageStructure(gerarchy).getBaseIterator(); // NON VA BENE, VA CAMBIATO
+    const languageIterator = new LanguageStructure(gerarchy).getBaseIterator(); // NON VA BENE, VA CAMBIATO
+
     this.state = {
-      language_iterator,
-      buttons: language_iterator.getCurrentButtonList(),
+      languageIterator,
+      buttons: languageIterator.getCurrentButtonList(),
       solution: ''
     };
   }
@@ -21,13 +22,17 @@ class Word extends Component {
    */
 
   backOne = () => {
-    const { language_iterator } = this.state;
-    language_iterator.prevLevel();
-    this.setState({
-      language_iterator,
-      buttons: language_iterator.getCurrentButtonList(),
-      solution: language_iterator.getSolution()
-    });
+    try {
+      const { languageIterator } = this.state;
+      languageIterator.prevLevel();
+      this.setState({
+        languageIterator,
+        buttons: languageIterator.getCurrentButtonList(),
+        solution: languageIterator.getSolution()
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   /**
@@ -36,22 +41,26 @@ class Word extends Component {
    * @param {*} item  Selected elementend (level 1+)
    */
   generateNext = button => {
-    const { language_iterator } = this.state;
-    language_iterator.nextLevel(button);
-    this.setState({
-      buttons: language_iterator.getCurrentButtonList(),
-      solution: language_iterator.getSolution(),
-      language_iterator
-    });
+    try {
+      const { languageIterator } = this.state;
+      languageIterator.nextLevel(button);
+      this.setState({
+        buttons: languageIterator.getCurrentButtonList(),
+        solution: languageIterator.getSolution(),
+        languageIterator
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   reset = () => {
-    const { language_iterator } = this.state;
-    language_iterator.setBaseLevel();
+    const { languageIterator } = this.state;
+    languageIterator.setBaseLevel();
     this.setState({
-      buttons: language_iterator.getCurrentButtonList(),
-      solution: language_iterator.getSolution(),
-      language_iterator
+      buttons: languageIterator.getCurrentButtonList(),
+      solution: languageIterator.getSolution(),
+      languageIterator
     });
   };
 
