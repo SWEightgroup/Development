@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Helmet } from 'react-helmet';
 class Footer extends Component {
   state = {};
 
@@ -41,6 +41,13 @@ class Footer extends Component {
             </div>
           </div>
         </div>
+
+        {
+          // this component injects, after the parent component is loaded, a script tag
+        }
+        <Helmet>
+          <script type="text/javascript" src="./main.js" />
+        </Helmet>
       </div>
     );
   }
