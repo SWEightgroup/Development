@@ -29,7 +29,7 @@ public class PhraseController {
   @RequestMapping(value = "/p", method = RequestMethod.POST, produces = "application/json" ,consumes = "application/json" )
   public String getSolution(@RequestBody PhraseModel phrase) {
     try {    	
-      return phraseService.getSolution(phrase.text);
+      return phraseService.getSolution(phrase.phrase);
     } catch (IOException e) {
       e.printStackTrace();
       return new String();

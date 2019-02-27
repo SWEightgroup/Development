@@ -1,21 +1,3 @@
-class LanguageStructure {
-  /*
-   * ger -> internal json language gerarchy representation
-   */
-
-  /**
-   *
-   * @param {file} json_source Source json file for language tagging
-   */
-  constructor(json_source) {
-    this.gerarchy = json_source;
-  }
-
-  getBaseIterator() {
-    return new LanguageIterator(this);
-  }
-}
-
 class LanguageIterator {
   /**
    * Levels explanation:
@@ -57,20 +39,23 @@ class LanguageIterator {
 
     if (this.currentLevel === -1) {
       category = this.currentButtonList.find(item => item.text[0] === choice);
-      if (!category) throw 'Element not found';
+      if (!category) throw new RangeError('Element not found');
       this.categoryData = Object.values(category.data);
       this.categoryText = category.text;
       element = this.categoryText;
-    } else if (this.currentLevel >= this.categoryData.length - 1) {
+    } else if (this.currentLevel > this.categoryData.length - 1) {
       this.currentButtonList = [];
     } else {
       element = this.currentButtonList.find(item => item[0] === choice);
-      if (!element) throw 'Element not found';
+      if (!element) throw new RangeError('Element not found');
     }
     if (this.currentLevel < this.categoryData.length - 1) {
-      this.currentLevel++;
+      this.currentLevel += 1;
       this.currentButtonList = this.categoryData[this.currentLevel];
       this.solution.push(element);
+    } else if (this.currentLevel === this.categoryData.length - 1) {
+      this.solution.push(element);
+      this.currentButtonList = [];
     }
   }
 
@@ -79,10 +64,29 @@ class LanguageIterator {
     if (this.currentLevel === 0) {
       this.setBaseLevel();
     } else if (this.currentLevel !== -1) {
-      this.currentLevel--;
+      this.currentLevel -= 1;
       this.currentButtonList = this.categoryData[this.currentLevel];
       this.solution.pop();
     }
   }
 }
+
+class LanguageStructure {
+  /*
+   * ger -> internal json language gerarchy representation
+   */
+
+  /**
+   *
+   * @param {file} json_source Source json file for language tagging
+   */
+  constructor(jsonSource) {
+    this.gerarchy = jsonSource;
+  }
+
+  getBaseIterator() {
+    return new LanguageIterator(this);
+  }
+}
+
 export default LanguageStructure;

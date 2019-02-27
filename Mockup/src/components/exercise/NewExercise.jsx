@@ -22,7 +22,6 @@ class NewExsercise extends Component {
     const { phraseString } = this.state;
     // qui faremo la chiamata
     // la soluzione sarà formata da un array di parola/codice
-    console.log(phraseString);
     axios
       .post(`http://localhost:8081/grammatical-analysis/p`, {
         phrase: phraseString
@@ -32,11 +31,6 @@ class NewExsercise extends Component {
       })
       .catch(err => console.log(err));
   };
-
-
-
-
-
 
   render() {
     const { phrase } = this.state;
