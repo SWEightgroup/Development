@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Navbar from './components/layout/Navbar';
 import Sidebar from './components/layout/Sidebar';
 import Body from './components/layout/Body';
@@ -10,7 +11,9 @@ import Error from './components/layout/Error';
 
 import './App.css';
 
-const App = () => {
+const App = props => {
+  const { auth } = props;
+  //if (!auth.isLoaded) return <h1>Ciaoooooooooooooooo</h1>;
   return (
     <BrowserRouter>
       <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -62,4 +65,10 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  };
+};
+
+export default connect(mapStateToProps)(App);

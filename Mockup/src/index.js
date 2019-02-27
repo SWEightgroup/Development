@@ -8,7 +8,7 @@ import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import rootReducer from './store/reducers/RootReducer';
 import App from './App';
 import fbConfig from './config/fbConfig';
-import { register } from './serviceWorker';
+import { unregister } from './serviceWorker';
 import './index.css';
 
 const store = createStore(
@@ -32,7 +32,9 @@ store.firebaseAuthIsReady.then(() => {
     </Provider>,
     document.getElementById('root')
   );
-  register();
+  unregister();
 });
+
+// });
 
 // PROMEMORIA ->  FILE MAIN.JS, RIGA 26935 COMMENTATO PER ERRORE IN CONSOLE

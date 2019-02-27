@@ -10,7 +10,7 @@ class Sidebar extends Component {
           <ul className="vertical-nav-menu">
             <li className="app-sidebar__heading">Dashboards</li>
             <li>
-              <a href="index.html" className="mm-active">
+              <a href="/" className="mm-active">
                 <i className="metismenu-icon pe-7s-rocket" />
                 Dashboard Example 1
               </a>

@@ -5,10 +5,12 @@ import NewExsercise from '../exercise/NewExercise';
 
 class Body extends Component {
   state = {};
-  constructor(props){
+
+  constructor(props) {
     super(props);
-    
+    this.state = {};
   }
+
   render() {
     const { auth } = this.props;
     if (!auth.uid) return <Redirect to="/signin" />;
