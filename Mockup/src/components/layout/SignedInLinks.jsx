@@ -1,127 +1,87 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signOut } from '../../store/actions/AuthActions';
 
-class SignedInLinks extends Component {
-  state = {};
-
-  render() {
-    const { profile } = this.props;
-    return (
-      <React.Fragment>
-        <div className="app-header-left">
-          <div className="search-wrapper">
-            <div className="input-holder">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Type to search"
-              />
-              <button type="button" className="search-icon">
-                <span />
-              </button>
-            </div>
-            <button type="button" className="close" />
-          </div>
-          <ul className="header-menu nav">
-            <li className="nav-item">
-              <a href="" className="nav-link">
-                <i className="nav-link-icon fa fa-database" />
-                Statistics
-              </a>
-            </li>
-            <li className="btn-group nav-item">
-              <a href="" className="nav-link">
-                <i className="nav-link-icon fa fa-edit" />
-                Projects
-              </a>
-            </li>
-            <li className="dropdown nav-item">
-              <a href="" className="nav-link">
-                <i className="nav-link-icon fa fa-cog" />
-                Settings
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* ---------------------------------------------------------------------------*/}
-
-        <div className="app-header-right">
-          <div className="header-btn-lg pr-0">
-            <div className="widget-content p-0">
-              <div className="widget-content-wrapper">
-                <div className="widget-content-left">
-                  <div className="btn-group">
-                    <a
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      className="p-0 btn"
-                      href=""
+const SignedInLinks = props => {
+  const { profile } = props;
+  return (
+    <React.Fragment>
+      <div className="app-header-right">
+        <div className="header-btn-lg pr-0">
+          <div className="widget-content p-0">
+            <div className="widget-content-wrapper">
+              <div className="widget-content-left">
+                <div className="btn-group">
+                  <a
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    className="p-0 btn"
+                    href=""
+                  >
+                    {/* <img
+                      width="42"
+                      className="rounded-circle"
+                      src="assets/images/avatars/1.jpg"
+                      alt=""
+                    /> */}
+                    <span className="rounded-circle bg-info py-1 px-2 h3 text-light">
+                      {profile.initials}
+                    </span>
+                  </a>
+                  <div
+                    tabIndex="-1"
+                    role="menu"
+                    aria-hidden="true"
+                    className="dropdown-menu dropdown-menu-right"
+                  >
+                    <button
+                      type="button"
+                      tabIndex="0"
+                      className="dropdown-item"
                     >
-                      {/* <img
-                        width="42"
-                        className="rounded-circle"
-                        src="assets/images/avatars/1.jpg"
-                        alt=""
-                      /> */}
-                      <span className="rounded-circle bg-info py-1 px-2 h3 text-light">
-                        {profile.initials}
-                      </span>
-                    </a>
-                    <div
-                      tabIndex="-1"
-                      role="menu"
-                      aria-hidden="true"
-                      className="dropdown-menu dropdown-menu-right"
+                      Account
+                    </button>
+                    <button
+                      type="button"
+                      tabIndex="0"
+                      className="dropdown-item"
                     >
-                      <button
-                        type="button"
-                        tabIndex="0"
-                        className="dropdown-item"
-                      >
-                        User Account
-                      </button>
-                      <button
-                        type="button"
-                        tabIndex="0"
-                        className="dropdown-item"
-                      >
-                        Settings
-                      </button>
-                      <h6 tabIndex="-1" className="dropdown-header">
-                        Header
-                      </h6>
-                      <button
-                        type="button"
-                        tabIndex="0"
-                        className="dropdown-item"
-                      >
-                        Actions
-                      </button>
-                      <div tabIndex="-1" className="dropdown-divider" />
-                      <button
-                        type="button"
-                        tabIndex="0"
-                        className="dropdown-item"
-                      >
-                        Dividers
-                      </button>
-                    </div>
+                      Impostazioni
+                    </button>
+                    <NavLink
+                      to="/signin"
+                      onClick={props.signOut}
+                      tabIndex="0"
+                      className="dropdown-item"
+                    >
+                      Esci
+                    </NavLink>
                   </div>
                 </div>
-                <div className="widget-content-left  ml-3 header-user-info">
-                  <div className="widget-heading">
-                    {profile.firstName} {profile.lastName}
-                  </div>
-                </div>
-                <div className="widget-content-right header-user-info ml-3" />
               </div>
+              <div className="widget-content-left  ml-3 header-user-info">
+                <div className="widget-heading">
+                  {profile.firstName} {profile.lastName}
+                </div>
+              </div>
+              <div className="widget-content-right header-user-info ml-3" />
             </div>
           </div>
         </div>
-      </React.Fragment>
-    );
-  }
-}
+      </div>
+    </React.Fragment>
+  );
+};
 
-export default SignedInLinks;
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(signOut())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignedInLinks);

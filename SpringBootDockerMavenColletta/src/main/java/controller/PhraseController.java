@@ -20,13 +20,15 @@ public class PhraseController {
    * @param phrase
    * @return
    */
-  @RequestMapping(value = "{phrase}", method = RequestMethod.GET, produces = "application/json")
-  public String getSolution(@PathVariable("phrase") String phrase) {
+  @RequestMapping(value = "/p", method = RequestMethod.POST, produces = "application/json")
+  public String getSolution(@RequestBody Data phrase) {
     try {
-      return phraseService.getSolution(phrase);
+      return phraseService.getSolution(phrase.getPhrase());
     } catch (IOException e) {
       e.printStackTrace();
       return new String();
     }
   }
+  
+
 }

@@ -1,18 +1,42 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import InputPhrase from './InputPhrase';
 import ExecutionExercise from './ExecutionExercise';
 
 class NewExsercise extends Component {
   state = {
-    phrase: []
+    phrase: [],
+    phraseString: ''
   };
 
   prepareExercise = phrase => {
+    this.setState({ phraseString: phrase });
     const phraseArray = phrase.split(' ');
     if (phraseArray.length > 0) {
       this.setState({ phrase: phraseArray });
     }
+    this.getSolution();
   };
+
+  getSolution = () => {
+    const { phraseString } = this.state;
+    // qui faremo la chiamata
+    // la soluzione sarà formata da un array di parola/codice
+    console.log(phraseString);
+    axios
+      .post(`http://localhost:8081/grammatical-analysis/p`, {
+        phrase: phraseString
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  };
+
+
+
+
+
 
   render() {
     const { phrase } = this.state;

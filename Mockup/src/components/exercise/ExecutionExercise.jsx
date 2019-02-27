@@ -5,7 +5,7 @@ class ExecutionExercise extends Component {
   state = {
     it: {
       adjective: {
-        text: 'adjective',
+        text: ['adjective', 'A'],
         data: {
           type: [['ordinal', 'O'], ['qualificative', 'Q'], ['possessive', 'P']],
           degree: [['superlative', 'S']],
@@ -25,13 +25,13 @@ class ExecutionExercise extends Component {
         }
       },
       conjunction: {
-        text: 'conjunction',
+        text: ['conjunction', 'C'],
         data: {
           type: [['coordinating', 'C'], ['subordinating', 'S']]
         }
       },
       determiner: {
-        text: 'determiner',
+        text: ['determiner', 'A'],
         data: {
           type: [
             ['article', 'A'],
@@ -58,11 +58,13 @@ class ExecutionExercise extends Component {
           <div className="col-12">
             <div className="main-card mb-3 card">
               <div className="card-body">
-                <h5 className="card-title">Esegui l&rsquoesercizio</h5>
+                <h5 className="card-title">Esegui l'esercizio</h5>
                 <ul className="list-group">
                   {phrase &&
                     phrase.map(item => {
-                      return <Word key={`s${item}`} parola={item} ger={it} />;
+                      return (
+                        <Word key={`s${item}`} parola={item} gerarchy={it} />
+                      );
                     })}
                 </ul>
 
