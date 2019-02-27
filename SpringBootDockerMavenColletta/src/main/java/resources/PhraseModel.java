@@ -1,9 +1,6 @@
-package controller;
+package resources;
 
-public class Data {
-	private String phrase;
-	Data(String s){
-		phrase = s;
-	}
-	public String getPhrase() {return phrase;}
+public class PhraseModel {
+	public String text="";
+
 }

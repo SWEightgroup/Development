@@ -1,10 +1,16 @@
 package controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import service.PhraseService;
-
 import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import resources.PhraseModel;
+import service.PhraseService;
 
 @CrossOrigin
 @RestController
@@ -20,10 +26,10 @@ public class PhraseController {
    * @param phrase
    * @return
    */
-  @RequestMapping(value = "/p", method = RequestMethod.POST, produces = "application/json")
-  public String getSolution(@RequestBody Data phrase) {
-    try {
-      return phraseService.getSolution(phrase.getPhrase());
+  @RequestMapping(value = "/p", method = RequestMethod.POST, produces = "application/json" ,consumes = "application/json" )
+  public String getSolution(@RequestBody PhraseModel phrase) {
+    try {    	
+      return phraseService.getSolution(phrase.text);
     } catch (IOException e) {
       e.printStackTrace();
       return new String();
