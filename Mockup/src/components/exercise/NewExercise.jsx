@@ -10,11 +10,12 @@ class NewExsercise extends Component {
   };
 
   prepareExercise = phrase => {
-    this.setState({ phraseString: phrase }, () => this.getSolution());
+    this.setState({ phraseString: phrase });
     const phraseArray = phrase.split(' ');
     if (phraseArray.length > 0) {
       this.setState({ phrase: phraseArray });
     }
+    this.getSolution();
   };
 
   getSolution = () => {
