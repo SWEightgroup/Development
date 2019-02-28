@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/AuthActions';
 
 const SignedInLinks = props => {
-  const { profile, signOut } = props;
+  const { profile, signOutDispatch } = props;
   return (
     <React.Fragment>
       <div className="app-header-right">
@@ -50,7 +50,7 @@ const SignedInLinks = props => {
                     </button>
                     <NavLink
                       to="/signin"
-                      onClick={signOut}
+                      onClick={signOutDispatch}
                       tabIndex="0"
                       className="dropdown-item"
                     >
@@ -75,7 +75,7 @@ const SignedInLinks = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signOut: () => dispatch(signOut())
+    signOutDispatch: () => dispatch(signOut())
   };
 };
 

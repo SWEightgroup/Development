@@ -12,8 +12,10 @@ import Error from './components/layout/Error';
 import './App.css';
 
 const App = props => {
-  const { auth } = props;
-  //if (!auth.isLoaded) return <h1>Ciaoooooooooooooooo</h1>;
+  /*const { auth } = props;
+  if (!auth.isLoaded) {
+    return <h1>Loading</h1>;
+  } */
   return (
     <BrowserRouter>
       <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">

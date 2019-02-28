@@ -1,7 +1,24 @@
 import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
+
 class Footer extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.addMainJs();
+  }
+
+  /**
+   * This function adds a script tag to the end of the body tag
+   */
+  addMainJs = () => {
+    const head = document.getElementsByTagName('body')[0];
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = './main.js';
+    script.id = 'mainJs';
+    if (!document.getElementById('mainJs')) {
+      head.appendChild(script);
+    }
+  };
 
   render() {
     return (
@@ -41,13 +58,6 @@ class Footer extends Component {
             </div>
           </div>
         </div>
-
-        {
-          // this component injects, after the parent component is loaded, a script tag
-        }
-        <Helmet>
-          <script type="text/javascript" src="./main.js" />
-        </Helmet>
       </div>
     );
   }

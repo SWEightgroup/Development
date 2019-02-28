@@ -8,7 +8,7 @@ import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import rootReducer from './store/reducers/RootReducer';
 import App from './App';
 import fbConfig from './config/fbConfig';
-import { unregister } from './serviceWorker';
+import { register } from './serviceWorker';
 import './index.css';
 
 const store = createStore(
@@ -25,15 +25,19 @@ const store = createStore(
   )
 );
 
-store.firebaseAuthIsReady.then(() => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById('root')
-  );
-  unregister();
-});
+store.firebaseAuthIsReady
+  .then(() => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.getElementById('root')
+    );
+    register();
+  })
+  .catch(() => {
+    ReactDOM.render(<h1>Sto caricando</h1>, document.getElementById('root'));
+  });
 
 // });
 

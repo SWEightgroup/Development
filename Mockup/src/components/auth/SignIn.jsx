@@ -16,9 +16,10 @@ class SignIn extends Component {
   };
 
   handleSubmit = e => {
-    const { signIn } = this.props;
+    const { signInDispatch } = this.props;
     e.preventDefault();
-    signIn(this.state);
+    signInDispatch(this.state);
+    console.log('ciao');
   };
 
   render() {
@@ -80,7 +81,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signIn: creds => dispatch(signIn(creds))
+    signInDispatch: creds => dispatch(signIn(creds))
   };
 };
 
