@@ -60,13 +60,33 @@ class Word extends Component {
     this.setState({
       buttons: languageIterator.getCurrentButtonList(),
       solution: languageIterator.getSolution(),
-      languageIterator
+      languageIterator,
+      solutionComplete: []
     });
   };
 
   render() {
-    const { parola } = this.props;
+    const { parola, solutionAuto, showSolution } = this.props;
     const { buttons, solution } = this.state;
+    let usefulFields = '';
+    if (solutionAuto) {
+      const columns = Object.keys(solutionAuto).map(p =>
+        Object.assign({ data: solutionAuto[p] }, { text: p })
+      );
+      usefulFields = columns
+        .filter(
+          item =>
+            item.text !== 'id' &&
+            item.text !== 'begin' &&
+            item.text !== 'end' &&
+            item.text !== 'form' &&
+            item.text !== 'lemma' &&
+            item.text !== 'tag' &&
+            item.text !== 'ctag'
+        )
+        .map(item => item.data)
+        .join(' ');
+    }
     return (
       <li className="list-group-item">
         <p>
@@ -88,7 +108,11 @@ class Word extends Component {
             {parola}
           </span>
           {' : '}
-          <span>{solution}</span>
+          <span>
+            {solution}
+            <br />
+            {showSolution === true && usefulFields}
+          </span>
         </p>
 
         {buttons &&

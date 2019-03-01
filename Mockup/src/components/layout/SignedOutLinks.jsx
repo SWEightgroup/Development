@@ -11,17 +11,18 @@ class SignedOutLinks extends Component {
           <div className="header-btn-lg pr-0">
             <div className="widget-content p-0">
               <div className="widget-content-wrapper">
+              
                 <div className="widget-content-left">
                   <ul className="header-menu nav">
                     <li className="nav-item">
                       <NavLink to="/signup" className="nav-link">
-                        <i className="nav-link-icon fa fa-database" />
+                        <i className="material-icons text-info">person_add</i>
                         Registrati
                       </NavLink>
                     </li>
                     <li className="btn-group nav-item">
                       <NavLink to="/signin" className="nav-link">
-                        <i className="nav-link-icon fa fa-database" />
+                        <i className="material-icons text-primary">person</i>
                         Accedi
                       </NavLink>
                     </li>

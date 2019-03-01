@@ -40,5 +40,11 @@
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0"
   },
-  "precommit": "NODE_ENV=production lint-staged"
+  "precommit": "NODE_ENV=production lint-staged",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

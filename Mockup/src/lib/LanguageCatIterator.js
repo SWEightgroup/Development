@@ -1,23 +1,18 @@
 /**
  * @classdesc Iterator class for a LanguageStructure.
- * 
- * 
+ *
+ *
  * Levels explanation:
  * -1 =  Base level (adjective, verb, ecc)
  * > -1 = internal levels.
- *  
- *   
+ *
+ *
  */
 class LanguageIterator {
-  
-  
-  
-
-
   /**
    * Sole constructuro of this class
-   * 
-   * @param {LanguageStructure} langStruct Language data structure on which the iterator works. 
+   *
+   * @param {LanguageStructure} langStruct Language data structure on which the iterator works.
    */
   constructor(langStruct) {
     this.langStruct = langStruct;
@@ -37,37 +32,49 @@ class LanguageIterator {
 
   /**
    * Solution given by the user so far.
-   * 
+   *
    * The solution is returned as a code if verbose is FALSE, otherwise it will be return in a human readable form.
-   * 
+   *
    * @param {boolean} verbose Specifies whether the solution must be returned as full words or as an abbreviation.
    * @return Solution given by the user so far.
    */
   getSolution(verbose = true) {
+    console.log('solution', this.solution);
     if (!verbose) {
-      return this.solution.map(element => element[1]).join('');
+      return this.solution.map(element => element.data[1]).join(' ');
     }
-    return this.solution.map(element => element[0]).join(' ');
+    return this.solution.map(element => element.data[0]).join(' ');
+  }
+
+  getSolutionComplete() {
+    const sol = this.solution;
+    const arr = Object.assign(
+      {},
+      ...sol.map(item => ({ [item.text]: item.data }))
+    );
+    return arr;
   }
 
   /**
    * Function to return the buttons to show in the main interface
-   * 
+   *
    * @return Array in which each string is the label of a language category button.
    */
   getCurrentButtonList() {
     if (this.currentLevel === -1) {
       return this.currentButtonList.map(item => item.text[0]);
     }
-    return this.currentButtonList.map(item => item[0]);
+    if (this.currentButtonList.data)
+      return this.currentButtonList.data.map(item => item[0]);
+    return [];
   }
 
   /**
    * Makes iterator advance to the next level in the gerarchy.
-   * 
+   *
    * The iterator advances the to next level and stores the choice made by the user.
-   * 
-   * @param {string} choice Choice made by the user on between the attribute options. 
+   *
+   * @param {string} choice Choice made by the user on between the attribute options.
    */
   nextLevel(choice) {
     let element = null;
@@ -78,15 +85,19 @@ class LanguageIterator {
       if (!category) throw new RangeError('Element not found');
       this.categoryData = Object.values(category.data);
       this.categoryText = category.text;
-      element = this.categoryText;
+      element = { text: 'pos', data: this.categoryText };
     } else if (this.currentLevel > this.categoryData.length - 1) {
       this.currentButtonList = [];
     } else {
-      element = this.currentButtonList.find(item => item[0] === choice);
+      element = {
+        text: this.currentButtonList.text,
+        data: this.currentButtonList.data.find(item => item[0] === choice)
+      };
       if (!element) throw new RangeError('Element not found');
     }
     if (this.currentLevel < this.categoryData.length - 1) {
       this.currentLevel += 1;
+      // Adding current choices to the button list
       this.currentButtonList = this.categoryData[this.currentLevel];
       this.solution.push(element);
     } else if (this.currentLevel === this.categoryData.length - 1) {
@@ -97,7 +108,7 @@ class LanguageIterator {
 
   /**
    * Makes iterator go back one choice.
-   * 
+   *
    * The iterator goes back by one choice and forgets the last solutions given by the user. If it is already at base level,
    * it does nothing.
    */
@@ -119,7 +130,7 @@ class LanguageIterator {
 class LanguageStructure {
   /**
    * Only constructor of this class.
-   * 
+   *
    * @param {file} json_source Source json file path for language tagging
    */
   constructor(jsonSource) {

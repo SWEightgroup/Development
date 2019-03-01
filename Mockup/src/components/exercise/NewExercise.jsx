@@ -6,7 +6,9 @@ import ExecutionExercise from './ExecutionExercise';
 class NewExsercise extends Component {
   state = {
     phrase: [],
-    phraseString: ''
+    phraseString: '',
+    response: null,
+    showSolution: false
   };
 
   prepareExercise = phrase => {
@@ -15,29 +17,38 @@ class NewExsercise extends Component {
     if (phraseArray.length > 0) {
       this.setState({ phrase: phraseArray });
     }
-    this.getSolution();
+    this.getSolution(phrase);
   };
 
-  getSolution = () => {
-    const { phraseString } = this.state;
+  checkSolution = () => {
+    this.setState({ showSolution: true });
+  };
+
+  getSolution = phrase => {
     // qui faremo la chiamata
     // la soluzione sarà formata da un array di parola/codice
     axios
       .post(`http://localhost:8081/grammatical-analysis/p`, {
-        phrase: phraseString
+        phrase
       })
       .then(res => {
-        console.log(res);
+        this.setState({ response: res.data.sentences[0].tokens });
+        console.log('dc', res.data.sentences[0].tokens);
       })
       .catch(err => console.log(err));
   };
 
   render() {
-    const { phrase } = this.state;
+    const { phrase, response, showSolution } = this.state;
     return (
       <div className="col-12 col-md-8">
         <InputPhrase prepareExercise={this.prepareExercise} />
-        <ExecutionExercise phrase={phrase} />
+        <ExecutionExercise
+          phrase={phrase}
+          checkExerciseFunction={this.checkSolution}
+          response={response}
+          showSolution={showSolution}
+        />
       </div>
     );
   }
