@@ -5,6 +5,9 @@
 .z-index-10 {
   z-index: 10;
 }
+ul.select-dropdown {
+  height: 300px !important;
+}
 .uppercase {
   text-transform: uppercase;
 }

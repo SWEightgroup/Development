@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { updateUC } from '../../store/actions/IssueActions';
+import M from 'materialize-css';
 
 class DoneIssue extends Component {
   state = { lista: [] };
@@ -25,15 +26,18 @@ class DoneIssue extends Component {
     this.props.updateUC({ ...this.props.issue, ...this.state, ...id });
     //this.props.history && this.props.history.push("/");
   };
-
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.id);
+    M.Modal.init(document.getElementById(this.props.id).querySelectorAll('.modal'));
+    M.FormSelect.init(document.getElementById(this.props.id).querySelectorAll('.select'));
+  }
 
   render() {
-    const { lista } = this.props;
+    const { lista, id } = this.props;
 
     return (
       //Modal Structure
-      <div id={this.props.id} className="modal bottom-sheet h-100  w-800">
+      <div id={id} className="modal bottom-sheet h-100  w-800">
         <div className="modal-content">
           <h4>Descrizione delle soluzione</h4>
           <form className="white" onSubmit={this.handleSubmit}>
