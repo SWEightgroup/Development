@@ -76,7 +76,7 @@ class Dashboard extends Component {
       return (
         <div className="dashboard container ">
           <div className="row">
-            {/*}
+            {}
             <form className="white" onSubmit={this.handleSubmit}>
               <div className="input-field">
                 <input type="text" id="frase" onChange={this.handleChange} required className="validate" autoFocus />
@@ -90,7 +90,7 @@ class Dashboard extends Component {
                 </button>
               </div>
             </form>
-            {table*/}
+            {/*table*/}
           </div>
           <div className="row">
             <div className="col s12 m6 pb-2 ">

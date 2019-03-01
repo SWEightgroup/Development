@@ -12,26 +12,6 @@ const SignedInLinks = props => {
           <div className="widget-content p-0">
             <div className="widget-content-wrapper">
               <div className="widget-content-left">
-                <ul className="header-menu nav">
-                  <li className="nav-item">
-                    <NavLink to="/" className="nav-link">
-                      Account
-                    </NavLink>
-                  </li>
-                  <li className="btn-group nav-item">
-                    <NavLink
-                      to="/signin"
-                      onClick={signOutDispatch}
-                      tabIndex="0"
-                      className="dropdown-item"
-                    >
-                      Esci
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
-
-              {/** <div className="widget-content-left">
                 <div className="btn-group">
                   <button
                     data-toggle="dropdown"
@@ -40,12 +20,12 @@ const SignedInLinks = props => {
                     className="p-0 btn  rounded-circle btn-initial bg-blue-template text-white"
                     type="button"
                   >
-                    { <img
+                    {/* <img
                       width="42"
                       className="rounded-circle"
                       src="assets/images/avatars/1.jpg"
                       alt=""
-                    /> }
+                    /> */}
                     <span className="h4">{profile.initials}</span>
                   </button>
                   <div
@@ -78,7 +58,7 @@ const SignedInLinks = props => {
                     </NavLink>
                   </div>
                 </div>
-              </div> */}
+              </div>
               <div className="widget-content-left  ml-3 header-user-info">
                 <div className="widget-heading">
                   {profile.firstName} {profile.lastName}
