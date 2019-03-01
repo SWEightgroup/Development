@@ -19,7 +19,6 @@ class SignIn extends Component {
     const { signInDispatch } = this.props;
     e.preventDefault();
     signInDispatch(this.state);
-    console.log('ciao');
   };
 
   render() {

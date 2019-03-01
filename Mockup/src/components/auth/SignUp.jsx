@@ -19,9 +19,9 @@ class SignUp extends Component {
   };
 
   handleSubmit = e => {
-    const { signUp } = this.props;
+    const { signUpDispatch } = this.props;
     e.preventDefault();
-    signUp(this.state);
+    signUpDispatch(this.state);
   };
 
   render() {
@@ -116,7 +116,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signUp: creds => dispatch(signUp(creds))
+    signUpDispatch: creds => dispatch(signUp(creds))
   };
 };
 

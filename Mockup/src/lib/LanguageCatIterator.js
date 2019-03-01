@@ -39,7 +39,6 @@ class LanguageIterator {
    * @return Solution given by the user so far.
    */
   getSolution(verbose = true) {
-    console.log('solution', this.solution);
     if (!verbose) {
       return this.solution.map(element => element.data[1]).join(' ');
     }

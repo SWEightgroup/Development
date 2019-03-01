@@ -33,7 +33,6 @@ class NewExsercise extends Component {
       })
       .then(res => {
         this.setState({ response: res.data.sentences[0].tokens });
-        console.log('dc', res.data.sentences[0].tokens);
       })
       .catch(err => console.log(err));
   };
