@@ -60,8 +60,7 @@ class Word extends Component {
     this.setState({
       buttons: languageIterator.getCurrentButtonList(),
       solution: languageIterator.getSolution(),
-      languageIterator,
-      solutionComplete: []
+      languageIterator
     });
   };
 
@@ -89,31 +88,38 @@ class Word extends Component {
     }
     return (
       <li className="list-group-item">
-        <p>
-          <span>
-            <button
-              type="button"
-              className="border-0 btn btn-outline-danger btn-sm"
-              onClick={this.backOne}
-            >
-              <i className="material-icons">settings_backup_restore</i>
-            </button>
-            <button
-              type="button"
-              className="border-0 btn btn-outline-danger btn-sm"
-              onClick={this.reset}
-            >
-              <i className="material-icons">delete_forever</i>
-            </button>{' '}
-            {parola}
-          </span>
-          {' : '}
-          <span>
-            {solution}
-            <br />
-            {showSolution === true && usefulFields}
-          </span>
-        </p>
+        <div>
+          <div className="container">
+            <div className="row ">
+              <div className=" col-md-3 col-12  ">
+                <button
+                  type="button"
+                  className="border-0 btn btn-outline-danger btn-sm"
+                  onClick={this.backOne}
+                >
+                  <i className="material-icons">settings_backup_restore</i>
+                </button>
+                <button
+                  type="button"
+                  className="border-0 btn btn-outline-danger btn-sm"
+                  onClick={this.reset}
+                >
+                  <i className="material-icons">delete_forever</i>
+                </button>
+                <span className="py-2 text-uppercase">{parola}</span>
+              </div>
+
+              <div className=" col-md-9 col-12 py-2 text-uppercase">
+                {solution}
+              </div>
+            </div>
+            <div className="row justify-content-end">
+              <div className=" col-md-9 col-12 text-warning text-uppercase">
+                {showSolution === true && usefulFields}
+              </div>
+            </div>
+          </div>
+        </div>
 
         {buttons &&
           buttons.map((button, index) => {

@@ -41,7 +41,7 @@ class NewExsercise extends Component {
   render() {
     const { phrase, response, showSolution } = this.state;
     return (
-      <div className="col-12 col-md-8">
+      <div className="col-12 col-md-10">
         <InputPhrase prepareExercise={this.prepareExercise} />
         <ExecutionExercise
           phrase={phrase}
