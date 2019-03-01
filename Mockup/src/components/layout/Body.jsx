@@ -16,7 +16,7 @@ class Body extends Component {
     console.log(auth);
     if (!auth.uid) return <Redirect to="/signin" />;
     return (
-      <div className="app-main__inner">
+      <div className="app-main__inner full-height-mobile">
         <NewExsercise />
       </div>
     );

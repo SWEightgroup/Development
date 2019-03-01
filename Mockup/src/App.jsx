@@ -12,7 +12,7 @@ import Error from './components/layout/Error';
 import './App.css';
 
 const App = props => {
-  /*const { auth } = props;
+  /* const { auth } = props;
   if (!auth.isLoaded) {
     return <h1>Loading</h1>;
   } */

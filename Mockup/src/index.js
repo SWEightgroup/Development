@@ -37,6 +37,7 @@ store.firebaseAuthIsReady
   })
   .catch(() => {
     ReactDOM.render(<h1>Sto caricando</h1>, document.getElementById('root'));
+    register();
   });
 
 // });

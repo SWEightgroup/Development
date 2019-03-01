@@ -28,7 +28,7 @@ class SignUp extends Component {
     const { auth, authError } = this.props;
     if (auth.uid) return <Redirect to="/" />;
     return (
-      <div className="app-main__inner ">
+      <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-md-center">
           <div className="col-sm-12 col-md-8 col-lg-8">
             <div className="main-card mb-3 card">
