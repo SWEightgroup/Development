@@ -28,7 +28,7 @@ class NewExsercise extends Component {
     // qui faremo la chiamata
     // la soluzione sarà formata da un array di parola/codice
     axios
-      .post(`http://localhost:8081/grammatical-analysis/p`, {
+      .post(`http://sw8.tech/grammatical-analysis/p`, {
         phrase
       })
       .then(res => {

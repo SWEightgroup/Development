@@ -15,7 +15,10 @@ class ExecutionExercise extends Component {
               ['possessive', 'P']
             ]
           },
-          degree: { text: 'degree', data: [['superlative', 'S']] },
+          degree: {
+            text: 'degree',
+            data: [['superlative', 'S'], ['none', '0']]
+          },
           gen: {
             text: 'gen',
             data: [
@@ -62,6 +65,27 @@ class ExecutionExercise extends Component {
               ['numeral', 'N'],
               ['possessive', 'P']
             ]
+          },
+          person: {
+            text: 'person',
+            data: [['1', '1'], ['2', '2'], ['3', '3']]
+          },
+          gen: {
+            text: 'gen',
+            data: [
+              ['feminile', 'F'],
+              ['masculine', 'M'],
+              ['common', 'C'],
+              ['neuter', 'N']
+            ]
+          },
+          num: {
+            text: 'num',
+            data: [['singular', 'S'], ['plural', 'P'], ['invariable', 'N']]
+          },
+          possessornum: {
+            text: 'possessornum',
+            data: [['singular', 'S'], ['plural', 'P']]
           }
         }
       }
@@ -76,7 +100,6 @@ class ExecutionExercise extends Component {
   render() {
     const { phrase, response, showSolution } = this.props;
     const { it } = this.state;
-
     let out = null;
     if (phrase && phrase.length) {
       out = (
