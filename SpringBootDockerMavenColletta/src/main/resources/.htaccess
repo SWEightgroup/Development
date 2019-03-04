@@ -1,7 +1,0 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-RewriteCond %{QUERY_STRING} ^id_product=3&controller=product$
-RewriteRule ^index\.html$ /index.html?id_product=101064&controller=product [R=301,L]
-</IfModule>
-
