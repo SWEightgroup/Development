@@ -92,6 +92,9 @@ class ExecutionExercise extends Component {
     }
   };
 
+  /**
+   * call the confirm parent method
+   */
   confirm = () => {
     const { checkExerciseFunction } = this.props;
     checkExerciseFunction();

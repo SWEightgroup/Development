@@ -16,6 +16,11 @@ class NewExsercise extends Component {
     };
   }
 
+  /**
+   * split the sentence
+   *
+   * @param sentence the sentence to analyze
+   */
   prepareExercise = sentence => {
     const now = Date.now();
     this.setState({
@@ -32,10 +37,16 @@ class NewExsercise extends Component {
     }
   };
 
+  /**
+   * set the showSolution flag to true
+   */
   checkSolution = () => {
     this.setState({ showSolution: true });
   };
 
+  /**
+   * call the server to analyze the sentence
+   */
   getSolution = () => {
     const { sentenceString } = this.state;
     // qui faremo la chiamata
