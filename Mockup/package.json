@@ -19,7 +19,7 @@
     "redux-thunk": "^2.3.0",
     "superagent": "^4.1.0"
   },
-  "homepage": "http://localhost/",
+  "homepage": "http://sw8.tech/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

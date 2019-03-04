@@ -9,7 +9,6 @@ import rootReducer from './store/reducers/RootReducer';
 import App from './App';
 import fbConfig from './config/fbConfig';
 import { register } from './serviceWorker';
-import './index.css';
 
 const store = createStore(
   rootReducer,

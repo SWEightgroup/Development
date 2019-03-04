@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Sidebar extends Component {
   state = {};
@@ -10,10 +11,10 @@ class Sidebar extends Component {
           <ul className="vertical-nav-menu">
             <li className="app-sidebar__heading">Dashboards</li>
             <li>
-              <a href="/" className="mm-active">
-                <i className="metismenu-icon pe-7s-rocket" />
-                Dashboard Example 1
-              </a>
+              <NavLink to="/" className="nav-link mm-active">
+                <i className="metismenu-icon pe-7s-pen" />
+                Nuovo Esercizio
+              </NavLink>
             </li>
           </ul>
         </div>

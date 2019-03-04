@@ -86,26 +86,35 @@ class Word extends Component {
         .map(item => item.data)
         .join(' ');
     }
+    const allowedPunctuation = /[,.?!"'<>;:]/g;
+
+    if (parola.match(allowedPunctuation) !== null) {
+      return <React.Fragment />;
+    }
     return (
       <li className="list-group-item">
         <div>
           <div className="container">
             <div className="row ">
               <div className=" col-md-3 col-12  ">
-                <button
-                  type="button"
-                  className="border-0 btn btn-outline-danger btn-sm"
-                  onClick={this.backOne}
-                >
-                  <i className="material-icons">settings_backup_restore</i>
-                </button>
-                <button
-                  type="button"
-                  className="border-0 btn btn-outline-danger btn-sm"
-                  onClick={this.reset}
-                >
-                  <i className="material-icons">delete_forever</i>
-                </button>
+                {showSolution === false && (
+                  <React.Fragment>
+                    <button
+                      type="button"
+                      className="border-0 btn btn-outline-danger btn-sm"
+                      onClick={this.backOne}
+                    >
+                      <i className="material-icons">settings_backup_restore</i>
+                    </button>
+                    <button
+                      type="button"
+                      className="border-0 btn btn-outline-danger btn-sm"
+                      onClick={this.reset}
+                    >
+                      <i className="material-icons">delete_forever</i>
+                    </button>
+                  </React.Fragment>
+                )}
                 <span className="py-2 text-uppercase">{parola}</span>
               </div>
 
@@ -122,6 +131,7 @@ class Word extends Component {
         </div>
 
         {buttons &&
+          showSolution === false &&
           buttons.map((button, index) => {
             return (
               <button

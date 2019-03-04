@@ -9,15 +9,13 @@ import SignUp from './components/auth/SignUp';
 import SignIn from './components/auth/SignIn';
 import Error from './components/layout/Error';
 
-import './App.css';
-
 const App = props => {
   /* const { auth } = props;
   if (!auth.isLoaded) {
     return <h1>Loading</h1>;
   } */
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <Navbar />
         <div className="app-main">

@@ -98,10 +98,10 @@ class ExecutionExercise extends Component {
   };
 
   render() {
-    const { phrase, response, showSolution } = this.props;
+    const { sentence, response, showSolution, lockInput } = this.props;
     const { it } = this.state;
     let out = null;
-    if (phrase && phrase.length) {
+    if (sentence && sentence.length) {
       out = (
         <div className="row">
           <div className="col-12">
@@ -109,8 +109,8 @@ class ExecutionExercise extends Component {
               <div className="card-body">
                 <h5 className="card-title">Esegui l'esercizio</h5>
                 <ul className="list-group">
-                  {phrase &&
-                    phrase.map((item, index) => {
+                  {sentence &&
+                    sentence.map((item, index) => {
                       return (
                         <Word
                           key={`s${index}`}
@@ -121,6 +121,7 @@ class ExecutionExercise extends Component {
                             response && response.length ? response[index] : []
                           }
                           showSolution={showSolution}
+                          lock={lockInput}
                         />
                       );
                     })}
