@@ -13,3 +13,8 @@
 .bg-blue-template {
   background-color: #3f6ad8;
 }
+@media screen and (max-width: 992px) {
+  .full-height-mobile {
+    min-height: calc(100vh - 120px);
+  }
+}

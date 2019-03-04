@@ -26,7 +26,8 @@ class Footer extends Component {
         <div className="app-footer">
           <div className="app-footer__inner">
             <div className="app-footer-left">
-              <ul className="nav">
+              <span>© 2019 SWEight</span>
+              {/* <ul className="nav">
                 <li className="nav-item">
                   <a href="/" className="nav-link">
                     Footer Link 1
@@ -37,9 +38,9 @@ class Footer extends Component {
                     Footer Link 2
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
-            <div className="app-footer-right">
+            {/* <div className="app-footer-right">
               <ul className="nav">
                 <li className="nav-item">
                   <a href="/" className="nav-link">
@@ -55,7 +56,7 @@ class Footer extends Component {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

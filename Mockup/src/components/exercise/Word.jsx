@@ -54,6 +54,9 @@ class Word extends Component {
     }
   };
 
+  /**
+   * Reset the word solution and buttons
+   */
   reset = () => {
     const { languageIterator } = this.state;
     languageIterator.setBaseLevel();
@@ -92,11 +95,16 @@ class Word extends Component {
       return <React.Fragment />;
     }
     return (
-      <li className="list-group-item">
+      <li
+        className="list-group-item"
+        ref={liElement => {
+          this.liElement = liElement;
+        }}
+      >
         <div>
           <div className="container">
             <div className="row ">
-              <div className=" col-md-3 col-12  ">
+              <div className="pt-2  col-md-auto">
                 {showSolution === false && (
                   <React.Fragment>
                     <button
@@ -115,18 +123,31 @@ class Word extends Component {
                     </button>
                   </React.Fragment>
                 )}
-                <span className="py-2 text-uppercase">{parola}</span>
+                <strong className="p-2 text-uppercase">{parola}</strong>
               </div>
 
-              <div className=" col-md-9 col-12 py-2 text-uppercase">
-                {solution}
+              <div className=" col-md-auto py-2 text-uppercase shwo-tooltip">
+                {solution && (
+                  <p title="La tua soluzione" className="bg-light p-2 mb-2">
+                    {solution}
+                  </p>
+                )}
+
+                {usefulFields && showSolution && (
+                  <p
+                    title="La soluzione automatica"
+                    className=" text-warning mb-2 text-uppercase"
+                  >
+                    {showSolution === true && usefulFields}
+                  </p>
+                )}
               </div>
             </div>
-            <div className="row justify-content-end">
+            {/* <div className="row justify-content-end">
               <div className=" col-md-9 col-12 text-warning text-uppercase">
                 {showSolution === true && usefulFields}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

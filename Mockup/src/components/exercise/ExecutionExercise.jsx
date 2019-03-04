@@ -98,9 +98,16 @@ class ExecutionExercise extends Component {
   };
 
   render() {
-    const { sentence, response, showSolution, lockInput } = this.props;
+    const {
+      sentence,
+      response,
+      showSolution,
+      lockInput,
+      createAt
+    } = this.props;
     const { it } = this.state;
     let out = null;
+
     if (sentence && sentence.length) {
       out = (
         <div className="row">
@@ -113,7 +120,7 @@ class ExecutionExercise extends Component {
                     sentence.map((item, index) => {
                       return (
                         <Word
-                          key={`s${index}`}
+                          key={`${index + item + createAt}word`}
                           parola={item}
                           gerarchy={it}
                           index={index}
