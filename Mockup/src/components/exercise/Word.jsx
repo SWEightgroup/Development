@@ -102,7 +102,7 @@ class Word extends Component {
         }}
       >
         <div>
-          <div className="container">
+          <div className="container-fluid">
             <div className="row ">
               <div className="pt-2  col-md-auto">
                 {showSolution === false && (
@@ -111,22 +111,24 @@ class Word extends Component {
                       type="button"
                       className="border-0 btn btn-outline-danger btn-sm"
                       onClick={this.backOne}
+                      disabled={solution.length === 0}
                     >
-                      <i className="material-icons">settings_backup_restore</i>
+                      <i className="fa fa-fw fa-undo" />
                     </button>
                     <button
                       type="button"
                       className="border-0 btn btn-outline-danger btn-sm"
                       onClick={this.reset}
+                      disabled={solution.length === 0}
                     >
-                      <i className="material-icons">delete_forever</i>
+                      <i className="fa fa-fw fa-trash" />
                     </button>
                   </React.Fragment>
                 )}
                 <strong className="p-2 text-uppercase">{parola}</strong>
               </div>
 
-              <div className=" col-md-auto py-2 text-uppercase shwo-tooltip">
+              <div className=" col-md-auto text-uppercase shwo-tooltip">
                 {solution && (
                   <p title="La tua soluzione" className="bg-light p-2 mb-2">
                     {solution}
@@ -136,7 +138,7 @@ class Word extends Component {
                 {usefulFields && showSolution && (
                   <p
                     title="La soluzione automatica"
-                    className=" text-warning mb-2 text-uppercase"
+                    className=" text-warning my-2 text-uppercase"
                   >
                     {showSolution === true && usefulFields}
                   </p>

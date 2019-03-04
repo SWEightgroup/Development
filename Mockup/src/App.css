@@ -13,6 +13,10 @@
 .bg-blue-template {
   background-color: #3f6ad8;
 }
+.app-header__logo .logo-src {
+  height: 40px;
+  width: 180px;
+}
 @media screen and (max-width: 992px) {
   .full-height-mobile {
     min-height: calc(100vh - 120px);

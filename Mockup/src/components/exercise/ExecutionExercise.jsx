@@ -88,6 +88,88 @@ class ExecutionExercise extends Component {
             data: [['singular', 'S'], ['plural', 'P']]
           }
         }
+      },
+      verb: {
+        text: ['verb', 'V'],
+        data: {
+          type: {
+            text: 'type',
+            data: [['main', 'M'], ['auxiliary', 'A'], ['semiauxiliary', 'S']]
+          },
+          mood: {
+            text: 'mood',
+            data: [
+              ['indicative', 'I'],
+              ['subjunctive', 'S'],
+              ['imperative', 'M'],
+              ['pastparticiple', 'P'],
+              ['gerund', 'G'],
+              ['infinitive', 'N']
+            ]
+          },
+          tense: {
+            text: 'tense',
+            data: [
+              ['present', 'P'],
+              ['imperfect', 'I'],
+              ['future', 'F'],
+              ['past', 'S'],
+              ['conditional', 'C']
+            ]
+          },
+          person: {
+            text: 'person',
+            data: [['1', '1'], ['2', '2'], ['3', '3']]
+          },
+          num: {
+            text: 'num',
+            data: [['singular', 'S'], ['plural', 'P']]
+          },
+          gen: {
+            text: 'gen',
+            data: [
+              ['feminile', 'F'],
+              ['masculine', 'M'],
+              ['common', 'C'],
+              ['neuter', 'N']
+            ]
+          }
+        }
+      },
+      noun: {
+        text: ['noun', 'N'],
+        data: {
+          type: {
+            text: 'type',
+            data: [['common', 'C'], ['common', 'P']]
+          },
+          gen: {
+            text: 'gen',
+            data: [
+              ['feminile', 'F'],
+              ['masculine', 'M'],
+              ['common', 'C'],
+              ['neuter', 'N']
+            ]
+          },
+          num: {
+            text: 'num',
+            data: [['singular', 'S'], ['plural', 'P']]
+          },
+          neclass: {
+            text: 'neclass',
+            data: [
+              ['person', 'S'],
+              ['location', 'G'],
+              ['oranization', 'O'],
+              ['other', 'V']
+            ]
+          },
+          person: {
+            text: 'person',
+            data: [['augmentative', 'A'], ['diminutive', 'D']]
+          }
+        }
       }
     }
   };

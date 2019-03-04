@@ -17,9 +17,7 @@ class Navbar extends Component {
     return (
       <div className="app-header header-shadow">
         <div className="app-header__logo">
-          <div className="">
-            <h2>SWEight</h2>
-          </div>
+          <div className="logo-src" />
           <div className="header__pane ml-auto">
             <div>
               <button
