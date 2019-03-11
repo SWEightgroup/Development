@@ -19,4 +19,4 @@ notifications:
   slack:
     rooms:
       - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci
-    on_failure: always
+    on_success: never
