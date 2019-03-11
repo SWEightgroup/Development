@@ -14,3 +14,6 @@ cache:
 script:
   - cd SpringBootDockerMavenColletta
   - mvn clean install
+
+notifications:
+  slack: sweight:9eGFAhd0BsM6lZ8aNnNjvKED
