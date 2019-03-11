@@ -20,4 +20,4 @@ notifications:
     rooms:
       - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci
       - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci-failed
-      on_success: never
+    on_success: never
