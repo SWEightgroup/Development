@@ -18,8 +18,5 @@ script:
 notifications:
   slack:
     rooms:
-    - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci
-  slack:
-    rooms:
-    - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci-failed
-    on_success: never
+      - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci
+      - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci-failed
