@@ -16,4 +16,10 @@ script:
   - mvn clean install
 
 notifications:
-  slack: sweight:9eGFAhd0BsM6lZ8aNnNjvKED
+  slack:
+    rooms:
+    - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci
+  slack:
+    rooms:
+    - sweight:9eGFAhd0BsM6lZ8aNnNjvKED#travis-ci-failed
+    on_success: never
