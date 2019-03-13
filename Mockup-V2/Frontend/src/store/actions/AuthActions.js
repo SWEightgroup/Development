@@ -20,6 +20,7 @@ export const signIn = credentials => {
             token: res.data
           })
           .then(resAuth => {
+            console.log(resAuth);
             dispatch({ type: 'LOGIN_SUCCESS', auth: resAuth.data });
           })
           .catch(() => dispatch({ type: 'GET_TOKEN_ERROR' }));

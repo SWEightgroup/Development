@@ -16,6 +16,9 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.cloud.FirestoreClient;
 
 import library.FireBaseAuth;
@@ -24,6 +27,7 @@ import resources.UserModel;
 @Service
 public class UsersService {
 	private static FireBaseAuth auth = FireBaseAuth.getInstance();
+	private static FirebaseAuth firebaseAuth;
 	private FileInputStream serviceAccount;
 	private GoogleCredentials credentials;
 	private Firestore db;
@@ -35,8 +39,8 @@ public class UsersService {
 				.setCredentials(credentials)
 				.build();
 		FirebaseApp.initializeApp(options);
-
-		db = FirestoreClient.getFirestore();		
+		db = FirestoreClient.getFirestore();	
+		firebaseAuth = FirebaseAuth.getInstance();
 	}
 
 	/**
@@ -58,7 +62,7 @@ public class UsersService {
 	 */
 	public Map<String, Object> login(String token) throws Exception {
 
-		String uid = auth.getAccountInfo(token);
+		String uid =firebaseAuth.verifyIdToken(token).getUid();
 		ApiFuture<DocumentSnapshot> query = db.collection("users").document(uid).get();
 		DocumentSnapshot document = query.get();
 
@@ -71,15 +75,36 @@ public class UsersService {
 		}
 
 	}
-
+	
+	
+	/**
+	 * 
+	 * @param newUser
+	 * @return
+	 * @throws Exception
+	 */
 	public String newUser(UserModel newUser) throws Exception {
-		String token = auth.newUser(newUser.email, newUser.password);
-		String uid = auth.getAccountInfo(token);
-		
-		CollectionReference cities = db.collection("users");
-		List<ApiFuture<WriteResult>> futures = new ArrayList<>();
-		futures.add(cities.document(uid).set(newUser));
-		return token;
+		try {
+			UserRecord user;
+	        try {
+	        	CreateRequest request = new CreateRequest();
+	        	request.setPassword(newUser.password).setEmail(newUser.email);
+	        	user=FirebaseAuth.getInstance().createUser(request);
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	            throw e;
+	        } finally {
+	            //urlRequest.disconnect();
+	        }					
+			CollectionReference cities = db.collection("users");
+			List<ApiFuture<WriteResult>> futures = new ArrayList<>();
+			futures.add(cities.document(user.getUid()).set(newUser));
+			return firebaseAuth.createCustomToken(user.getUid());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 
