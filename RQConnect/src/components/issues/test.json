@@ -1,6 +1,0 @@
-[
-  { "titolo": "requisito 4", "lista": ["casoduso 3", "casoduso 2"] },
-  { "titolo": "requisito 3", "lista": ["casoduso 2"] },
-  { "titolo": "requisito 2", "lista": ["casoduso 3", "casoduso 2"] },
-  { "titolo": "requisito 1", "lista": ["casoduso 1"] }
-]
