@@ -13,7 +13,9 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
+import resources.LoginModel;
 import resources.RegistrationModel;
+import resources.UserModel;
 
 @Service
 public class UsersService {
@@ -25,9 +27,9 @@ public class UsersService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Map<String, Object> login(String email,String password,FirebaseAuthInterface auth) throws Exception {
+	public static Map<String, Object> login(LoginModel login,FirebaseAuthInterface auth) throws Exception {
 		
-		String token = auth.getToken(email, password);
+		String token = auth.getToken(login.getEmail(), login.getPassword());
 		String uid =auth.getUid(token); 
 		ApiFuture<DocumentSnapshot> query = FirestoreClient.getFirestore().collection("users").document(uid).get();
 		DocumentSnapshot document = query.get();
@@ -55,16 +57,18 @@ public class UsersService {
 	 */
 	public static Map<String, Object> newUser(RegistrationModel newUser, FirebaseAuthInterface auth) throws Exception {
 		try {
-			String uid = auth.createUser(newUser.getEmail(),newUser.getPassword());
+			String uid = auth.createUser(newUser.getLoginModel());
 			CollectionReference users = FirestoreClient.getFirestore().collection("users");
 			List<ApiFuture<WriteResult>> futures = new ArrayList<>();
-			Map<String,Object> userModel = newUser.gerUserModel();
-			futures.add(users.document(uid).set(userModel));
+			UserModel user = newUser.getUserModel();
+			futures.add(users.document(uid).set(user));
+			String token = auth.createToken(uid);
 			Map<String,Object> toReturn = new HashMap<String,Object>();
-			toReturn.put("profile", userModel);
-			toReturn.put("token", auth.createToken(uid));
+			toReturn.put("profile", user);
+			toReturn.put("token", token);
 			toReturn.put("uid", uid);
 			return toReturn;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

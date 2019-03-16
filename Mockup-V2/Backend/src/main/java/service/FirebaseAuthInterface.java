@@ -1,6 +1,7 @@
 package service;
 
-import java.util.Map;
+import resources.LoginModel;
+import resources.UserModel;
 
 public interface FirebaseAuthInterface {
 
@@ -17,7 +18,7 @@ public interface FirebaseAuthInterface {
 	 * @return
 	 * @throws Exception
 	 */
-	public String createUser(String email,String password) throws Exception;
+	public String createUser(LoginModel loginData) throws Exception;
 	/**
 	 * 
 	 * @param email
@@ -38,7 +39,7 @@ public interface FirebaseAuthInterface {
 	 * @param user
 	 * @return
 	 */
-	public Map<String,Object> updateUser(String token, Map<String,Object> user);
+	public UserModel updateUser(String token, UserModel user);
 	/**
 	 * 
 	 * @param uid
