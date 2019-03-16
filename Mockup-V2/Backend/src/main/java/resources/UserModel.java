@@ -1,60 +1,38 @@
 package resources;
 
-import java.util.Date;
-
 public class UserModel {
-	private final String firstName;
-	private final String lastName;
-	private final Date birthDay;
-	private final String role;
-	private final String email;
-
-	public UserModel(String firstName,String lastName,Date birthDate,String role,String email) {
+	public String email="";
+	public String password="";
+	public String firstName="";
+	public String lastName="";
+	public String linkPhoto="";
+	public String token="";
+	
+	/*public UserModel(String e,String p) {
+		this.email = e;
+		this.password = p;
+	}
+	public UserModel(String t) {
+		this.token = t;
+	}
+	public UserModel(String email,String password, String firstName, String lastName,String linkPhoto) {
+		this.email=email;
+		this.password = password;
+		this.lastName = lastName;
 		this.firstName = firstName;
-		this.lastName=lastName;
-		this.birthDay = birthDate;
-		this.role = role;
-		this.email = email;
+		this.linkPhoto = linkPhoto;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Date getBirthDay() {
-		return birthDay;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getRole() {
-		return role;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	public String getEmail() {
 		return email;
 	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public String getPassword() {
+		return password;
+	}*/
 
 }

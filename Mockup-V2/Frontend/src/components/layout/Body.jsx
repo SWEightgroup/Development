@@ -13,7 +13,7 @@ class Body extends Component {
 
   render() {
     const { auth } = this.props;
-    if (!auth.user) return <Redirect to="/signin" />;
+    if (!auth.auth) return <Redirect to="/signin" />;
     return (
       <div className="app-main__inner full-height-mobile">
         <NewExsercise />

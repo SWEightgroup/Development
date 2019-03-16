@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import resources.LoginModel;
-import resources.RegistrationModel;
 import resources.SentenceModel;
-import service.FirebaseAuthInterface;
+import resources.UserModel;
 import service.SentenceService;
 import service.UsersService;
 
@@ -22,8 +20,8 @@ import service.UsersService;
 @RequestMapping("/sw")
 public class Controller {
 
-  @Autowired private SentenceService sentenceService;
-  @Autowired private FirebaseAuthInterface auth;
+  @Autowired SentenceService sentenceService;
+  @Autowired UsersService usersService;
 
   /**
    * if you pass a string containing a phrase with an ending point, you will receive a grammatical
@@ -42,18 +40,34 @@ public class Controller {
     }
   }
   
+  /**
+   * Return a token referring to the authenticated user.
+   * 
+   * @param user
+   * @return A token referring to the authenticated user
+   * @throws Exception
+   */
+  @RequestMapping  (value = "/tk", method = RequestMethod.POST , produces = "application/json" ,consumes = "application/json" )
+  public String wsGetToken(@RequestBody UserModel user) throws Exception {
+    try {
+      return usersService.getToken(user.email,user.password);
+    } catch (Exception error) {
+      error.printStackTrace();
+      throw new Exception("Access denied");
+    }
+  }
   
   /**
-   * Return token and user information.
+   * Return a user information.
    * 
    * @param token
    * @return User information
    * @throws Exception
    */
   @RequestMapping  (value = "/login", method = RequestMethod.POST , produces = "application/json" ,consumes = "application/json" )
-  public Map<String, Object> wsLogin(@RequestBody LoginModel login) throws Exception {
+  public Map<String, Object> wsLogin(@RequestBody UserModel token) throws Exception {
     try {
-    	return  UsersService.login(login,auth);
+    	return  usersService.login(token.token);
     	
     } catch (Exception error) {
       error.printStackTrace();
@@ -70,9 +84,9 @@ public class Controller {
    * @throws Exception
    */
   @RequestMapping  (value = "/nu", method = RequestMethod.POST , produces = "application/json" ,consumes = "application/json" )
-  public Map<String, Object>  wsNewUser(@RequestBody RegistrationModel newUser) throws Exception {
+  public String wsNewUser(@RequestBody UserModel newUser) throws Exception {
     try {
-    	return  UsersService.newUser(newUser,auth);
+    	return  usersService.newUser(newUser);
     } catch (Exception error) {
       error.printStackTrace();
       throw new Exception("New user creation failed");

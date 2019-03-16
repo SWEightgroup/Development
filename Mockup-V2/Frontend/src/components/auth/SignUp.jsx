@@ -25,8 +25,8 @@ class SignUp extends Component {
   };
 
   render() {
-    const { auth } = this.props;
-    if (auth.user) return <Redirect to="/" />;
+    const { auth, authError } = this.props;
+    if (auth.auth) return <Redirect to="/" />;
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-md-center">
@@ -95,7 +95,7 @@ class SignUp extends Component {
                     Accedi
                   </button>
                   <div className="">
-                    {auth.authError ? <p>{auth.authError}</p> : null}
+                    {authError ? <p>{authError}</p> : null}
                   </div>
                 </form>
               </div>
@@ -109,7 +109,8 @@ class SignUp extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    authError: state.auth.authError
   };
 };
 

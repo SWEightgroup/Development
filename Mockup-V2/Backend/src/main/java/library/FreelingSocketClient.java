@@ -17,11 +17,6 @@ public class FreelingSocketClient {
   DataInputStream bufferEntrada;
   DataOutputStream bufferSalida;
 
-  /**
-   * 
-   * @param host
-   * @param port
-   */
   public FreelingSocketClient(String host, long port) {
     try {
 
@@ -43,13 +38,6 @@ public class FreelingSocketClient {
     }
   }
 
-  /**
-   * 
-   * @param out
-   * @param message
-   * @param encoding
-   * @throws IOException
-   */
   public static void writeMessage(java.io.DataOutputStream out, String message, String encoding)
       throws IOException {
     out.write(message.getBytes(encoding));
@@ -57,12 +45,6 @@ public class FreelingSocketClient {
     out.flush();
   }
 
-  /**
-   * 
-   * @param bufferEntrada
-   * @return
-   * @throws IOException
-   */
   private static synchronized StringBuffer readMessage(DataInputStream bufferEntrada)
       throws IOException {
 

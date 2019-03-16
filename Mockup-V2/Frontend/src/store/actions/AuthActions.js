@@ -6,29 +6,30 @@ export const loaderOn = () => {
   };
 };
 
-export const loadAuth = () => {
-  return (dispatch, getState) => {
-    dispatch({ type: 'LOAD_AUTH' });
-  };
-};
-
 export const signIn = credentials => {
   return (dispatch, getState) => {
     axios
-      .post(`http://localhost:8081/sw/login`, {
+      .post(`http://localhost:8081/sw/tk`, {
         email: credentials.email,
         password: credentials.password
       })
       .then(res => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({ type: 'LOGIN_SUCCESS', user: res.data });
+        dispatch({ type: 'GET_TOKEN_SUCCESS', token: res.data });
+        axios
+          .post(`http://localhost:8081/sw/login`, {
+            token: res.data
+          })
+          .then(resAuth => {
+            console.log(resAuth);
+            dispatch({ type: 'LOGIN_SUCCESS', auth: resAuth.data });
+          })
+          .catch(() => dispatch({ type: 'GET_TOKEN_ERROR' }));
       })
-      .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
+      .catch(() => dispatch({ type: 'GET_TOKEN_ERROR' }));
   };
 };
 
 export const signOut = () => {
-  localStorage.removeItem('user');
   return (dispatch, getState) => {
     dispatch({ type: 'SIGNOUT_SUCCESS' });
   };
@@ -39,8 +40,15 @@ export const signUp = newUser => {
     axios
       .post(`http://localhost:8081/sw/nu`, newUser)
       .then(res => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({ type: 'SIGNUP_SUCCESS', user: res.data });
+        dispatch({ type: 'SIGNUP_SUCCESS', token: res.data });
+        axios
+          .post(`http://localhost:8081/sw/login`, {
+            token: res.data
+          })
+          .then(resAuth => {
+            dispatch({ type: 'LOGIN_SUCCESS', auth: resAuth.data });
+          })
+          .catch(() => dispatch({ type: 'GET_TOKEN_ERROR' }));
       })
       .catch(() => dispatch({ type: 'SIGNUP_ERROR' }));
   };
