@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,6 @@ import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import resources.LoginModel;
-import resources.UserModel;
 
 @Service
 public class FirebaseAuthImplementation implements FirebaseAuthInterface {
@@ -45,11 +43,11 @@ public class FirebaseAuthImplementation implements FirebaseAuthInterface {
 	}
 	
 	@Override
-	public String createUser(LoginModel loginData) throws FirebaseAuthException {
+	public String createUser(String email,String password) throws FirebaseAuthException {
 		
 		CreateRequest request = new CreateRequest();
-		request.setEmail(loginData.getEmail());
-		request.setPassword(loginData.getPassword());
+		request.setEmail(email);
+		request.setPassword(password);
 		return FirebaseAuth.getInstance().createUser(request).getUid();
 	}
 	
@@ -92,7 +90,7 @@ public class FirebaseAuthImplementation implements FirebaseAuthInterface {
 	}
 
 	@Override
-	public UserModel updateUser(String token, UserModel user) {
+	public Map<String,Object> updateUser(String token, Map<String,Object> user) {
 		// TODO Auto-generated method stub
 		return null;
 	}

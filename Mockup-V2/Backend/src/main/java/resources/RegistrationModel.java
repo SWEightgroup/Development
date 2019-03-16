@@ -1,6 +1,11 @@
 package resources;
 
 import java.util.Date;
+import java.util.Map;
+
+import org.springframework.boot.json.GsonJsonParser;
+
+import com.google.gson.Gson;
 
 public class RegistrationModel {
 	private final String firstName;
@@ -76,20 +81,29 @@ public class RegistrationModel {
 	public String getPassword() {
 		return password;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public LoginModel getLoginModel() {
-		return new LoginModel(email,password);
+	
+	public Map<String,Object> gerUserModel() {
+		Gson gson = new Gson();
+		GsonJsonParser user= new GsonJsonParser();
+		Map<String, Object> userMap =user.parseMap(gson.toJson(this));
+		userMap.remove("password");
+		return userMap;
+		
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public UserModel getUserModel() {
+	/*public LoginModel getLoginModel() {
+		return new LoginModel(this.email,this.password);
+	}*/
+
+	/**
+	 * 
+	 * @return
+	 */
+	/*public UserModel getUserModel() {
 		return new UserModel(this.firstName, this.lastName, this.birthDay, this.role, this.email);
-	}
+	}*/
 }

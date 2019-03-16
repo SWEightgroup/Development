@@ -53,7 +53,7 @@ public class Controller {
   @RequestMapping  (value = "/login", method = RequestMethod.POST , produces = "application/json" ,consumes = "application/json" )
   public Map<String, Object> wsLogin(@RequestBody LoginModel login) throws Exception {
     try {
-    	return  UsersService.login(login,auth);
+    	return  UsersService.login(login.getEmail(),login.getPassword(),auth);
     	
     } catch (Exception error) {
       error.printStackTrace();
