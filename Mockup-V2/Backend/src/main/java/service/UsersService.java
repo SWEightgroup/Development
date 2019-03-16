@@ -1,75 +1,46 @@
 package service;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserRecord;
-import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.cloud.FirestoreClient;
 
-import library.FireBaseAuth;
+import resources.LoginModel;
+import resources.RegistrationModel;
 import resources.UserModel;
 
 @Service
 public class UsersService {
-	private static FireBaseAuth auth = FireBaseAuth.getInstance();
-	private static FirebaseAuth firebaseAuth;
-	private FileInputStream serviceAccount;
-	private GoogleCredentials credentials;
-	private Firestore db;
-
-	public UsersService() throws IOException{
-		serviceAccount = 	new FileInputStream("src/key.json");
-		credentials = GoogleCredentials.fromStream(serviceAccount);
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setCredentials(credentials)
-				.build();
-		FirebaseApp.initializeApp(options);
-		db = FirestoreClient.getFirestore();	
-		firebaseAuth = FirebaseAuth.getInstance();
-	}
 
 	/**
 	 * 
-	 * @param email
-	 * @param password
+	 * @param login
+	 * @param auth
 	 * @return
 	 * @throws Exception
 	 */
-	public String getToken(String email, String password) throws Exception {
-		return auth.auth(email, password);
-	}
-
-	/**
-	 * 
-	 * @param token
-	 * @return
-	 * @throws Exception
-	 */
-	public Map<String, Object> login(String token) throws Exception {
-
-		String uid =firebaseAuth.verifyIdToken(token).getUid();
-		ApiFuture<DocumentSnapshot> query = db.collection("users").document(uid).get();
+	public static Map<String, Object> login(LoginModel login,FirebaseAuthInterface auth) throws Exception {
+		
+		String token = auth.getToken(login.getEmail(), login.getPassword());
+		String uid =auth.getUid(token); 
+		ApiFuture<DocumentSnapshot> query = FirestoreClient.getFirestore().collection("users").document(uid).get();
 		DocumentSnapshot document = query.get();
 
 		if (document.exists()) {
 			Map<String, Object> profile= document.getData();
-			profile.put("uid", uid);
-			return profile;
+			Map<String,Object> toReturn = new HashMap<String,Object>();
+			toReturn.put("profile", profile);
+			toReturn.put("uid", uid);
+			toReturn.put("token",token);
+			return toReturn;
 		} else {
 			throw new Exception();
 		}
@@ -80,28 +51,25 @@ public class UsersService {
 	/**
 	 * 
 	 * @param newUser
+	 * @param auth
 	 * @return
 	 * @throws Exception
 	 */
-	public String newUser(UserModel newUser) throws Exception {
+	public static Map<String, Object> newUser(RegistrationModel newUser, FirebaseAuthInterface auth) throws Exception {
 		try {
-			UserRecord user;
-	        try {
-	        	CreateRequest request = new CreateRequest();
-	        	request.setPassword(newUser.password).setEmail(newUser.email);
-	        	user=FirebaseAuth.getInstance().createUser(request);
-	        } catch (Exception e) {
-	        	e.printStackTrace();
-	            throw e;
-	        } finally {
-	            //urlRequest.disconnect();
-	        }					
-			CollectionReference cities = db.collection("users");
+			String uid = auth.createUser(newUser.getLoginModel());
+			CollectionReference users = FirestoreClient.getFirestore().collection("users");
 			List<ApiFuture<WriteResult>> futures = new ArrayList<>();
-			futures.add(cities.document(user.getUid()).set(newUser));
-			return firebaseAuth.createCustomToken(user.getUid());
+			UserModel user = newUser.getUserModel();
+			futures.add(users.document(uid).set(user));
+			String token = auth.createToken(uid);
+			Map<String,Object> toReturn = new HashMap<String,Object>();
+			toReturn.put("profile", user);
+			toReturn.put("token", token);
+			toReturn.put("uid", uid);
+			return toReturn;
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw e;
 		}

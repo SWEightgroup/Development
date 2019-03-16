@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/AuthActions';
 
 const SignedInLinks = props => {
-  const { profile, signOut } = props;
+  const { user, signOut } = props;
   return (
     <React.Fragment>
       <div className="app-header-right">
@@ -81,7 +81,7 @@ const SignedInLinks = props => {
               </div> */}
               <div className="widget-content-left  ml-3 header-user-info">
                 <div className="widget-heading">
-                  {profile.firstName} {profile.lastName}
+                  {user.profile.firstName} {user.profile.lastName}
                 </div>
               </div>
               <div className="widget-content-right header-user-info ml-3" />

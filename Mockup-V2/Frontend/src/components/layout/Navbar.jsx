@@ -8,8 +8,8 @@ class Navbar extends Component {
 
   render() {
     const { auth } = this.props;
-    const links = auth.auth ? (
-      <SignedInLinks profile={auth.auth} />
+    const links = auth.user ? (
+      <SignedInLinks user={auth.user} />
     ) : (
       <SignedOutLinks />
     );
@@ -22,7 +22,7 @@ class Navbar extends Component {
             <div>
               <button
                 type="button"
-                className="hamburger close-sidebar-btn hamburger--elastic"
+                className="hamburger close-sidebar-btn hamburger--elastic is-active"
                 data-class="closed-sidebar"
               >
                 <span className="hamburger-box">
