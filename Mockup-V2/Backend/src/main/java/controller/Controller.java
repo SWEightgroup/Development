@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,10 +53,10 @@ public class Controller {
    * @throws Exception
    */
   @RequestMapping  (value = "/login", method = RequestMethod.POST , produces = "application/json" ,consumes = "application/json" )
-  public Map<String, Object> wsLogin(@RequestBody LoginModel login) throws Exception {
+  public Response wsLogin(@RequestBody LoginModel login) throws Exception {
     try {
-    	return  UsersService.login(login.getEmail(),login.getPassword(),auth);
-    	
+    	Map<String,Object> user =  UsersService.login(login.getEmail(),login.getPassword(),auth);
+    	return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON).entity(user).build();
     } catch (Exception error) {
       error.printStackTrace();
       throw new Exception("Access denied");

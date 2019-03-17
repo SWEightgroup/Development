@@ -32,10 +32,10 @@ const authReducer = (state = initState, action) => {
         loader: false
       };
     case 'LOGIN_SUCCESS':
-      console.log(
+      /* console.log(
         'user:',
         new Date(action.user.profile.birthDate.seconds * 1000)
-      );
+      ); */
 
       return {
         ...state,

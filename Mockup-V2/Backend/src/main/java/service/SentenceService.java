@@ -1,8 +1,9 @@
 package service;
 
+import org.springframework.stereotype.Service;
+
 import library.FreelingAdapterInterface;
 import library.FreelingAdapterSocket;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 

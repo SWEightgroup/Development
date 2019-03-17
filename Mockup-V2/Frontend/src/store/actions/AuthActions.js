@@ -20,8 +20,9 @@ export const signIn = credentials => {
         password: credentials.password
       })
       .then(res => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({ type: 'LOGIN_SUCCESS', user: res.data });
+        console.log('ciao', res);
+        // localStorage.setItem('user', JSON.stringify(res.data));
+        dispatch({ type: 'LOGIN_SUCCESS', user: res.data.entity });
       })
       .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
   };
