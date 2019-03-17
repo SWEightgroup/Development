@@ -7,5 +7,5 @@ Build-Jdk: 1.8.0_201
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/SpringBootDockerMavenColletta
 Created-By: Maven Integration for Eclipse
-Main-Class: main.Application
+Main-Class: main.SweightApplication
 

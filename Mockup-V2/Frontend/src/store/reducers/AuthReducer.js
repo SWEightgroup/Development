@@ -1,8 +1,15 @@
 const initState = {
   authError: null,
-  token: null,
-  auth: null,
+  user: null,
   loader: false
+};
+
+const loadState = () => {
+  const serializedState = localStorage.getItem('user');
+  if (serializedState === null) {
+    return null;
+  }
+  return JSON.parse(serializedState);
 };
 
 const authReducer = (state = initState, action) => {
@@ -12,30 +19,27 @@ const authReducer = (state = initState, action) => {
         ...state,
         loader: true
       };
-    case 'GET_TOKEN_SUCCESS':
+    case 'LOAD_AUTH':
       return {
         ...state,
-        authError: null,
-        token: action.token,
-        loader: false
-      };
-    case 'GET_TOKEN_ERROR':
-      return {
-        ...state,
-        authError: 'Login failed',
-        loader: false
+        user: loadState()
       };
     case 'LOGIN_ERROR':
       return {
         ...state,
         authError: 'Login failed',
-        auth: null,
+        user: null,
         loader: false
       };
     case 'LOGIN_SUCCESS':
+      console.log(
+        'user:',
+        new Date(action.user.profile.birthDate.seconds * 1000)
+      );
+
       return {
         ...state,
-        auth: action.auth,
+        user: action.user,
         loader: false
       };
 
@@ -43,16 +47,13 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         authError: null,
-        auth: null,
-        token: null,
+        user: null,
         loader: false
       };
-
     case 'SIGNUP_SUCCESS':
       return {
         ...state,
-        authError: null,
-        token: action.token,
+        user: action.user,
         loader: false
       };
 
@@ -60,8 +61,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         authError: 'Sing up failed',
-        token: null,
-        auth: null,
+        user: null,
         loader: false
       };
 

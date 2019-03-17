@@ -23,8 +23,8 @@ class SignIn extends Component {
   };
 
   render() {
-    const { authError, auth } = this.props;
-    if (auth && auth.auth) return <Redirect to="/" />;
+    const { auth } = this.props;
+    if (auth && auth.user) return <Redirect to="/" />;
     return (
       <div className="app-main__inner full-height-mobile ">
         <div className="row justify-content-md-center">
@@ -60,7 +60,7 @@ class SignIn extends Component {
                     Accedi
                   </button>
                   <div className="">
-                    {authError ? <p>{authError}</p> : null}
+                    {auth.authError ? <p>{auth.authError}</p> : null}
                   </div>
                 </form>
               </div>

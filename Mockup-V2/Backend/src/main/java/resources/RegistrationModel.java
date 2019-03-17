@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 public class RegistrationModel {
 	private final String firstName;
 	private final String lastName;
-	private final Date birthDay;
+	private final Date birthDate;
 	private final String role;
 	private final String email;
 	private final String password;
@@ -27,7 +27,7 @@ public class RegistrationModel {
 	public RegistrationModel(String firstName,String lastName,Date birthDate,String role,String email,String password) {
 		this.firstName = firstName;
 		this.lastName=lastName;
-		this.birthDay = birthDate;
+		this.birthDate = birthDate;
 		this.role = role;
 		this.email = email;
 		this.password=password;
@@ -54,8 +54,8 @@ public class RegistrationModel {
 	 * 
 	 * @return
 	 */
-	public Date getBirthDay() {
-		return birthDay;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
 	/**
@@ -104,6 +104,6 @@ public class RegistrationModel {
 	 * @return
 	 */
 	/*public UserModel getUserModel() {
-		return new UserModel(this.firstName, this.lastName, this.birthDay, this.role, this.email);
+		return new UserModel(this.firstName, this.lastName, this.birthDate, this.role, this.email);
 	}*/
 }

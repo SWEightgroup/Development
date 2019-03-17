@@ -12,6 +12,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.FirestoreOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +30,12 @@ public class FirebaseAuthImplementation implements FirebaseAuthInterface {
 
 	public FirebaseAuthImplementation() {
 		try {
-			FileInputStream serviceAccount = 	new FileInputStream(FirebaseAuthImplementation.keyPath);
-			 GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-			FirebaseOptions options = new FirebaseOptions.Builder()
-					.setCredentials(credentials)
-					.build();
-			FirebaseApp.initializeApp(options);
+			
+			FirebaseApp.initializeApp(FirebaseOptions.builder()
+				    .setCredentials(GoogleCredentials.fromStream(new FileInputStream(FirebaseAuthImplementation.keyPath)))
+				    .setFirestoreOptions(FirestoreOptions.newBuilder()
+				    .setTimestampsInSnapshotsEnabled(true).build())
+				    .build());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
