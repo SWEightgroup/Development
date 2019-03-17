@@ -18,7 +18,6 @@ public class FreelingSocketClient {
   DataOutputStream bufferSalida;
 
   /**
-   * 
    * @param host
    * @param port
    */
@@ -44,7 +43,6 @@ public class FreelingSocketClient {
   }
 
   /**
-   * 
    * @param out
    * @param message
    * @param encoding
@@ -58,7 +56,6 @@ public class FreelingSocketClient {
   }
 
   /**
-   * 
    * @param bufferEntrada
    * @return
    * @throws IOException
