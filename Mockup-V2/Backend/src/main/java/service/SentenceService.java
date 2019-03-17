@@ -1,9 +1,9 @@
 package service;
 
-import java.io.IOException;
+import org.springframework.stereotype.Service;
 import library.FreelingAdapterInterface;
 import library.FreelingAdapterSocket;
-import org.springframework.stereotype.Service;
+import java.io.IOException;
 
 @Service
 public class SentenceService {

@@ -1,8 +1,5 @@
 package controller;
 
-import java.io.IOException;
-import java.util.Map;
-import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +12,8 @@ import resources.SentenceModel;
 import service.FirebaseAuthInterface;
 import service.SentenceService;
 import service.UsersService;
+import java.io.IOException;
+import javax.ws.rs.core.Response;
 
 @CrossOrigin
 @RestController
@@ -26,65 +25,75 @@ public class Controller {
 
   /**
    * if you pass a string containing a phrase with an ending point, you will receive a grammatical
-   * analysis of the phrase
+   * analysis of the phrase.
    *
-   * @param phrase
-   * @return
+   * @param sentence SentenceModel.
+   * @return Sentence solution.
    */
   @RequestMapping(
       value = "/s",
       method = RequestMethod.POST,
       produces = "application/json",
       consumes = "application/json")
-  public String wsGetSolution(@RequestBody SentenceModel sentence) {
+  public Response wsGetSolution(@RequestBody SentenceModel sentence) {
     try {
-      return sentenceService.getSolution(sentence.text).trim();
-    } catch (IOException e) {
-      e.printStackTrace();
-      return new String();
+      return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+          .entity(sentenceService.getSolution(sentence.getText()).trim())
+          .build();
+    } catch (IOException error) {
+      error.printStackTrace();
+      return Response.serverError().status(550).build(); // server di freeling non funzionante
     }
   }
 
   /**
-   * Return token and user information.
-   *
-   * @param token
-   * @return User information
-   * @throws Exception
+   * Creates a token for the user's session and retrieves his 
+   * personal information from the database.
+   * @param login LoginModel.
+   * @return token, uid and user information.
    */
   @RequestMapping(
       value = "/login",
       method = RequestMethod.POST,
       produces = "application/json",
       consumes = "application/json")
-  public Response wsLogin(@RequestBody LoginModel login) throws Exception {
+  public Response wsLogin(@RequestBody LoginModel login) {
     try {
-      Map<String, Object> user = UsersService.login(login.getEmail(), login.getPassword(), auth);
-      return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON).entity(user).build();
+      return Response.ok()
+          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+          .entity(UsersService.login(login.getEmail(), login.getPassword(), auth))
+          .build();
     } catch (Exception error) {
       error.printStackTrace();
-      throw new Exception("Access denied");
+      return Response.serverError()
+          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+          .status(551)
+          .build();
     }
   }
 
   /**
-   * Create a new user.
+   * Create a new user and add his in db collection.
    *
-   * @param newUser
-   * @return A token referring to the new user
-   * @throws Exception
+   * @param newUser RegistrationModel.
+   * @return A token referring to the new user and his information.
    */
   @RequestMapping(
       value = "/nu",
       method = RequestMethod.POST,
       produces = "application/json",
       consumes = "application/json")
-  public Map<String, Object> wsNewUser(@RequestBody RegistrationModel newUser) throws Exception {
+  public Response wsNewUser(@RequestBody RegistrationModel newUser) {
     try {
-      return UsersService.newUser(newUser, auth);
+      return Response.ok()
+          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+          .entity(UsersService.newUser(newUser, auth))
+          .build();
     } catch (Exception error) {
       error.printStackTrace();
-      throw new Exception("New user creation failed");
+      return Response.serverError()
+          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+          .status(551).build();
     }
   }
 }

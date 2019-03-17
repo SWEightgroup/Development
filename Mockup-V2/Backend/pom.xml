@@ -77,10 +77,10 @@
 							<configLocation>google_checks.xml</configLocation>
 							<encoding>UTF-8</encoding>
 							<consoleOutput>true</consoleOutput>
-							<failsOnError>false</failsOnError>
+							<failsOnError>true</failsOnError>
 							<failOnViolation>true</failOnViolation>
 							<violationSeverity>warning</violationSeverity>
-							<linkXRef>false</linkXRef>
+							<linkXRef>true</linkXRef>
 						</configuration>
 						<goals>
 							<goal>check</goal>

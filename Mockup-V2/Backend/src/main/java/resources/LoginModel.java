@@ -5,6 +5,8 @@ public class LoginModel {
   private final String password;
 
   /**
+   * LoginModel Constructor.
+   * 
    * @param email
    * @param password
    */
@@ -13,12 +15,18 @@ public class LoginModel {
     this.password = password;
   }
 
-  /** @return */
+  /**
+   * user email.
+   * @return email
+   */
   public String getEmail() {
     return email;
   }
 
-  /** @return */
+  /**
+   * user password.
+   * @return password
+   */
   public String getPassword() {
     return password;
   }

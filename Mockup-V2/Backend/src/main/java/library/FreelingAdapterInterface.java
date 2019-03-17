@@ -3,12 +3,18 @@ package library;
 import java.io.IOException;
 
 public interface FreelingAdapterInterface {
+  
   /**
-   * @param sentence
-   * @return
+   * get a sentence correction.
+   * 
+   * @param sentence String.
+   * @return String correction.
    */
   String getCorrection(String sentence);
 
-  /** @throws IOException */
+  /**
+   * Close the connection
+   * @throws IOException.
+   */
   void closeConnection() throws IOException;
 }

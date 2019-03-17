@@ -18,8 +18,10 @@ public class FreelingSocketClient {
   DataOutputStream bufferSalida;
 
   /**
-   * @param host
-   * @param port
+   * Creates a socket
+   * 
+   * @param host address
+   * @param port address
    */
   public FreelingSocketClient(String host, long port) {
     try {
@@ -43,10 +45,12 @@ public class FreelingSocketClient {
   }
 
   /**
-   * @param out
-   * @param message
-   * @param encoding
-   * @throws IOException
+   * WriteMessage.
+   * 
+   * @param out.
+   * @param message.
+   * @param encoding.
+   * @throws IOException.
    */
   public static void writeMessage(java.io.DataOutputStream out, String message, String encoding)
       throws IOException {
@@ -56,9 +60,11 @@ public class FreelingSocketClient {
   }
 
   /**
-   * @param bufferEntrada
-   * @return
-   * @throws IOException
+   * readMessage.
+   * 
+   * @param bufferEntrada.
+   * @return StringBuffer.
+   * @throws IOException.
    */
   private static synchronized StringBuffer readMessage(DataInputStream bufferEntrada)
       throws IOException {
@@ -75,6 +81,13 @@ public class FreelingSocketClient {
     return sb;
   }
 
+  /**
+   * processSegment.
+   * 
+   * @param text
+   * @return String.
+   * @throws IOException
+   */
   public String processSegment(String text) throws IOException {
     writeMessage(bufferSalida, text, ENCODING);
     StringBuffer sb = readMessage(bufferEntrada);
@@ -83,10 +96,20 @@ public class FreelingSocketClient {
     return sb.toString();
   }
 
+  /**
+   * Close the connection.
+   * 
+   * @throws IOException.
+   */
   public void close() throws IOException {
     socket.close();
   }
 
+  /**
+   * getReadyMSG.
+   * 
+   * @return String.
+   */
   public String getReadyMSG() {
     return SERVER_READY_MSG;
   }

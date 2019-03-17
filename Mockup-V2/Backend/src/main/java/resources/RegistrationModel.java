@@ -1,30 +1,32 @@
 package resources;
 
-import com.google.gson.Gson;
-import java.util.Date;
-import java.util.Map;
 import org.springframework.boot.json.GsonJsonParser;
+import java.sql.Timestamp;
+import java.util.Map;
+import com.google.gson.Gson;
 
 public class RegistrationModel {
   private final String firstName;
   private final String lastName;
-  private final Date birthDate;
+  private final Timestamp birthDate;
   private final String role;
   private final String email;
   private final String password;
 
   /**
-   * @param firstName
-   * @param lastName
-   * @param birthDate
-   * @param role
-   * @param email
-   * @param password
+   * RegistrationModel constructor.
+   * 
+   * @param firstName String
+   * @param lastName String
+   * @param birthDate Timestamp
+   * @param role String
+   * @param email String
+   * @param password String
    */
   public RegistrationModel(
       String firstName,
       String lastName,
-      Date birthDate,
+      Timestamp birthDate,
       String role,
       String email,
       String password) {
@@ -36,36 +38,58 @@ public class RegistrationModel {
     this.password = password;
   }
 
-  /** @return */
+  /**
+   * return user fisrtName.
+   * @return fisrtName
+   */
   public String getFirstName() {
     return firstName;
   }
 
-  /** @return */
+  /**
+   * return user lastName.
+   * @return lastName
+   */
   public String getLastName() {
     return lastName;
   }
 
-  /** @return */
-  public Date getBirthDate() {
+  /**
+   * return user birthDate.
+   * @return birthDate
+   */
+  public Timestamp getBirthDate() {
     return birthDate;
   }
 
-  /** @return */
+  /**
+   * return user role.
+   * @return role
+   */
   public String getRole() {
     return role;
   }
 
-  /** @return */
+  /**
+   * return user email.
+   * @return email
+   */
   public String getEmail() {
     return email;
   }
 
-  /** @return */
+  /**
+   * return user password.
+   * @return password
+   */
   public String getPassword() {
     return password;
   }
 
+  /**
+   * returns all user information, except password.
+   * @return user informatio
+   */
   public Map<String, Object> gerUserModel() {
     Gson gson = new Gson();
     GsonJsonParser user = new GsonJsonParser();
@@ -74,13 +98,4 @@ public class RegistrationModel {
     return userMap;
   }
 
-  /** @return */
-  /*public LoginModel getLoginModel() {
-  	return new LoginModel(this.email,this.password);
-  }*/
-
-  /** @return */
-  /*public UserModel getUserModel() {
-  	return new UserModel(this.firstName, this.lastName, this.birthDate, this.role, this.email);
-  }*/
 }
