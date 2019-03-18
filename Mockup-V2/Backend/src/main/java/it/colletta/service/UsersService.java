@@ -1,69 +1,60 @@
-package service;
+package it.colletta.service;
 
+import it.colletta.repository.UserRepository;
+import it.colletta.resources.RegistrationModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import resources.RegistrationModel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class UsersService {
 
+  @Autowired
+  private FirebaseAuthImplementation auth;
+  @Autowired
+  private UserRepository userRepository;
+
   /**
-   * @param login
-   * @param auth
-   * @return
-   * @throws Exception
+   * Call a firebase service to request a token and verify credentials.
+   * 
+   * @param email User email.
+   * @param password User password.
+   * @return Map contains token, uid and user information.
+   * @throws Exception Exception.
    */
-  public static Map<String, Object> login(String email, String password, FirebaseAuthInterface auth)
+  public  Map<String, Object> login(String email, String password)
       throws Exception {
 
-    String token = auth.getToken(email, password);
-    String uid = auth.getUid(token);
-    ApiFuture<DocumentSnapshot> query =
-        FirestoreClient.getFirestore().collection("users").document(uid).get();
-    DocumentSnapshot document = query.get();
-
-    if (document.exists()) {
-      Map<String, Object> profile = document.getData();
-      Map<String, Object> toReturn = new HashMap<String, Object>();
-      toReturn.put("profile", profile);
-      toReturn.put("uid", uid);
-      toReturn.put("token", token);
-      return toReturn;
-    } else {
-      throw new Exception();
+    try {
+      String token = auth.getToken(email, password);
+      String uid = auth.getUid(token);
+      return userRepository.getUserInformation(uid,token);
+    } catch (Exception error) {
+      error.printStackTrace();
+      throw error;
     }
+
   }
 
   /**
-   * @param newUser
-   * @param auth
-   * @return
-   * @throws Exception
+   * Creates a new User in Firebase and add his information in Users Collection.
+   * 
+   * @param newUser Object contains the users information.
+   * @return Map contains token, uid and user information.
+   * @throws Exception Exception.
    */
-  public static Map<String, Object> newUser(RegistrationModel newUser, FirebaseAuthInterface auth)
+  public  Map<String, Object> newUser(RegistrationModel newUser)
       throws Exception {
     try {
       String uid = auth.createUser(newUser.getEmail(), newUser.getPassword());
-      CollectionReference users = FirestoreClient.getFirestore().collection("users");
-      List<ApiFuture<WriteResult>> futures = new ArrayList<>();
-      Map<String, Object> userModel = newUser.gerUserModel();
-      futures.add(users.document(uid).set(userModel));
-      Map<String, Object> toReturn = new HashMap<String, Object>();
-      toReturn.put("profile", userModel);
-      toReturn.put("token", auth.createToken(uid));
-      toReturn.put("uid", uid);
-      return toReturn;
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw e;
+      Map<String, Object> user = userRepository.createNewUser(newUser,uid);
+      user.put("token",  auth.createToken(uid));
+      return user;
+
+    } catch (Exception error) {
+      error.printStackTrace();
+      throw error;
     }
   }
 }

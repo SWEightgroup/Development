@@ -1,17 +1,17 @@
-package controller;
+package it.colletta.controller;
 
+import it.colletta.resources.LoginModel;
+import it.colletta.resources.RegistrationModel;
+import it.colletta.resources.SentenceModel;
+import it.colletta.service.SentenceService;
+import it.colletta.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import resources.LoginModel;
-import resources.RegistrationModel;
-import resources.SentenceModel;
-import service.FirebaseAuthInterface;
-import service.SentenceService;
-import service.UsersService;
+
 import java.io.IOException;
 import javax.ws.rs.core.Response;
 
@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 public class Controller {
 
   @Autowired private SentenceService sentenceService;
-  @Autowired private FirebaseAuthInterface auth;
+  @Autowired private UsersService userService;
 
   /**
    * if you pass a string containing a phrase with an ending point, you will receive a grammatical
@@ -61,7 +61,7 @@ public class Controller {
     try {
       return Response.ok()
           .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .entity(UsersService.login(login.getEmail(), login.getPassword(), auth))
+          .entity(userService.login(login.getEmail(), login.getPassword()))
           .build();
     } catch (Exception error) {
       error.printStackTrace();
@@ -87,7 +87,7 @@ public class Controller {
     try {
       return Response.ok()
           .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .entity(UsersService.newUser(newUser, auth))
+          .entity(userService.newUser(newUser))
           .build();
     } catch (Exception error) {
       error.printStackTrace();

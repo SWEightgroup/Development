@@ -1,6 +1,7 @@
-package library;
+package it.colletta.library;
 
 import org.springframework.util.StringUtils;
+
 import java.io.IOException;
 
 
@@ -37,7 +38,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
     }
     try {
       analyzedSentence = socketClient.processSegment(sentence);
-      if (analyzedSentence.equals(socketClient.getReadyMSG())) {
+      if (analyzedSentence.equals(socketClient.getReadyMsg())) {
         throw new IOException("Il socket non e' pronto");
       }
     } catch (IOException error) {

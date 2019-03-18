@@ -1,4 +1,4 @@
-package library;
+package it.colletta.library;
 
 import java.io.IOException;
 
@@ -13,8 +13,9 @@ public interface FreelingAdapterInterface {
   String getCorrection(String sentence);
 
   /**
-   * Close the connection
-   * @throws IOException.
+   * Close the connection.
+   * 
+   * @throws IOException Exception.
    */
   void closeConnection() throws IOException;
 }

@@ -1,4 +1,4 @@
-package resources;
+package it.colletta.resources;
 
 public class LoginModel {
   private final String email;
@@ -7,8 +7,8 @@ public class LoginModel {
   /**
    * LoginModel Constructor.
    * 
-   * @param email
-   * @param password
+   * @param email User's email
+   * @param password User's password
    */
   public LoginModel(String email, String password) {
     this.email = email;
@@ -16,16 +16,17 @@ public class LoginModel {
   }
 
   /**
-   * user email.
-   * @return email
+   * Get user's email.
+   * 
+   * @return User's email.
    */
   public String getEmail() {
     return email;
   }
 
   /**
-   * user password.
-   * @return password
+   * Get user's password.
+   * @return User's password
    */
   public String getPassword() {
     return password;
