@@ -23,9 +23,8 @@ public class UsersService {
    * @return Map contains token, uid and user information.
    * @throws Exception Exception.
    */
-  public  Map<String, Object> login(String email, String password)
-      throws Exception {
-
+  public  Map<String, Object> login(String email, String password) 
+    throws Exception {
     try {
       String token = auth.getToken(email, password);
       String uid = auth.getUid(token);

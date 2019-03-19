@@ -29,7 +29,6 @@ public class UserRepository {
     ApiFuture<DocumentSnapshot> query =
         FirestoreClient.getFirestore().collection("users").document(uid).get();
     DocumentSnapshot document = query.get();
-
     if (document.exists()) {
       Map<String, Object> profile = document.getData();
       Map<String, Object> toReturn = new HashMap<String, Object>();
