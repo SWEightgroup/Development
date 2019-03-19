@@ -11,6 +11,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.springframework.stereotype.Service;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,7 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-
+@Service
 public class FirebaseAuthImplementation  {
 
   private static final String loginUrl =

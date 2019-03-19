@@ -11,9 +11,9 @@ import java.util.Map;
 public class UsersService {
 
   @Autowired
-  private FirebaseAuthImplementation auth;
-  @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private FirebaseAuthImplementation auth;
 
   /**
    * Call a firebase service to request a token and verify credentials.

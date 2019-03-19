@@ -1,15 +1,15 @@
 package it.colletta.resources;
 
 public class SentenceModel {
-  private final String text;
+  public String text = "";
 
   /**
    * SentenceModle constructor.
    * @param text Sentence text.
    */
-  public SentenceModel(String text) {
+  /* public SentenceModel(String text) {
     this.text = text;
-  }
+  }*/
 
   /**
    * Return the sentence text.

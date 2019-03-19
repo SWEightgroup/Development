@@ -43,6 +43,7 @@ class SignIn extends Component {
                       type="email"
                       className="form-control"
                       onChange={this.handleChange}
+                      required
                     />
                   </div>
                   <div className="position-relative form-group">
@@ -54,6 +55,7 @@ class SignIn extends Component {
                       type="password"
                       className="form-control"
                       onChange={this.handleChange}
+                      required
                     />
                   </div>
                   <button type="submit" className="mt-2 btn btn-primary">

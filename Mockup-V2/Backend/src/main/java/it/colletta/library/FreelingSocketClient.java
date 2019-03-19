@@ -35,7 +35,7 @@ public class FreelingSocketClient {
       writeMessage(bufferSalida, reset_stat_msg, encoding);
 
       StringBuffer sb = readMessage(bufferEntrada);
-      if (sb.toString().compareTo(server_ready_msg) != 0) {
+      if (sb.toString().trim().compareTo(server_ready_msg) != 0) {
         System.err.println("SERVER NOT READY!");
       }
       writeMessage(bufferSalida, flush_buffer_msg, encoding);
