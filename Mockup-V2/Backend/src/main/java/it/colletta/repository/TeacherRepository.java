@@ -21,25 +21,29 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TeacherRepository {
 
-   /**
-   * Get all the sentences inserted by the teacher 
-   * 
-   * @param  teacherId Teacher id
-   * @return Map contains token, uid and user information
-   * @throws Exception Exception.
-   */
-    public Map<String, Object> getAllSentences(@NotNull String teacherId) {
-        ApiFuture<QuerySnapshot> exercisesQuery = 
-            FirestoreClient.getFirestore().collection("exercises").whereArrayContains("author", teacherId).get();
-        ApiFuture<QuerySnapshot> correctionsQuery = 
-            FirestoreClient.getFirestore().collection("corrections").whereArrayContains("author", teacherId).get();
-        List<QueryDocumentSnapshot> documents = exercisesQuery.get().getDocuments();
-        for(QueryDocumentSnapshot document : documents)   {
-            document.getClass(TeacherModel.class);
+    /**
+     * Get all the sentences inserted by the teacher
+     * 
+     * @param teacherId Teacher id
+     * @return Map contains token, uid and user information
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws Exception            Exception.
+     */
+    public String getAllSentences(@NotNull String teacherId)
+            throws InterruptedException, ExecutionException {
+        DocumentSnapshot document = 
+        FirestoreClient.getFirestore().collection("users").document("teacherId").get().get();
+        Map<String, Object> mapOfPhrases = new HashMap<String, Object>();
+        String s = null;
+        if(document.exists()) {
+            Map<String, Object> mapOfObj = document.getData();
+            s = (String) mapOfObj.get("exercises");
+            
         }
         
-        Map<String, Object> mapOfPhrases = new HashMap<String, Object>();
-
+        return s;
+        //return mapOfPhrases;
     }
 
     /**
