@@ -28,11 +28,10 @@ public class TeacherRepository {
     /**
      * Get all the sentences inserted by the teacher
      * 
-     * @param teacherId Teacher id
-     * @return Map contains token, uid and user information
+     * @param teacherId Unique document teacher id in Firebase
+     * @return Map contains all the phrases inserted by the teacher with that id
      * @throws ExecutionException
      * @throws InterruptedException
-     * @throws Exception            Exception.
      */
     public Map<String, Object> getAllSentences(@NotNull String teacherId)
             throws InterruptedException, ExecutionException {
@@ -57,7 +56,8 @@ public class TeacherRepository {
    */
     public boolean insertPhrase(@NotNull String phrase, String uid){
         // va fatta una query con tutte gli esercizi scritti dall'insegnante, se non è presente
-        // un esercizio con lo stesso testo che si vuole aggiungere allora aggiungo l'esercizio 
+        // un esercizio con lo stesso testo che si vuole aggiungere allora aggiungo l'esercizio
+        return true;
     }
 
 
