@@ -99,4 +99,5 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/io/netty/netty-tcnative/2.0.22.Final/netty-tcnative-2.0.22.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/logging/log4j/log4j-core/2.8.2/log4j-core-2.8.2.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/logging/log4j/log4j-api/2.10.0/log4j-api-2.10.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/google/gms/google-services/3.1.1/google-services-3.1.1.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>

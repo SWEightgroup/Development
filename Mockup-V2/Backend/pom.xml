@@ -52,6 +52,7 @@
 			<artifactId>firebase-admin</artifactId>
 			<version>6.7.0</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.netty/netty-tcnative -->
 		<dependency>
 			<groupId>io.netty</groupId>
@@ -63,7 +64,12 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.8.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.google.gms</groupId>
+			<artifactId>google-services</artifactId>
+			<version>3.1.1</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -86,7 +92,6 @@
 							<failsOnError>true</failsOnError>
 							<failOnViolation>true</failOnViolation>
 							<violationSeverity>warning</violationSeverity>
-							<linkXRef>true</linkXRef>
 						</configuration>
 						<goals>
 							<goal>check</goal>

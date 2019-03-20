@@ -5,11 +5,15 @@ import it.colletta.resources.RegistrationModel;
 import it.colletta.resources.SentenceModel;
 import it.colletta.service.SentenceService;
 import it.colletta.service.UsersService;
+import it.colletta.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -24,6 +28,7 @@ public class Controller {
 
   @Autowired private SentenceService sentenceService;
   @Autowired private UsersService userService;
+  @Autowired private TeacherService teacherService;
 
   /**
    * if you pass a string containing a phrase with an ending point, you will receive a grammatical
@@ -98,5 +103,11 @@ public class Controller {
           .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
           .status(551).build();
     }
+  }
+
+  @RequestMapping(value = "/teacher/{id}", method = RequestMethod.GET)
+  @ResponseBody
+  public String getTeacherSentence(@PathVariable("id") String teacherId) {
+    return teacherService.getInsertedSenteces(teacherId).toString();
   }
 }
