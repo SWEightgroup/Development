@@ -5,21 +5,19 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-
 import it.colletta.resources.RegistrationModel;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserRepository {
 
   /**
    * get User Information from Firebase collection.
-   * 
+   *
    * @param uid User id
    * @param token User token
    * @return Map contains token, uid and user information
@@ -37,13 +35,13 @@ public class UserRepository {
       toReturn.put("token", token);
       return toReturn;
     } else {
-      throw new Exception();  
+      throw new Exception();
     }
   }
 
   /**
    * Add a user information in Users Collection.
-   * 
+   *
    * @param newUser User information.
    * @param uid User uid (FirebaseAuth).
    * @return Map contains token and user's information.
@@ -58,5 +56,4 @@ public class UserRepository {
     toReturn.put("uid", uid);
     return toReturn;
   }
-
 }

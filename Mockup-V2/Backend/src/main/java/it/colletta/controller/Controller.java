@@ -4,22 +4,18 @@ import it.colletta.resources.LoginModel;
 import it.colletta.resources.RegistrationModel;
 import it.colletta.resources.SentenceModel;
 import it.colletta.service.SentenceService;
-import it.colletta.service.UsersService;
 import it.colletta.service.TeacherService;
+import it.colletta.service.UsersService;
+import java.io.IOException;
+import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.core.Response;
 
 @CrossOrigin
 @RestController
@@ -45,9 +41,7 @@ public class Controller {
   public Response wsGetSolution(@RequestBody SentenceModel sentence) {
     try {
       String text = sentenceService.getSolution(sentence.getText()).trim();
-      return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .entity(text)
-          .build();
+      return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON).entity(text).build();
     } catch (IOException error) {
       error.printStackTrace();
       return Response.serverError().status(550).build(); // server di freeling non funzionante
@@ -55,8 +49,9 @@ public class Controller {
   }
 
   /**
-   * Creates a token for the user's session and retrieves his 
-   * personal information from the database.
+   * Creates a token for the user's session and retrieves his personal information from the
+   * database.
+   *
    * @param login LoginModel.
    * @return token, uid and user information.
    */
@@ -101,7 +96,8 @@ public class Controller {
       error.printStackTrace();
       return Response.serverError()
           .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .status(551).build();
+          .status(551)
+          .build();
     }
   }
 
