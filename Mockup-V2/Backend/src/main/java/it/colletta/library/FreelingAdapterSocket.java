@@ -1,16 +1,19 @@
-package library;
+package it.colletta.library;
 
-import java.io.IOException;
 import org.springframework.util.StringUtils;
 
-/** @author gioleg */
+import java.io.IOException;
+
+
 public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   private FreelingSocketClient socketClient;
 
   /**
-   * @param host
-   * @param port
+   * Creates a socket.
+   * 
+   * @param host address
+   * @param port address
    */
   public FreelingAdapterSocket(String host, int port) {
     if (StringUtils.countOccurrencesOf(host, ".") != 3) {
@@ -20,7 +23,11 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
     }
   }
 
-  /** */
+  /**
+   * get a sentence's correction
+   * @param sentence String.
+   * @return correction String.
+   */
   public String getCorrection(String sentence) {
     String analyzedSentence = "";
     if (sentence.length() == 0) {
@@ -31,16 +38,19 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
     }
     try {
       analyzedSentence = socketClient.processSegment(sentence);
-      if (analyzedSentence.equals(socketClient.getReadyMSG())) {
+      if (analyzedSentence.equals(socketClient.getReadyMsg())) {
         throw new IOException("Il socket non e' pronto");
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException error) {
+      error.printStackTrace();
     }
     return analyzedSentence;
   }
 
-  /** */
+  /**
+   * Close the connection.
+   * @throws IOException IOException.
+   */
   public void closeConnection() throws IOException {
     socketClient.close();
   }

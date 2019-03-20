@@ -1,4 +1,4 @@
-package service;
+package it.colletta.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.FirestoreOptions;
@@ -10,6 +10,9 @@ import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.springframework.stereotype.Service;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,16 +21,19 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
-import org.springframework.stereotype.Service;
 
 @Service
-public class FirebaseAuthImplementation implements FirebaseAuthInterface {
+public class FirebaseAuthImplementation  {
 
   private static final String loginUrl =
       "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAkZ6klWWfD_GLI9JGxh8pgd8qCR2x1-9g";
   private static final String keyPath = "src/key.json";
 
-  public FirebaseAuthImplementation() {
+  /**
+   * Constructor.
+   * @throws Exception Exception.
+   */
+  public FirebaseAuthImplementation() throws Exception {
     try {
 
       FirebaseApp.initializeApp(
@@ -38,14 +44,20 @@ public class FirebaseAuthImplementation implements FirebaseAuthInterface {
               .setFirestoreOptions(
                   FirestoreOptions.newBuilder().setTimestampsInSnapshotsEnabled(true).build())
               .build());
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
+      throw error;
     }
-    /*db = FirestoreClient.getFirestore();
-    firebaseAuth = FirebaseAuth.getInstance();*/
   }
 
-  @Override
+  /**
+   * Creates a new user in FirebaseAuth.
+   * 
+   * @param email User email.
+   * @param password User password.
+   * @return User uid
+   * @throws FirebaseAuthException Exception
+   */
   public String createUser(String email, String password) throws FirebaseAuthException {
 
     CreateRequest request = new CreateRequest();
@@ -54,12 +66,18 @@ public class FirebaseAuthImplementation implements FirebaseAuthInterface {
     return FirebaseAuth.getInstance().createUser(request).getUid();
   }
 
-  @Override
+  /**
+   * Creates a token for the new session.
+   * 
+   * @param username User username.
+   * @param password User password.
+   * @return token.
+   * @throws Exception Exception.
+   */
   public String getToken(String username, String password) throws Exception {
     HttpURLConnection urlRequest = null;
 
     try {
-      String token = null;
       URL url = new URL(FirebaseAuthImplementation.loginUrl);
       urlRequest = (HttpURLConnection) url.openConnection();
       urlRequest.setDoOutput(true);
@@ -85,34 +103,57 @@ public class FirebaseAuthImplementation implements FirebaseAuthInterface {
                       urlRequest.getContent())); // Convert the input stream to a json element
       JsonObject rootobj = root.getAsJsonObject(); // May be an array, may be an object.
 
-      token = rootobj.get("idToken").getAsString();
-      return token;
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw e;
+      return rootobj.get("idToken").getAsString();
+    } catch (Exception error) {
+      error.printStackTrace();
+      throw error;
     } finally {
-      if (urlRequest != null) urlRequest.disconnect();
+      if (urlRequest != null) {
+        urlRequest.disconnect();
+      }
     }
   }
 
-  @Override
+  /**
+   * Delete user from FirebaseAuth.
+   * 
+   * @param token User token.
+   * @param uid User uis.
+   */
   public void deleteUser(String token, String uid) {
     // TODO Auto-generated method stub
-
   }
 
-  @Override
+  /**
+   * Update user's email and password.
+   * 
+   * @param token User token
+   * @param user User information.
+   * @return New User information.
+   */
   public Map<String, Object> updateUser(String token, Map<String, Object> user) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  @Override
+  /**
+   * Return an uid identified by the token
+   * 
+   * @param token User token.
+   * @return User uid.
+   * @throws FirebaseAuthException Exception.
+   */
   public String getUid(String token) throws FirebaseAuthException {
     return FirebaseAuth.getInstance().verifyIdToken(token).getUid();
   }
 
-  @Override
+  /**
+   * Return a new token for this uid.
+   * 
+   * @param uid User uid.
+   * @return User token.
+   * @throws FirebaseAuthException Exception.
+   */
   public String createToken(String uid) throws FirebaseAuthException {
     return FirebaseAuth.getInstance().createCustomToken(uid);
   }

@@ -21,7 +21,8 @@ export const signIn = credentials => {
       })
       .then(res => {
         console.log('ciao', res);
-        // localStorage.setItem('user', JSON.stringify(res.data));
+        if (res.data.entity)
+          localStorage.setItem('user', JSON.stringify(res.data.entity));
         dispatch({ type: 'LOGIN_SUCCESS', user: res.data.entity });
       })
       .catch(() => dispatch({ type: 'LOGIN_ERROR' }));

@@ -56,10 +56,12 @@ class NewExsercise extends Component {
         text: sentenceString.trim()
       })
       .then(res => {
-        console.log(res);
-        this.setState({ response: res.data.sentences[0].tokens });
+        this.setState({
+          response: JSON.parse(res.data.entity).sentences[0].tokens
+        });
+        // localStorage.setItem('user', JSON.stringify(res.data));
       })
-      .catch(err => console.log(err));
+      .catch(e => console.log(e));
   };
 
   render() {
