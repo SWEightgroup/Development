@@ -88,7 +88,7 @@ public class Controller {
       consumes = "application/json")
   public Response wsNewUser(@RequestBody RegistrationModel newUser) {
     try {
-      return Response.ok()
+      return Response.ok()	
           .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
           .entity(userService.newUser(newUser))
           .build();

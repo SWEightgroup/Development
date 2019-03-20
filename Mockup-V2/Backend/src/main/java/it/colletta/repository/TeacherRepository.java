@@ -1,8 +1,11 @@
 package it.colletta.repository;
 
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -20,18 +23,25 @@ public class TeacherRepository {
    * @throws InterruptedException
    * @throws Exception Exception.
    */
-  public String getAllSentences(@NotNull String teacherId)
+  public Object getAllSentences(@NotNull String teacherId)
       throws InterruptedException, ExecutionException {
     DocumentSnapshot document =
-        FirestoreClient.getFirestore().collection("users").document("teacherId").get().get();
-    Map<String, Object> mapOfPhrases = new HashMap<String, Object>();
+        FirestoreClient.getFirestore().collection("users").document(teacherId).get().get();
+    Map<String, Object> mapOfPhrases = new HashMap<String, Object>();  //	TODO 
     String s = null;
     if (document.exists()) {
-      Map<String, Object> mapOfObj = document.getData();
-      s = (String) mapOfObj.get("exercises");
+      
+    @SuppressWarnings("unchecked")
+	ArrayList<Object> rf = (ArrayList<Object>) document.getData().get("exercises");
+    
+    for(Object item : rf) {
+    	FirestoreClient.getFirestore().document(((DocumentReference)item).getPath()).get().get().get("");
     }
-
-    return s;
+    		
+    return ((DocumentReference)rf.get(0)).getPath();
+      //return rf.getPath();
+    }
+    return null;
     // return mapOfPhrases;
   }
 

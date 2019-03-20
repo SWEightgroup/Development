@@ -13,13 +13,13 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class TeacherService {
 
-  @Autowired private TeacherRepository teacherRepository;
-  @Autowired private FirebaseAuthImplementation auth;
+  @Autowired 
+  private TeacherRepository teacherRepository;
 
   public Map<String, Object> getInsertedSenteces(String teacherId) {
     Map<String, Object> map = new HashMap<String, Object>();
     try {
-    String s = teacherRepository.getAllSentences(teacherId);
+    Object s = teacherRepository.getAllSentences(teacherId);
     map.put("path", s);
     }
     catch(InterruptedException | ExecutionException e) {
