@@ -5,11 +5,11 @@ const initState = {
 };
 
 const loadState = () => {
-  const serializedState = localStorage.getItem('user');
+  /* const serializedState = localStorage.getItem('user');
   if (serializedState === null) {
     return null;
   }
-  return JSON.parse(serializedState);
+  return JSON.parse(serializedState); */
 };
 
 const authReducer = (state = initState, action) => {
