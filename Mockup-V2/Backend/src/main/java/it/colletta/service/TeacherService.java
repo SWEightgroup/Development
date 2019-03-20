@@ -6,6 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 @Service
 public class TeacherService {
 
@@ -13,9 +17,14 @@ public class TeacherService {
   @Autowired private FirebaseAuthImplementation auth;
 
   public Map<String, Object> getInsertedSenteces(String teacherId) {
-    String s = teacherRepository.getAllSentences(teacherId);
     Map<String, Object> map = new HashMap<String, Object>();
+    try {
+    String s = teacherRepository.getAllSentences(teacherId);
     map.put("path", s);
+    }
+    catch(InterruptedException | ExecutionException e) {
+      
+    }
     return map;
   }
 }
