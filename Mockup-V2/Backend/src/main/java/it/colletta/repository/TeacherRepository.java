@@ -16,11 +16,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TeacherRepository {
 
+
+  final int MAXIMUM_SOLUTION = 2;
   /**
    * Get all the sentences inserted by the teacher
    *
    * @param teacherId Teacher id
-   * @return Map contains token, uid and user information
+   * @return Map 
    * @throws ExecutionException
    * @throws InterruptedException
    * @throws Exception Exception.
@@ -32,15 +34,15 @@ public class TeacherRepository {
     DocumentSnapshot teacherDocSnapshot = documentSnapshot.get();
     Map<String, Object> phraseMap = new HashMap<>();
     @SuppressWarnings("unchecked")
-    ArrayList<Object> phrasesList = (ArrayList<Object>) teacherDocSnapshot.getData().get("phrases");
-    for (Object phrase : phrasesList) {
-      Map<String, Object> solutionMap = new HashMap<>();
-      String path = ((DocumentReference) phrase).getPath();
+    ArrayList<Object> phrasesPathList = (ArrayList<Object>) (teacherDocSnapshot.getData()).get("phrases");    // phrases path of the teacher 
+    for (Object phrase : phrasesPathList) {
+      Map<String, Object> solutionMap = new HashMap<>(MAXIMUM_SOLUTION);
+      String pathPhrase = ((DocumentReference) phrase).getPath();           // the phrase position inside the table "phrases"
       String text =
-          FirestoreClient.getFirestore().document(path).get().get().get("text").toString();
+          FirestoreClient.getFirestore().document(pathPhrase).get().get().get("text").toString();   // the text of the phrase 
       List<QueryDocumentSnapshot> query =
           FirestoreClient.getFirestore()
-              .document(path)
+              .document(pathPhrase)
               .collection("solutions")
               .whereEqualTo("author", teacherId)
               .get()
@@ -49,8 +51,8 @@ public class TeacherRepository {
       for (QueryDocumentSnapshot document : query) {
         solutionMap.put(document.getId(), document.get("text").toString());
       }
-      phraseMap.put("frase", text);
-      phraseMap.put("solutions", solutionMap);
+     // phraseMap.put("phrase", text);        //the text of the phrase
+      phraseMap.put(text, solutionMap);    // the sub-map of the phrase solutions
     }
     return phraseMap;
   }
