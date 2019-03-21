@@ -13,18 +13,16 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class TeacherService {
 
-  @Autowired 
+  @Autowired
   private TeacherRepository teacherRepository;
 
   public Map<String, Object> getInsertedSenteces(String teacherId) {
-    Map<String, Object> map = new HashMap<String, Object>();
+    Map<String, Object> mapOfSetence = null;
     try {
-    Object s = teacherRepository.getAllSentences(teacherId);
-    map.put("path", s);
+      mapOfSetence = teacherRepository.getAllSentences(teacherId);
+      return mapOfSetence;
+    } catch (InterruptedException | ExecutionException e) {
     }
-    catch(InterruptedException | ExecutionException e) {
-      
-    }
-    return map;
+    return mapOfSetence;
   }
 }

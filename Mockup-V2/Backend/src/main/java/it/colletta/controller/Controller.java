@@ -7,6 +7,8 @@ import it.colletta.service.SentenceService;
 import it.colletta.service.TeacherService;
 import it.colletta.service.UsersService;
 import java.io.IOException;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,22 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/sw")
 public class Controller {
 
-  @Autowired private SentenceService sentenceService;
-  @Autowired private UsersService userService;
-  @Autowired private TeacherService teacherService;
+  @Autowired
+  private SentenceService sentenceService;
+  @Autowired
+  private UsersService userService;
+  @Autowired
+  private TeacherService teacherService;
 
   /**
-   * if you pass a string containing a phrase with an ending point, you will receive a grammatical
-   * analysis of the phrase.
+   * if you pass a string containing a phrase with an ending point, you will
+   * receive a grammatical analysis of the phrase.
    *
    * @param sentence SentenceModel.
    * @return Sentence solution.
    */
-  @RequestMapping(
-      value = "/s",
-      method = RequestMethod.POST,
-      produces = "application/json",
-      consumes = "application/json")
+  @RequestMapping(value = "/s", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
   public Response wsGetSolution(@RequestBody SentenceModel sentence) {
     try {
       String text = sentenceService.getSolution(sentence.getText()).trim();
@@ -49,29 +50,20 @@ public class Controller {
   }
 
   /**
-   * Creates a token for the user's session and retrieves his personal information from the
-   * database.
+   * Creates a token for the user's session and retrieves his personal information
+   * from the database.
    *
    * @param login LoginModel.
    * @return token, uid and user information.
    */
-  @RequestMapping(
-      value = "/login",
-      method = RequestMethod.POST,
-      produces = "application/json",
-      consumes = "application/json")
+  @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
   public Response wsLogin(@RequestBody LoginModel login) {
     try {
-      return Response.ok()
-          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .entity(userService.login(login.getEmail(), login.getPassword()))
-          .build();
+      return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+          .entity(userService.login(login.getEmail(), login.getPassword())).build();
     } catch (Exception error) {
       error.printStackTrace();
-      return Response.serverError()
-          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .status(551)
-          .build();
+      return Response.serverError().type(javax.ws.rs.core.MediaType.APPLICATION_JSON).status(551).build();
     }
   }
 
@@ -81,29 +73,20 @@ public class Controller {
    * @param newUser RegistrationModel.
    * @return A token referring to the new user and his information.
    */
-  @RequestMapping(
-      value = "/nu",
-      method = RequestMethod.POST,
-      produces = "application/json",
-      consumes = "application/json")
+  @RequestMapping(value = "/nu", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
   public Response wsNewUser(@RequestBody RegistrationModel newUser) {
     try {
-      return Response.ok()	
-          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .entity(userService.newUser(newUser))
+      return Response.ok().type(javax.ws.rs.core.MediaType.APPLICATION_JSON).entity(userService.newUser(newUser))
           .build();
     } catch (Exception error) {
       error.printStackTrace();
-      return Response.serverError()
-          .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .status(551)
-          .build();
+      return Response.serverError().type(javax.ws.rs.core.MediaType.APPLICATION_JSON).status(551).build();
     }
   }
 
-  @RequestMapping(value = "/teacher/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/teacher/{id}", method = RequestMethod.GET, produces = "application/json")
   @ResponseBody
-  public String getTeacherSentence(@PathVariable("id") String teacherId) {
-    return teacherService.getInsertedSenteces(teacherId).toString();
+  public Map<String, Object> getTeacherSentence(@PathVariable("id") String teacherId) {
+    return teacherService.getInsertedSenteces(teacherId);
   }
 }

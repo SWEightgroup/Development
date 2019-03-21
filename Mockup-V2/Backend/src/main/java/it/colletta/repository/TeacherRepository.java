@@ -1,22 +1,19 @@
 package it.colletta.repository;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import org.springframework.stereotype.Repository;
 
-import javax.print.Doc;
-
-import org.springframework.stereotype.Service;
-
-@Service
+@Repository
 public class TeacherRepository {
 
   /**
@@ -26,41 +23,36 @@ public class TeacherRepository {
    * @return Map contains token, uid and user information
    * @throws ExecutionException
    * @throws InterruptedException
-   * @throws Exception            Exception.
+   * @throws Exception Exception.
    */
-  public Object getAllSentences(@NotNull String teacherId) throws InterruptedException, ExecutionException {
-    ApiFuture<DocumentSnapshot> documentSnapshot = FirestoreClient.getFirestore().collection("users")
-        .document(teacherId).get();
+  public Map<String, Object> getAllSentences(@NotNull String teacherId)
+      throws InterruptedException, ExecutionException {
+    ApiFuture<DocumentSnapshot> documentSnapshot =
+        FirestoreClient.getFirestore().collection("users").document(teacherId).get();
     DocumentSnapshot teacherDocSnapshot = documentSnapshot.get();
-    Map<String, Object> map = new HashMap<>();
-    Map<String, Object> temporanyMap = null;
+    Map<String, Object> phraseMap = new HashMap<>();
     @SuppressWarnings("unchecked")
-    ArrayList<Object> listExercises = (ArrayList<Object>) teacherDocSnapshot.getData().get("exercises");
-    for (Object exercise : listExercises) {
-      // DocumentSnapshot solutionDocument = FirestoreClient.getFirestore()
-      // .document(((DocumentReference) exercise).getPath()).get().get();
-      // temporanyMap = solutionDocument.getData();
-      // map.put("testo", temporanyMap.get("phrase").toString());
-      // map.put("soluzione", temporanyMap.get("solution").toString());
-      String path = ((DocumentReference) exercise).getPath();
-      String text = FirestoreClient.getFirestore().document(path).get().get().get("phrase").toString();
-      map.put("dio", text);
+    ArrayList<Object> phrasesList = (ArrayList<Object>) teacherDocSnapshot.getData().get("phrases");
+    for (Object phrase : phrasesList) {
+      Map<String, Object> solutionMap = new HashMap<>();
+      String path = ((DocumentReference) phrase).getPath();
+      String text =
+          FirestoreClient.getFirestore().document(path).get().get().get("text").toString();
+      List<QueryDocumentSnapshot> query =
+          FirestoreClient.getFirestore()
+              .document(path)
+              .collection("solutions")
+              .whereEqualTo("author", teacherId)
+              .get()
+              .get()
+              .getDocuments();
+      for (QueryDocumentSnapshot document : query) {
+        solutionMap.put(document.getId(), document.get("text").toString());
+      }
+      phraseMap.put("frase", text);
+      phraseMap.put("solutions", solutionMap);
     }
-    return map;
-    /*
-     * document.Map<String, Object> mapOfPhrases = new HashMap<String, Object>(); //
-     * TODO String s = null; if (document.exists()) {
-     * 
-     * @SuppressWarnings("unchecked") ArrayList<Object> rf = (ArrayList<Object>)
-     * document.getData().get("exercises");
-     * 
-     * for (Object item : rf) {
-     * FirestoreClient.getFirestore().document(((DocumentReference)
-     * item).getPath()).get().get().get(""); }
-     * 
-     * return ((DocumentReference) rf.get(0)).getPath(); // return rf.getPath(); }
-     * return null; // return mapOfPhrases;
-     */
+    return phraseMap;
   }
 
   /**
