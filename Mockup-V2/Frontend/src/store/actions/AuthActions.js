@@ -1,19 +1,19 @@
 import axios from 'axios';
 
 export const loaderOn = () => {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({ type: 'LOADER_ON' });
   };
 };
 
-export const loadAuth = () => {
-  return (dispatch, getState) => {
-    dispatch({ type: 'LOAD_AUTH' });
+export const loadAuth = pippo => {
+  return dispatch => {
+    dispatch({ type: 'LOAD_AUTH', user: pippo });
   };
 };
 
 export const signIn = credentials => {
-  return (dispatch, getState) => {
+  return dispatch => {
     axios
       .post(`http://localhost:8081/sw/login`, {
         email: credentials.email,

@@ -12,12 +12,7 @@ import { loadAuth } from './store/actions/AuthActions';
 import './App.css';
 
 class App extends Component {
-  state = {  }
-  constructor(props){
-    super(props);
-    props.loadAuth();
-  }
-  render() { 
+  render() {
     const { loader } = this.props;
     return (
       <BrowserRouter>
@@ -71,7 +66,6 @@ class App extends Component {
     );
   }
 }
- 
 
 const mapStateToProps = state => {
   return {

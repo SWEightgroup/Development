@@ -74,10 +74,10 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
   return {
-    authError: state.auth.authError,
-    auth: state.auth
+    authError: store.auth.authError,
+    auth: store.auth
   };
 };
 

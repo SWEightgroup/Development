@@ -4,15 +4,8 @@ const initState = {
   loader: false
 };
 
-const loadState = () => {
-  const serializedState = localStorage.getItem('user');
-  if (serializedState === null) {
-    return null;
-  }
-  return JSON.parse(serializedState);
-};
-
 const authReducer = (state = initState, action) => {
+  console.log(action.type);
   switch (action.type) {
     case 'LOADER_ON':
       return {
@@ -22,7 +15,7 @@ const authReducer = (state = initState, action) => {
     case 'LOAD_AUTH':
       return {
         ...state,
-        user: loadState()
+        user: action.user
       };
     case 'LOGIN_ERROR':
       return {
@@ -32,11 +25,6 @@ const authReducer = (state = initState, action) => {
         loader: false
       };
     case 'LOGIN_SUCCESS':
-      /* console.log(
-        'user:',
-        new Date(action.user.profile.birthDate.seconds * 1000)
-      ); */
-
       return {
         ...state,
         user: action.user,

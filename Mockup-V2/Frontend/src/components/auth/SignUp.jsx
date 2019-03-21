@@ -108,9 +108,9 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
   return {
-    auth: state.auth
+    auth: store.auth
   };
 };
 

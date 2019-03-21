@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
 
 @CrossOrigin
@@ -89,12 +87,9 @@ public class Controller {
       consumes = "application/json")
   public Response wsNewUser(@RequestBody RegistrationModel newUser) {
     try {
-      
-      Map<String, Object> x = userService.newUser(newUser);
-      
       return Response.ok()
           .type(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-          .entity(x)
+          .entity(userService.newUser(newUser))
           .build();
     } catch (Exception error) {
       error.printStackTrace();

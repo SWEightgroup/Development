@@ -7,8 +7,9 @@ import { v4 } from 'node-uuid';
 import rootReducer from './store/reducers/RootReducer';
 import App from './App';
 import { register } from './serviceWorker';
+import { loadAuth } from './store/actions/AuthActions';
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
