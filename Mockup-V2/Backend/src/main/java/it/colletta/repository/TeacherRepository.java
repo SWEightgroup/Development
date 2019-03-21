@@ -58,13 +58,13 @@ public class TeacherRepository {
   /**
    * A teacher insert a new exercise
    *
-   * @param phrase Teacher id, @return @throws
+   * @param phrase the text of the phrase
+   * @param solution the solution of the phrase 
+   * @param teacherId the document identifier of the collection in firebase
+   * @throws something 
    */
-  public boolean insertPhrase(@NotNull String phrase, String uid) {
-    // va fatta una query con tutte gli esercizi scritti dall'insegnante, se non è
-    // presente
-    // un esercizio con lo stesso testo che si vuole aggiungere allora aggiungo
-    // l'esercizio
+  public boolean insertPhrase(@NotNull String phrase, @NotNull String solution, String teacherId) {
+
     return true;
   }
 }
