@@ -2,7 +2,8 @@ package it.colletta.resources;
 
 public class SentenceModel {
   public String text = "";
-
+  public String token ="";
+  public Object soluzione = new Object();
   /**
    * SentenceModle constructor.
    * @param text Sentence text.

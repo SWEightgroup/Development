@@ -1,5 +1,7 @@
 package it.colletta.service;
 
+import com.google.firebase.auth.FirebaseAuthException;
+
 import it.colletta.repository.UserRepository;
 import it.colletta.resources.RegistrationModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,10 @@ public class UsersService {
       error.printStackTrace();
       throw error;
     }
+  }
+  
+  
+  public String getUid(String token) throws FirebaseAuthException {
+	  return auth.getUid(token);
   }
 }

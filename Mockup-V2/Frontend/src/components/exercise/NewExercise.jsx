@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import InputSentence from './InputSentence';
 import ExecutionExercise from './ExecutionExercise';
 
@@ -44,11 +45,26 @@ class NewExsercise extends Component {
     this.setState({ showSolution: true });
   };
 
+  salvaEsercizio = () => {
+    console.log('Sto salvando');
+    axios
+      .post(`http://localhost:8081/sw/salvaEsercizio`, {
+        token: this.props.token,
+        text: this.state.sentenceString,
+        soluzione: this.state.response
+      })
+      .then(res => {
+        console.log('salvataggio avvenuto');
+      })
+      .catch(() => console.log('ERRORE DI SALVATAGGIO'));
+  };
+
   /**
    * call the server to analyze the sentence
    */
   getSolution = () => {
     const { sentenceString } = this.state;
+    console.log('CERCO LA SOLUZIONE');
     // qui faremo la chiamata
     // la soluzione sarà formata da un array di parola/codice
     axios
@@ -56,6 +72,8 @@ class NewExsercise extends Component {
         text: sentenceString.trim()
       })
       .then(res => {
+        console.log('SOLUZIONE TROVATA', res);
+
         this.setState({
           response: JSON.parse(res.data.entity).sentences[0].tokens
         });
@@ -75,10 +93,20 @@ class NewExsercise extends Component {
           response={response}
           showSolution={showSolution}
           createAt={createAt}
+          salvaEsercizio={this.salvaEsercizio}
         />
       </div>
     );
   }
 }
 
-export default NewExsercise;
+const mapStateToProps = store => {
+  console.log(store);
+  return {
+    authError: store.auth.authError,
+    auth: store.auth,
+    token: store.auth.user.token
+  };
+};
+
+export default connect(mapStateToProps)(NewExsercise);

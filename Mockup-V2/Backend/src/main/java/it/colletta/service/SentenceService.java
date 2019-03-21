@@ -2,15 +2,23 @@ package it.colletta.service;
 
 import it.colletta.library.FreelingAdapterInterface;
 import it.colletta.library.FreelingAdapterSocket;
+import it.colletta.repository.TeacherRepository;
+import it.colletta.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class SentenceService {
   
   private final String host = "18.197.54.200";
   private final int port = 50005;
+  
+  @Autowired
+  private TeacherRepository teachRepository;
 
   /**
    * Constructor.
@@ -29,5 +37,10 @@ public class SentenceService {
     String solution = socket.getCorrection(sentence);
     socket.closeConnection();
     return solution;
+  }
+  
+  public void salvaEsercizio(String text, String uid,Object soluzione) throws InterruptedException, ExecutionException {
+	  teachRepository.insertPhrase(text, uid,soluzione);
+
   }
 }

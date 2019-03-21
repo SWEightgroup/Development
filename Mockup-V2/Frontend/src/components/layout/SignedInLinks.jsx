@@ -5,6 +5,7 @@ import { signOut } from '../../store/actions/AuthActions';
 
 const SignedInLinks = props => {
   const { user, signOut } = props;
+  console.log('aaaaaaaaaaaaaaaaa', user);
   return (
     <React.Fragment>
       <div className="app-header-right">

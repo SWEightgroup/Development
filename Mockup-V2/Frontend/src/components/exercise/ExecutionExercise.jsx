@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Word from './Word';
 
 class ExecutionExercise extends Component {
@@ -182,6 +183,11 @@ class ExecutionExercise extends Component {
     checkExerciseFunction();
   };
 
+  salva = () => {
+    const { salvaEsercizio } = this.props;
+    salvaEsercizio();
+  };
+
   render() {
     const {
       sentence,
@@ -228,6 +234,11 @@ class ExecutionExercise extends Component {
                     >
                       Completa
                     </button>
+                    {showSolution && (
+                      <button type="button" onClick={this.props.salvaEsercizio}>
+                        Salva
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -241,4 +252,11 @@ class ExecutionExercise extends Component {
   }
 }
 
-export default ExecutionExercise;
+const mapStateToProps = store => {
+  return {
+    authError: store.auth.authError,
+    auth: store.auth
+  };
+};
+
+export default connect(mapStateToProps)(ExecutionExercise);
