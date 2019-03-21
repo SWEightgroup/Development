@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signUp } from '../../store/actions/AuthActions';
+import { signUp, loaderOn } from '../../store/actions/AuthActions';
 
 class SignUp extends Component {
   state = {
@@ -21,6 +21,7 @@ class SignUp extends Component {
   handleSubmit = e => {
     const { signUpDispatch } = this.props;
     e.preventDefault();
+    loaderOn();
     signUpDispatch(this.state);
   };
 
@@ -115,7 +116,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signUpDispatch: creds => dispatch(signUp(creds))
+    signUpDispatch: creds => dispatch(signUp(creds)),
+    loaderOn: () => dispatch(loaderOn())
   };
 };
 

@@ -41,8 +41,9 @@ export const signUp = newUser => {
     axios
       .post(`http://localhost:8081/sw/nu`, newUser)
       .then(res => {
-        //localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({ type: 'SIGNUP_SUCCESS', user: res.entity });
+        if (res.data.entity)
+          localStorage.setItem('user', JSON.stringify(res.data.entity));
+        dispatch({ type: 'SIGNUP_SUCCESS', user: res.data.entity });
       })
       .catch(() => dispatch({ type: 'SIGNUP_ERROR' }));
   };
