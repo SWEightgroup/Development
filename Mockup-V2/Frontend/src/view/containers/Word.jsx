@@ -25,10 +25,11 @@ class Word extends Component {
     try {
       const { languageIterator } = this.state;
       languageIterator.prevLevel();
+      console.log('BREAK');
       this.setState({
         languageIterator,
         buttons: languageIterator.getCurrentButtonList(),
-        solution: languageIterator.getSolution()
+        solution: languageIterator.getVerboseSolution()
       });
     } catch (err) {
       console.log(err);

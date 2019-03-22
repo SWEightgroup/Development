@@ -70,11 +70,9 @@ class LanguageIterator {
   }
 
   getCurrentChoices() {
-    console.log(
-      'aaaaaaaa',
-      this.langStruct[this.category].attributes[this.level].choices
-    );
-    return this.langStruct[this.category].attributes[this.level].choices;
+    if (this.level < this.categoryLength())
+      return this.langStruct[this.category].attributes[this.level].choices;
+    else return new Array();
   }
 
   categoryLength() {
