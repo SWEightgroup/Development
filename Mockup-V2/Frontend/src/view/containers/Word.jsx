@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import LanguageStructure from '../../lib/LanguageCatIterator';
+import LanguageStructure from '../../assets/lib/LanguageIterator';
 
 class Word extends Component {
   constructor(props) {
     super(props);
     const { gerarchy } = props;
     const languageIterator = new LanguageStructure(gerarchy).getBaseIterator(); // NON VA BENE, VA CAMBIATO
-
+    console.log('lista:', languageIterator.getCurrentButtonList());
     this.state = {
       languageIterator,
       buttons: languageIterator.getCurrentButtonList(),
@@ -46,7 +46,7 @@ class Word extends Component {
       languageIterator.nextLevel(button);
       this.setState({
         buttons: languageIterator.getCurrentButtonList(),
-        solution: languageIterator.getSolution(),
+        solution: languageIterator.getVerboseSolution(),
         languageIterator
       });
     } catch (err) {
@@ -62,7 +62,7 @@ class Word extends Component {
     languageIterator.setBaseLevel();
     this.setState({
       buttons: languageIterator.getCurrentButtonList(),
-      solution: languageIterator.getSolution(),
+      solution: languageIterator.getVerboseSolution(),
       languageIterator
     });
   };
@@ -163,7 +163,7 @@ class Word extends Component {
                 key={`index${index}`}
                 onClick={() => this.generateNext(button)}
               >
-                {button}
+                {button.full}
               </button>
             );
           })}

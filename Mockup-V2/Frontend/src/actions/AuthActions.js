@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { store } from '../index';
 
 export const loaderOn = () => {
   return dispatch => {
@@ -6,13 +7,29 @@ export const loaderOn = () => {
   };
 };
 
-export const loadAuth = pippo => {
+export const displayError = error => {
+  return dispatch => {
+    dispatch({ type: 'DISPLAY_ERROR', error });
+  };
+};
+
+/* export const loadAuth = pippo => {
   return dispatch => {
     dispatch({ type: 'LOAD_AUTH', user: pippo });
   };
 };
+*/
+export const changeSignIn = data => {
+  store.dispatch({ type: 'CHANGE_SIGNIN_DATA', data });
+};
 
-export const signIn = credentials => {
+export const changeSignUp = data => {
+  const state = store.getState();
+  store.dispatch({ type: 'CHANGE_SIGNUP_DATA', data });
+};
+
+export const signIn = () => {
+  const credentials = store.getState().auth.signIn;
   return dispatch => {
     axios
       .post(`http://localhost:8081/sw/login`, {
@@ -20,10 +37,8 @@ export const signIn = credentials => {
         password: credentials.password
       })
       .then(res => {
-        console.log('ciao', res);
-        if (res)
-          // localStorage.setItem('user', JSON.stringify(res.data.entity));
-          dispatch({ type: 'LOGIN_SUCCESS', user: res.data.entity });
+        if (res) localStorage.setItem('user', JSON.stringify(res.data.entity));
+        dispatch({ type: 'LOGIN_SUCCESS', user: res.data.entity });
       })
       .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
   };
@@ -36,7 +51,9 @@ export const signOut = () => {
   };
 };
 
-export const signUp = newUser => {
+export const signUp = () => {
+  const newUser = store.getState().auth.signUp;
+  delete newUser.password_confirm;
   return (dispatch, getState) => {
     axios
       .post(`http://localhost:8081/sw/nu`, newUser)

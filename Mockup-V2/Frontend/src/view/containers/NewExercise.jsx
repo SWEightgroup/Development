@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import InputSentence from './InputSentence';
-import ExecutionExercise from './ExecutionExercise';
+import InputSentence from '../components/InputSentence';
+import ExecutionExercise from '../components/ExecutionExercise';
 
 class NewExsercise extends Component {
   constructor(props) {

@@ -6,6 +6,8 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.NotNull;
@@ -28,7 +30,7 @@ public class TeacherRepository {
    * @return Map contains token, uid and user information
    * @throws ExecutionException
    * @throws InterruptedException
-   * @throws Exception            Exception.
+   * @throws Exception Exception.
    */
   public Object getAllSentences(@NotNull String teacherId) throws InterruptedException, ExecutionException {
     ApiFuture<DocumentSnapshot> documentSnapshot = FirestoreClient.getFirestore().collection("users")
@@ -69,38 +71,58 @@ public class TeacherRepository {
    * A teacher insert a new exercise
    *
    * @param phrase Teacher id, @return @throws
- * @throws ExecutionException 
- * @throws InterruptedException 
+   * @throws ExecutionException 
+   * @throws InterruptedException 
    */
   public void insertPhrase(@NotNull String phrase, String uid,Object soluzione) throws InterruptedException, ExecutionException {
     // va fatta una query con tutte gli esercizi scritti dall'insegnante, se non è
     // presente
     // un esercizio con lo stesso testo che si vuole aggiungere allora aggiungo
     // l'esercizio
-	  	HashMap<String,Object> elementoDaInserire = new HashMap<String,Object>();
-	  	elementoDaInserire.put("testo", phrase);
-	  	elementoDaInserire.put("autore", uid);
-	  	
-	  	ApiFuture<DocumentReference> fraseInserita = FirestoreClient.getFirestore().collection("frasi").add(elementoDaInserire);
-	  	
-	    ///aggiungo alla collection degli esercizi
-	    ApiFuture<DocumentReference> esercizioInserito= FirestoreClient.getFirestore().collection("esercizi").add(elementoDaInserire);
-	    
-	    HashMap<String,Object> soluzioneDaInserire = new HashMap<String,Object>();
-	    
-	    soluzioneDaInserire.put("autore", uid);
-	    soluzioneDaInserire.put("soluzione", soluzione);
-	    
-	    ApiFuture<DocumentReference> soluzioneInserita= 
-	    		FirestoreClient.getFirestore()
-	    		.collection("esercizi")
-	    		.document(esercizioInserito.get().getId())
-	    		.collection("soluzioni").add(soluzioneDaInserire);
-	    
-	    
-	 // Atomically add a new region to the "regions" array field.
-	    ApiFuture<WriteResult> arrayUnion = fraseInserita.get().update("soluzioni",FieldValue.arrayUnion(soluzioneInserita.get()));
+    HashMap<String,Object> elementoDaInserire = new HashMap<String,Object>();
+    elementoDaInserire.put("testo", phrase);
+    elementoDaInserire.put("autore", uid);
 
+
+    ///aggiungo alla collection degli esercizi
+    ApiFuture<DocumentReference> esercizioInserito= FirestoreClient.getFirestore().collection("esercizi").add(elementoDaInserire);
+    
+    HashMap<String,Object> soluzioneDaInserire = new HashMap<String,Object>();
+
+    soluzioneDaInserire.put("autore", uid);
+    soluzioneDaInserire.put("soluzione", soluzione);
+
+    //aggiungo la soluzione alla collection di quell'esercizio
+    ApiFuture<DocumentReference> soluzioneInserita= 
+        FirestoreClient.getFirestore()
+        .collection("esercizi")
+        .document(esercizioInserito.get().getId())
+        .collection("soluzioni").add(soluzioneDaInserire);
+    
+    
+
+    //controllo se esiste già questa frase
+    ApiFuture<QuerySnapshot> future = FirestoreClient.getFirestore().collection("esercizi").whereEqualTo("testo", phrase).get();
+
+    List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+    ApiFuture<DocumentReference> fraseInserita;
+
+    //se la frase non è presente nella collection delle frasi
+    if(documents.isEmpty()) {
+      
+      fraseInserita = FirestoreClient.getFirestore().collection("frasi").add(elementoDaInserire); // la frase non c'è quindi l'aggiungo
+      // Atomically add a new region to the "regions" array field.
+      ApiFuture<WriteResult> arrayUnion = fraseInserita.get().update("soluzioni",FieldValue.arrayUnion(soluzioneInserita.get()));
+    }else {
+      String idFraseGiaPresente = documents.get(0).getId();
+      FirestoreClient.getFirestore().collection("frasi").document(idFraseGiaPresente).update("soluzioni",FieldValue.arrayUnion(soluzioneInserita.get()));
+    }
+
+    DocumentSnapshot x =FirestoreClient.getFirestore().collection("frasi").document("8hB36ZbMdemSg9L7srSW").get().get();
+    
+    ModelFrase pippo = x.toObject(ModelFrase.class);
+    
+    System.out.println();
 
   }
 }

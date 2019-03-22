@@ -1,12 +1,34 @@
 const initState = {
   authError: null,
   user: null,
-  loader: false
+  loader: false,
+  signIn: {
+    email: '',
+    password: ''
+  },
+  signUp: {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    password_confirm: ''
+  }
 };
 
 const authReducer = (state = initState, action) => {
-  console.log(action.type);
   switch (action.type) {
+    case 'CHANGE_SIGNIN_DATA':
+      const signIn = { ...state.signIn, ...action.data };
+      return {
+        ...state,
+        signIn
+      };
+    case 'CHANGE_SIGNUP_DATA':
+      const signUp = { ...state.signUp, ...action.data };
+      return {
+        ...state,
+        signUp
+      };
     case 'LOADER_ON':
       return {
         ...state,
@@ -28,6 +50,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: action.user,
+        signIn: initState.signIn,
         loader: false
       };
 
@@ -42,6 +65,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: action.user,
+        signUp: initState.signUp,
         loader: false
       };
 
@@ -51,6 +75,12 @@ const authReducer = (state = initState, action) => {
         authError: 'Sing up failed',
         user: null,
         loader: false
+      };
+
+    case 'DISPLAY_ERROR':
+      return {
+        ...state,
+        authError: action.error
       };
 
     default:

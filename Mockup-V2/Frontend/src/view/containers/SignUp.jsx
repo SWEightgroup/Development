@@ -1,32 +1,36 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signUp, loaderOn } from '../../store/actions/AuthActions';
+import {
+  signUp,
+  loaderOn,
+  changeSignUp,
+  displayError
+} from '../../actions/AuthActions';
 
 class SignUp extends Component {
-  state = {
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    linkPhoto: ''
-  };
-
   handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
+    changeSignUp({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = e => {
-    const { signUpDispatch } = this.props;
+    const { signUpDispatch, loaderOn, auth, displayErrorDispatch } = this.props;
     e.preventDefault();
-    loaderOn();
-    signUpDispatch(this.state);
+
+    const signUpData = auth.signUp;
+
+    if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
+      loaderOn();
+      signUpDispatch();
+    } else {
+      displayErrorDispatch('Le due password non coincidono');
+    }
   };
 
   render() {
     const { auth } = this.props;
+    const signUpData = auth.signUp;
+
     if (auth.user) return <Redirect to="/" />;
     return (
       <div className="app-main__inner full-height-mobile">
@@ -46,6 +50,7 @@ class SignUp extends Component {
                       type="text"
                       className="form-control"
                       onChange={this.handleChange}
+                      value={signUpData.firstName}
                     />
                   </div>
                   <div className="position-relative form-group">
@@ -57,6 +62,7 @@ class SignUp extends Component {
                       type="text"
                       className="form-control"
                       onChange={this.handleChange}
+                      value={signUpData.lastName}
                     />
                   </div>
                   <div className="position-relative form-group">
@@ -68,6 +74,7 @@ class SignUp extends Component {
                       type="email"
                       className="form-control"
                       onChange={this.handleChange}
+                      value={signUpData.email}
                     />
                   </div>
                   <div className="position-relative form-group">
@@ -75,23 +82,34 @@ class SignUp extends Component {
                     <input
                       name="address2"
                       id="password"
+                      minLength="6"
                       placeholder="Passowrd"
                       type="password"
                       className="form-control"
                       onChange={this.handleChange}
                     />
+                    <small
+                      id="passwordHelpBlock"
+                      className="form-text text-muted"
+                    >
+                      Your password must be 6-20 characters long, contain
+                      letters and numbers, and must not contain spaces, special
+                      characters, or emoji.
+                    </small>
                   </div>
                   <div className="position-relative form-group">
-                    <label htmlFor="linkPhoto">Link immagine del profile</label>
+                    <label htmlFor="password_confirm">Conferma Password</label>
                     <input
-                      name="linkPhoto"
-                      id="linkPhoto"
-                      placeholder="http://ilmiosito.it/laMiaImmagine.jpg"
-                      type="text"
+                      name="address2"
+                      id="password_confirm"
+                      minLength="6"
+                      placeholder="Conferma Password"
+                      type="password"
                       className="form-control"
                       onChange={this.handleChange}
                     />
                   </div>
+
                   <button type="submit" className="mt-2 btn btn-primary">
                     Accedi
                   </button>
@@ -116,8 +134,10 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signUpDispatch: creds => dispatch(signUp(creds)),
-    loaderOn: () => dispatch(loaderOn())
+    signUpDispatch: () => dispatch(signUp()),
+    loaderOn: () => dispatch(loaderOn()),
+    changeSignUp: () => dispatch(changeSignUp()),
+    displayErrorDispatch: error => dispatch(displayError(error))
   };
 };
 

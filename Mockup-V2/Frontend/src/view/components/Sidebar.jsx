@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 class Sidebar extends Component {
-  state = {};
-
   render() {
     return (
       <div className="scrollbar-sidebar">

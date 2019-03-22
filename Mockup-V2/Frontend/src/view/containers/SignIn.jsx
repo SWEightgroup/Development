@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { signIn, loaderOn } from '../../store/actions/AuthActions';
+import { signIn, loaderOn, changeSignIn } from '../../actions/AuthActions';
 
 class SignIn extends Component {
-  state = {
-    email: '',
-    password: ''
-  };
-
   handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
+    changeSignIn({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = e => {
     const { signIn, loaderOn } = this.props;
     loaderOn();
     e.preventDefault();
-    signIn(this.state);
+    signIn();
   };
 
   render() {
-    const { auth } = this.props;
+    const { auth, signInData } = this.props;
     if (auth && auth.user) return <Redirect to="/" />;
     return (
       <div className="app-main__inner full-height-mobile ">
@@ -42,6 +35,7 @@ class SignIn extends Component {
                       placeholder="Email"
                       type="email"
                       className="form-control"
+                      value={signInData.email}
                       onChange={this.handleChange}
                       required
                     />
@@ -55,6 +49,7 @@ class SignIn extends Component {
                       type="password"
                       className="form-control"
                       onChange={this.handleChange}
+                      value={signInData.password}
                       required
                     />
                   </div>
@@ -77,14 +72,16 @@ class SignIn extends Component {
 const mapStateToProps = store => {
   return {
     authError: store.auth.authError,
-    auth: store.auth
+    auth: store.auth,
+    signInData: store.auth.signIn
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    signIn: creds => dispatch(signIn(creds)),
-    loaderOn: () => dispatch(loaderOn())
+    signIn: () => dispatch(signIn()),
+    loaderOn: () => dispatch(loaderOn()),
+    changeSignIn: data => dispatch(changeSignIn(data))
   };
 };
 

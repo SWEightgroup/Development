@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Navbar from './components/layout/Navbar';
-import Sidebar from './components/layout/Sidebar';
-import Body from './components/layout/Body';
-import Footer from './components/layout/Footer';
-import SignUp from './components/auth/SignUp';
-import SignIn from './components/auth/SignIn';
-import Error from './components/layout/Error';
-import { loadAuth } from './store/actions/AuthActions';
+import Navbar from './view/containers/Navbar';
+import Sidebar from './view/components/Sidebar';
+import Body from './view/containers/Body';
+import Footer from './view/components/Footer';
+import SignUp from './view/containers/SignUp';
+import SignIn from './view/containers/SignIn';
+import Error from './view/components/Error';
+// import { loadAuth } from './actions/AuthActions';
 import './App.css';
 
 class App extends Component {
@@ -72,12 +72,8 @@ const mapStateToProps = state => {
     loader: state.auth.loader
   };
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    loadAuth: () => dispatch(loadAuth())
-  };
-};
+
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(App);

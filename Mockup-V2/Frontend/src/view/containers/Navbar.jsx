@@ -4,8 +4,6 @@ import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
 
 class Navbar extends Component {
-  state = {};
-
   render() {
     const { auth } = this.props;
     const links = auth.user ? (
@@ -62,9 +60,9 @@ class Navbar extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
   return {
-    auth: state.auth
+    auth: store.auth
   };
 };
 

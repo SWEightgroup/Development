@@ -1,11 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signOut } from '../../store/actions/AuthActions';
+import { signOut } from '../../actions/AuthActions';
 
 const SignedInLinks = props => {
   const { user, signOut } = props;
-  console.log('aaaaaaaaaaaaaaaaa', user);
   return (
     <React.Fragment>
       <div className="app-header-right">
