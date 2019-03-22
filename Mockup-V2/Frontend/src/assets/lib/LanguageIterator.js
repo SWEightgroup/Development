@@ -42,6 +42,10 @@ class LanguageIterator {
     return this.solution.map(solutionItem => solutionItem.full).join(' ');
   }
 
+  getCodeSolution() {
+    return this.solution.map(solutionItem => solutionItem.short).join('');
+  }
+
   /**
    * Function to return the buttons to show in the main interface
    *
@@ -88,6 +92,14 @@ class LanguageIterator {
    * it does nothing.
    */
   prevLevel() {
+    let lastSolution = this.solution.pop();
+    while (
+      JSON.stringify(lastSolution) === JSON.stringify({ short: 0, full: '' })
+    ) {
+      this.level--;
+      lastSolution = this.solution.pop();
+    }
+    this.solution.push(lastSolution);
     if (this.level > -1) {
       if (this.level === 0) {
         this.setBaseLevel();
