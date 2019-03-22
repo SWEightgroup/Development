@@ -26,7 +26,7 @@ class LanguageIterator {
   setBaseLevel() {
     this.level = -1;
     this.category = null;
-    this.solution = new Array();
+    this.solution = [];
     this.currentChoices = this.getBaseCategories();
   }
 
@@ -69,7 +69,7 @@ class LanguageIterator {
       this.solution.push(choice);
       this.currentChoices = this.getCurrentChoices();
     } else {
-      this.currentChoices = new Array();
+      this.currentChoices = [];
     }
     if (!this.checkCondition()) this.nextLevel({ short: 0, full: '' });
   }
@@ -77,7 +77,7 @@ class LanguageIterator {
   getCurrentChoices() {
     if (this.level < this.categoryLength())
       return this.langStruct[this.category].attributes[this.level].choices;
-    else return new Array();
+    else return [];
   }
 
   categoryLength() {

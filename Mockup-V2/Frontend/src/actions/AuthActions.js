@@ -24,7 +24,6 @@ export const changeSignIn = data => {
 };
 
 export const changeSignUp = data => {
-  const state = store.getState();
   store.dispatch({ type: 'CHANGE_SIGNUP_DATA', data });
 };
 

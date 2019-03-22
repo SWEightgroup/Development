@@ -8,6 +8,7 @@ import {
   updateNewExerciseState,
   prepareExercise
 } from '../../actions/ExerciseActions';
+
 class NewExsercise extends Component {
   constructor(props) {
     super(props);
@@ -30,14 +31,14 @@ class NewExsercise extends Component {
       createAt: now
     });
 
-    const sentenceArray = exercise.sentenceString.split(' ');
-    /*if (sentenceArray.length > 0) {
+    // const sentenceArray = exercise.sentenceString.split(' ');
+    /* if (sentenceArray.length > 0) {
       updateNewExerciseState({
         ...exercise,
         sentence: sentenceArray
-      });*/
+      }); */
     this.getSolution();
-    //}
+    // }
   };
 
   /**
@@ -62,6 +63,7 @@ class NewExsercise extends Component {
       })
       .catch(() => console.log('ERRORE DI SALVATAGGIO'));
   };
+
   /**
    * call the server to analyze the sentence
    */
