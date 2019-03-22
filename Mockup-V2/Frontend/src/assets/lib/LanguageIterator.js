@@ -67,6 +67,8 @@ class LanguageIterator {
     } else {
       this.currentChoices = new Array();
     }
+    if (!this.checkCondition()) this.nextLevel({ short: 0, full: '' });
+    console.log(this.checkCondition());
   }
 
   getCurrentChoices() {
@@ -95,6 +97,16 @@ class LanguageIterator {
         this.currentChoices = this.getCurrentChoices();
       }
     }
+  }
+
+  checkCondition() {
+    if (this.level === this.categoryLength()) return true;
+    const categoryAttr = this.langStruct[this.category].attributes;
+    if (categoryAttr[this.level].condition === null) return true;
+    const { index, short } = categoryAttr[this.level].condition;
+
+    if (this.getSolution()[index].short === short) return true;
+    return false;
   }
 }
 

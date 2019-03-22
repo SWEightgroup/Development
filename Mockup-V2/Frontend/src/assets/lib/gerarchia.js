@@ -17,7 +17,7 @@ export const gerarchia = {
           { short: 'S', full: 'superlative' },
           { short: '0', full: 'none' }
         ],
-        condition: { index: 0, short: 'Q' }
+        condition: { index: 1, short: 'Q' }
       },
       {
         attrName: 'gen',
@@ -45,7 +45,7 @@ export const gerarchia = {
           { short: '2', full: '2' },
           { short: '3', full: '3' }
         ],
-        condition: { index: 0, short: 'P' }
+        condition: { index: 1, short: 'P' }
       },
       {
         attrName: 'possessornum',
@@ -54,7 +54,7 @@ export const gerarchia = {
           { short: 'P', full: 'plural' },
           { short: 'N', full: 'invariable' }
         ],
-        condition: { index: 0, short: 'P' }
+        condition: { index: 1, short: 'P' }
       }
     ]
   },
