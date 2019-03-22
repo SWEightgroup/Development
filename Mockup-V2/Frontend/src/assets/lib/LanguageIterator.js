@@ -72,7 +72,6 @@ class LanguageIterator {
       this.currentChoices = new Array();
     }
     if (!this.checkCondition()) this.nextLevel({ short: 0, full: '' });
-    console.log(this.checkCondition());
   }
 
   getCurrentChoices() {

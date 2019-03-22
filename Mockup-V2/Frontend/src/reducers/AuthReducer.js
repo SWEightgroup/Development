@@ -12,7 +12,8 @@ const initState = {
     firstName: '',
     lastName: '',
     password_confirm: ''
-  }
+  },
+  arrayWord: new Array()
 };
 
 const authReducer = (state = initState, action) => {
