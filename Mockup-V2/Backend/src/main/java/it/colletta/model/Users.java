@@ -1,16 +1,14 @@
 package it.colletta.model;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.Data;
 
 @Document(collection = "users")
 public class Users {
     @Id
-    public String id;
-    public String username;
-    public String password;
+    private String id;
+    private String username;
+    private String password;
 
     public Users() {
     }
