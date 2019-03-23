@@ -7,10 +7,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "correction")
 public class Correction {
     @Id
+    private String id;
     private String correctionText;
     private SimpleDateFormat dateOfCreation;
     private float affidability;
     
+    public Correction(){
+        this.correctionText = "my-jason";
+        this.dateOfCreation = new SimpleDateFormat();
+        this.affidability = 0;
+    }
 
 
     public void setCorrectonText(String correctionText){
