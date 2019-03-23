@@ -3,6 +3,7 @@ package it.colletta.service;
 import it.colletta.repository.CorrectionRepository;
 import it.colletta.model.Correction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +13,7 @@ public class CorrectionService {
     private CorrectionRepository correctionRepository;
 
     // TODO
-    public Correction findSolution(String Id) {
-        // return correctionRepository.test(Id);
+    public Correction findCorrection(String Id) {
         return new Correction();
     }
 }

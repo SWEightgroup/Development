@@ -11,19 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.spi.http.HttpContext;
 import java.awt.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
+    @Autowired
     private UsersRepository applicationUserRepository;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserController(UsersRepository applicationUserRepository,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.applicationUserRepository = applicationUserRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String signUp(@RequestBody Users user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
