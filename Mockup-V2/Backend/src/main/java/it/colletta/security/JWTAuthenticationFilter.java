@@ -28,9 +28,10 @@ import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
-
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private UsersRepository usersRepository;
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UsersRepository usersRepository) {
         this.authenticationManager = authenticationManager;
+        this.usersRepository = usersRepository;
     }
 
     @Override
@@ -59,6 +60,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((User) auth.getPrincipal()).getUsername();
         String token = JWT.create()
                 .withSubject(username)
+                .withClaim("id", usersRepository.findByUsername(username).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
