@@ -13,6 +13,12 @@ const initState = {
     lastName: '',
     password_confirm: ''
   },
+  dataModify: {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: ''
+  },
   arrayWord: []
 };
 

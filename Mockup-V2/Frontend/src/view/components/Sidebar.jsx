@@ -9,9 +9,21 @@ class Sidebar extends Component {
           <ul className="vertical-nav-menu">
             <li className="app-sidebar__heading">Dashboards</li>
             <li>
-              <NavLink to="/" className="nav-link mm-active">
+              <NavLink
+                to="/exercise"
+                className="nav-link"
+                activeClassName="mm-active"
+              >
                 <i className="metismenu-icon pe-7s-pen" />
                 Nuovo Esercizio
+              </NavLink>
+              <NavLink
+                to="/dashboard"
+                className="nav-link"
+                activeClassName="mm-active"
+              >
+                <i className="metismenu-icon pe-7s-user" />
+                Pannello Utente
               </NavLink>
             </li>
           </ul>

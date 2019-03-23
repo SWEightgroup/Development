@@ -14,7 +14,7 @@ const SignedInLinks = props => {
               <div className="widget-content-left">
                 <ul className="header-menu nav">
                   <li className="nav-item">
-                    <NavLink to="/" className="nav-link">
+                    <NavLink to="/account" className="nav-link">
                       Account
                     </NavLink>
                   </li>

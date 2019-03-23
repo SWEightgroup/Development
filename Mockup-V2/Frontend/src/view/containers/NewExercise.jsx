@@ -97,16 +97,18 @@ class NewExsercise extends Component {
     } = this.props.newExercise;
 
     return (
-      <div className="col-12 col-md-10">
-        <InputSentence prepareExercise={this.prepareExercise} />
-        <ExecutionExercise
-          sentence={sentence}
-          checkExerciseFunction={this.checkSolution}
-          response={response}
-          showSolution={showSolution}
-          createAt={createAt}
-          salvaEsercizio={this.salvaEsercizio}
-        />
+      <div className="app-main__inner full-height-mobile">
+        <div className="col-12 col-md-10">
+          <InputSentence prepareExercise={this.prepareExercise} />
+          <ExecutionExercise
+            sentence={sentence}
+            checkExerciseFunction={this.checkSolution}
+            response={response}
+            showSolution={showSolution}
+            createAt={createAt}
+            salvaEsercizio={this.salvaEsercizio}
+          />
+        </div>
       </div>
     );
   }

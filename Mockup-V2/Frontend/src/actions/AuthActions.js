@@ -45,7 +45,7 @@ export const signIn = () => {
 
 export const signOut = () => {
   localStorage.removeItem('user');
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch({ type: 'SIGNOUT_SUCCESS' });
   };
 };
@@ -53,7 +53,7 @@ export const signOut = () => {
 export const signUp = () => {
   const newUser = store.getState().auth.signUp;
   delete newUser.password_confirm;
-  return (dispatch, getState) => {
+  return dispatch => {
     axios
       .post(`http://localhost:8081/sw/nu`, newUser)
       .then(res => {
@@ -63,4 +63,10 @@ export const signUp = () => {
       })
       .catch(() => dispatch({ type: 'SIGNUP_ERROR' }));
   };
+};
+
+export const updateUserInfo = data => {
+  /* CONTROLLI */
+  /* CHIAMATA ALLA BACKEND */
+  /* CHIAMATA A MODIFY_SUCCES O MODIFY_FAILED */
 };
