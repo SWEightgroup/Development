@@ -12,6 +12,7 @@ public class PhraseService {
     private PhraseRepository phraseRepository;
 
     public void insertPhrase(Phrase phrase) {
-        phraseRepository.insert(phrase));
+        // TODO, controllare che la frase sia stata inserita o meno
+        phraseRepository.save(phrase);
     }
 }

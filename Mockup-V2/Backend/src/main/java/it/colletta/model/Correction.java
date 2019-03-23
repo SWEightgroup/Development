@@ -12,12 +12,6 @@ public class Correction {
     private SimpleDateFormat dateOfCreation;
     private Double affidability;
 
-    public Correction() {
-        this.correctionText = "my-jason";
-        this.dateOfCreation = new SimpleDateFormat();
-        this.affidability = 0.0;
-    }
-
 
     public void setCorrectonText(String correctionText) {
         this.correctionText = correctionText;
