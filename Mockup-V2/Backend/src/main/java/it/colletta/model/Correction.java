@@ -4,42 +4,42 @@ import java.text.SimpleDateFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "correction")
+@Document(collection = "corrections")
 public class Correction {
     @Id
     private String id;
     private String correctionText;
     private SimpleDateFormat dateOfCreation;
-    private float affidability;
-    
-    public Correction(){
+    private Double affidability;
+
+    public Correction() {
         this.correctionText = "my-jason";
         this.dateOfCreation = new SimpleDateFormat();
-        this.affidability = 0;
+        this.affidability = 0.0;
     }
 
 
-    public void setCorrectonText(String correctionText){
+    public void setCorrectonText(String correctionText) {
         this.correctionText = correctionText;
     }
 
-    public String getCorrectionTex(){
+    public String getCorrectionTex() {
         return correctionText;
     }
 
-    public void setDateOfCreation(SimpleDateFormat dateOfCreation){
+    public void setDateOfCreation(SimpleDateFormat dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
 
-    public SimpleDateFormat getDateOfCreation(){
+    public SimpleDateFormat getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setAffidability(float affidability){
+    public void setAffidability(Double affidability) {
         this.affidability = affidability;
     }
 
-    public float getAffidability(){
+    public Double getAffidability() {
         return affidability;
     }
 

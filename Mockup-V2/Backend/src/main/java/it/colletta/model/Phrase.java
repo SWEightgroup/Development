@@ -1,26 +1,25 @@
 package it.colletta.model;
 
 import java.util.ArrayList;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "phrase")
+@Document(collection = "phrases")
 public class Phrase {
     @Id
     private String id;
-    private ArrayList<String> CorrectionId;
+    private ArrayList<String> correctionId;
     private String language;
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public ArrayList<String> getCorrections(){
-        return CorrectionId;
+    public ArrayList<String> getCorrections() {
+        return correctionId;
     }
 
-    public String getLanguage(){
+    public String getLanguage() {
         return language;
     }
 

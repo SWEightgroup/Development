@@ -11,9 +11,7 @@ public class CorrectionService {
     @Autowired
     private CorrectionRepository correctionRepository;
 
-    // TODO
-    public Correction findSolution(String Id) {
-        // return correctionRepository.test(Id);
-        return new Correction();
+    public void insertPhrase(Phrase phrase) {
+
     }
 }

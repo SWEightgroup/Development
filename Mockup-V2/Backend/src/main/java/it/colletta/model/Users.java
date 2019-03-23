@@ -40,9 +40,7 @@ public class Users {
 
     @Override
     public String toString() {
-        return String.format(
-                "Users[id=%s, username='%s', password='%s']",
-                id, username, password);
+        return String.format("Users[id=%s, username='%s', password='%s']", id, username, password);
     }
 
 }
