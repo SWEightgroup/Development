@@ -34,6 +34,10 @@ public class Users {
         return username;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return String.format(
