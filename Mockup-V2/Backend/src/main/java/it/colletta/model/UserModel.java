@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Document(collection = "users")
 public class UserModel {
@@ -30,12 +33,6 @@ public class UserModel {
   private ArrayList<ObjectId> phrases;
   private ArrayList<ObjectId> execiseToDo;
   private Boolean actived;
-
-
-  public UserModel(String email, String password) {
-    this.email = email;
-    this.password = password;
-  }
 
   public UserModel(UserModel userModel) {
     this.id = userModel.id;

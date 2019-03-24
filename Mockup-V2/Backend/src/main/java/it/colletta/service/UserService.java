@@ -26,4 +26,8 @@ public class UserService {
     public UserModel getUserInfo(UserModel user) {
         return applicationUserRepository.findByEmail(user.getEmail());
     }
+
+    public void activateUser(String id) {
+        applicationUserRepository.updateActivateFlagOnly(id);
+    }
 }

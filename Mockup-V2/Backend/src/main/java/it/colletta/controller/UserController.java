@@ -14,8 +14,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/sign-up", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String signUp(@RequestBody UserModel user) {
         return userService.addUser(user).toString();
 
@@ -28,4 +27,9 @@ public class UserController {
         return userService.getUserInfo(user);
     }
 
+    @RequestMapping(value = "/activate-user/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object activateUser(@PathVariable("id") String id) {
+        userService.activateUser(id);
+        return null;
+    }
 }

@@ -1,5 +1,8 @@
 package it.colletta.repository;
 
+import it.colletta.model.UserModel;
+
 public interface UserCustomQueryInterface {
-  public void activateUser(String id);
+  public UserModel updateActivateFlagOnly(String id);
+
 }

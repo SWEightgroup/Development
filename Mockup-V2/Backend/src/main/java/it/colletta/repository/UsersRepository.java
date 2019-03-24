@@ -1,6 +1,5 @@
 package it.colletta.repository;
 
-import lombok.Builder;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import it.colletta.model.UserModel;
@@ -20,7 +19,5 @@ public interface UsersRepository extends MongoRepository<UserModel, String>, Use
 
   @Override
   List<UserModel> findAll();
-
-
 
 }
