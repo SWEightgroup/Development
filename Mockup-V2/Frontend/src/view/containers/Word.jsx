@@ -6,7 +6,6 @@ class Word extends Component {
     super(props);
     const { gerarchy } = props;
     const languageIterator = new LanguageStructure(gerarchy).getBaseIterator(); // NON VA BENE, VA CAMBIATO
-    console.log('lista:', languageIterator.getCurrentButtonList());
     this.state = {
       languageIterator,
       buttons: languageIterator.getCurrentButtonList(),
@@ -25,14 +24,13 @@ class Word extends Component {
     try {
       const { languageIterator } = this.state;
       languageIterator.prevLevel();
-      console.log('BREAK');
       this.setState({
         languageIterator,
         buttons: languageIterator.getCurrentButtonList(),
         solution: languageIterator.getVerboseSolution()
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -72,6 +70,7 @@ class Word extends Component {
     const { parola, solutionAuto, showSolution } = this.props;
     const { buttons, solution } = this.state;
     let usefulFields = '';
+
     if (solutionAuto) {
       const columns = Object.keys(solutionAuto).map(p =>
         Object.assign({ data: solutionAuto[p] }, { text: p })

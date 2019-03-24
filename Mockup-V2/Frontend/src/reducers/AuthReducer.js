@@ -1,20 +1,22 @@
 const initState = {
   authError: null,
-  user: null,
+  user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : null,
   loader: false,
   signIn: {
-    email: '',
+    username: '',
     password: ''
   },
   signUp: {
-    email: '',
+    username: '',
     password: '',
     firstName: '',
     lastName: '',
     password_confirm: ''
   },
   dataModify: {
-    email: '',
+    username: '',
     password: '',
     firstName: '',
     lastName: ''

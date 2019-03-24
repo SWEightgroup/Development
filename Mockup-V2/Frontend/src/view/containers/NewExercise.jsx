@@ -6,7 +6,7 @@ import ExecutionExercise from '../components/ExecutionExercise';
 import {
   initializeNewExercise,
   updateNewExerciseState,
-  prepareExercise
+  changeNewInputSentence
 } from '../../actions/ExerciseActions';
 
 class NewExsercise extends Component {
@@ -20,25 +20,26 @@ class NewExsercise extends Component {
    *
    * @param sentence the sentence to analyze
    */
-  prepareExercise = () => {
-    this.props.prepareExercise();
+  prepareExercise = sentenceString => {
     const now = Date.now();
-    const { exercise } = this.props;
+    const { newExercise } = this.props;
+    const sentenceArray = sentenceString.split(' ');
     updateNewExerciseState({
-      ...exercise,
+      ...newExercise,
       showSolution: false,
       response: null,
-      createAt: now
+      createAt: now,
+      sentence: sentenceArray
     });
 
-    // const sentenceArray = exercise.sentenceString.split(' ');
-    /* if (sentenceArray.length > 0) {
-      updateNewExerciseState({
-        ...exercise,
-        sentence: sentenceArray
-      }); */
     this.getSolution();
-    // }
+  };
+
+  changeNewInputSentence = input => {
+    this.props.changeNewInputSentence({
+      ...this.props.newExercise,
+      sentenceString: input
+    });
   };
 
   /**
@@ -46,22 +47,9 @@ class NewExsercise extends Component {
    */
   checkSolution = () => {
     updateNewExerciseState({
-      ...this.props.exercise,
+      ...this.props.newExercise,
       showSolution: true
     });
-  };
-
-  salvaEsercizio = () => {
-    axios
-      .post(`http://localhost:8081/sw/salvaEsercizio`, {
-        token: this.props.token,
-        text: this.state.sentenceString,
-        soluzione: this.state.response
-      })
-      .then(res => {
-        console.log('salvataggio avvenuto');
-      })
-      .catch(() => console.log('ERRORE DI SALVATAGGIO'));
   };
 
   /**
@@ -69,8 +57,6 @@ class NewExsercise extends Component {
    */
   getSolution = () => {
     const { sentenceString } = this.props.newExercise;
-
-    console.log('CERCO LA SOLUZIONE', sentenceString);
     // qui faremo la chiamata
 
     // la soluzione sarà formata da un array di parola/codice
@@ -79,9 +65,8 @@ class NewExsercise extends Component {
         text: sentenceString.trim()
       })
       .then(res => {
-        console.log('SOLUZIONE TROVATA', res);
         updateNewExerciseState({
-          ...this.props.exercise,
+          ...this.props.newExercise,
           response: JSON.parse(res.data.entity).sentences[0].tokens
         });
       })
@@ -93,13 +78,17 @@ class NewExsercise extends Component {
       sentence,
       response,
       showSolution,
-      createAt
+      createAt,
+      sentenceString
     } = this.props.newExercise;
-
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="col-12 col-md-10">
-          <InputSentence prepareExercise={this.prepareExercise} />
+          <InputSentence
+            prepareExercise={this.prepareExercise}
+            changeNewInputSentence={this.props.changeNewInputSentence}
+            sentenceString={sentenceString}
+          />
           <ExecutionExercise
             sentence={sentence}
             checkExerciseFunction={this.checkSolution}
@@ -114,7 +103,6 @@ class NewExsercise extends Component {
   }
 }
 const mapStateToProps = store => {
-  console.log(store);
   return {
     authError: store.auth.authError,
     auth: store.auth,
@@ -128,7 +116,7 @@ const mapDispatchToProps = dispatch => {
     initializeNewExercise: () => dispatch(initializeNewExercise()),
     updateNewExerciseState: newExercise =>
       dispatch(updateNewExerciseState(newExercise)),
-    prepareExercise: () => dispatch(prepareExercise())
+    changeNewInputSentence: input => dispatch(changeNewInputSentence(input))
   };
 };
 

@@ -30,8 +30,8 @@ class SignIn extends Component {
                   <div className="position-relative form-group">
                     <label htmlFor="email">Email</label>
                     <input
-                      name="address"
-                      id="email"
+                      name="username"
+                      id="username"
                       placeholder="Email"
                       type="email"
                       className="form-control"
@@ -43,7 +43,7 @@ class SignIn extends Component {
                   <div className="position-relative form-group">
                     <label htmlFor="password">Password</label>
                     <input
-                      name="address2"
+                      name="password"
                       id="password"
                       placeholder="Passowrd"
                       type="password"

@@ -68,8 +68,8 @@ class SignUp extends Component {
                   <div className="position-relative form-group">
                     <label htmlFor="email">Email</label>
                     <input
-                      name="address"
-                      id="email"
+                      name="username"
+                      id="username"
                       placeholder="Email"
                       type="email"
                       className="form-control"
@@ -80,7 +80,7 @@ class SignUp extends Component {
                   <div className="position-relative form-group">
                     <label htmlFor="password">Password</label>
                     <input
-                      name="address2"
+                      name="passowrd"
                       id="password"
                       minLength="6"
                       placeholder="Passowrd"
@@ -100,7 +100,7 @@ class SignUp extends Component {
                   <div className="position-relative form-group">
                     <label htmlFor="password_confirm">Conferma Password</label>
                     <input
-                      name="address2"
+                      name="password_confirm"
                       id="password_confirm"
                       minLength="6"
                       placeholder="Conferma Password"

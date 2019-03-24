@@ -12,36 +12,32 @@ public class RegistrationModel {
   private final String lastName;
   private final Timestamp birthDate;
   private final String role;
-  private final String email;
+  private final String username;
   private final String password;
 
   /**
    * RegistrationModel constructor.
    * 
    * @param firstName User's firstName.
-   * @param lastName User's lastName.
+   * @param lastName  User's lastName.
    * @param birthDate User's birthDate.
-   * @param role User's role.
-   * @param email User's email.
-   * @param password User's password
+   * @param role      User's role.
+   * @param username  User's username.
+   * @param password  User's password
    */
-  public RegistrationModel(
-      String firstName,
-      String lastName,
-      Timestamp birthDate,
-      String role,
-      String email,
+  public RegistrationModel(String firstName, String lastName, Timestamp birthDate, String role, String username,
       String password) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthDate = birthDate;
     this.role = role;
-    this.email = email;
+    this.username = username;
     this.password = password;
   }
 
   /**
    * return user fisrtName.
+   * 
    * @return User's fisrtName.
    */
   public String getFirstName() {
@@ -50,6 +46,7 @@ public class RegistrationModel {
 
   /**
    * return user lastName.
+   * 
    * @return User's lastName.
    */
   public String getLastName() {
@@ -58,6 +55,7 @@ public class RegistrationModel {
 
   /**
    * return user birthDate.
+   * 
    * @return User's birthDate.
    */
   public Timestamp getBirthDate() {
@@ -66,6 +64,7 @@ public class RegistrationModel {
 
   /**
    * return user role.
+   * 
    * @return User's role.
    */
   public String getRole() {
@@ -73,15 +72,17 @@ public class RegistrationModel {
   }
 
   /**
-   * return user email.
-   * @return User's email.
+   * return user username.
+   * 
+   * @return User's username.
    */
   public String getEmail() {
-    return email;
+    return username;
   }
 
   /**
    * return user password.
+   * 
    * @return User's password.
    */
   public String getPassword() {
@@ -90,6 +91,7 @@ public class RegistrationModel {
 
   /**
    * returns all user information, except password.
+   * 
    * @return user's information.
    */
   public Map<String, Object> gerUserModel() {

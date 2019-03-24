@@ -32,7 +32,7 @@ export const signIn = () => {
   return dispatch => {
     axios
       .post(`http://localhost:8081/sw/login`, {
-        email: credentials.email,
+        username: credentials.username,
         password: credentials.password
       })
       .then(res => {

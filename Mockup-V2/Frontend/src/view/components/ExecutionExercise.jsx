@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Word from '../containers/Word';
 import { gerarchia } from '../../assets/lib/gerarchia';
 
 class ExecutionExercise extends Component {
-  state = {
-    gerarchy: gerarchia
-  };
-
   /**
    * call the confirm parent method
    */
@@ -29,11 +24,9 @@ class ExecutionExercise extends Component {
       lockInput,
       createAt
     } = this.props;
-    const { gerarchy } = this.state;
-    let out = null;
 
     if (sentence && sentence.length) {
-      out = (
+      return (
         <div className="row">
           <div className="col-12">
             <div className="main-card mb-3 card">
@@ -46,7 +39,7 @@ class ExecutionExercise extends Component {
                         <Word
                           key={`${index + item + createAt}word`}
                           parola={item}
-                          gerarchy={gerarchy}
+                          gerarchy={gerarchia}
                           index={index}
                           solutionAuto={
                             response && response.length ? response[index] : []
@@ -67,11 +60,6 @@ class ExecutionExercise extends Component {
                     >
                       Completa
                     </button>
-                    {showSolution && (
-                      <button type="button" onClick={this.props.salvaEsercizio}>
-                        Salva
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
@@ -80,16 +68,8 @@ class ExecutionExercise extends Component {
         </div>
       );
     }
-
-    return <React.Fragment>{out}</React.Fragment>;
+    return <React.Fragment />;
   }
 }
 
-const mapStateToProps = store => {
-  return {
-    authError: store.auth.authError,
-    auth: store.auth
-  };
-};
-
-export default connect(mapStateToProps)(ExecutionExercise);
+export default ExecutionExercise;

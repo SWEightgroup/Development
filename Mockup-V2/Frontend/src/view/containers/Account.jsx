@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateUserInfo } from './../../actions/AuthActions';
+import { updateUserInfo } from '../../actions/AuthActions';
 
 class Account extends Component {
   constructor(props) {
@@ -62,16 +62,16 @@ class Account extends Component {
     );
   }
 
-  handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault();
-    const formData = {
+    /* const formData = {
       firstName: e.target.firstName.value,
       lastName: e.target.lastName.value,
       email: e.target.email.value
-    };
-    /////////////////FARE CONTROLLO PER CARITA/////////////////////////////////
+    }; */
+    // ///////////////FARE CONTROLLO PER CARITA/////////////////////////////////
     updateUserInfo();
-  }
+  };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -86,4 +86,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Account);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Account);

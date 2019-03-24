@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { changeNewInputSentence } from '../../actions/ExerciseActions';
+
 class InputSentence extends Component {
   handleChange = e => {
     e.preventDefault();
     this.props.changeNewInputSentence(e.target.value);
-    //this.setState({ [e.target.id]: e.target.value });
-    console.log('fraese', this.props.sentenceString);
   };
 
   handleSubmit = e => {
@@ -21,7 +18,6 @@ class InputSentence extends Component {
       .replace(/(\s){2,}/g, '$1')
       .trim();
 
-    this.props.changeNewInputSentence(sentenceString);
     document.getElementById('sentenceString').value = sentenceString;
     const { prepareExercise } = this.props;
     prepareExercise(sentenceString);
@@ -63,20 +59,4 @@ class InputSentence extends Component {
   }
 }
 
-const mapStateToProps = store => {
-  return {
-    sentenceString: store.exercise.newExercise.sentenceString
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    changeNewInputSentence: sentence =>
-      dispatch(changeNewInputSentence(sentence))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InputSentence);
+export default InputSentence;

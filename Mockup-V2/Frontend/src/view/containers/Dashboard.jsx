@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -12,10 +11,10 @@ class Dashboard extends Component {
     const { firstName } = this.props.user.profile;
     return (
       <div className="app-main__inner full-height-mobile">
-        <div class="container">
-          <div class="py-5 text-center">
+        <div className="container">
+          <div className="py-5 text-center">
             <h2>Pannello Utente</h2>
-            <p class="lead">Ciao, {firstName}</p>
+            <p className="lead">Ciao, {firstName}</p>
           </div>
         </div>
         <div className="row">

@@ -29,17 +29,7 @@ const ExerciseReducer = (state = initState, action) => {
         ...state,
         newExercise
       };
-    case 'PREPARE_EXERCISE_DATA':
-      const sentenceArray = state.newExercise.sentenceString.split(' ');
-      return {
-        ...state,
-        newExercise: { ...state.newExercise, sentence: sentenceArray }
-      };
 
-      return {
-        ...state,
-        newExercise
-      };
     default:
       return state;
   }

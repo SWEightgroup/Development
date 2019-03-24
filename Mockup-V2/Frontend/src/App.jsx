@@ -52,7 +52,7 @@ class App extends Component {
                   </button>
                 </div>
               </div>
-              <Sidebar />
+              {auth.user && <Sidebar />}
             </div>
             <div className="app-main__outer">
               <Switch>
