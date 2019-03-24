@@ -9,9 +9,25 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    console.log(user);
-    return <div className="app-main__inner full-height-mobile" />;
+    const { firstName } = this.props.user.profile;
+    return (
+      <div className="app-main__inner full-height-mobile">
+        <div class="container">
+          <div class="py-5 text-center">
+            <h2>Pannello Utente</h2>
+            <p class="lead">Ciao, {firstName}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-11">
+            <div className="card">
+              <h5 className="card-header">Pannello Utente</h5>
+              <div className="card-body">Lorem ipsum</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
