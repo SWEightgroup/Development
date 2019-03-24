@@ -79,6 +79,16 @@ class App extends Component {
                   isAllowed={auth.user}
                   component={Account}
                 />
+                <ProtectedRoute
+                  path="/teachers"
+                  isAllowed={auth.user}
+                  component={Account}
+                />
+                <ProtectedRoute
+                  path="/grades"
+                  isAllowed={auth.user}
+                  component={Account}
+                />
                 <Route component={Error} />
               </Switch>
               <Footer />
