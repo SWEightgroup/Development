@@ -17,7 +17,7 @@ class SignIn extends Component {
 
   render() {
     const { auth, signInData } = this.props;
-    if (auth && auth.user) return <Redirect to="/" />;
+    if (auth && auth.user) return <Redirect to="/dashboard" />;
     return (
       <div className="app-main__inner full-height-mobile ">
         <div className="row justify-content-md-center">

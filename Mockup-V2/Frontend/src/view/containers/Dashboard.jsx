@@ -11,17 +11,20 @@ class Dashboard extends Component {
     const { firstName } = this.props.user.profile;
     return (
       <div className="app-main__inner full-height-mobile">
-        <div className="container">
+        <div className="row justify-content-center">
           <div className="py-5 text-center">
             <h2>Pannello Utente</h2>
             <p className="lead">Ciao, {firstName}</p>
           </div>
         </div>
-        <div className="row">
+        <div className="row justify-content-center">
           <div className="col-md-11">
             <div className="card">
               <h5 className="card-header">Pannello Utente</h5>
-              <div className="card-body">Lorem ipsum</div>
+              <div className="card-body">
+                Pagina con varie carte, praticamente un riassunto delle varie
+                pagine
+              </div>
             </div>
           </div>
         </div>
