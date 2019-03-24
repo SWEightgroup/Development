@@ -3,9 +3,7 @@ package it.colletta.controller;
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJWT;
 import it.colletta.service.UserService;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UsersRepository extends MongoRepository<UserModel, String> {
+public interface UsersRepository extends MongoRepository<UserModel, String>, UserCustomQueryInterface {
   UserModel findByEmail(String email);
 
   @Override
@@ -20,4 +20,7 @@ public interface UsersRepository extends MongoRepository<UserModel, String> {
 
   @Override
   List<UserModel> findAll();
+
+
+
 }
