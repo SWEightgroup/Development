@@ -18,13 +18,19 @@ public class CorrectionController {
     @Autowired
     private CorrectionService correctionService;
 
+    /**
+     * @param text the text which has to be analyzed by freeling
+     * @return A CorrectionModel with the analyzed sentence or empty if the service is unavailable
+     */
     @RequestMapping(value = "/automatic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CorrectionModel> getCorrection(@RequestParam("text") String text) {
         try {
-            return new ResponseEntity<CorrectionModel>(correctionService.getAutomaticCorrection(text), HttpStatus.OK);
+            return new ResponseEntity<CorrectionModel>
+                (correctionService.getAutomaticCorrection(text), HttpStatus.OK);
         }
         catch(IOException e) {
-            return null;
+            return new ResponseEntity<CorrectionModel>
+                (new CorrectionModel(), HttpStatus.SERVICE_UNAVAILABLE);
         }
 
     }

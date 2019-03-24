@@ -11,8 +11,20 @@ public class PhraseService {
     @Autowired
     private PhraseRepository phraseRepository;
 
-    public void insertPhrase(PhraseModel phrase) {
-        // TODO, controllare che la frase sia stata inserita o meno
-        phraseRepository.save(phrase);
+
+    /**
+     * @param phrase The phrase which will be inserted
+     * @return 0L if the phrase was been inserted,
+     * otherwise return another number
+     */
+    public Long insertPhrase(PhraseModel phrase) {
+        Long numberOfPhrase =
+            phraseRepository.countPhrasesWithText(phrase.getText());
+        if(numberOfPhrase == 0L) {
+            phraseRepository.save(phrase); //NOT GOOD
+        }
+        return numberOfPhrase;
     }
+
+
 }

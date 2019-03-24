@@ -1,5 +1,6 @@
 package it.colletta.repository;
 
+import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import it.colletta.model.UserModel;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface UsersRepository extends MongoRepository<UserModel, String>, UserCustomQueryInterface {
 
   UserModel findByEmail(String email);
+
+  Optional<UserModel> findById(String id);
 
   @Override
   void delete(UserModel users);

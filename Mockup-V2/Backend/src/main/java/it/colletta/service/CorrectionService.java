@@ -14,8 +14,8 @@ import java.io.IOException;
 
 @Service
 public class CorrectionService {
-  //private final String host = "18.197.54.200";
-  private final String host = "127.0.0.1";
+  //TODO Move in a static class
+  private final String host = "18.197.54.200";
   private final int port = 50005;
   @Autowired
   private CorrectionRepository correctionRepository;
