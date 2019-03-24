@@ -1,8 +1,7 @@
 package it.colletta.repository;
 
-import it.colletta.model.UserModel;
+// interface for custom query on users collections
 
 public interface UserCustomQueryInterface {
-  public UserModel updateActivateFlagOnly(String id);
-
+  public void activateUser(String id);
 }
