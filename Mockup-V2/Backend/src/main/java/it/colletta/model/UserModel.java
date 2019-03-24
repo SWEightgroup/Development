@@ -30,8 +30,8 @@ public class UserModel {
   private String role;
   private String language;
   private Date dateOfBirth;
-  private ArrayList<ObjectId> phrases;
-  private ArrayList<ObjectId> execiseToDo;
+  private ArrayList<String> phrases;
+  private ArrayList<String> execiseToDo;
   private Boolean actived;
 
   public UserModel(UserModel userModel) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UsersRepository extends MongoRepository<UserModel, String>, UserCustomQueryInterface {
+
   UserModel findByEmail(String email);
 
   @Override
