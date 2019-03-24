@@ -1,6 +1,6 @@
 package it.colletta.controller;
 
-import it.colletta.model.Correction;
+import it.colletta.model.CorrectionModel;
 import it.colletta.service.CorrectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,9 @@ public class CorrectionController {
     private CorrectionService correctionService;
 
     @RequestMapping(value = "/automatic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Correction> getCorrection(@RequestParam("text") String text) {
+    public ResponseEntity<CorrectionModel> getCorrection(@RequestParam("text") String text) {
         try {
-            return new ResponseEntity<Correction>(correctionService.getAutomaticCorrection("ciao come stai?"), HttpStatus.OK);
+            return new ResponseEntity<CorrectionModel>(correctionService.getAutomaticCorrection(text), HttpStatus.OK);
         }
         catch(IOException e) {
             return null;

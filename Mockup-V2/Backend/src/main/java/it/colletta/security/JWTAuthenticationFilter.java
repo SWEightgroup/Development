@@ -2,8 +2,9 @@ package it.colletta.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.colletta.model.Users;
+import it.colletta.model.UserModel;
 import it.colletta.repository.UsersRepository;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,12 +39,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            Users creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), Users.class);
-
+            UserModel creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), UserModel.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
+                            creds.getEmail(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
@@ -57,10 +57,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-        String username = ((User) auth.getPrincipal()).getUsername();
+        String email = ((User) auth.getPrincipal()).getUsername();
+        System.out.println("email: " + email);
         String token = JWT.create()
-                .withSubject(username)
-                .withClaim("id", usersRepository.findByUsername(username).getId())
+                .withSubject(email)
+                //.withClaim("id", usersRepository.findByEmail(email).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);

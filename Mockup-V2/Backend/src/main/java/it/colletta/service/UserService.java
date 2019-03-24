@@ -1,6 +1,6 @@
 package it.colletta.service;
 
-import it.colletta.model.Users;
+import it.colletta.model.UserModel;
 import it.colletta.repository.UsersRepository;
 import it.colletta.security.ParseJWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +15,15 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Users addUser(Users user) {
-        bCryptPasswordEncoder.encode(user.getPassword());
-        applicationUserRepository.save(new Users(user.getUsername(), user.getPassword()));
+    public UserModel addUser(UserModel user) {
+        final String encode = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encode);
+        applicationUserRepository.save(new UserModel(user));
         user.setPassword(null);
         return user;
     }
 
-    public Users getUserInfo(Users user) {
-        return applicationUserRepository.findByUsername(user.getUsername());
+    public UserModel getUserInfo(UserModel user) {
+        return applicationUserRepository.findByEmail(user.getEmail());
     }
 }

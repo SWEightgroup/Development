@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Document(collection = "phrases")
-public class Phrase {
+public class PhraseModel {
     @Id
     private String id;
     private String text;

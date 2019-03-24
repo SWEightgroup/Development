@@ -3,8 +3,10 @@ package it.colletta.service;
 import it.colletta.library.FreelingAdapterSocket;
 import it.colletta.repository.CorrectionRepository;
 import it.colletta.library.FreelingAdapterInterface;
-import it.colletta.model.Correction;
+import it.colletta.model.CorrectionModel;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +14,21 @@ import java.io.IOException;
 
 @Service
 public class CorrectionService {
-  private final String host = "18.197.54.200";
+  //private final String host = "18.197.54.200";
+  private final String host = "127.0.0.1";
   private final int port = 50005;
   @Autowired
   private CorrectionRepository correctionRepository;
   // TODO
-  public Correction findCorrection(String Id) {
-    return new Correction();
+  public CorrectionModel findCorrection(String Id) {
+    return new CorrectionModel();
   }
 
-  public Correction getAutomaticCorrection(String correctionText) throws IOException  {
+  public CorrectionModel getAutomaticCorrection(String correctionText) throws IOException  {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
-    Correction c = new Correction();
-    freelingLibrary.getCorrection(correctionText);
+    CorrectionModel c = new CorrectionModel();
+    c.setAffidability(0.0);
+    c.setText(freelingLibrary.getCorrection(correctionText));
     freelingLibrary.closeConnection();
     return c;
   }

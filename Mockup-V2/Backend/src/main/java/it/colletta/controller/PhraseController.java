@@ -1,7 +1,7 @@
 package it.colletta.controller;
 
-import it.colletta.model.Correction;
-import it.colletta.model.Phrase;
+import it.colletta.model.CorrectionModel;
+import it.colletta.model.PhraseModel;
 import it.colletta.service.CorrectionService;
 import it.colletta.service.PhraseService;
 import it.colletta.repository.CorrectionRepository;
@@ -19,7 +19,7 @@ public class PhraseController {
     private PhraseService phraseService;
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public void insertPhrase(@RequestBody Phrase phrase) {
+    public void insertPhrase(@RequestBody PhraseModel phrase) {
         phraseService.insertPhrase(phrase);
     }
 
