@@ -18,11 +18,10 @@ public class UserService {
     public UserModel addUser(UserModel user) {
         final String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        applicationUserRepository.save(user);
+        user = applicationUserRepository.save(user);
         user.setPassword(null);
         return user;
     }
-
     public UserModel getUserInfo(UserModel user) {
         return applicationUserRepository.findByEmail(user.getEmail());
     }

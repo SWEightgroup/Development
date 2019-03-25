@@ -68,7 +68,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        res.setHeader("Access-Control-Allow-Credentials", "x-auth-token");
+        res.setHeader("Access-Control-Expose-Headers", "Authorization");
         res.setStatus(HttpServletResponse.SC_OK);
         res.getWriter().write((new ObjectMapper()).writeValueAsString(userModel));
         res.getWriter().flush();

@@ -28,13 +28,13 @@ public class UserController {
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserModel> signUp(@RequestBody UserModel user) {
         System.out.println(user.toString());
-        /*if(userService.addUser(user).getId() != null) {
+        if(userService.addUser(user).getId() != null) {
             return new ResponseEntity<UserModel>(user, HttpStatus.OK);
         }
         else {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-        }*/
-        return new ResponseEntity<UserModel>(userService.addUser(user), HttpStatus.OK);
+        }
+        //return new ResponseEntity<UserModel>(userService.addUser(user), HttpStatus.OK);
     }
 
     /**
