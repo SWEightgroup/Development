@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Word from '../containers/Word';
 import { gerarchia } from '../../assets/lib/gerarchia';
+import { _translator } from './Translator';
 
 class ExecutionExercise extends Component {
   /**
@@ -31,7 +32,9 @@ class ExecutionExercise extends Component {
           <div className="col-12">
             <div className="main-card mb-3 card">
               <div className="card-body">
-                <h5 className="card-title">Esegui l'esercizio</h5>
+                <h5 className="card-title">
+                  {_translator('executionExercise_completeExercise')}
+                </h5>
                 <ul className="list-group">
                   {sentence &&
                     sentence.map((item, index) => {
@@ -58,7 +61,7 @@ class ExecutionExercise extends Component {
                       className="btn btn-success btn-block"
                       onClick={this.confirm}
                     >
-                      Completa
+                      {_translator('executionExercise_complete')}
                     </button>
                   </div>
                 </div>

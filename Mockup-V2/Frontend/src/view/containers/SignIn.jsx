@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { signIn, loaderOn, changeSignIn } from '../../actions/AuthActions';
+import { _translator } from '../components/Translator';
 
 class SignIn extends Component {
   handleChange = e => {
@@ -17,6 +18,7 @@ class SignIn extends Component {
 
   render() {
     const { auth, signInData } = this.props;
+
     if (auth && auth.user) return <Redirect to="/dashboard" />;
     return (
       <div className="app-main__inner full-height-mobile ">
@@ -24,37 +26,40 @@ class SignIn extends Component {
           <div className="col-sm-12 col-md-6">
             <div className="main-card mb-3 card">
               <div className="card-body">
-                <h5 className="card-title">Login</h5>
+                <h5 className="card-title">{_translator('gen_signin')}</h5>
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="position-relative form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">{_translator('gen_email')}</label>
                     <input
                       name="username"
                       id="username"
-                      placeholder="Email"
+                      placeholder={_translator('gen_email')}
                       type="email"
                       className="form-control"
                       value={signInData.email}
                       onChange={this.handleChange}
+                      autoComplete="username"
                       required
                     />
                   </div>
                   <div className="position-relative form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">
+                      {_translator('gen_password')}
+                    </label>
                     <input
                       name="password"
                       id="password"
-                      placeholder="Passowrd"
+                      placeholder={_translator('gen_password')}
                       type="password"
                       className="form-control"
                       onChange={this.handleChange}
-                      value={signInData.password}
                       required
+                      autoComplete="current-password"
                     />
                   </div>
                   <button type="submit" className="mt-2 btn btn-primary">
-                    Accedi
+                    {_translator('gen_signin')}
                   </button>
                   <div className="">
                     {auth.authError ? <p>{auth.authError}</p> : null}

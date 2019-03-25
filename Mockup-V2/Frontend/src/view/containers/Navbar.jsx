@@ -7,7 +7,7 @@ class Navbar extends Component {
   render() {
     const { auth } = this.props;
     const links = auth.user ? (
-      <SignedInLinks user={auth.user} />
+      <SignedInLinks auth={auth} />
     ) : (
       <SignedOutLinks />
     );

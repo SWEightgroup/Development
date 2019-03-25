@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { _translator } from './Translator';
 
 class InputSentence extends Component {
   handleChange = e => {
@@ -25,11 +26,13 @@ class InputSentence extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row justify-content-center">
         <div className="col-12">
           <div className="main-card mb-3 card">
             <div className="card-body">
-              <h5 className="card-title">Inserisci la frase </h5>
+              <h5 className="card-title ">
+                {_translator('inputSentence_insertSentence')}
+              </h5>
 
               <form
                 onSubmit={this.handleSubmit}
@@ -40,13 +43,13 @@ class InputSentence extends Component {
                     id="sentenceString"
                     type="text"
                     className="form-control validate"
-                    placeholder="Inserisci una frase"
+                    placeholder={_translator('inputSentence_insertSentence')}
                     onChange={this.handleChange}
                     required
                   />
                   <div className="input-group-append">
                     <button className="btn btn-success" type="submit">
-                      SVOLGI ESERCIZIO
+                      {_translator('inputSentence_executeExercise')}
                     </button>
                   </div>
                 </div>

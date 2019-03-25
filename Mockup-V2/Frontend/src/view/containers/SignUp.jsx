@@ -7,6 +7,7 @@ import {
   changeSignUp,
   displayError
 } from '../../actions/AuthActions';
+import { _translator } from '../components/Translator';
 
 class SignUp extends Component {
   handleChange = e => {
@@ -23,7 +24,7 @@ class SignUp extends Component {
       loaderOn();
       signUpDispatch();
     } else {
-      displayErrorDispatch('Le due password non coincidono');
+      displayErrorDispatch(_translator('signup_errorPassword'));
     }
   };
 
@@ -38,15 +39,17 @@ class SignUp extends Component {
           <div className="col-sm-12 col-md-8 col-lg-8">
             <div className="main-card mb-3 card">
               <div className="card-body">
-                <h5 className="card-title">Login</h5>
+                <h5 className="card-title">{_translator('gen_signup')}</h5>
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="position-relative form-group">
-                    <label htmlFor="firstName">Nome</label>
+                    <label htmlFor="firstName">
+                      {_translator('gen_firstName')}
+                    </label>
                     <input
                       name="firstName"
                       id="firstName"
-                      placeholder="Nome"
+                      placeholder={_translator('gen_firstName')}
                       type="text"
                       className="form-control"
                       onChange={this.handleChange}
@@ -54,11 +57,13 @@ class SignUp extends Component {
                     />
                   </div>
                   <div className="position-relative form-group">
-                    <label htmlFor="firstName">Cognome</label>
+                    <label htmlFor="firstName">
+                      {_translator('gen_lastName')}
+                    </label>
                     <input
                       name="lastName"
                       id="lastName"
-                      placeholder="Cognome"
+                      placeholder={_translator('gen_lastName')}
                       type="text"
                       className="form-control"
                       onChange={this.handleChange}
@@ -66,44 +71,48 @@ class SignUp extends Component {
                     />
                   </div>
                   <div className="position-relative form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">{_translator('gen_email')}</label>
                     <input
                       name="username"
                       id="username"
-                      placeholder="Email"
+                      placeholder={_translator('gen_email')}
                       type="email"
                       className="form-control"
                       onChange={this.handleChange}
                       value={signUpData.email}
+                      autoComplete="username"
                     />
                   </div>
                   <div className="position-relative form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">
+                      {_translator('gen_password')}
+                    </label>
                     <input
                       name="passowrd"
                       id="password"
                       minLength="6"
-                      placeholder="Passowrd"
+                      placeholder={_translator('gen_password')}
                       type="password"
                       className="form-control"
                       onChange={this.handleChange}
+                      autoComplete="new-password"
                     />
                     <small
                       id="passwordHelpBlock"
                       className="form-text text-muted"
                     >
-                      Your password must be 6-20 characters long, contain
-                      letters and numbers, and must not contain spaces, special
-                      characters, or emoji.
+                      {_translator('signup_hint')}
                     </small>
                   </div>
                   <div className="position-relative form-group">
-                    <label htmlFor="password_confirm">Conferma Password</label>
+                    <label htmlFor="password_confirm">
+                      {_translator('gen_passwordConfirm')}
+                    </label>
                     <input
                       name="password_confirm"
                       id="password_confirm"
                       minLength="6"
-                      placeholder="Conferma Password"
+                      placeholder={_translator('gen_passwordConfirm')}
                       type="password"
                       className="form-control"
                       onChange={this.handleChange}
@@ -111,11 +120,9 @@ class SignUp extends Component {
                   </div>
 
                   <button type="submit" className="mt-2 btn btn-primary">
-                    Accedi
+                    {_translator('gen_signup')}
                   </button>
-                  <div className="">
-                    {auth.authError ? <p>{auth.authError}</p> : null}
-                  </div>
+                  <div>{auth.authError ? <p>{auth.authError}</p> : null}</div>
                 </form>
               </div>
             </div>

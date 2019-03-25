@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../actions/AuthActions';
+import { _translator } from '../components/Translator';
 
 class Account extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     const { userdata } = this.props;
     const { email, firstName, lastName } = userdata;
     return (
       <div className="app-main__inner full-height-mobile">
-        <div className="row">
+        <div className="row justify-content-center">
           <div className="col-md-11">
             <div className="card">
-              <h5 className="card-header">I tuoi dati</h5>
+              <h5 className="card-header">{_translator('account_yourData')}</h5>
               <div className="card-body">
                 <form onSubmit={this.handleSubmit}>
-                  <label htmlFor="firstName">Nome</label>
+                  <label htmlFor="firstName">
+                    {_translator('gen_firstName')}
+                  </label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -28,7 +26,9 @@ class Account extends Component {
                       defaultValue={firstName}
                     />
                   </div>
-                  <label htmlFor="lastName">Cognome</label>
+                  <label htmlFor="lastName">
+                    {_translator('gen_lastName')}
+                  </label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -37,7 +37,7 @@ class Account extends Component {
                       defaultValue={lastName}
                     />
                   </div>
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">{_translator('gen_email')}</label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -46,12 +46,12 @@ class Account extends Component {
                       defaultValue={email}
                     />
                   </div>
-                  <h5 className="card-title">Data di nascita</h5>
+                  <h5 className="card-title">{_translator('gen_birthDate')}</h5>
                   <p className="card-text">Da implentare</p>
-                  <h5 className="card-title">Ruolo</h5>
+                  <h5 className="card-title">{_translator('gen_role')}</h5>
                   <p className="card-text">Da implentare</p>
                   <button type="submit" className="mt-2 btn btn-primary">
-                    Modifica
+                    {_translator('gen_modify')}
                   </button>
                 </form>
               </div>

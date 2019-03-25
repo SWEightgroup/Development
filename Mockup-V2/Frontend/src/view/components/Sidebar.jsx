@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
+import { _translator } from './Translator';
 
 class Sidebar extends Component {
   render() {
     const { auth } = this.props;
     if (!(auth && auth.user)) return null;
     const userClass = 'student';
-    const NavLinkstoRender = new Array();
-    NavLinkstoRender.push(
-      this.navMaker('/exercise', 'pe-7s-pen', 'Nuovo Esercizio')
-    );
+    const NavLinkstoRender = [];
     if (userClass === 'student')
       NavLinkstoRender.push(
-        this.navMaker('/dashboard', 'pe-7s-user', 'Pannello Utente')
+        this.navMaker(
+          '/dashboard',
+          'pe-7s-user',
+          _translator('gen_userDashboard')
+        )
       );
+    NavLinkstoRender.push(
+      this.navMaker('/exercise', 'pe-7s-pen', _translator('gen_newExercise'))
+    );
     return (
       <div className="scrollbar-sidebar">
         <div className="app-sidebar__inner">
           <ul className="vertical-nav-menu">
-            <li className="app-sidebar__heading">Dashboards</li>
+            <li className="app-sidebar__heading">
+              {_translator('gen_dashboard')}
+            </li>
             <li>
               {NavLinkstoRender.map((entry, index) => (
                 <NavLink
@@ -28,7 +34,7 @@ class Sidebar extends Component {
                   activeClassName="mm-active"
                   key={index}
                 >
-                  <i className={'metismenu-icon ' + entry.icon} />
+                  <i className={`metismenu-icon ${entry.icon}`} />
                   {entry.label}
                 </NavLink>
               ))}
@@ -48,10 +54,4 @@ class Sidebar extends Component {
   }
 }
 
-const mapStateToProps = store => {
-  return {
-    auth: store.auth
-  };
-};
-
-export default withRouter(connect(mapStateToProps)(Sidebar));
+export default withRouter(Sidebar);

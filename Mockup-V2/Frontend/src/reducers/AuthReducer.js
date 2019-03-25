@@ -21,7 +21,7 @@ const initState = {
     firstName: '',
     lastName: ''
   },
-  arrayWord: []
+  lang: 'it'
 };
 
 const authReducer = (state = initState, action) => {
