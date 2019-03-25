@@ -36,6 +36,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.usersRepository = usersRepository;
     }
 
+    /**
+    * @param HttpServletRequest TODO 
+    * @param HttpServletResponse TODO
+    * @exception AuthenticationException
+    * @return Authentication TODO 
+    */ 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
@@ -53,6 +59,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    /**
+    * @param HttpServletRequest TODO 
+    * @param FilterChain    TODO 
+    * @param Authentication TODO 
+    * @exception IOException TODO 
+    * @exception ServletException TODO 
+    * @return nothing 
+    */
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,

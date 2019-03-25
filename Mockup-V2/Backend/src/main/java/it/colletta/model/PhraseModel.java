@@ -15,7 +15,7 @@ import lombok.Setter;
 public class PhraseModel {
     @Id
     private String id;
-    private String text;
+    private String phraseText;
     private ArrayList<String> correctionId;
     private String language;
 }
