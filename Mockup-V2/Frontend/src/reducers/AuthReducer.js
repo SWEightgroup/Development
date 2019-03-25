@@ -13,6 +13,9 @@ const initState = {
     password: '',
     firstName: '',
     lastName: '',
+    role: '',
+    language: '',
+    dateOfBirth: '',
     password_confirm: ''
   },
   dataModify: {
@@ -21,7 +24,7 @@ const initState = {
     firstName: '',
     lastName: ''
   },
-  lang: 'it'
+  lang: 'en'
 };
 
 const authReducer = (state = initState, action) => {
