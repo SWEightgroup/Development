@@ -21,11 +21,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document(collection = "users")
 public class UserModel {
-
   @Id
   private String id;
   @JsonProperty("username")
   private String email;
+  private String firstName; 
+  private String lastName; 
   private String password;
   private String role;
   private String language;
