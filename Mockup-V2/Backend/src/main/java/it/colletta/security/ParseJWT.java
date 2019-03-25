@@ -15,7 +15,11 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static it.colletta.security.SecurityConstants.SECRET;
 
 public class ParseJWT {
-    //Sample method to validate and read the JWT
+    
+    /** Sample method to validate and read the JWT
+    * @param String the actual token of a user
+    * @return String 
+    */
     public static String parseJWT(String jwt) {
         jwt = jwt.replace("Bearer", "");
         try {

@@ -4,7 +4,6 @@ import it.colletta.library.FreelingAdapterSocket;
 import it.colletta.repository.CorrectionRepository;
 import it.colletta.library.FreelingAdapterInterface;
 import it.colletta.model.CorrectionModel;
-
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class CorrectionService {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
     CorrectionModel c = new CorrectionModel();
     c.setAffidability(0.0);
-    c.setText(freelingLibrary.getCorrection(correctionText));
+    c.setCorrectionText(freelingLibrary.getCorrection(correctionText));
     freelingLibrary.closeConnection();
     return c;
   }

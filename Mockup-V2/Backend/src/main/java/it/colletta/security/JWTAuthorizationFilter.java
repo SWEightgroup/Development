@@ -6,24 +6,34 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import static it.colletta.security.SecurityConstants.HEADER_STRING;
 import static it.colletta.security.SecurityConstants.SECRET;
 import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
+    /**
+    * Constructor for class JWTAuthorizationFilter
+    * @param AuthenticationManager TODO <explain its purpose>
+    */
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
 
+    /**
+    * @param HttpServletRequest TODO 
+    * @param HttpServletResponse TODO 
+    * @param FilterChain TODO 
+    * @exception IOException TODO 
+    * @exception ServletException TODO 
+    * @return nothing 
+    */
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
@@ -41,6 +51,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(req, res);
     }
 
+    /**
+    * @param HttpServletRequest TODO 
+    * @return UsernamePasswordAuthenticationToken TODO 
+    */
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
