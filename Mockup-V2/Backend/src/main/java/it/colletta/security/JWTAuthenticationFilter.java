@@ -6,6 +6,7 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.UsersRepository;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -59,11 +60,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication auth) throws IOException, ServletException {
         String email = ((User) auth.getPrincipal()).getUsername();
         System.out.println("email: " + email);
+        UserModel userModel = usersRepository.findByEmail(email);
+        userModel.setPassword(null);
         String token = JWT.create()
                 .withSubject(email)
                 //.withClaim("id", usersRepository.findByEmail(email).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        res.setStatus(HttpServletResponse.SC_OK);
+        res.getWriter().write((new ObjectMapper()).writeValueAsString(userModel));
+        res.getWriter().flush();
+        res.getWriter().close();
     }
 }

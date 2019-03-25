@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,6 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @Document(collection = "users")
 public class UserModel {
   @Id
@@ -34,16 +36,5 @@ public class UserModel {
   private ArrayList<String> phrases;
   private ArrayList<String> execiseToDo;
   private Boolean actived;
-
-  public UserModel(UserModel userModel) {
-    this.id = userModel.id;
-    this.email = userModel.email;
-    this.password = userModel.password;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Users[id=%s, email='%s', password='%s']", id, email, password);
-  }
 
 }

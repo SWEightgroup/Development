@@ -28,21 +28,19 @@ export const changeSignUp = data => {
 };
 
 export const signIn = () => {
-  //const credentials = store.getState().auth.signIn;
-  const credentials = {
-    username: 'sebastianocaccaro@gmail.com',
-    password: 'seba'
-  };
+  const credentials = store.getState().auth.signIn;
   console.log(credentials);
   return dispatch => {
     axios
-      .post(`http://localhost:8081/login`, {
+      .post('http://localhost:8081/login', {
         username: credentials.username,
         password: credentials.password
       })
       .then(res => {
-        if (res) localStorage.setItem('user', JSON.stringify(res.data.entity));
-        dispatch({ type: 'LOGIN_SUCCESS', user: res.data.entity });
+          console.log(res.headers);
+        /*if (res) localStorage.setItem('user', JSON.stringify(res.data.entity));
+        dispatch({ type: 'LOGIN_SUCCESS', user: res.data.entity });*/
+        
       })
       .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
   };
@@ -71,7 +69,7 @@ export const signUp = () => {
   delete newUser.password_confirm;
   return dispatch => {
     axios
-      .post(`http://localhost:8081/users/sign-up`, newUser)
+      .post('http://localhost:8081/users/sign-up', newUser)
       .then(res => {
         console.log(res);
         if (res.data.entity)

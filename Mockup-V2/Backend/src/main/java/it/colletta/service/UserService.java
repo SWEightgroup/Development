@@ -18,7 +18,7 @@ public class UserService {
     public UserModel addUser(UserModel user) {
         final String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        applicationUserRepository.save(new UserModel(user));
+        applicationUserRepository.save(user);
         user.setPassword(null);
         return user;
     }
