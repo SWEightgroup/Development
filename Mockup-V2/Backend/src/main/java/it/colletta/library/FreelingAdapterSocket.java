@@ -33,9 +33,9 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
     if (sentence.length() == 0) {
       throw new IllegalArgumentException("La stringa non può essere vuota");
     }
-    if (StringUtils.countOccurrencesOf(sentence, ".") == 0) {
+    /*if (StringUtils.countOccurrencesOf(sentence, ".") == 0) {
       sentence = sentence + "."; // questa parte sarà da valutare
-    }
+    }*/
     try {
       analyzedSentence = socketClient.processSegment(sentence);
       if (analyzedSentence.equals(socketClient.getReadyMsg())) {

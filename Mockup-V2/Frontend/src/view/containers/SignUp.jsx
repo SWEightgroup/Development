@@ -88,7 +88,7 @@ class SignUp extends Component {
                       {_translator('gen_password')}
                     </label>
                     <input
-                      name="passowrd"
+                      name="password"
                       id="password"
                       minLength="6"
                       placeholder={_translator('gen_password')}
