@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Navbar from './components/layout/Navbar';
-import Sidebar from './components/layout/Sidebar';
-import Body from './components/layout/Body';
-import Footer from './components/layout/Footer';
-import SignUp from './components/auth/SignUp';
-import SignIn from './components/auth/SignIn';
-import Error from './components/layout/Error';
-import { loadAuth } from './store/actions/AuthActions';
+import Navbar from './view/containers/Navbar';
+import Sidebar from './view/components/Sidebar';
+import Dashboard from './view/containers/Dashboard';
+import Footer from './view/components/Footer';
+import SignUp from './view/containers/SignUp';
+import SignIn from './view/containers/SignIn';
+import Error from './view/components/Error';
+
+// import { loadAuth } from './actions/AuthActions';
 import './App.css';
+import NewExercise from './view/containers/NewExercise';
+import Account from './view/containers/Account';
 
 class App extends Component {
-  state = {  }
-  constructor(props){
-    super(props);
-    props.loadAuth();
-  }
-  render() { 
-    const { loader } = this.props;
+  render() {
+    const { loader, auth } = this.props;
     return (
       <BrowserRouter>
         <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -54,13 +52,43 @@ class App extends Component {
                   </button>
                 </div>
               </div>
-              <Sidebar />
+              {auth.user && <Sidebar auth={auth} />}
             </div>
             <div className="app-main__outer">
               <Switch>
-                <Route exact path="/" component={Body} />
+                <ProtectedRoute
+                  exact
+                  path="/"
+                  component={Dashboard}
+                  isAllowed={auth.user}
+                />
+                <ProtectedRoute
+                  path="/exercise"
+                  component={NewExercise}
+                  isAllowed={auth.user}
+                />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
+                <ProtectedRoute
+                  path="/dashboard"
+                  isAllowed={auth.user}
+                  component={Dashboard}
+                />
+                <ProtectedRoute
+                  path="/account"
+                  isAllowed={auth.user}
+                  component={Account}
+                />
+                <ProtectedRoute
+                  path="/teachers"
+                  isAllowed={auth.user}
+                  component={Account}
+                />
+                <ProtectedRoute
+                  path="/grades"
+                  isAllowed={auth.user}
+                  component={Account}
+                />
                 <Route component={Error} />
               </Switch>
               <Footer />
@@ -71,19 +99,18 @@ class App extends Component {
     );
   }
 }
- 
+
+const ProtectedRoute = ({ isAllowed, ...props }) =>
+  isAllowed ? <Route {...props} /> : <Redirect to="/signin" />;
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth,
     loader: state.auth.loader
   };
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    loadAuth: () => dispatch(loadAuth())
-  };
-};
+
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(App);

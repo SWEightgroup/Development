@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signOut } from '../../store/actions/AuthActions';
+import { signOut } from '../../actions/AuthActions';
+import {_translator} from '../components/Translator';
 
 const SignedInLinks = props => {
-  const { user, signOut } = props;
+  const { auth, signOut } = props;
   return (
     <React.Fragment>
       <div className="app-header-right">
@@ -14,8 +15,8 @@ const SignedInLinks = props => {
               <div className="widget-content-left">
                 <ul className="header-menu nav">
                   <li className="nav-item">
-                    <NavLink to="/" className="nav-link">
-                      Account
+                    <NavLink to="/account" className="nav-link">
+                      {_translator('gen_account')}
                     </NavLink>
                   </li>
                   <li className="btn-group nav-item">
@@ -25,7 +26,7 @@ const SignedInLinks = props => {
                       tabIndex="0"
                       className="dropdown-item"
                     >
-                      Esci
+                      {_translator('gen_logout')}
                     </NavLink>
                   </li>
                 </ul>
@@ -81,7 +82,7 @@ const SignedInLinks = props => {
               </div> */}
               <div className="widget-content-left  ml-3 header-user-info">
                 <div className="widget-heading">
-                  {user.profile.firstName} {user.profile.lastName}
+                  {auth.user.profile.firstName} {auth.user.profile.lastName}
                 </div>
               </div>
               <div className="widget-content-right header-user-info ml-3" />

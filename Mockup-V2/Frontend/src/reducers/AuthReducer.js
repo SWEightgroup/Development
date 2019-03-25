@@ -1,19 +1,46 @@
 const initState = {
   authError: null,
-  user: null,
-  loader: false
-};
-
-const loadState = () => {
-  const serializedState = localStorage.getItem('user');
-  if (serializedState === null) {
-    return null;
-  }
-  return JSON.parse(serializedState);
+  user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : null,
+  loader: false,
+  signIn: {
+    username: '',
+    password: ''
+  },
+  signUp: {
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    role: '',
+    language: '',
+    dateOfBirth: '',
+    password_confirm: ''
+  },
+  dataModify: {
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: ''
+  },
+  lang: 'en'
 };
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'CHANGE_SIGNIN_DATA':
+      const signIn = { ...state.signIn, ...action.data };
+      return {
+        ...state,
+        signIn
+      };
+    case 'CHANGE_SIGNUP_DATA':
+      const signUp = { ...state.signUp, ...action.data };
+      return {
+        ...state,
+        signUp
+      };
     case 'LOADER_ON':
       return {
         ...state,
@@ -22,7 +49,7 @@ const authReducer = (state = initState, action) => {
     case 'LOAD_AUTH':
       return {
         ...state,
-        user: loadState()
+        user: action.user
       };
     case 'LOGIN_ERROR':
       return {
@@ -32,14 +59,10 @@ const authReducer = (state = initState, action) => {
         loader: false
       };
     case 'LOGIN_SUCCESS':
-      /* console.log(
-        'user:',
-        new Date(action.user.profile.birthDate.seconds * 1000)
-      ); */
-
       return {
         ...state,
         user: action.user,
+        signIn: initState.signIn,
         loader: false
       };
 
@@ -54,6 +77,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: action.user,
+        signUp: initState.signUp,
         loader: false
       };
 
@@ -63,6 +87,12 @@ const authReducer = (state = initState, action) => {
         authError: 'Sing up failed',
         user: null,
         loader: false
+      };
+
+    case 'DISPLAY_ERROR':
+      return {
+        ...state,
+        authError: action.error
       };
 
     default:
