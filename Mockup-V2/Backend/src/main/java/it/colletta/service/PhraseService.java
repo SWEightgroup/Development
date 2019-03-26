@@ -5,7 +5,7 @@ import it.colletta.repository.PhraseRepository;
 import it.colletta.repository.UsersRepository;
 import java.util.List;
 import java.util.ArrayList;
-
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,26 +16,25 @@ public class PhraseService {
     @Autowired
     private PhraseRepository phraseRepository;
 
-    @Autowired
-    private UsersRepository usersRepository;
-
     /**
      * @param phrase The phrase which will be inserted
-     * @return 0L if the phrase was been inserted,
-     * otherwise return another number
+     * @return String : 
      */
-    public Long insertPhrase(PhraseModel phrase) {
+    public String insertPhrase(String phrase) {
         Long numberOfPhrase =
-            phraseRepository.countPhrasesWithText(phrase.getPhraseText());
+            phraseRepository.countPhrasesWithText(phrase);
+        PhraseModel insertedPhrase;
         if(numberOfPhrase == 0L) {
-            phraseRepository.save(phrase); //NOT GOOD
+            insertedPhrase = phraseRepository.save(
+                PhraseModel.builder().phraseText(phrase).build()
+                );
         }
-
-        
-        return numberOfPhrase;
+        else {
+            insertedPhrase = phraseRepository.getPhraseWithText(phrase);
+        }
+        return insertedPhrase.getId();
     }
-
-
+    
     /**
      * @param userId the 
      * @return List<PhraseModel> 

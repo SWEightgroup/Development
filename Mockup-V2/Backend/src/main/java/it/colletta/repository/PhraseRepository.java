@@ -37,17 +37,23 @@ public interface PhraseRepository extends MongoRepository<PhraseModel, String>, 
      * @param textToCompare
      * @return Long
      */
-    @Query(value = "{'text': {$regex: ?0, $options: 'i'}}", count = true)
+    @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}", count = true)
     public Long countPhrasesWithText(String textToCompare);
     // WE CAN DO BETTER cit.
 
     /**
-     * @param id
+     * @param ids
      * @return Optional<PhraseModel>
      */
     @Override
     Iterable<PhraseModel> findAllById(Iterable<String> ids);
 
-
+    /**
+     * @param phraseTexr
+     * @return Optional<PhraseModel>
+     */
+    @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")
+    public PhraseModel getPhraseWithText(String textToCompare);
+    
 
 }

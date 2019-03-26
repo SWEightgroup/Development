@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,6 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
 @ToString
 @Document(collection = "solutions")
 public class SolutionModel{
@@ -20,7 +22,7 @@ public class SolutionModel{
     private String solutionText;
     private Date dateSolution;
     private Double affidability;
-
+    private String authorId;
     public SolutionModel() {
         dateSolution = Calendar.getInstance().getTime();
         affidability = 0.0;
