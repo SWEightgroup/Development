@@ -4,7 +4,7 @@ import { _translator } from '../components/Translator';
 
 class Dashboard extends Component {
   render() {
-    const { firstName } = this.props.user.profile;
+    const { firstName } = this.props.user;
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -34,9 +34,9 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
   return {
-    user: state.auth.user
+    user: store.auth.user
   };
 };
 

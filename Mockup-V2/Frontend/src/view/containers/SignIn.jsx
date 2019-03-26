@@ -10,10 +10,10 @@ class SignIn extends Component {
   };
 
   handleSubmit = e => {
-    const { signIn, loaderOn } = this.props;
+    const { signIn, loaderOn, signInData } = this.props;
     loaderOn();
     e.preventDefault();
-    signIn();
+    signIn(signInData);
   };
 
   render() {
@@ -62,7 +62,7 @@ class SignIn extends Component {
                     {_translator('gen_signin')}
                   </button>
                   <div className="">
-                    {auth.authError ? <p>{auth.authError}</p> : null}
+                    {auth.signinError ? <p>{auth.signinError}</p> : null}
                   </div>
                 </form>
               </div>
@@ -76,7 +76,7 @@ class SignIn extends Component {
 
 const mapStateToProps = store => {
   return {
-    authError: store.auth.authError,
+    signinError: store.auth.signinError,
     auth: store.auth,
     signInData: store.auth.signIn
   };
@@ -84,7 +84,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signIn: () => dispatch(signIn()),
+    signIn: credentials => dispatch(signIn(credentials)),
     loaderOn: () => dispatch(loaderOn()),
     changeSignIn: data => dispatch(changeSignIn(data))
   };

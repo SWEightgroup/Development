@@ -6,7 +6,7 @@ import { _translator } from '../components/Translator';
 class Account extends Component {
   render() {
     const { userdata } = this.props;
-    const { email, firstName, lastName } = userdata;
+    const { username, firstName, lastName } = userdata;
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -37,13 +37,13 @@ class Account extends Component {
                       defaultValue={lastName}
                     />
                   </div>
-                  <label htmlFor="email">{_translator('gen_email')}</label>
+                  <label htmlFor="username">{_translator('gen_email')}</label>
                   <div className="input-group mb-3">
                     <input
-                      type="text"
+                      type="email"
                       className="form-control"
-                      id="email"
-                      defaultValue={email}
+                      id="username"
+                      defaultValue={username}
                     />
                   </div>
                   <h5 className="card-title">{_translator('gen_birthDate')}</h5>
@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userdata: state.auth.user.profile
+    userdata: state.auth.user
   };
 };
 

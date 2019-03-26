@@ -61,7 +61,7 @@ class NewExsercise extends Component {
 
     // la soluzione sarà formata da un array di parola/codice
     axios
-      .post(`http://localhost:8081/sw/s`, {
+      .post(`http://localhost:8081/automatic-correction`, {
         text: sentenceString.trim()
       })
       .then(res => {
