@@ -14,6 +14,7 @@ import {
   validSelect,
   validPassword
 } from './../../assets/lib/Validator';
+import { ExLang } from '../../assets/lib/Languages';
 
 class SignUp extends Component {
   handleChange = e => {
@@ -154,8 +155,11 @@ class SignUp extends Component {
                       <option value="">
                         {_translator('signup_selectOption')}
                       </option>
-                      <option value="it">{_translator('gen_italian')}</option>
-                      <option value="en">{_translator('gen_english')}</option>
+                      {ExLang.map(lang => (
+                        <option value={lang} key={'ALang_' + lang}>
+                          {_translator('gen_' + lang)}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="position-relative form-group">

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../actions/AuthActions';
 import { _translator } from '../components/Translator';
+import { ExLang } from '../../assets/lib/Languages';
+import { validDate, validEmail, validSelect } from '../../assets/lib/Validator';
 
 class Account extends Component {
   render() {
     const { userdata } = this.props;
-    const { username, firstName, lastName } = userdata;
+    const { username, firstName, lastName, language, dateOfBirth } = userdata;
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -46,10 +48,40 @@ class Account extends Component {
                       defaultValue={username}
                     />
                   </div>
-                  <h5 className="card-title">{_translator('gen_birthDate')}</h5>
-                  <p className="card-text">Da implentare</p>
-                  <h5 className="card-title">{_translator('gen_role')}</h5>
-                  <p className="card-text">Da implentare</p>
+                  <div className="position-relative form-group">
+                    <label htmlFor="dateOfBirth">
+                      {_translator('gen_birthDate')}
+                    </label>
+                    <input
+                      name="dateOfBirth"
+                      id="dateOfBirth"
+                      placeholder={_translator('gen_birthDate')}
+                      type="date"
+                      className="form-control"
+                      onChange={this.handleChange}
+                      defaultValue={new Date(dateOfBirth)
+                        .toISOString()
+                        .substr(0, 10)}
+                    />
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="language">
+                      {_translator('gen_language')}
+                    </label>
+                    <select
+                      defaultValue={language}
+                      className="form-control"
+                      name="language"
+                      id="language"
+                      onChange={this.handleChange}
+                    >
+                      {ExLang.map(lang => (
+                        <option value={lang} key={'ALang_' + lang}>
+                          {_translator('gen_' + lang)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <button type="submit" className="mt-2 btn btn-primary">
                     {_translator('gen_modify')}
                   </button>
@@ -64,13 +96,30 @@ class Account extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    /* const formData = {
+    const formData = {
       firstName: e.target.firstName.value,
       lastName: e.target.lastName.value,
-      email: e.target.email.value
-    }; */
-    // ///////////////FARE CONTROLLO PER CARITA/////////////////////////////////
-    updateUserInfo();
+      username: e.target.username.value,
+      dateOfBirth: e.target.dateOfBirth.value,
+      language: e.target.language.value
+    };
+    if (this.isFormValid(formData)) {
+      console.log('Ok, dati validi > ', formData);
+      updateUserInfo();
+    }
+  };
+
+  isFormValid = formData => {
+    const { firstName, lastName, dateOfBirth, username, language } = formData;
+    return (
+      firstName &&
+      firstName !== '' &&
+      lastName &&
+      lastName !== '' &&
+      validDate(dateOfBirth) &&
+      validEmail(username) &&
+      validSelect(language, ExLang)
+    );
   };
 }
 

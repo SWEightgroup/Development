@@ -15,7 +15,6 @@ export const validDate = date => {
 };
 
 export const validSelect = (option, array) => {
-  console.log(': option, array', option, array);
   return option && option !== '' && array.find(item => item === option);
 };
 
