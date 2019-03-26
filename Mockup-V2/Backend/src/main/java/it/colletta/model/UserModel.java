@@ -1,17 +1,15 @@
 package it.colletta.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -33,8 +31,10 @@ public class UserModel {
   private String role;
   private String language;
   private Date dateOfBirth;
-  private ArrayList<String> phrases;
-  private ArrayList<String> execiseToDo;
-  private Boolean actived;
+  private Map<String, Double> marks;
+  private Integer currentGoal;
+  private ArrayList<String> exercises;     //array list of reference
+  private ArrayList<String> execiseToDo;    //array list of exercise
+  private Boolean activated;
 
 }

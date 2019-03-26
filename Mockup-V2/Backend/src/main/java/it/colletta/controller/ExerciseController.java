@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.colletta.model.CorrectionModel;
+import it.colletta.model.SolutionModel;
 import it.colletta.model.PhraseModel;
-import it.colletta.service.CorrectionService;
+import it.colletta.service.SolutionService;
 import it.colletta.service.PhraseService;
 
 @RestController
@@ -27,7 +27,7 @@ public class ExerciseController {
   private PhraseService phraseService;
 
   @Autowired
-  private CorrectionService correctionService;
+  private SolutionService solutionService;
 
   /**
    * @param userId the user unique id
@@ -53,11 +53,11 @@ public class ExerciseController {
    *         is unavailable
    */
   @RequestMapping(value = "/automatic-correction", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<CorrectionModel> getCorrection(@RequestParam("text") String text) {
+  public ResponseEntity<SolutionModel> getCorrection(@RequestParam("text") String text) {
     try {
-      return new ResponseEntity<CorrectionModel>(correctionService.getAutomaticCorrection(text), HttpStatus.OK);
+      return new ResponseEntity<SolutionModel>(SolutionService.getAutomaticCorrection(text), HttpStatus.OK);
     } catch (IOException e) {
-      return new ResponseEntity<CorrectionModel>(new CorrectionModel(), HttpStatus.SERVICE_UNAVAILABLE);
+      return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
   }

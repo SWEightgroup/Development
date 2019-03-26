@@ -1,4 +1,3 @@
-
 package it.colletta.repository;
 
 import it.colletta.model.SolutionModel;
