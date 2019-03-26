@@ -19,7 +19,6 @@ import it.colletta.model.PhraseModel;
 import it.colletta.service.CorrectionService;
 import it.colletta.service.PhraseService;
 
-
 @RestController
 @RequestMapping("/exercises")
 public class ExerciseController {
@@ -45,23 +44,20 @@ public class ExerciseController {
    */
   @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> insertPhrase(@RequestBody PhraseModel phrase) {
-    return new ResponseEntity<String>
-        (phraseService.insertPhrase(phrase).toString(), HttpStatus.OK);
+    return new ResponseEntity<String>(phraseService.insertPhrase(phrase).toString(), HttpStatus.OK);
   }
 
   /**
    * @param text the text which has to be analyzed by freeling
-   * @return A CorrectionModel with the analyzed sentence or empty if the service is unavailable
+   * @return A CorrectionModel with the analyzed sentence or empty if the service
+   *         is unavailable
    */
   @RequestMapping(value = "/automatic-correction", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<CorrectionModel> getCorrection(@RequestParam("text") String text) {
     try {
-      return new ResponseEntity<CorrectionModel>
-          (correctionService.getAutomaticCorrection(text), HttpStatus.OK);
-    }
-    catch(IOException e) {
-      return new ResponseEntity<CorrectionModel>
-          (new CorrectionModel(), HttpStatus.SERVICE_UNAVAILABLE);
+      return new ResponseEntity<CorrectionModel>(correctionService.getAutomaticCorrection(text), HttpStatus.OK);
+    } catch (IOException e) {
+      return new ResponseEntity<CorrectionModel>(new CorrectionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
   }

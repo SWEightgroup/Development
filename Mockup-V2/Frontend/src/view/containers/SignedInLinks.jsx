@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signOut } from '../../actions/AuthActions';
-import {_translator} from '../components/Translator';
+import { _translator } from '../components/Translator';
 
 const SignedInLinks = props => {
   const { auth, signOut } = props;
@@ -82,7 +82,7 @@ const SignedInLinks = props => {
               </div> */}
               <div className="widget-content-left  ml-3 header-user-info">
                 <div className="widget-heading">
-                  {auth.user.profile.firstName} {auth.user.profile.lastName}
+                  {auth.user.firstName} {auth.user.lastName}
                 </div>
               </div>
               <div className="widget-content-right header-user-info ml-3" />

@@ -8,6 +8,12 @@ import {
   displayError
 } from '../../actions/AuthActions';
 import { _translator } from '../components/Translator';
+import {
+  validEmail,
+  validDate,
+  validSelect,
+  validPassword
+} from './../../assets/lib/Validator';
 
 class SignUp extends Component {
   handleChange = e => {
@@ -17,14 +23,29 @@ class SignUp extends Component {
   handleSubmit = e => {
     const { signUpDispatch, loaderOn, auth, displayErrorDispatch } = this.props;
     e.preventDefault();
-
     const signUpData = auth.signUp;
-
-    if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
-      loaderOn();
-      signUpDispatch();
-    } else {
-      displayErrorDispatch(_translator('signup_errorPassword'));
+    console.log(signUpData.username);
+    console.log(': SignUp -> signUpData', signUpData);
+    if (
+      validEmail(signUpData.username) &&
+      validDate(signUpData.dateOfBirth) &&
+      validPassword(signUpData.password) &&
+      validSelect(signUpData.role, [
+        'student',
+        'admin',
+        'teacher',
+        'developer'
+      ]) &&
+      validSelect(signUpData.language, ['en', 'it'])
+    ) {
+      console.log('BELLLLLLLLLLAAAAA');
+      if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
+        loaderOn();
+        signUpDispatch(auth.signUp);
+      } else {
+        displayErrorDispatch(_translator('signup_errorPassword'));
+      }
+      //}
     }
   };
 
@@ -84,6 +105,60 @@ class SignUp extends Component {
                     />
                   </div>
                   <div className="position-relative form-group">
+                    <label htmlFor="dateOfBirth">
+                      {_translator('gen_birthDate')}
+                    </label>
+                    <input
+                      name="dateOfBirth"
+                      id="dateOfBirth"
+                      placeholder={_translator('gen_birthDate')}
+                      type="date"
+                      className="form-control"
+                      onChange={this.handleChange}
+                      value={signUpData.dateOfBirth}
+                    />
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="role">{_translator('gen_role')}</label>
+                    <select
+                      className="form-control"
+                      name="role"
+                      id="role"
+                      onChange={this.handleChange}
+                    >
+                      <option value="">
+                        {_translator('signup_selectOption')}
+                      </option>
+                      <option value="student">
+                        {_translator('gen_student')}
+                      </option>
+                      <option value="admin">{_translator('gen_admin')}</option>
+                      <option value="teacher">
+                        {_translator('gen_teacher')}
+                      </option>
+                      <option value="developer">
+                        {_translator('gen_developer')}
+                      </option>
+                    </select>
+                  </div>
+                  <div className="position-relative form-group">
+                    <label htmlFor="language">
+                      {_translator('gen_language')}
+                    </label>
+                    <select
+                      className="form-control"
+                      name="language"
+                      id="language"
+                      onChange={this.handleChange}
+                    >
+                      <option value="">
+                        {_translator('signup_selectOption')}
+                      </option>
+                      <option value="it">{_translator('gen_italian')}</option>
+                      <option value="en">{_translator('gen_english')}</option>
+                    </select>
+                  </div>
+                  <div className="position-relative form-group">
                     <label htmlFor="password">
                       {_translator('gen_password')}
                     </label>
@@ -122,7 +197,9 @@ class SignUp extends Component {
                   <button type="submit" className="mt-2 btn btn-primary">
                     {_translator('gen_signup')}
                   </button>
-                  <div>{auth.authError ? <p>{auth.authError}</p> : null}</div>
+                  <div>
+                    {auth.signupError ? <p>{auth.signupError}</p> : null}
+                  </div>
                 </form>
               </div>
             </div>
@@ -141,7 +218,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signUpDispatch: () => dispatch(signUp()),
+    signUpDispatch: newUser => dispatch(signUp(newUser)),
     loaderOn: () => dispatch(loaderOn()),
     changeSignUp: () => dispatch(changeSignUp()),
     displayErrorDispatch: error => dispatch(displayError(error))

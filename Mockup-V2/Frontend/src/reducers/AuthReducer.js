@@ -1,5 +1,6 @@
 const initState = {
-  authError: null,
+  signinError: null,
+  signupError: null,
   user: localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))
     : null,
@@ -24,7 +25,8 @@ const initState = {
     firstName: '',
     lastName: ''
   },
-  lang: 'en'
+  lang: 'it',
+  token: null
 };
 
 const authReducer = (state = initState, action) => {
@@ -37,6 +39,8 @@ const authReducer = (state = initState, action) => {
       };
     case 'CHANGE_SIGNUP_DATA':
       const signUp = { ...state.signUp, ...action.data };
+      console.log(': authReducer -> signUp', signUp);
+
       return {
         ...state,
         signUp
@@ -54,37 +58,35 @@ const authReducer = (state = initState, action) => {
     case 'LOGIN_ERROR':
       return {
         ...state,
-        authError: 'Login failed',
+        signinError: 'Login failed',
+        signupError: null,
         user: null,
         loader: false
       };
     case 'LOGIN_SUCCESS':
       return {
         ...state,
-        user: action.user,
+        user: action.userInfo.user,
+        token: action.userInfo.token,
         signIn: initState.signIn,
-        loader: false
+        loader: false,
+        signUp: initState.signUp
       };
 
     case 'SIGNOUT_SUCCESS':
       return {
         ...state,
-        authError: null,
+        signinError: null,
+        signupError: null,
         user: null,
-        loader: false
-      };
-    case 'SIGNUP_SUCCESS':
-      return {
-        ...state,
-        user: action.user,
-        signUp: initState.signUp,
+        token: null,
         loader: false
       };
 
     case 'SIGNUP_ERROR':
       return {
         ...state,
-        authError: 'Sing up failed',
+        signupError: 'SignUp failed',
         user: null,
         loader: false
       };
