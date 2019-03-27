@@ -2,7 +2,7 @@ package it.colletta.controller;
 
 import java.io.IOException;
 import java.util.List;
-
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
@@ -36,38 +36,32 @@ public class ExerciseController {
   private SolutionService solutionService;
 
   /**
-   * @param userId the user unique id
-   * @return A new ResponseEntity that contains all the phrases of a target user
-   */
-  @RequestMapping(value = "/get-all-phrases/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<PhraseModel>> getAllPhrases(@PathVariable("userid") String userId) {
-    return new ResponseEntity<List<PhraseModel>>(phraseService.getAllPhrases(userId), HttpStatus.OK);
-  }
-
-  /**
    * @param phrase the text which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseModel exercise) { //only from teacher
-    try{
+  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseModel exercise) { // only
+                                                                                             // from
+                                                                                             // teacher
+    try {
       exerciseService.insertExercise(exercise);
       return new ResponseEntity<ExerciseModel>(HttpStatus.OK);
-    }
-    catch(Exception e){
-      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST); 
+    } catch (Exception e) {
+      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
     }
   }
 
   /**
    * @param text the text which has to be analyzed by freeling
-   * @return A CorrectionModel with the analyzed sentence or empty if the service
-   *         is unavailable
+   * @return A CorrectionModel with the analyzed sentence or empty if the service is unavailable
    */
-  @RequestMapping(value = "/automatic-correction", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/automatic-correction", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestParam("text") String text) {
     try {
-      return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text), HttpStatus.OK);
+      return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text),
+          HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }

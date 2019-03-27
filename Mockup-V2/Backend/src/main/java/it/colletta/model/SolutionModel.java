@@ -16,13 +16,14 @@ import lombok.ToString;
 @Builder
 @ToString
 @Document(collection = "solutions")
-public class SolutionModel{
+public class SolutionModel {
     @Id
     private String id;
     private String solutionText;
     private Date dateSolution;
     private int affidability;
     private String authorId;
+
     public SolutionModel() {
         dateSolution = Calendar.getInstance().getTime();
         affidability = 0;
