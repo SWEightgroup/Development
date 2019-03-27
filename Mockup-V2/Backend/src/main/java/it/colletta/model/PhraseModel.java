@@ -21,9 +21,14 @@ public class PhraseModel {
     private String id;
     @Indexed(unique = true)
     private String phraseText;
-    private ArrayList<SolutionModel> solutions; 
+    @Builder.Default
+    private ArrayList<SolutionModel> solutions = new ArrayList<>();
     private String language;
     private Date datePhrase;
+
+    public PhraseModel() {
+        solutions = new ArrayList<>();
+    }
 
     public void addSolution(final SolutionModel solutionModel) {
         solutions.add(solutionModel);

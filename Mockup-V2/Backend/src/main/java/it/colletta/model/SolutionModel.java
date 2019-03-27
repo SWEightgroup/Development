@@ -28,4 +28,11 @@ public class SolutionModel {
         dateSolution = Calendar.getInstance().getTime();
         affidability = 0;
     }
+
+    public SolutionModel(String solutionText, String authorId) {
+        this.solutionText = solutionText;
+        this.authorId = authorId;
+        dateSolution = Calendar.getInstance().getTime();
+        affidability = 0;
+    }
 }
