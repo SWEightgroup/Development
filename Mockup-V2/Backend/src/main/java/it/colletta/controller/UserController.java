@@ -64,4 +64,23 @@ public class UserController {
         //TODO BETTER
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/users/modify/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserModel> usersModify(@RequestParam String username, @RequestParam String firstName,
+                                                 @RequestParam String lastName, @RequestParam String dataOfBirth,
+                                                 @RequestParam String role,     @RequestParam String language,
+                                                 @PathVariable("id") String id) {
+        UserModel user = new UserModel();
+        user = userService.updateUser(username, firstName, lastName, dataOfBirth, role, language );
+        return new ResponseEntity<UserModel>(user, HttpStatus.OK);
+
+        //TODO Controlli da fare
+            //return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+
+    }
+
 }

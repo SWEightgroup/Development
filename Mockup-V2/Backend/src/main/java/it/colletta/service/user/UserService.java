@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -37,5 +38,19 @@ public class UserService {
 
     public void activateUser(String id) {
         applicationUserRepository.updateActivateFlagOnly(id);
+    }
+
+    public UserModel updateUser(String username, String firstName, String lastName, String dataOfBirth, String role, String language ){
+
+        UserModel user = applicationUserRepository.findByEmail(username);
+            if(user.getId() != null) {
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setDateOfBirth(new Date()); //TODO Gestire meglio sta cosa delle date meglio usare un long che è fecile dai convertire in timestamp
+                user.setRole(role);
+                user.setLanguage(language);
+            }
+            //gestire meglio i controlli
+        return applicationUserRepository.save(user);
     }
 }
