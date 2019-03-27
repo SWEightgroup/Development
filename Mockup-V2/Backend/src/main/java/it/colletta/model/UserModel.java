@@ -19,7 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,6 +42,55 @@ public class UserModel implements UserDetails {
   private ArrayList<String> execiseToDo;    //array list of exercise
   private Boolean activated;
   private ArrayList<String> favoriteTeacherIds;
+
+  public String getId() {
+    return id;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public Date getDateOfBirth() {
+    return dateOfBirth;
+  }
+
+  public Integer getCurrentGoal() {
+    return currentGoal;
+  }
+
+  public ArrayList<String> getExercises() {
+    return exercises;
+  }
+
+  public ArrayList<String> getExeciseToDo() {
+    return execiseToDo;
+  }
+
+  public Boolean getActivated() {
+    return activated;
+  }
+
+  public ArrayList<String> getFavoriteTeacherIds() {
+    return favoriteTeacherIds;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
