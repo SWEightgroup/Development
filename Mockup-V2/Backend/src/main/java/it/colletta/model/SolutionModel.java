@@ -21,10 +21,10 @@ public class SolutionModel{
     private String id;
     private String solutionText;
     private Date dateSolution;
-    private Double affidability;
+    private int affidability;
     private String authorId;
     public SolutionModel() {
         dateSolution = Calendar.getInstance().getTime();
-        affidability = 0.0;
+        affidability = 0;
     }
 }

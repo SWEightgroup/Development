@@ -22,7 +22,7 @@ public class UserController {
 
     /**
      * @param user the user obj with username and password
-     * @return An Usermodel if the operation completed correctly otherwise return an error
+     * @return ResponseEntity if the operation completed correctly otherwise return an error
      * response
      */
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

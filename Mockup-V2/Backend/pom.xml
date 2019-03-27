@@ -73,11 +73,6 @@
     		<artifactId>commons-collections4</artifactId>
     		<version>4.1</version>
 		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 

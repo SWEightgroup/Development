@@ -1,6 +1,6 @@
 package it.colletta.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -24,4 +24,12 @@ public class PhraseModel {
     private ArrayList<SolutionModel> solutions; 
     private String language;
     private Date datePhrase;
+
+    public void addSolution(final SolutionModel solutionModel) {
+        solutions.add(solutionModel);
+    }
+
+    public boolean removeSolution(final SolutionModel  solutionModel) {
+       return solutions.remove(solutionModel);
+    }
 }

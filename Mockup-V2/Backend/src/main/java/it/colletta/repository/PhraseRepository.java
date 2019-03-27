@@ -53,7 +53,7 @@ public interface PhraseRepository extends MongoRepository<PhraseModel, String>, 
      * @return Optional<PhraseModel>
      */
     @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")
-    public PhraseModel getPhraseWithText(String textToCompare);
+    public Optional<PhraseModel> getPhraseWithText(String textToCompare);
     
 
 }

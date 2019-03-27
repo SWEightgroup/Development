@@ -15,6 +15,6 @@ public interface SolutionRepository
         @Query(value = "{'solutionText': {$regex: ?0, $options: 'i'}}")
         public List<SolutionModel> getSolutionWithText(String textToCompare);
 
-        public void increaseAffidability(SolutionModel solution);
+        public Long increaseAffidability(SolutionModel solution);
 
 }

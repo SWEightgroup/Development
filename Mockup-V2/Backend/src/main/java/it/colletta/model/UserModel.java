@@ -34,7 +34,6 @@ public class UserModel {
   private String role;
   private String language;
   private Date dateOfBirth;
-  private Map<String, Double> marks;
   private Integer currentGoal;
   private ArrayList<String> exercises;     //array list of reference
   private ArrayList<String> execiseToDo;    //array list of exercise

@@ -16,11 +16,12 @@ public class SolutionRepositoryImpl implements SolutionCustomQueryInterface {
     @Autowired
     MongoTemplate mongoTemplate;
     @Override
-    public void increaseAffidability(SolutionModel solution) {
+    public Long increaseAffidability(SolutionModel solution) {
         Query select = Query.query(Criteria.where("solutionText").is(solution.getSolutionText()));
         Update update = new Update();
-        update.inc("affidabilty", 0.01);
-        SolutionModel updateResult = mongoTemplate.findAndModify(select, update, SolutionModel.class);
+        Update affidabilty = update.inc("affidabilty", 1);
+        UpdateResult updateResult = mongoTemplate.updateMulti(select, affidabilty, SolutionModel.class);
+        return updateResult.getModifiedCount();
     }
 
 }
