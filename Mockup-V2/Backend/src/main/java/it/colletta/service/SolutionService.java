@@ -34,7 +34,7 @@ public class SolutionService {
   public SolutionModel getAutomaticCorrection(String correctionText) throws IOException  {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
     SolutionModel c = new SolutionModel();
-    c.setAffidability(0.0);
+    c.setAffidability(0);
     c.setSolutionText(freelingLibrary.getCorrection(correctionText));
     freelingLibrary.closeConnection();
     return c;

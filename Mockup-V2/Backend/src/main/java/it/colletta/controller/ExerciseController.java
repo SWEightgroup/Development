@@ -49,12 +49,13 @@ public class ExerciseController {
    * @return A new ResponseEntity that contains the phrase
    */
   @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ReponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseModel exercise) { //only from teacher
+  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseModel exercise) { //only from teacher
     try{
-      return new ReponseEntity<ExerciseModel>(exerciseService.insertExercise(exercise), HttpStatus.OK);
+      exerciseService.insertExercise(exercise);
+      return new ResponseEntity<ExerciseModel>(HttpStatus.OK);
     }
     catch(Exception e){
-      return new ReponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST); 
+      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST); 
     }
   }
 
