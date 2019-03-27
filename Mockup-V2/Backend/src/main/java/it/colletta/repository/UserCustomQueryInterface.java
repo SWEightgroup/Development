@@ -12,8 +12,8 @@ public interface UserCustomQueryInterface {
   public void updateActivateFlagOnly(String id);
 
   /**
-  * @param id TODO 
-  * @return List<String> TODO 
+  * @param id TODO
+  * @return List<String> TODO
   */
   public List<String> findAllPhrasesInserted(String id);
 }

@@ -33,13 +33,16 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   }
 
   /**
-  * @param id TODO 
-  * @return List<String> TODO 
-  */ 
+  * return all phrases inserted by a user without corrections
+   * hint user --> correction -->
+  * @param id TODO
+  * @return List<String> TODO
+  */
+  //TODO @DAMIEN
   @Override
   public List<String> findAllPhrasesInserted(String id) {
     Query query = new Query(Criteria.where("_id").is(id)) ;
     UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
-    return userModel.getPhrases();
+    return userModel.getExercises();
   }
 }

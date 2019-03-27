@@ -17,32 +17,15 @@ public class PhraseService {
     private PhraseRepository phraseRepository;
 
     /**
-     * @param phrase The phrase which will be inserted
-     * @return String : 
-     */
-    public String insertPhrase(String phrase) {
-        Long numberOfPhrase =
-            phraseRepository.countPhrasesWithText(phrase);
-        PhraseModel insertedPhrase;
-        if(numberOfPhrase == 0L) {
-            insertedPhrase = phraseRepository.save(
-                PhraseModel.builder().phraseText(phrase).build()
-                );
-        }
-        else {
-            insertedPhrase = phraseRepository.getPhraseWithText(phrase);
-        }
-        return insertedPhrase.getId();
-    }
-    
-    /**
+     * TODO DAMIEN
      * @param userId the 
      * @return List<PhraseModel> 
      */
 	public List<PhraseModel> getAllPhrases(String userId) {
-        List<String> ids = usersRepository.findAllPhrasesInserted(userId);
-        Iterable<PhraseModel> phraseModel = phraseRepository.findAllById(ids);
-        return org.apache.commons.collections4.IteratorUtils.toList(phraseModel.iterator());
+        //List<String> ids = usersRepository
+        //W<PhraseModel> phraseModel = phraseRepository.findAllById(userId);
+        //return org.apache.commons.collections4.IteratorUtils.toList(phraseModel.iterator());
+        return null;
     }
 
 
