@@ -1,10 +1,9 @@
 package it.colletta.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
+
+import java.util.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +36,7 @@ public class UserModel implements UserDetails {
   private String role;
   private String language;
   private Date dateOfBirth;
-  private Date singedFrom;
+  private TimeZone userTimeZone;
   private Integer currentGoal;
   private ArrayList<String> exercises;     //array list of reference
   private ArrayList<String> execiseToDo;    //array list of exercise

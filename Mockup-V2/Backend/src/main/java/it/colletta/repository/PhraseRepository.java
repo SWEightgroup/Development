@@ -46,8 +46,10 @@ public interface PhraseRepository extends MongoRepository<PhraseModel, String>, 
      * @return Optional<PhraseModel>
      */
     @Override
-    Iterable<PhraseModel> findAllById(Iterable<String> ids);
+    public Iterable<PhraseModel> findAllById(Iterable<String> ids);
 
+
+    public List<PhraseModel> findAllByAuthor(String  authorId);
     /**
      * @param phraseTexr
      * @return Optional<PhraseModel>

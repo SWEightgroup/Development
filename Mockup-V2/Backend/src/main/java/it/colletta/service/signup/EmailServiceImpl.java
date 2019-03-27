@@ -1,4 +1,4 @@
-package it.colletta.service;
+package it.colletta.service.signup;
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
 import org.springframework.mail.MailException;

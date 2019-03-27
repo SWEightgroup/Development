@@ -2,10 +2,13 @@ package it.colletta.service;
 
 import it.colletta.model.UserModel;
 import it.colletta.repository.UsersRepository;
+import it.colletta.service.signup.SignupRequestService;
 import it.colletta.security.ParseJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
 
 @Service
 public class UserService {
@@ -16,8 +19,11 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserModel addUser(UserModel user) {
+        SignupRequestService
         final String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
+        user.setActivated(false);
+
         user = applicationUserRepository.save(user);
         user.setPassword(null);
         return user;
