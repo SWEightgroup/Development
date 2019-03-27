@@ -16,14 +16,30 @@ import java.util.Optional;
 public class ExerciseService {
 
     @Autowired
-    private PhraseRepository phraseRepository;
-    @Autowired
-    private SolutionRepository solutionRepository;
-    @Autowired
     private ExerciseRepository exerciseRepository;
 
+    @Autowired
+    private PhraseService phraseService;
+
+
     public void insertExercise(ExerciseModel exercise) {
-        //String phraseID = phraseService.insertPhrase(exercise.getTextPhrase());
+
+        String phraseId = phraseService.insertPhrase(exercise.getTextPhrase()).getId();
+
+        PhraseModel phraseModel;
+        phraseModel = phraseService.addSolution(phraseId, exercise.getTextMainSolution(), exercise.getAuthor());
+
+        if(exercise.getTextAlternativeSolution() != null) {
+            phraseModel = phraseService.addSolution(phraseId, exercise.getTextAlternativeSolution(), exercise.getAuthor());
+        }
+
+        exercise.setDateExercise(Calendar.getInstance().getTime());
+        exercise.setPhraseReference(phraseModel.getId());
+        exerciseRepository.save(exercise);
+    }
+
+    /*
+    public void insertExercise(ExerciseModel exercise) {
         PhraseModel phraseModel = null;
         if(exercise.getTextPhrase() != null) {
            Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(exercise.getTextPhrase());
@@ -58,5 +74,6 @@ public class ExerciseService {
 
         
     }
+    */
 
 }

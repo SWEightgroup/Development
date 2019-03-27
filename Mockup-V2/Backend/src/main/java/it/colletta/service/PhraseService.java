@@ -28,5 +28,47 @@ public class PhraseService {
         return null;
     }
 
+    public PhraseModel insertPhrase(PhraseModel phraseModel) {
+	    return phraseRepository.save(phraseModel);
+    }
+
+    public PhraseModel insertPhrase(String phrase) {
+        PhraseModel phraseModel;
+        Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(phrase);
+        if(optionalPhraseModel.isPresent()) {
+            phraseModel = optionalPhraseModel.get();
+        }
+        else {
+            phraseModel = insertPhrase(PhraseModel.builder()
+                    .phraseText(phrase)
+                    .datePhrase(Calendar.getInstance().getTime()).build());
+        }
+        return phraseModel;
+    }
+
+
+
+
+
+    public PhraseModel addSolution(String phraseId, SolutionModel solutionModel) {
+	    //TODO CONTI SU AFFIDABILITA
+        PhraseModel phraseToReturn = null;
+
+        Optional<PhraseModel> phraseModelOptional = phraseRepository.findById(phraseId);
+        if(phraseModelOptional.isPresent())
+        {
+            phraseToReturn = phraseModelOptional.get();
+            phraseToReturn.addSolution(solutionModel);
+            phraseToReturn = phraseRepository.insertp(phraseId,solutionModel);
+        }
+        //TODO controlli se phraseId non corrisponde a una frase nel db
+        return phraseToReturn;
+    }
+
+    public PhraseModel addSolution(String phraseId, String solutionText, String authorId) {
+	    //TODO scegliere se usare builder o costruttore
+        SolutionModel solutionModel = new SolutionModel(solutionText,authorId);
+        return addSolution(phraseId,solutionModel);
+    }
 
 }

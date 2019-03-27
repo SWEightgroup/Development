@@ -27,4 +27,9 @@ public class SolutionModel{
         dateSolution = Calendar.getInstance().getTime();
         affidability = 0;
     }
+
+    public SolutionModel(String solutionText, String authorId) {
+        dateSolution = Calendar.getInstance().getTime();
+        affidability = 0;
+    }
 }
