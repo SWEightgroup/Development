@@ -23,7 +23,7 @@ public class UserService {
         return user;
     }
     public UserModel getUserInfo(UserModel user) {
-        return applicationUserRepository.findByEmail(user.getEmail());
+        return applicationUserRepository.findByEmail(user.getUsername());
     }
 
     public void activateUser(String id) {
