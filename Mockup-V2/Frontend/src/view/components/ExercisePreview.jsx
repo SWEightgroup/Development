@@ -32,6 +32,11 @@ class ExercisePreview extends Component {
   getDate(date) {
     return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/');
   }
+
+  goToExecution() {
+    // CARICARE NELLO STORE L'ID DELLA SOLUZIONE (VA AGGIUNTO NELLE PROPS)
+    // REINDIRIZZARE L'UTENTE ALLA PAGINA DI ESECIZIONE DELL'ESERICIZIO (SI PUO ANCHE PRENDERE L'ID DAL PATH INVECE CHE METTERLO NELLO STORE)
+  }
 }
 
 ExercisePreview.propTypes = {
@@ -44,26 +49,3 @@ ExercisePreview.propTypes = {
 };
 
 export default ExercisePreview;
-
-/* 
-https://blog.logrocket.com/validating-react-component-props-with-prop-types-ef14b29963fc
-PropTypes.any — the prop can be of any data type
-PropTypes.bool — the prop should be a boolean
-PropTypes.number — the prop should be a number
-PropTypes.string — the prop should be a string
-PropTypes.func — the prop should be a function
-PropTypes.array — the prop should be an array
-PropTypes.object — the prop should be an object
-PropTypes.symbol — the prop should be a symbol
-PropTypes.node — the prop should be anything that can be rendered by React: number, string, element or an array (or fragment) containing these types
-PropTypes.element — the prop should be a React element
-PropTypes.oneOf — the prop is limited to a specified set of values, treating it like an enum
-PropTypes.oneOfType — the prop should be one of a specified set of types, behaving like a union of types 
-
-https://codeburst.io/validating-props-easily-with-react-proptypes-96e80208207  
-
-mark: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
-    isRecent: PropTypes.bool
-  }).isRequired*/
