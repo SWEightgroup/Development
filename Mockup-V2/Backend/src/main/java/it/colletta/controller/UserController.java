@@ -2,8 +2,7 @@ package it.colletta.controller;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJWT;
-import it.colletta.service.UserService;
-import java.util.Optional;
+import it.colletta.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

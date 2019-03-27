@@ -1,7 +1,8 @@
-package it.colletta.repository;
+package it.colletta.repository.user;
 
 import java.util.List;
 
+import it.colletta.repository.user.UserCustomQueryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

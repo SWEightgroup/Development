@@ -1,15 +1,13 @@
 package it.colletta.service;
 
 import it.colletta.library.FreelingAdapterSocket;
-import it.colletta.repository.SolutionRepository;
+import it.colletta.repository.solution.SolutionRepository;
 import it.colletta.library.FreelingAdapterInterface;
 import it.colletta.model.SolutionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class SolutionService {

@@ -1,4 +1,4 @@
-package it.colletta.repository;
+package it.colletta.repository.user;
 
 import java.util.List;
 

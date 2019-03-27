@@ -3,9 +3,9 @@ package it.colletta.service;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
-import it.colletta.repository.ExerciseRepository;
-import it.colletta.repository.PhraseRepository;
-import it.colletta.repository.SolutionRepository;
+import it.colletta.repository.exercise.ExerciseRepository;
+import it.colletta.repository.phrase.PhraseRepository;
+import it.colletta.repository.solution.SolutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package it.colletta.repository;
+package it.colletta.repository.exercise;
 
 import it.colletta.model.ExerciseModel;
 import org.springframework.data.mongodb.repository.MongoRepository;

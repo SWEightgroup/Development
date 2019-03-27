@@ -1,4 +1,4 @@
-package it.colletta.repository;
+package it.colletta.repository.solution;
 
 import it.colletta.model.SolutionModel;
 // interface for custom query on corrections collections

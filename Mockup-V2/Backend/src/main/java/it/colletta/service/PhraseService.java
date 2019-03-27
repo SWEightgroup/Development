@@ -1,11 +1,10 @@
 package it.colletta.service;
 
 import it.colletta.model.PhraseModel;
-import it.colletta.repository.PhraseRepository;
-import it.colletta.repository.UsersRepository;
+import it.colletta.repository.phrase.PhraseRepository;
+
 import java.util.List;
-import java.util.ArrayList;
-import org.bson.types.ObjectId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

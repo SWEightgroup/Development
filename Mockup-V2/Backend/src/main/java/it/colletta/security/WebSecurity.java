@@ -1,9 +1,9 @@
 package it.colletta.security;
 
-import it.colletta.repository.UsersRepository;
+import it.colletta.repository.user.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import it.colletta.service.UserDetailsServiceImpl;
+import it.colletta.service.user.UserDetailsServiceImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

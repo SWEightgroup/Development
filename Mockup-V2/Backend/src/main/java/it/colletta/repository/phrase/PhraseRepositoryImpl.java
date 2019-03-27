@@ -1,6 +1,7 @@
-package it.colletta.repository;
+package it.colletta.repository.phrase;
 
 import it.colletta.model.PhraseModel;
+import it.colletta.repository.phrase.PhraseCustomQueryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

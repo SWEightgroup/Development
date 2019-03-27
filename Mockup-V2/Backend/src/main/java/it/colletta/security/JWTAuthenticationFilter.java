@@ -3,7 +3,7 @@ package it.colletta.security;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.colletta.model.UserModel;
-import it.colletta.repository.UsersRepository;
+import it.colletta.repository.user.UsersRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

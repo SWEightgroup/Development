@@ -1,4 +1,4 @@
-package it.colletta.repository;
+package it.colletta.repository.solution;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import it.colletta.model.SolutionModel;
-import it.colletta.repository.SolutionCustomQueryInterface;
+import it.colletta.repository.solution.SolutionCustomQueryInterface;
 
 @Repository
 public interface SolutionRepository
