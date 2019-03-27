@@ -19,7 +19,6 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserModel addUser(UserModel user) {
-        SignupRequestService
         final String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         user.setActivated(false);

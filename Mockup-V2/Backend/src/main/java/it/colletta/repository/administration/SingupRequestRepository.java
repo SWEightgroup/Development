@@ -1,4 +1,10 @@
 package it.colletta.repository.administration;
 
-public class SingupRequestRepository {
+import it.colletta.model.SignupRequestModel;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface SingupRequestRepository extends MongoRepository<SignupRequestModel, String> {
+
+    @Override
+    SignupRequestModel save(SignupRequestModel signUpRequest);
 }

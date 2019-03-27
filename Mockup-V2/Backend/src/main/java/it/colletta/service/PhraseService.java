@@ -22,6 +22,7 @@ public class PhraseService {
      * @return List<PhraseModel> 
      */
 	public List<PhraseModel> getAllPhrases(String userId) {
+	    phraseRepository.findAllByAuthor(userId);
         //List<String> ids = usersRepository
         //W<PhraseModel> phraseModel = phraseRepository.findAllById(userId);
         //return org.apache.commons.collections4.IteratorUtils.toList(phraseModel.iterator());

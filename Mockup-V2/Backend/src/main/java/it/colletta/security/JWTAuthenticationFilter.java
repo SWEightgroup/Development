@@ -34,8 +34,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-    * @param HttpServletRequest TODO 
-    * @param HttpServletResponse TODO
+    * @param req TODO
+    * @param res TODO
     * @exception AuthenticationException
     * @return Authentication TODO 
     */ 
@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     .readValue(req.getInputStream(), UserModel.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
+                            creds.getUsername(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
@@ -57,9 +57,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-    * @param HttpServletRequest TODO 
-    * @param FilterChain    TODO 
-    * @param Authentication TODO 
+    * @param req TODO
+    * @param res    TODO
+    * @param auth TODO
     * @exception IOException TODO 
     * @exception ServletException TODO 
     * @return nothing 
