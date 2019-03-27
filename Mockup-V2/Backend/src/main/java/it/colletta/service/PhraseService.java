@@ -66,8 +66,13 @@ public class PhraseService {
 
     public PhraseModel addSolution(String phraseId, String solutionText, String authorId) {
 	    //TODO scegliere se usare builder o costruttore
-        SolutionModel solutionModel = new SolutionModel(solutionText,authorId);
-        return addSolution(phraseId,solutionModel);
+        SolutionModel solutionModel = SolutionModel.builder()
+                .solutionText(solutionText)
+                .authorId(authorId)
+                .dateSolution(Calendar.getInstance().getTime())
+                .affidability(0)
+                .build();
+        return addSolution(phraseId, solutionModel);
     }
 
 }

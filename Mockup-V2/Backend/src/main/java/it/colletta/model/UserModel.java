@@ -1,5 +1,6 @@
 package it.colletta.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -12,6 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,7 +42,7 @@ public class UserModel implements UserDetails {
   private Integer currentGoal;
   private ArrayList<String> exercises;     //array list of reference
   private ArrayList<String> execiseToDo;    //array list of exercise
-  private Boolean activated;
+  private Boolean activated = true;
   private ArrayList<String> favoriteTeacherIds;
 
   public String getId() {
@@ -104,21 +106,22 @@ public class UserModel implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return activated;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return activated;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return activated;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return activated;
+    return true; //TODO DECOMENNTARE
+    //return activated;
   }
 }
