@@ -2,17 +2,15 @@ package it.colletta.model;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 @Document(collection = "solutions")
@@ -24,12 +22,9 @@ public class SolutionModel {
     private int affidability;
     private String authorId;
 
-    public SolutionModel() {
-        dateSolution = Calendar.getInstance().getTime();
-        affidability = 0;
-    }
 
     public SolutionModel(String solutionText, String authorId) {
+        id=null;
         this.solutionText = solutionText;
         this.authorId = authorId;
         dateSolution = Calendar.getInstance().getTime();
