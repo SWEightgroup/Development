@@ -28,9 +28,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    /** 
-    * @param HttpSecurity TODO 
-    * @return nothing
+    /**
+     * Configure the security for Spring
+     * @param http the http security object
     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,8 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     /** 
-    * @param AuthenticationManagerBuilder TODO 
-    * @return nothing
+    * @param auth the authentication manager for login
     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -54,8 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     /** 
-    * @param nothing 
-    * @return nothing
+    * Define the registerCorsConfiguration
     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

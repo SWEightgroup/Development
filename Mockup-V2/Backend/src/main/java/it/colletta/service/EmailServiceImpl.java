@@ -27,10 +27,10 @@ public class EmailServiceImpl {
                 + "We are pleased that you want to subscribe in our system. \n");
         email.setTo();
         if(user.getRole().equals(Role.DEVELOPER)) {
-           body =  body.append("You asked to subscribe as developer so you need to wait the approvation from an admin.");
+           body =  body.append("You asked to subscribe as developer so you need to wait the approval from an admin.");
         }
         else {
-            body = body.append("");
+            body = body.append("Please follow the link to activate your account: ");
         }
     }
 

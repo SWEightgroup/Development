@@ -37,6 +37,7 @@ public class UserModel implements UserDetails {
   private String role;
   private String language;
   private Date dateOfBirth;
+  private Date singedFrom;
   private Integer currentGoal;
   private ArrayList<String> exercises;     //array list of reference
   private ArrayList<String> execiseToDo;    //array list of exercise
