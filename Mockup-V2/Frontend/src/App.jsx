@@ -8,13 +8,23 @@ import Footer from './view/components/Footer';
 import SignUp from './view/containers/SignUp';
 import SignIn from './view/containers/SignIn';
 import Error from './view/components/Error';
+//import { initializeAuth } from './actions/AuthActions';
 
 // import { loadAuth } from './actions/AuthActions';
 import './App.css';
 import NewExercise from './view/containers/NewExercise';
 import Account from './view/containers/Account';
+import Homework from './view/containers/Homework';
 
 class App extends Component {
+  /*componentDidMount() {
+    console.log(
+      ': App -> componentDidMount -> this.props.auth',
+      this.props.auth
+    );
+    this.props.initializeAuth(this.props.auth.token);
+  }*/
+
   render() {
     const { loader, auth } = this.props;
     return (
@@ -89,6 +99,11 @@ class App extends Component {
                   isAllowed={auth.user}
                   component={Account}
                 />
+                <ProtectedRoute
+                  path="/homework"
+                  isAllowed={auth.user}
+                  component={Homework}
+                />
                 <Route component={Error} />
               </Switch>
               <Footer />
@@ -109,8 +124,13 @@ const mapStateToProps = state => {
     loader: state.auth.loader
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    //initializeAuth: token => dispatch(initializeAuth(token))
+  };
+};
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(App);

@@ -37,7 +37,7 @@ class SignUp extends Component {
         'teacher',
         'developer'
       ]) &&
-      validSelect(signUpData.language, ['en', 'it'])
+      validSelect(signUpData.language, ExLang)
     ) {
       console.log('BELLLLLLLLLLAAAAA');
       if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
@@ -175,6 +175,7 @@ class SignUp extends Component {
                       className="form-control"
                       onChange={this.handleChange}
                       autoComplete="new-password"
+                      pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z*].{6,16}"
                     />
                     <small
                       id="passwordHelpBlock"
@@ -194,6 +195,7 @@ class SignUp extends Component {
                       placeholder={_translator('gen_passwordConfirm')}
                       type="password"
                       className="form-control"
+                      pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z*].{6,16}"
                       onChange={this.handleChange}
                     />
                   </div>

@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { _translator } from './Translator';
-
+import SidebarElementStudent from './SidebarElementStudent';
+import SidebarElementTeacher from './SidebarElementTeacher';
+import SidebarElementAdministrator from './SidebarElementAdministrator';
 class Sidebar extends Component {
   render() {
     const { auth } = this.props;
+    const { user } = auth;
+    const { role } = user;
     if (!(auth && auth.user)) return null;
-    const userClass = 'student';
-    const NavLinkstoRender = [];
-    if (userClass === 'student')
-      NavLinkstoRender.push(
-        this.navMaker(
-          '/dashboard',
-          'pe-7s-user',
-          _translator('gen_userDashboard')
-        )
-      );
-    NavLinkstoRender.push(
-      this.navMaker('/exercise', 'pe-7s-pen', _translator('gen_newExercise'))
-    );
+    let roleSpecificNav = null;
+    if (role === 'student') {
+      roleSpecificNav = <SidebarElementStudent />;
+    }
+    if (role === 'administrator') {
+      roleSpecificNav = <SidebarElementAdministrator />;
+    }
+
     return (
       <div className="scrollbar-sidebar">
         <div className="app-sidebar__inner">
@@ -27,18 +26,16 @@ class Sidebar extends Component {
               {_translator('gen_dashboard')}
             </li>
             <li>
-              {NavLinkstoRender.map((entry, index) => (
-                <NavLink
-                  to={entry.to}
-                  className="nav-link"
-                  activeClassName="mm-active"
-                  key={index}
-                >
-                  <i className={`metismenu-icon ${entry.icon}`} />
-                  {entry.label}
-                </NavLink>
-              ))}
+              <NavLink
+                to={'/dashboard'}
+                className="nav-link"
+                activeClassName="mm-active"
+              >
+                <i className={'metismenu-icon pe-7s-user'} />
+                {_translator('gen_userDashboard')}
+              </NavLink>
             </li>
+            {roleSpecificNav}
           </ul>
         </div>
       </div>

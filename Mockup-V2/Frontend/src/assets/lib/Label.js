@@ -38,7 +38,16 @@ export const _label = {
     signup_errorPassword: 'Le due passowrd non coincidono',
     signup_selectOption: "Seleziona un'opzione",
     signup_hint:
-      'La password deve essere lunga dai 6 ai 20 caratteri e non deve contenere caratteri speciali'
+      'La password deve essere lunga dai 6 ai 20 caratteri e non deve contenere caratteri speciali',
+    sidebarElementStudent_exercise: 'Esercizi',
+    sidebarElementStudent_freeExercise: 'Esercitazione Libera',
+    sidebarElementStudent_exercises: 'Compiti per casa',
+    sidebarElementStudent_marks: 'I tuoi voti',
+    sidebarElementTeacher_exercise: 'Esercizi',
+    sidebarElementTeacher_insertExercise: 'Inserisci esercizio',
+    sidebarElementTeacher_exercises: 'Esercizi inseriti',
+    sidebarElementTeacher_ExerciseDone: 'Esercizi allievi',
+    SidebarElementAdministrator_users: 'Amministra Utenti'
   },
   en: {
     account_yourData: 'Your data',
@@ -73,6 +82,15 @@ export const _label = {
     signup_errorPassword: 'The two passwords do not match',
     signup_selectOption: 'Select an option',
     signup_hint:
-      'Your password must be 6-20 characters long, contain letters and numbers, and must not contain spaces, special characters or emojis'
+      'Your password must be 6-20 characters long, contain letters and numbers, and must not contain spaces, special characters or emojis',
+    sidebarElementStudent_exercise: 'Your Exercises',
+    sidebarElementStudent_freeExercise: 'Free training',
+    sidebarElementStudent_exercises: 'Homeworks',
+    sidebarElementStudent_marks: 'Your marks',
+    sidebarElementTeacher_exercise: 'Esercise',
+    sidebarElementTeacher_insertExercise: 'Insert exercise',
+    sidebarElementTeacher_exercises: 'Exercise history',
+    sidebarElementTeacher_ExerciseDone: 'Students ecercises',
+    SidebarElementAdministrator_users: 'User Manage'
   }
 };

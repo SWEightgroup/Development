@@ -2,8 +2,9 @@ import { _label } from '../../assets/lib/Label';
 import { store } from '../../index';
 
 export const _translator = label => {
-  const lang = store.getState().auth.lang;
+  const { user } = store.getState().auth;
 
+  let lang = user ? user.language : 'it';
   try {
     if (lang && label && _label[`${lang}`] && _label[`${lang}`][`${label}`])
       return `${_label[`${lang}`][`${label}`]}`;

@@ -25,7 +25,6 @@ const initState = {
     firstName: '',
     lastName: ''
   },
-  lang: 'it',
   token: null
 };
 

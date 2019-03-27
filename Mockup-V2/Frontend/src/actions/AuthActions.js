@@ -63,3 +63,24 @@ export const updateUserInfo = data => {
   /* CHIAMATA ALLA BACKEND */
   /* CHIAMATA A MODIFY_SUCCES O MODIFY_FAILED */
 };
+
+export const initializeAuth = token => {
+  //console.log(': token', token);
+  /* return dispatch => {
+    // Make a request for a user with a given ID
+    if (token !== null) {
+      axios
+        .post('http://localhost:8081/users/sign-up', { token })
+        .then(res => {
+          console.log(': response', res);
+          dispatch({ type: 'LOAD_AUTH', user: res.data });
+        })
+        .catch(error => {
+          dispatch({ type: 'SIGNOUT_SUCCESS' });
+          console.log(error);
+        });
+    } else {
+      dispatch({ type: 'SIGNOUT_SUCCESS' });
+    }
+  };*/
+};
