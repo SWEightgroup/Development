@@ -59,7 +59,8 @@ public class PhraseService {
         {
             PhraseModel phraseModel = phraseModelOptional.get();
             phraseModel.addSolution(solutionModel);
-            phraseToReturn = phraseRepository.insert(phraseModel);
+
+            phraseToReturn = insertPhrase(phraseModel);
         }
         //TODO controlli se phraseId non corrisponde a una frase nel db
         return phraseToReturn;
