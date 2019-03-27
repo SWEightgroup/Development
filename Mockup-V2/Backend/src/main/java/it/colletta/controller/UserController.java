@@ -2,8 +2,7 @@ package it.colletta.controller;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJWT;
-import it.colletta.service.UserService;
-import java.util.Optional;
+import it.colletta.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class UserController {
 
     /**
      * @param user the user obj with username and password
-     * @return An Usermodel if the operation completed correctly otherwise return an error
+     * @return ResponseEntity if the operation completed correctly otherwise return an error
      * response
      */
     @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,11 +1,14 @@
 package it.colletta.service;
 
 import it.colletta.model.PhraseModel;
-import it.colletta.repository.PhraseRepository;
-import it.colletta.repository.UsersRepository;
-import java.util.List;
-import java.util.ArrayList;
+import it.colletta.model.SolutionModel;
+import it.colletta.repository.phrase.PhraseRepository;
 
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
+
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,35 +19,60 @@ public class PhraseService {
     @Autowired
     private PhraseRepository phraseRepository;
 
-    @Autowired
-    private UsersRepository usersRepository;
-
     /**
-     * @param phrase The phrase which will be inserted
-     * @return 0L if the phrase was been inserted,
-     * otherwise return another number
+     * returns all the phrased written by a userId
+     * 
+     * @param userId the id of the user
+     * @return List<PhraseModel> the list of the phrases without solution
      */
-    public Long insertPhrase(PhraseModel phrase) {
-        Long numberOfPhrase =
-            phraseRepository.countPhrasesWithText(phrase.getPhraseText());
-        if(numberOfPhrase == 0L) {
-            phraseRepository.save(phrase); //NOT GOOD
+    public List<PhraseModel> getAllPhrases(@NonNull String userId) {
+        return phraseRepository.findAllByAuthor(userId);
+    }
+
+    public PhraseModel insertPhrase(PhraseModel phraseModel) {
+	    return phraseRepository.save(phraseModel);
+    }
+
+    public PhraseModel insertPhrase(String phrase) {
+        PhraseModel phraseModel;
+        Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(phrase);
+        if(optionalPhraseModel.isPresent()) {
+            phraseModel = optionalPhraseModel.get();
         }
-
-        
-        return numberOfPhrase;
+        else {
+            phraseModel = insertPhrase(PhraseModel.builder()
+                    .phraseText(phrase)
+                    .datePhrase(Calendar.getInstance().getTime()).build());
+        }
+        return phraseModel;
     }
 
 
-    /**
-     * @param userId the 
-     * @return List<PhraseModel> 
-     */
-	public List<PhraseModel> getAllPhrases(String userId) {
-        List<String> ids = usersRepository.findAllPhrasesInserted(userId);
-        Iterable<PhraseModel> phraseModel = phraseRepository.findAllById(ids);
-        return org.apache.commons.collections4.IteratorUtils.toList(phraseModel.iterator());
+    public PhraseModel addSolution(String phraseId, SolutionModel solutionModel) {
+	    //TODO CONTI SU AFFIDABILITA
+        PhraseModel phraseToReturn = null;
+
+        Optional<PhraseModel> phraseModelOptional = phraseRepository.findById(phraseId);
+        if(phraseModelOptional.isPresent())
+        {
+            PhraseModel phraseModel = phraseModelOptional.get();
+            phraseModel.addSolution(solutionModel);
+
+            phraseToReturn = insertPhrase(phraseModel);
+        }
+        //TODO controlli se phraseId non corrisponde a una frase nel db
+        return phraseToReturn;
     }
 
+    public PhraseModel addSolution(String phraseId, String solutionText, String authorId) {
+	    //TODO scegliere se usare builder o costruttore
+        SolutionModel solutionModel = SolutionModel.builder()
+                .solutionText(solutionText)
+                .authorId(authorId)
+                .dateSolution(Calendar.getInstance().getTime())
+                .affidability(0)
+                .build();
+        return addSolution(phraseId, solutionModel);
+    }
 
 }

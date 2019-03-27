@@ -1,7 +1,7 @@
-package it.colletta.service;
+package it.colletta.service.user;
 
 import it.colletta.model.UserModel;
-import it.colletta.repository.UsersRepository;
+import it.colletta.repository.user.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,13 +16,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.applicationUserRepository = applicationUserRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserModel applicationUser = applicationUserRepository.findByEmail(email);
-        if (applicationUser == null) {
-            throw new UsernameNotFoundException(email);
-        }
-        return new org.springframework.security.core.userdetails.User(applicationUser.getEmail(),
-                applicationUser.getPassword(), emptyList());
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    UserModel applicationUser = applicationUserRepository.findByEmail(email);
+    if (applicationUser == null) {
+      throw new UsernameNotFoundException(email);
     }
+    return new org.springframework.security.core.userdetails.User(
+        applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+    }
+
 }

@@ -1,15 +1,14 @@
-package it.colletta.repository;
+package it.colletta.repository.phrase;
 
 import java.util.List;
 import java.util.Optional;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
+import it.colletta.model.SolutionModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import it.colletta.model.PhraseModel;
-import it.colletta.repository.PhraseCustomQueryInterface;
+import it.colletta.repository.phrase.PhraseCustomQueryInterface;
 
 @Repository
 public interface PhraseRepository extends MongoRepository<PhraseModel, String>, PhraseCustomQueryInterface {
@@ -39,17 +38,25 @@ public interface PhraseRepository extends MongoRepository<PhraseModel, String>, 
      * @param textToCompare
      * @return Long
      */
-    @Query(value = "{'text': {$regex: ?0, $options: 'i'}}", count = true)
+    @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}", count = true)
     public Long countPhrasesWithText(String textToCompare);
     // WE CAN DO BETTER cit.
 
     /**
-     * @param id
+     * @param ids
      * @return Optional<PhraseModel>
      */
     @Override
-    Iterable<PhraseModel> findAllById(Iterable<String> ids);
+    public Iterable<PhraseModel> findAllById(Iterable<String> ids);
 
+
+    public List<PhraseModel> findAllByAuthor(String  authorId);
+    /**
+     * @param phraseTexr
+     * @return Optional<PhraseModel>
+     */
+    @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")
+    public Optional<PhraseModel> getPhraseWithText(String textToCompare);
 
 
 }

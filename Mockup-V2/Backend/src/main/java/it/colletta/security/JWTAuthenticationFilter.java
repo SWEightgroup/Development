@@ -3,10 +3,7 @@ package it.colletta.security;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.colletta.model.UserModel;
-import it.colletta.repository.UsersRepository;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import it.colletta.repository.user.UsersRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,8 +34,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-    * @param HttpServletRequest TODO 
-    * @param HttpServletResponse TODO
+    * @param req TODO
+    * @param res TODO
     * @exception AuthenticationException
     * @return Authentication TODO 
     */ 
@@ -50,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     .readValue(req.getInputStream(), UserModel.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
+                            creds.getUsername(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
@@ -60,9 +57,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-    * @param HttpServletRequest TODO 
-    * @param FilterChain    TODO 
-    * @param Authentication TODO 
+    * @param req TODO
+    * @param res    TODO
+    * @param auth TODO
     * @exception IOException TODO 
     * @exception ServletException TODO 
     * @return nothing 
@@ -73,7 +70,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
         String email = ((User) auth.getPrincipal()).getUsername();
-        System.out.println("email: " + email);
         UserModel userModel = usersRepository.findByEmail(email);
         userModel.setPassword(null);
         String token = JWT.create()
@@ -88,4 +84,5 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         res.getWriter().flush();
         res.getWriter().close();
     }
+
 }

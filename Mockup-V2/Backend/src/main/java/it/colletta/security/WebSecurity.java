@@ -1,9 +1,9 @@
 package it.colletta.security;
 
-import it.colletta.repository.UsersRepository;
+import it.colletta.repository.user.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import it.colletta.service.UserDetailsServiceImpl;
+import it.colletta.service.user.UserDetailsServiceImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,9 +28,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    /** 
-    * @param HttpSecurity TODO 
-    * @return nothing
+    /**
+     * Configure the security for Spring
+     * @param http the http security object
     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,8 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     /** 
-    * @param AuthenticationManagerBuilder TODO 
-    * @return nothing
+    * @param auth the authentication manager for login
     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -54,8 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     /** 
-    * @param nothing 
-    * @return nothing
+    * Define the registerCorsConfiguration
     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -63,4 +61,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
+
+
 }

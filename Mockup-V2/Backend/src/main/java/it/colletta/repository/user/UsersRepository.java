@@ -1,6 +1,8 @@
-package it.colletta.repository;
+package it.colletta.repository.user;
 
 import java.util.Optional;
+
+import it.colletta.repository.user.UserCustomQueryInterface;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import it.colletta.model.UserModel;
