@@ -1,9 +1,12 @@
 package it.colletta.service;
 
 import it.colletta.model.PhraseModel;
+import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,9 +50,6 @@ public class PhraseService {
     }
 
 
-
-
-
     public PhraseModel addSolution(String phraseId, SolutionModel solutionModel) {
 	    //TODO CONTI SU AFFIDABILITA
         PhraseModel phraseToReturn = null;
@@ -57,9 +57,9 @@ public class PhraseService {
         Optional<PhraseModel> phraseModelOptional = phraseRepository.findById(phraseId);
         if(phraseModelOptional.isPresent())
         {
-            phraseToReturn = phraseModelOptional.get();
-            phraseToReturn.addSolution(solutionModel);
-            phraseToReturn = phraseRepository.insertp(phraseId,solutionModel);
+            PhraseModel phraseModel = phraseModelOptional.get();
+            phraseModel.addSolution(solutionModel);
+            phraseToReturn = phraseRepository.insert(phraseModel);
         }
         //TODO controlli se phraseId non corrisponde a una frase nel db
         return phraseToReturn;
