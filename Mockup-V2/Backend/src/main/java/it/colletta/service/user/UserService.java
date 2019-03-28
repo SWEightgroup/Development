@@ -46,7 +46,7 @@ public class UserService {
             if(user.getId() != null) {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
-                user.setDateOfBirth(new Date()); //TODO Gestire meglio sta cosa delle date meglio usare un long che è fecile dai convertire in timestamp
+                user.setDateOfBirth(new Date()); //TODO Gestire meglio sta cosa delle date meglio usare un long che è fecile da convertire in timestamp
                 user.setRole(role);
                 user.setLanguage(language);
             }

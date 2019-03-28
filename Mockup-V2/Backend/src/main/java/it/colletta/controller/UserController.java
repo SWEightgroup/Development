@@ -76,10 +76,13 @@ public class UserController {
                                                  @PathVariable("id") String id) {
         UserModel user = new UserModel();
         user = userService.updateUser(username, firstName, lastName, dataOfBirth, role, language );
-        return new ResponseEntity<UserModel>(user, HttpStatus.OK);
 
-        //TODO Controlli da fare
-            //return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+        if(user.getId() != null) {
+            return new ResponseEntity<UserModel>(user, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+        }
 
     }
 
