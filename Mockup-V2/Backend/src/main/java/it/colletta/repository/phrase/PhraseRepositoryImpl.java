@@ -16,10 +16,8 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     @Override
     public List<PhraseModel> findAllByAuthor(String authorId) {
         Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
-        // mi ritorna tutti i documenti fatti da authorId, togli tutti i campi tranne textPhrase e
-        // ritorni
         final List<PhraseModel> phraseModels = mongoTemplate.find(query, PhraseModel.class);
-
+        //TODO eliminare informazioni aggiuntive
         return phraseModels;
     }
 }

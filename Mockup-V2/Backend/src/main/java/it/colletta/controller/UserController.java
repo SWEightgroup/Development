@@ -6,8 +6,14 @@ import it.colletta.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -64,4 +70,21 @@ public class UserController {
         //TODO BETTER
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/users/modify/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserModel usersModify(@RequestBody UserModel newUserData) {
+        try {
+            UserModel user = userService.updateUser(newUserData);
+            return user;
+            //TODO GESTIONE ECCEZIONI
+        }
+        catch(UsernameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
 }

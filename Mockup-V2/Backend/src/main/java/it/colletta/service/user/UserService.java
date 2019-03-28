@@ -5,10 +5,12 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.SignupRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -37,5 +39,16 @@ public class UserService {
 
     public void activateUser(String id) {
         applicationUserRepository.updateActivateFlagOnly(id);
+    }
+
+    public UserModel updateUser(UserModel newUserData){
+        UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
+            if(user.getId().equals(newUserData.getId())) {
+                return applicationUserRepository.save(newUserData);
+            }
+            else {
+                throw new UsernameNotFoundException("User does not exist");
+            }
+
     }
 }

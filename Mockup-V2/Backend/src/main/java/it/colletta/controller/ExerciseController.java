@@ -56,9 +56,9 @@ public class ExerciseController {
    * @param text the text which has to be analyzed by freeling
    * @return A CorrectionModel with the analyzed sentence or empty if the service is unavailable
    */
-  @RequestMapping(value = "/automatic-correction", method = RequestMethod.GET,
+  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SolutionModel> getCorrection(@RequestParam("text") String text) {
+  public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text) {
     try {
       return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text),
           HttpStatus.OK);
