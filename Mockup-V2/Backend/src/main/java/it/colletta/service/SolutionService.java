@@ -33,7 +33,7 @@ public class SolutionService {
   public SolutionModel getAutomaticCorrection(String correctionText) throws IOException  {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
     SolutionModel solutionModel = SolutionModel.builder()
-            .solutionText(correctionText)
+            .solutionText(freelingLibrary.getCorrection(correctionText))
             .affidability(0)
             .dateSolution(Calendar.getInstance().getTime())
             .build();
