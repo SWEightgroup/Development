@@ -41,7 +41,7 @@ public class UserModel implements UserDetails {
   private TimeZone userTimeZone;
   private Integer currentGoal;
   private ArrayList<String> exercises;     //array list of reference
-  private ArrayList<String> execiseToDo;    //array list of exercise
+  private ArrayList<String> exerciseToDo;    //array list of exercise
   private Boolean activated = true;
   private ArrayList<String> favoriteTeacherIds;
 
@@ -82,8 +82,8 @@ public class UserModel implements UserDetails {
     return exercises;
   }
 
-  public ArrayList<String> getExeciseToDo() {
-    return execiseToDo;
+  public ArrayList<String> getExerciseToDo() {
+    return exerciseToDo;
   }
 
   public Boolean getActivated() {

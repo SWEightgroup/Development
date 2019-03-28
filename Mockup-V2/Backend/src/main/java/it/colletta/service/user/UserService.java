@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -33,6 +34,11 @@ public class UserService {
         user.setPassword(null);
         return user;
     }
+
+    public Optional<UserModel> findById(String userId) {
+        return applicationUserRepository.findById(userId);
+    }
+
     public UserModel getUserInfo(UserModel user) {
         return applicationUserRepository.findByEmail(user.getUsername());
     }

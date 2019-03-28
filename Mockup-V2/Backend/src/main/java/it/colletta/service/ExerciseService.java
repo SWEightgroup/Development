@@ -3,13 +3,19 @@ package it.colletta.service;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
+import it.colletta.model.UserModel;
+import it.colletta.service.user.UserService;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.repository.phrase.PhraseRepository;
 import it.colletta.repository.solution.SolutionRepository;
+import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +26,9 @@ public class ExerciseService {
 
     @Autowired
     private PhraseService phraseService;
+
+    @Autowired 
+    private UserService userService;
 
 
     public void insertExercise(ExerciseModel exercise) {
@@ -38,42 +47,12 @@ public class ExerciseService {
         exerciseRepository.save(exercise);
     }
 
-    /*
-    public void insertExercise(ExerciseModel exercise) {
-        PhraseModel phraseModel = null;
-        if(exercise.getTextPhrase() != null) {
-           Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(exercise.getTextPhrase());
-           if(!optionalPhraseModel.isPresent()) {
-                phraseModel = optionalPhraseModel.get();
-           }
-           else {
-            phraseModel = phraseRepository.save(PhraseModel.builder()
-                    .phraseText(exercise.getTextPhrase())
-                    .datePhrase(Calendar.getInstance().getTime()).build());
-           }
-           SolutionModel solutionModel = new SolutionModel();
-           solutionModel.setSolutionText(exercise.getTextMainSolution());
-           solutionModel.setAuthorId(exercise.getAuthor());
-           solutionRepository.increaseAffidability(solutionModel);
-           phraseModel.addSolution(solutionModel);
-           //TODO Guardare affidabilità inserita
-           if(exercise.getTextAlternativeSolution() != null) {
-               SolutionModel alternativeSolution = new SolutionModel();
-               alternativeSolution.setSolutionText(exercise.getTextMainSolution());
-               alternativeSolution.setAuthorId(exercise.getAuthor());
-               solutionRepository.increaseAffidability(alternativeSolution);
-           }
-           phraseRepository.save(phraseModel);
-           exercise = ExerciseModel.builder().
-                   author(exercise.getAuthor())
-                   .dateExercise(Calendar.getInstance().getTime()).
-                   phraseReference(phraseModel.getId())
-                   .visibilty(true).build();
-           exerciseRepository.save(exercise);
-        }
 
-        
+    public Iterable<ExerciseModel> getToDoExercises(String userId) {
+        //TODO CONTROLLO SU userID
+        UserModel user = userService.findById(userId).get();
+
+        List<String> toDoExerciseIds = user.getExerciseToDo();
+        return exerciseRepository.findAllById(toDoExerciseIds);
     }
-    */
-
 }

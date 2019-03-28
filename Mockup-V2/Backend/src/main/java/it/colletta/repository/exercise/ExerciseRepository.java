@@ -4,6 +4,8 @@ import it.colletta.model.ExerciseModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ExerciseRepository extends MongoRepository<ExerciseModel, String> {
-
+    
+    @Override
+    Iterable<ExerciseModel> findAllById(Iterable<String> ids);
 
 }

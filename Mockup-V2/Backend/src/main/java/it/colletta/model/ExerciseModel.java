@@ -1,19 +1,16 @@
 package it.colletta.model;
 
 import java.util.Date;
+
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.AllArgsConstructor;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 @Document(collection = "exercises")
@@ -25,6 +22,7 @@ public class ExerciseModel {
     private String author;
     private Boolean visibilty;
 
+
     @Transient
     private String textPhrase;
     @Transient
@@ -32,5 +30,5 @@ public class ExerciseModel {
     @Transient
     private String textAlternativeSolution;
     @Transient
-    private String language; 
+    private String language;
 }
