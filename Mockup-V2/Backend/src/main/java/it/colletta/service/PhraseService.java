@@ -65,7 +65,6 @@ public class PhraseService {
     }
 
     public PhraseModel addSolution(String phraseId, String solutionText, String authorId) {
-	    //TODO scegliere se usare builder o costruttore
         SolutionModel solutionModel = SolutionModel.builder()
                 .solutionText(solutionText)
                 .authorId(authorId)
@@ -73,6 +72,10 @@ public class PhraseService {
                 .affidability(0)
                 .build();
         return addSolution(phraseId, solutionModel);
+    }
+
+    public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
+        return phraseRepository.findAllSolutionsByAuthor(authorId);
     }
 
 }

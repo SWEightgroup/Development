@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Document(collection = "solutions")
 public class SolutionModel {
-    
+
     @Id
     @Builder.Default
     private String id = new ObjectId().toHexString();
@@ -24,6 +24,6 @@ public class SolutionModel {
     private Date dateSolution;
     private int affidability;
     private String authorId;
-
+    private Double mark;
 
 }

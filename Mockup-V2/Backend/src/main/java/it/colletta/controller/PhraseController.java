@@ -48,4 +48,20 @@ public class PhraseController {
             return new ResponseEntity<List<PhraseModel>>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(value = "/get-all-solutions/{userId}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SolutionModel>> findAllSolutionsByAuthor(
+            @PathVariable("userId") String authorId) {
+
+            try {
+                return new ResponseEntity<>(phraseService.findAllSolutionsByAuthor(authorId),
+                        HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+        }
+
+
 }

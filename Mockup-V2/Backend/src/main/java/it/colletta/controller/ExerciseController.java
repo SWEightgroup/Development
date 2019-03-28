@@ -66,4 +66,6 @@ public class ExerciseController {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
+
+
 }
