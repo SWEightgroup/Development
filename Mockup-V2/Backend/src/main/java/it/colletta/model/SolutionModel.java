@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,16 +16,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Document(collection = "solutions")
 public class SolutionModel {
+    
+    @Id
+    @Builder.Default
+    private String id = new ObjectId().toHexString();
     private String solutionText;
     private Date dateSolution;
     private int affidability;
     private String authorId;
 
 
-    public SolutionModel(String solutionText, String authorId) {
-        this.solutionText = solutionText;
-        this.authorId = authorId;
-        dateSolution = Calendar.getInstance().getTime();
-        affidability = 0;
-    }
 }
