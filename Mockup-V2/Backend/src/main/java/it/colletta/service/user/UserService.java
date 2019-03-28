@@ -5,6 +5,7 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.SignupRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,17 +41,14 @@ public class UserService {
         applicationUserRepository.updateActivateFlagOnly(id);
     }
 
-    public UserModel updateUser(String username, String firstName, String lastName, String dataOfBirth, String role, String language ){
-
-        UserModel user = applicationUserRepository.findByEmail(username);
-            if(user.getId() != null) {
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setDateOfBirth(new Date()); //TODO Gestire meglio sta cosa delle date meglio usare un long che è fecile da convertire in timestamp
-                user.setRole(role);
-                user.setLanguage(language);
+    public UserModel updateUser(UserModel newUserData){
+        UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
+            if(user.getId().equals(newUserData.getId())) {
+                return applicationUserRepository.save(newUserData);
             }
-            //gestire meglio i controlli
-        return applicationUserRepository.save(user);
+            else {
+                throw new UsernameNotFoundException("User does not exist");
+            }
+
     }
 }

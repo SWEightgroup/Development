@@ -6,8 +6,14 @@ import it.colletta.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -70,20 +76,15 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/users/modify/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserModel> usersModify(@RequestParam String username, @RequestParam String firstName,
-                                                 @RequestParam String lastName, @RequestParam String dataOfBirth,
-                                                 @RequestParam String role,     @RequestParam String language,
-                                                 @PathVariable("id") String id) {
-        UserModel user = new UserModel();
-        user = userService.updateUser(username, firstName, lastName, dataOfBirth, role, language );
-
-        if(user.getId() != null) {
-            return new ResponseEntity<UserModel>(user, HttpStatus.OK);
+    public UserModel usersModify(@RequestBody UserModel newUserData) {
+        try {
+            UserModel user = userService.updateUser(newUserData);
+            return user;
+            //TODO GESTIONE ECCEZIONI
         }
-        else {
-            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+        catch(UsernameNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
-
     }
 
 }

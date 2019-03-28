@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 @Service
 public class SolutionService {
@@ -31,11 +32,13 @@ public class SolutionService {
   */
   public SolutionModel getAutomaticCorrection(String correctionText) throws IOException  {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
-    SolutionModel c = new SolutionModel();
-    c.setAffidability(0);
-    c.setSolutionText(freelingLibrary.getCorrection(correctionText));
+    SolutionModel solutionModel = SolutionModel.builder()
+            .solutionText(correctionText)
+            .affidability(0)
+            .dateSolution(Calendar.getInstance().getTime())
+            .build();
     freelingLibrary.closeConnection();
-    return c;
+    return solutionModel;
   }
   
   /**
