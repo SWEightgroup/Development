@@ -4,7 +4,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
-
 public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   private FreelingSocketClient socketClient;
@@ -25,6 +24,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   /**
    * get a sentence's correction
+   * 
    * @param sentence String.
    * @return correction String.
    */
@@ -33,9 +33,9 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
     if (sentence.length() == 0) {
       throw new IllegalArgumentException("La stringa non può essere vuota");
     }
-    /*if (StringUtils.countOccurrencesOf(sentence, ".") == 0) {
-      sentence = sentence + "."; // questa parte sarà da valutare
-    }*/
+    if (StringUtils.countOccurrencesOf(sentence, ".") == 0) {
+      sentence = sentence + " ."; // questa parte sarà da valutare
+    }
     try {
       analyzedSentence = socketClient.processSegment(sentence);
       if (analyzedSentence.equals(socketClient.getReadyMsg())) {
@@ -49,9 +49,11 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   /**
    * Close the connection.
+   * 
    * @throws IOException IOException.
    */
   public void closeConnection() throws IOException {
     socketClient.close();
   }
 }
+

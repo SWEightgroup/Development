@@ -21,7 +21,6 @@ import it.colletta.service.ExerciseService;
 import it.colletta.service.PhraseService;
 import it.colletta.service.SolutionService;
 
-
 @RestController
 @RequestMapping("/exercises")
 public class ExerciseController {
@@ -39,8 +38,7 @@ public class ExerciseController {
    * @param phrase the text which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseModel exercise) { // only
                                                                                              // from
                                                                                              // teacher
@@ -54,27 +52,28 @@ public class ExerciseController {
 
   /**
    * @param text the text which has to be analyzed by freeling
-   * @return A CorrectionModel with the analyzed sentence or empty if the service is unavailable
+   * @return A CorrectionModel with the analyzed sentence or empty if the service
+   *         is unavailable
    */
-  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text) {
+  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SolutionModel> getCorrection(@RequestBody Test text) {
     try {
-      return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text),
-          HttpStatus.OK);
+      return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text.text), HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
 
-  @RequestMapping(value ="/{userId}", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId){
-    try{
+  @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
+    try {
       return new ResponseEntity<Iterable<ExerciseModel>>(exerciseService.getToDoExercises(userId), HttpStatus.OK);
-    }
-    catch(Exception e){
+    } catch (Exception e) {
       return new ResponseEntity<Iterable<ExerciseModel>>(HttpStatus.BAD_REQUEST);
-    }  
+    }
   }
+}
+
+class Test {
+  public String text = "pippo";
 }
