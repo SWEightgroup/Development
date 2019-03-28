@@ -70,12 +70,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/users/modify/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserModel> usersModify(@RequestParam String username, @RequestParam String firstName,
-                                                 @RequestParam String lastName, @RequestParam String dataOfBirth,
-                                                 @RequestParam String role,     @RequestParam String language,
-                                                 @PathVariable("id") String id) {
-        UserModel user = new UserModel();
-        user = userService.updateUser(username, firstName, lastName, dataOfBirth, role, language );
+    public ResponseEntity<UserModel> usersModify(@RequesBody UserModel user) {
+
+        user = userService.updateUser(user);
 
         if(user.getId() != null) {
             return new ResponseEntity<UserModel>(user, HttpStatus.OK);

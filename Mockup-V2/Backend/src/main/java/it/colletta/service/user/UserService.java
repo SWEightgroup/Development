@@ -40,10 +40,10 @@ public class UserService {
         applicationUserRepository.updateActivateFlagOnly(id);
     }
 
-    public UserModel updateUser(String username, String firstName, String lastName, String dataOfBirth, String role, String language ){
+    public UserModel updateUser(UserModel userModel){
 
-        UserModel user = applicationUserRepository.findByEmail(username);
-            if(user.getId() != null) {
+        UserModel user = applicationUserRepository.findByEmail(userModel.getUsername());
+            if(user.getId() userModel.getId()) {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setDateOfBirth(new Date()); //TODO Gestire meglio sta cosa delle date meglio usare un long che è fecile da convertire in timestamp
