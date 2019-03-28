@@ -1,15 +1,17 @@
 package it.colletta.service;
 
-import it.colletta.model.ExerciseModel;
-import it.colletta.model.PhraseModel;
-import it.colletta.model.SolutionModel;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import it.colletta.model.*;
+import it.colletta.repository.classes.ClassRepository;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.repository.phrase.PhraseRepository;
 import it.colletta.repository.solution.SolutionRepository;
+import it.colletta.service.classes.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,8 +23,11 @@ public class ExerciseService {
     @Autowired
     private PhraseService phraseService;
 
+    @Autowired
+    private ClassService classService;
 
-    public void insertExercise(ExerciseModel exercise) {
+
+    public String insertExercise(ExerciseModel exercise) {
 
         String phraseId = phraseService.insertPhrase(exercise.getTextPhrase()).getId();
 
@@ -33,9 +38,30 @@ public class ExerciseService {
             phraseModel = phraseService.addSolution(phraseId, exercise.getTextAlternativeSolution(), exercise.getAuthor());
         }
 
-        exercise.setDateExercise(Calendar.getInstance().getTime());
+        exercise.setDateExercise(System.currentTimeMillis());
         exercise.setPhraseReference(phraseModel.getId());
-        exerciseRepository.save(exercise);
+        return exerciseRepository.save(exercise).getId();
+    }
+
+    public String insertExercise(Boolean visibility, String authorId, String phraseId){
+        ExerciseModel exercise =
+            exerciseRepository.save(
+                ExerciseModel.builder()
+                    .dateExercise(System.currentTimeMillis())
+                    .author(authorId)
+                    .visibilty(visibility)
+                    .phraseReference(phraseId)
+                    .build());
+        return exercise.getId();
+    }
+
+    public void assignExerciseToClasses(Iterable<ClassModel> classes, String exerciseId){
+
+        // ritorna tutti gli studenti della lista di classi "classes" che ci siamo passati TODO: findAllStudents
+        List<UserModel> allClassesStudents = classService.findAllStudents(classes);
+
+        // aggiunge al campo "exerciseToDo" l'exerciseId che ci siamo passati a tutta la lista allClassesStudents TODO: assigExercise
+        return exerciseRepository.assignExercise(allClassesStudents, exerciseId);
     }
 
     /*

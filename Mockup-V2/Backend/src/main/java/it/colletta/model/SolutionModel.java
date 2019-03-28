@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "solutions")
 public class SolutionModel {
     private String solutionText;
-    private Date dateSolution;
+    private Long dateSolution;
     private int affidability;
     private String authorId;
 
@@ -24,7 +24,7 @@ public class SolutionModel {
     public SolutionModel(String solutionText, String authorId) {
         this.solutionText = solutionText;
         this.authorId = authorId;
-        dateSolution = Calendar.getInstance().getTime();
+        dateSolution = System.currentTimeMillis();
         affidability = 0;
     }
 }

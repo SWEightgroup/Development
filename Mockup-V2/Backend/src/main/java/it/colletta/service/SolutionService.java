@@ -35,7 +35,7 @@ public class SolutionService {
     SolutionModel solutionModel = SolutionModel.builder()
             .solutionText(correctionText)
             .affidability(0)
-            .dateSolution(Calendar.getInstance().getTime())
+            .dateSolution(System.currentTimeMillis())
             .build();
     freelingLibrary.closeConnection();
     return solutionModel;
@@ -44,10 +44,10 @@ public class SolutionService {
   /**
   * @param solution :the solution of the phrase referenced by the phraseId 
   */
-  public void insertSolution(SolutionModel solution) {
+  public SolutionModel insertSolution(SolutionModel solution) {
     if(solution != null) {
           solutionRepository.increaseAffidability(solution);
-          solutionRepository.save(solution);
+          return solutionRepository.save(solution);
       }
       else {   // insert the new solution 
          /*PhraseModel actualPhrase = PhraseService.getById(phraseId);    // get the phraseModel who is going to have the subcollect solution

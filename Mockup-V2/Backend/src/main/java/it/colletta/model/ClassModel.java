@@ -24,7 +24,7 @@ public class ClassModel {
     @Id
     private String id;
     private String name; 
-    private List<UserModel> studentList; 
+    private List<String> studentsId;
     private String teacher;
 
     /**

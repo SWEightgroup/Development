@@ -2,8 +2,14 @@ package it.colletta.controller;
 
 import java.io.IOException;
 import java.util.List;
+
+import it.colletta.model.*;
+import it.colletta.model.helper.InsertExerciseModel;
+import it.colletta.service.classes.ClassService;
+import it.colletta.service.user.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.ExecutableRemoveOperation;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import it.colletta.model.SolutionModel;
-import it.colletta.model.ExerciseModel;
-import it.colletta.model.PhraseModel;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.PhraseService;
 import it.colletta.service.SolutionService;
@@ -35,21 +38,30 @@ public class ExerciseController {
   @Autowired
   private SolutionService solutionService;
 
+  @Autowired
+  private ClassService classService;
+
+
   /**
-   * @param phrase the text which needs to be inserted in the database
+   * @param exercise the InsertEcerciseModel with all the parameters
    * @return A new ResponseEntity that contains the phrase
    */
   @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseModel exercise) { // only
-                                                                                             // from
-                                                                                             // teacher
-    try {
-      exerciseService.insertExercise(exercise);
-      return new ResponseEntity<ExerciseModel>(HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
-    }
+  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody InsertExerciseModel exercise){
+
+      PhraseModel exercisePhrase = phraseService.insertPhrase(exercise.getPhrase());
+      String exerciseId = exerciseService.insertExercise(exercise.getVisibility(), exercise.getTeacherId(), exercisePhrase.getId());
+
+      //TODO: aggiungere all'insegnante l'Id dell'esercizio che stiamo assegnando nel campo "exercises" CRUD: addExerciseId(exerciseId)
+    
+      if(exercise.getClassId().size() != 0){   // assign the exercise in one or more classes
+          Iterable<ClassModel> classes = classService.findAllClasses(exercise.getClassId());
+          exerciseService.assignExerciseToClasses(classes, exerciseId);
+      }
+      else{   // assign the exercise in one or more students
+          //TODO: caso in cui ho una lista di studenti e non di classi
+      }
   }
 
   /**
@@ -66,4 +78,5 @@ public class ExerciseController {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
+
 }
