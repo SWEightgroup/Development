@@ -32,14 +32,13 @@ class SignUp extends Component {
       validDate(signUpData.dateOfBirth) &&
       validPassword(signUpData.password) &&
       validSelect(signUpData.role, [
-        'student',
-        'admin',
-        'teacher',
-        'developer'
+        'ROLE_STUDENT',
+        'ROLE_ADMIN',
+        'ROLE_TEACHER',
+        'ROLE_DEVELOPER'
       ]) &&
       validSelect(signUpData.language, ExLang)
     ) {
-      console.log('BELLLLLLLLLLAAAAA');
       if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
         loaderOn();
         signUpDispatch(auth.signUp);
@@ -130,14 +129,16 @@ class SignUp extends Component {
                       <option value="">
                         {_translator('signup_selectOption')}
                       </option>
-                      <option value="student">
+                      <option value="ROLE_STUDENT">
                         {_translator('gen_student')}
                       </option>
-                      <option value="admin">{_translator('gen_admin')}</option>
-                      <option value="teacher">
+                      <option value="ROLE_ADMIN">
+                        {_translator('gen_admin')}
+                      </option>
+                      <option value="ROLE_TEACHER">
                         {_translator('gen_teacher')}
                       </option>
-                      <option value="developer">
+                      <option value="ROLE_DEVELOPER">
                         {_translator('gen_developer')}
                       </option>
                     </select>
@@ -175,7 +176,7 @@ class SignUp extends Component {
                       className="form-control"
                       onChange={this.handleChange}
                       autoComplete="new-password"
-                      pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z*].{6,16}"
+                      pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9*].{6,16}"
                     />
                     <small
                       id="passwordHelpBlock"
@@ -195,7 +196,7 @@ class SignUp extends Component {
                       placeholder={_translator('gen_passwordConfirm')}
                       type="password"
                       className="form-control"
-                      pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z*].{6,16}"
+                      pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9*].{6,16}"
                       onChange={this.handleChange}
                     />
                   </div>

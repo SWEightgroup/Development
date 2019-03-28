@@ -11,10 +11,11 @@ class Sidebar extends Component {
     const { role } = user;
     if (!(auth && auth.user)) return null;
     let roleSpecificNav = null;
-    if (role === 'student') {
+
+    if (role === 'ROLE_STUDENT') {
       roleSpecificNav = <SidebarElementStudent />;
     }
-    if (role === 'administrator') {
+    if (role === 'ROLE_ADMIN') {
       roleSpecificNav = <SidebarElementAdministrator />;
     }
 

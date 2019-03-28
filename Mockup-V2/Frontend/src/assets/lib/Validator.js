@@ -1,5 +1,5 @@
 const regMail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
-const regPassword = /^(?=.*[A-Z])(?=.*[a-z])[a-zA-Z*]{6,16}$/;
+const regPassword = /^(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9*]{6,16}$/;
 
 const checkItem = (item, re) => {
   return item.match(re);
