@@ -21,7 +21,7 @@ public class SolutionModel {
     @Builder.Default
     private String id = new ObjectId().toHexString();
     private String solutionText;
-    private Date dateSolution;
+    private Long dateSolution;
     private int affidability;
     private String authorId;
     private Double mark;

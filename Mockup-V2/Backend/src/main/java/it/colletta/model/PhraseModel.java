@@ -24,7 +24,7 @@ public class PhraseModel {
     @Builder.Default
     private ArrayList<SolutionModel> solutions = new ArrayList<>();
     private String language;
-    private Date datePhrase;
+    private Long datePhrase;
 
     public PhraseModel() {
         solutions = new ArrayList<>();

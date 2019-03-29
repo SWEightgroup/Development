@@ -42,7 +42,7 @@ public class PhraseService {
         else {
             phraseModel = insertPhrase(PhraseModel.builder()
                     .phraseText(phrase)
-                    .datePhrase(Calendar.getInstance().getTime()).build());
+                    .datePhrase(System.currentTimeMillis()).build());
         }
         return phraseModel;
     }
@@ -68,7 +68,7 @@ public class PhraseService {
         SolutionModel solutionModel = SolutionModel.builder()
                 .solutionText(solutionText)
                 .authorId(authorId)
-                .dateSolution(Calendar.getInstance().getTime())
+                .dateSolution(System.currentTimeMillis())
                 .affidability(0)
                 .build();
         return addSolution(phraseId, solutionModel);

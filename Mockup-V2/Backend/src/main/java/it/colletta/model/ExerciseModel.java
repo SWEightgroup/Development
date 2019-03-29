@@ -17,18 +17,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ExerciseModel {
     @Id
     private String id;
-    private Date dateExercise;
+    private Long dateExercise;
     private String phraseReference;   
     private String author;
     private Boolean visibilty;
-
-
-    @Transient
-    private String textPhrase;
-    @Transient
-    private String textMainSolution;
-    @Transient
-    private String textAlternativeSolution;
-    @Transient
-    private String language;
 }

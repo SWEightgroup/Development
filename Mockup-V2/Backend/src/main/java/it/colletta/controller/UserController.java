@@ -78,7 +78,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/users/modify/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserModel usersModify(@RequestBody UserModel newUserData) {
         try {
             UserModel user = userService.updateUser(newUserData);
@@ -89,5 +89,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
+
+
 
 }
