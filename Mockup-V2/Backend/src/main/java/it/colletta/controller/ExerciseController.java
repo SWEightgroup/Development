@@ -2,6 +2,7 @@ package it.colletta.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import it.colletta.model.*;
 import it.colletta.model.helper.InsertExerciseModel;
@@ -42,28 +43,20 @@ public class ExerciseController {
   private ClassService classService;
 
 
-  /**
-   * @param exercise the InsertEcerciseModel with all the parameters
-   * @return A new ResponseEntity that contains the phrase
-   */
-  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody InsertExerciseModel exercise){
 
-      PhraseModel exercisePhrase = phraseService.insertPhrase(exercise.getPhrase());
-      String exerciseId = exerciseService.insertExercise(exercise.getVisibility(), exercise.getTeacherId(), exercisePhrase.getId());
-
-      //TODO: aggiungere all'insegnante l'Id dell'esercizio che stiamo assegnando nel campo "exercises" CRUD: addExerciseId(exerciseId)
-    
-      if(exercise.getClassId().size() != 0){   // assign the exercise in one or more classes
-          Iterable<ClassModel> classes = classService.findAllClasses(exercise.getClassId());
-          exerciseService.assignExerciseToClasses(classes, exerciseId);
-      }
-      else{   // assign the exercise in one or more students
-          //TODO: caso in cui ho una lista di studenti e non di classi
-      }
-  }
-
+    /**
+     * @param phrase the text which needs to be inserted in the database
+     * @return A new ResponseEntity that contains the phrase
+     */
+    @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExerciseModel> insertExercise(@RequestBody InsertExerciseModel exercise) {
+        try {
+            exerciseService.insertExercise(exercise);
+            return new ResponseEntity<ExerciseModel>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
+        }
+    }
   /**
    * @param text the text which has to be analyzed by freeling
    * @return A CorrectionModel with the analyzed sentence or empty if the service is unavailable
@@ -78,5 +71,6 @@ public class ExerciseController {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
+
 
 }

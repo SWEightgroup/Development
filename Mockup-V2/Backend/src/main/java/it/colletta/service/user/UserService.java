@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -50,5 +51,26 @@ public class UserService {
                 throw new UsernameNotFoundException("User does not exist");
             }
 
+    }
+
+    public void addInsertedExercise(String userId, String exerciseId) {
+        Optional<UserModel> userOptional = applicationUserRepository.findById(userId);
+        if(userOptional.isPresent()) {
+            UserModel user = userOptional.get();
+            user.getInsertedExercise().add(exerciseId);
+            applicationUserRepository.save(user);
+        }
+        else{
+            throw new UsernameNotFoundException("User does not exist");
+        }
+    }
+
+    public void assignExerciseToUserIds(String exerciseId, List<String> userIds) {
+        
+        Iterable<UserModel> users = applicationUserRepository.findAllById(userIds);
+        for (UserModel user : users) {
+            user.getExeciseToDo().add(exerciseId);
+            applicationUserRepository.save(user);
+        }
     }
 }

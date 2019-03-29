@@ -2,11 +2,14 @@ package it.colletta.service;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.colletta.model.*;
+import it.colletta.model.helper.InsertExerciseModel;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.repository.phrase.PhraseRepository;
 import it.colletta.repository.solution.SolutionRepository;
 import it.colletta.service.classes.ClassService;
+import it.colletta.service.user.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,23 +27,41 @@ public class ExerciseService {
     private PhraseService phraseService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ClassService classService;
 
 
-    public String insertExercise(ExerciseModel exercise) {
+    public Optional<ExerciseModel> findById(String id){
+        return exerciseRepository.findById(id);
+    }
 
-        String phraseId = phraseService.insertPhrase(exercise.getTextPhrase()).getId();
 
-        PhraseModel phraseModel;
-        phraseModel = phraseService.addSolution(phraseId, exercise.getTextMainSolution(), exercise.getAuthor());
+    public String insertExercise(InsertExerciseModel exercise) {
+
+        String phraseId = phraseService.insertPhrase(exercise.getTextPhrase()).getId();       
+        PhraseModel phraseModel = phraseService.addSolution(phraseId, exercise.getTextMainSolution(), exercise.getAuthorId());
 
         if(exercise.getTextAlternativeSolution() != null) {
-            phraseModel = phraseService.addSolution(phraseId, exercise.getTextAlternativeSolution(), exercise.getAuthor());
+            phraseModel = phraseService.addSolution(phraseId, exercise.getTextAlternativeSolution(), exercise.getAuthorId());
         }
 
-        exercise.setDateExercise(System.currentTimeMillis());
-        exercise.setPhraseReference(phraseModel.getId());
-        return exerciseRepository.save(exercise).getId();
+        ExerciseModel exerciseModel = ExerciseModel.builder()
+            .author(exercise.getAuthorId())
+            .phraseReference(phraseModel.getId())
+            .dateExercise(System.currentTimeMillis())
+            .visibilty(exercise.getVisibility())
+            .build();
+            
+        
+        String exerciseId = exerciseRepository.save(exerciseModel).getId();
+
+        userService.addInsertedExercise(exercise.getAuthorId(), exerciseId);
+        userService.assignExerciseToUserIds(exerciseId, exercise.getAssignedUsersIds()); 
+        
+        return exerciseId; 
+        
     }
 
     public String insertExercise(Boolean visibility, String authorId, String phraseId){
@@ -55,17 +76,20 @@ public class ExerciseService {
         return exercise.getId();
     }
 
+
+/*
     public void assignExerciseToClasses(Iterable<ClassModel> classes, String exerciseId){
 
         // ritorna tutti gli studenti della lista di classi "classes" che ci siamo passati TODO: findAllStudents
-        List<UserModel> allClassesStudents = classService.findAllStudents(classes);
+        List<String> allClassesStudents = classService.findAllStudents(classes);
 
         // aggiunge al campo "exerciseToDo" l'exerciseId che ci siamo passati a tutta la lista allClassesStudents TODO: assigExercise
-        return exerciseRepository.assignExercise(allClassesStudents, exerciseId);
+         exerciseRepository.assignExercise(allClassesStudents, exerciseId);
     }
 
-    /*
-    public void insertExercise(ExerciseModel exercise) {
+
+    return the id of the new exerciseModel 
+    public String insertExercise(ExerciseModel exercise) {
         PhraseModel phraseModel = null;
         if(exercise.getTextPhrase() != null) {
            Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(exercise.getTextPhrase());
@@ -95,10 +119,9 @@ public class ExerciseService {
                    .dateExercise(Calendar.getInstance().getTime()).
                    phraseReference(phraseModel.getId())
                    .visibilty(true).build();
-           exerciseRepository.save(exercise);
+           return String exerciseId = exerciseRepository.save(exercise).getId();
         }
 
-        
     }
     */
 

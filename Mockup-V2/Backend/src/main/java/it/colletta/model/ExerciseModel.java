@@ -24,13 +24,4 @@ public class ExerciseModel {
     private String phraseReference;   
     private String author;
     private Boolean visibilty;
-
-    @Transient
-    private String textPhrase;
-    @Transient
-    private String textMainSolution;
-    @Transient
-    private String textAlternativeSolution;
-    @Transient
-    private String language; 
 }

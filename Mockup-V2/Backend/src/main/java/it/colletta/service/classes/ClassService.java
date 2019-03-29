@@ -12,12 +12,5 @@ import java.util.List;
 
 @Service
 public class ClassService {
-
-    @Autowired
-    ClassRepository classRepository;
-
-    public Iterable<ClassModel> findAllClasses(List<String> classId){
-        Iterable<String> list = classId;
-        return classRepository.findAllById(list);
-    }
+  
 }

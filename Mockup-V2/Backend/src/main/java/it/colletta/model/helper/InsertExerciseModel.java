@@ -1,6 +1,4 @@
 package it.colletta.model.helper;
-
-
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import lombok.AllArgsConstructor;
@@ -15,14 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class InsertExerciseModel{
-    private List<String> classId;
-    private List<String> userId;
-    private PhraseModel phrase;
-    private String teacherId;
+    private List<String> assignedUsersIds;
+    private String authorId;
     private Boolean visibility;
-    /* private String phraseText;
-    private String phraseTextSolution;
-    private String language;
-    private Boolean visibility;
-    private String teacherId;        // the teacher mail */
+    private String textPhrase;
+    private String textMainSolution;
+    private String textAlternativeSolution;
+    private String language;  
 }
