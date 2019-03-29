@@ -15,7 +15,7 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
     @Override
     public Optional<ExerciseModel> findById(String id);
 
-	List<String> findAllPublicExercises(List<String> exerciseToExclude);
+	List<ExerciseModel> findAllPublicExercises(List<String> exerciseToExclude);
 
 
 }

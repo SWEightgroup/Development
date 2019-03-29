@@ -3,11 +3,8 @@ package it.colletta.service;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
-
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +47,7 @@ public class PhraseService {
 
 
     public PhraseModel addSolution(String phraseId, SolutionModel solutionModel) {
-	    //TODO CONTI SU AFFIDABILITA
+	    
         PhraseModel phraseToReturn = null;
 
         Optional<PhraseModel> phraseModelOptional = phraseRepository.findById(phraseId);
@@ -58,7 +55,6 @@ public class PhraseService {
         {
             PhraseModel phraseModel = phraseModelOptional.get();
             phraseModel.addSolution(solutionModel);
-
             phraseToReturn = insertPhrase(phraseModel);
         }
         //TODO controlli se phraseId non corrisponde a una frase nel db
@@ -78,6 +74,10 @@ public class PhraseService {
     public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
         return phraseRepository.findAllSolutionsByAuthor(authorId);
     }
+
+	public List<PhraseModel> getAllPhrasesById(List<String> phraseIds) {
+        return phraseRepository.findAllPhrasesByIds(phraseIds);
+	}
     
 
 }

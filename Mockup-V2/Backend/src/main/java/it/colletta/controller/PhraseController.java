@@ -1,25 +1,16 @@
 package it.colletta.controller;
-
-import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import it.colletta.model.SolutionModel;
-import it.colletta.model.UserModel;
-import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
-import it.colletta.service.ExerciseService;
 import it.colletta.service.PhraseService;
-import it.colletta.service.SolutionService;
 
 
 @RestController

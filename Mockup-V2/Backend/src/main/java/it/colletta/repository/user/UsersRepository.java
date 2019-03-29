@@ -1,6 +1,5 @@
 package it.colletta.repository.user;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import it.colletta.repository.user.UserCustomQueryInterface;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import it.colletta.model.UserModel;
 import org.springframework.stereotype.Repository;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @Repository

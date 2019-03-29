@@ -1,24 +1,17 @@
 package it.colletta.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.colletta.model.*;
 import it.colletta.model.helper.InsertExerciseModel;
-import it.colletta.repository.classes.ClassRepository;
 import it.colletta.repository.exercise.ExerciseRepository;
-import it.colletta.repository.phrase.PhraseRepository;
-import it.colletta.repository.solution.SolutionRepository;
-import it.colletta.service.classes.ClassService;
 import it.colletta.service.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseService {
@@ -32,8 +25,6 @@ public class ExerciseService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ClassService classService;
 
 
     public Optional<ExerciseModel> findById(String id){
@@ -90,8 +81,10 @@ public class ExerciseService {
             UserModel userModel = user.get();
             ArrayList<String> exerciseToExclude = new ArrayList<>(userModel.getCompletedExercises());
             exerciseToExclude.addAll(userModel.getExerciseToDo());
-            List<String> phraseIds = exerciseRepository.findAllPublicExercises(exerciseToExclude);
-            
+            List<ExerciseModel> exerciseListPublic = exerciseRepository.findAllPublicExercises(exerciseToExclude);
+            List<String> phraseIds = exerciseListPublic.stream().map(ExerciseModel::getPhraseReference).collect(Collectors.toList());    
+            List<PhraseModel> phrases = phraseService.getAllPhrasesById(phraseIds);
+            //TODO finire
         }
 	}
 

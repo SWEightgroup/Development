@@ -1,6 +1,4 @@
 package it.colletta.model;
-
-import java.util.Date;
 import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;

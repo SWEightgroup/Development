@@ -1,7 +1,6 @@
 package it.colletta.service;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import it.colletta.repository.solution.SolutionRepository;
 @Service
 public class SolutionService {
 
-  //TODO Move in a static class
+  //TODO Move to a static class
   private final String host = "18.197.54.200";
   private final int port = 50005;
 

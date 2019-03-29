@@ -1,12 +1,7 @@
 package it.colletta.model;
-
-import java.util.Calendar;
-import java.util.Date;
-
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter

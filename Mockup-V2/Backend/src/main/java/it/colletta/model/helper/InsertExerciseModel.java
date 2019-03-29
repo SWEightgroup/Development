@@ -1,6 +1,4 @@
 package it.colletta.model.helper;
-import it.colletta.model.PhraseModel;
-import it.colletta.model.SolutionModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

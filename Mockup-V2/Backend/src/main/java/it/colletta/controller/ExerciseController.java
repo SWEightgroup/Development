@@ -2,25 +2,13 @@ package it.colletta.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-import com.auth0.jwt.impl.JWTParser;
-import com.auth0.jwt.interfaces.Header;
-
-import it.colletta.model.*;
 import it.colletta.model.helper.InsertExerciseModel;
 import it.colletta.security.ParseJWT;
-import it.colletta.service.classes.ClassService;
-import it.colletta.service.user.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.mongodb.core.ExecutableRemoveOperation;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -31,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.service.ExerciseService;
-import it.colletta.service.PhraseService;
 import it.colletta.service.SolutionService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -43,14 +29,9 @@ public class ExerciseController {
   @Autowired
   private ExerciseService exerciseService;
 
-  @Autowired
-  private PhraseService phraseService;
 
   @Autowired
   private SolutionService solutionService;
-
-  @Autowired
-  private ClassService classService;
 
 
 
@@ -73,6 +54,7 @@ public class ExerciseController {
   public List<Object> getPublicExercises(@RequestHeader("Authorization") String studentToken) {
       String userId = ParseJWT.parseJWT(studentToken);
       exerciseService.getPublicExercises(userId);
+      return null;
   }
   
   
