@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 @ToString
-@Document(collection = "solutions")
 public class SolutionModel {
 
     @Id
