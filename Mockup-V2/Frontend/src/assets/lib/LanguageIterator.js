@@ -77,7 +77,7 @@ class LanguageIterator {
   getCurrentChoices() {
     if (this.level < this.categoryLength())
       return this.langStruct[this.category].attributes[this.level].choices;
-    else return [];
+    return [];
   }
 
   categoryLength() {

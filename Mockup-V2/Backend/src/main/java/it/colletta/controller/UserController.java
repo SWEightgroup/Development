@@ -1,19 +1,22 @@
 package it.colletta.controller;
 
-import it.colletta.model.UserModel;
-import it.colletta.security.ParseJWT;
-import it.colletta.service.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
+import it.colletta.model.UserModel;
+import it.colletta.security.ParseJWT;
+import it.colletta.service.user.UserService;
+
 
 /**
  *

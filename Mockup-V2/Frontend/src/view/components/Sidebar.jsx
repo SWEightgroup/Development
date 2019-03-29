@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
-import { _translator } from './Translator';
+import _translator from './Translator';
 import SidebarElementStudent from './SidebarElementStudent';
 import SidebarElementTeacher from './SidebarElementTeacher';
 import SidebarElementAdministrator from './SidebarElementAdministrator';

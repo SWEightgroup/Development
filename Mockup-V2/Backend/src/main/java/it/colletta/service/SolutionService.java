@@ -1,14 +1,15 @@
 package it.colletta.service;
 
-import it.colletta.library.FreelingAdapterSocket;
-import it.colletta.repository.solution.SolutionRepository;
-import it.colletta.library.FreelingAdapterInterface;
-import it.colletta.model.SolutionModel;
+import java.io.IOException;
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.Calendar;
+import it.colletta.library.FreelingAdapterInterface;
+import it.colletta.library.FreelingAdapterSocket;
+import it.colletta.model.SolutionModel;
+import it.colletta.repository.solution.SolutionRepository;
 
 @Service
 public class SolutionService {
@@ -33,7 +34,7 @@ public class SolutionService {
   public SolutionModel getAutomaticCorrection(String correctionText) throws IOException  {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
     SolutionModel solutionModel = SolutionModel.builder()
-            .solutionText(freelingLibrary.getCorrection(correctionText))
+            .solutionText(freelingLibrary.getCorrection(correctionText).trim())
             .affidability(0)
             .dateSolution(Calendar.getInstance().getTime())
             .build();

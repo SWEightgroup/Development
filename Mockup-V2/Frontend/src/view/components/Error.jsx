@@ -1,5 +1,5 @@
 import React from 'react';
-import { _translator } from './Translator';
+import _translator from './Translator';
 
 const Error = () => {
   return (

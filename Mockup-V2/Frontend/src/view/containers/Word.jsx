@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LanguageStructure from '../../assets/lib/LanguageIterator';
+import SolutionMapper from '../../assets/lib/SolutionTranslator';
 
 class Word extends Component {
   constructor(props) {
@@ -67,28 +68,8 @@ class Word extends Component {
   };
 
   render() {
-    const { parola, solutionAuto, showSolution } = this.props;
+    const { parola, solutionTag, showSolution, gerarchy } = this.props;
     const { buttons, solution } = this.state;
-    let usefulFields = '';
-
-    if (solutionAuto) {
-      const columns = Object.keys(solutionAuto).map(p =>
-        Object.assign({ data: solutionAuto[p] }, { text: p })
-      );
-      usefulFields = columns
-        .filter(
-          item =>
-            item.text !== 'id' &&
-            item.text !== 'begin' &&
-            item.text !== 'end' &&
-            item.text !== 'form' &&
-            item.text !== 'lemma' &&
-            item.text !== 'tag' &&
-            item.text !== 'ctag'
-        )
-        .map(item => item.data)
-        .join(' ');
-    }
     const allowedPunctuation = /[,.?!"'<>;:]/g;
 
     if (parola.match(allowedPunctuation) !== null) {
@@ -135,14 +116,23 @@ class Word extends Component {
                   </p>
                 )}
 
-                {usefulFields && showSolution && (
-                  <p
-                    title="La soluzione automatica"
-                    className=" text-warning my-2 text-uppercase"
-                  >
-                    {showSolution === true && usefulFields}
-                  </p>
-                )}
+                {solutionTag &&
+                  new SolutionMapper(
+                    solutionTag,
+                    gerarchy
+                  ).getVerboseSolution() &&
+                  showSolution && (
+                    <p
+                      title="La soluzione automatica"
+                      className=" text-warning my-2 text-uppercase"
+                    >
+                      {showSolution === true &&
+                        new SolutionMapper(
+                          solutionTag,
+                          gerarchy
+                        ).getVerboseSolution()}
+                    </p>
+                  )}
               </div>
             </div>
             {/* <div className="row justify-content-end">

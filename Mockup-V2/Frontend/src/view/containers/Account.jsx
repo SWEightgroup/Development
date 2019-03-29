@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../actions/AuthActions';
-import { _translator } from '../components/Translator';
+import _translator from '../components/Translator';
 import { ExLang } from '../../assets/lib/Languages';
 import { validDate, validEmail, validSelect } from '../../assets/lib/Validator';
 
@@ -76,8 +76,8 @@ class Account extends Component {
                       onChange={this.handleChange}
                     >
                       {ExLang.map(lang => (
-                        <option value={lang} key={'ALang_' + lang}>
-                          {_translator('gen_' + lang)}
+                        <option value={lang} key={`ALang_${  lang}`}>
+                          {_translator(`gen_${  lang}`)}
                         </option>
                       ))}
                     </select>

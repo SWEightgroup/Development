@@ -7,13 +7,13 @@ import {
   changeSignUp,
   displayError
 } from '../../actions/AuthActions';
-import { _translator } from '../components/Translator';
+import _translator from '../components/Translator';
 import {
   validEmail,
   validDate,
   validSelect,
   validPassword
-} from './../../assets/lib/Validator';
+} from "../../assets/lib/Validator";
 import { ExLang } from '../../assets/lib/Languages';
 
 class SignUp extends Component {
@@ -45,7 +45,7 @@ class SignUp extends Component {
       } else {
         displayErrorDispatch(_translator('signup_errorPassword'));
       }
-      //}
+      // }
     }
   };
 
@@ -157,8 +157,8 @@ class SignUp extends Component {
                         {_translator('signup_selectOption')}
                       </option>
                       {ExLang.map(lang => (
-                        <option value={lang} key={'ALang_' + lang}>
-                          {_translator('gen_' + lang)}
+                        <option value={lang} key={`ALang_${  lang}`}>
+                          {_translator(`gen_${  lang}`)}
                         </option>
                       ))}
                     </select>

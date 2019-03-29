@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Word from '../containers/Word';
 import { gerarchia } from '../../assets/lib/gerarchia';
-import { _translator } from './Translator';
+import _translator from './Translator';
+import SolutionMapper, {
+  solutionTranslator
+} from '../../assets/lib/SolutionTranslator';
 
 class ExecutionExercise extends Component {
   /**
@@ -17,7 +20,13 @@ class ExecutionExercise extends Component {
     salvaEsercizio();
   };
 
+  extractTag = (response, index) => {
+    return response[index].tag;
+  };
+
   render() {
+    const allowedPunctuation = /[,.?!"'<-\\{}>;:]/g;
+    // const allowedPunctuation2 = /[,.?!"'<-{}[]()%\/>;:]/g;
     const {
       sentence,
       response,
@@ -25,7 +34,7 @@ class ExecutionExercise extends Component {
       lockInput,
       createAt
     } = this.props;
-
+    const pippo = sentence.filter(word => !word.match(allowedPunctuation));
     if (sentence && sentence.length) {
       return (
         <div className="row">
@@ -36,16 +45,18 @@ class ExecutionExercise extends Component {
                   {_translator('executionExercise_completeExercise')}
                 </h5>
                 <ul className="list-group">
-                  {sentence &&
-                    sentence.map((item, index) => {
+                  {pippo &&
+                    pippo.map((item, index) => {
                       return (
                         <Word
                           key={`${index + item + createAt}word`}
                           parola={item}
                           gerarchy={gerarchia}
                           index={index}
-                          solutionAuto={
-                            response && response.length ? response[index] : []
+                          solutionTag={
+                            response && response.length
+                              ? this.extractTag(response, index)
+                              : null
                           }
                           showSolution={showSolution}
                           lock={lockInput}
