@@ -74,7 +74,7 @@ public class UserService {
         
         Iterable<UserModel> users = applicationUserRepository.findAllById(userIds);
         for (UserModel user : users) {
-            user.getExeciseToDo().add(exerciseId);
+            user.getExerciseToDo().add(exerciseId);
             applicationUserRepository.save(user);
         }
     }

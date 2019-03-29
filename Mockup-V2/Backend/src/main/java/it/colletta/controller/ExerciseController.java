@@ -75,7 +75,7 @@ public class ExerciseController {
   @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
     try {
-      return new ResponseEntity<Iterable<ExerciseModel>>(exerciseService.getToDoExercises(userId), HttpStatus.OK);
+      return new ResponseEntity<Iterable<ExerciseModel>>(exerciseService.getExercisesToDo(userId), HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<Iterable<ExerciseModel>>(HttpStatus.BAD_REQUEST);
     }

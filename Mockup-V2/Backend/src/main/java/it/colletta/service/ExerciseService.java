@@ -77,8 +77,15 @@ public class ExerciseService {
         return exercise.getId();
     }
 
+    public Iterable<ExerciseModel> getExercisesToDo(String userId) {
+        //TODO CONTROLLO SU userID
+        UserModel user = userService.findById(userId).get();
 
-/*
+        List<String> toDoExerciseIds = user.getExerciseToDo();
+        return exerciseRepository.findAllById(toDoExerciseIds);
+    }
+
+    /*
     public void assignExerciseToClasses(Iterable<ClassModel> classes, String exerciseId){
 
         // ritorna tutti gli studenti della lista di classi "classes" che ci siamo passati TODO: findAllStudents
@@ -87,7 +94,8 @@ public class ExerciseService {
         // aggiunge al campo "exerciseToDo" l'exerciseId che ci siamo passati a tutta la lista allClassesStudents TODO: assigExercise
          exerciseRepository.assignExercise(allClassesStudents, exerciseId);
     }
-
+    */
+    /*
 
     return the id of the new exerciseModel 
     public String insertExercise(ExerciseModel exercise) {
@@ -123,11 +131,6 @@ public class ExerciseService {
            return String exerciseId = exerciseRepository.save(exercise).getId();
         }
 
-    public Iterable<ExerciseModel> getToDoExercises(String userId) {
-        //TODO CONTROLLO SU userID
-        UserModel user = userService.findById(userId).get();
 
-        List<String> toDoExerciseIds = user.getExerciseToDo();
-        return exerciseRepository.findAllById(toDoExerciseIds);
-    }
+    */
 }

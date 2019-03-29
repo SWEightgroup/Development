@@ -41,7 +41,7 @@ public class UserModel implements UserDetails {
   private TimeZone userTimeZone;
   private Integer currentGoal;
   private ArrayList<String> insertedExercises;     //exercises inserted by teachers
-  private ArrayList<String> execiseToDo;    //array list of exerciseToDo 
+  private ArrayList<String> exerciseToDo;    //array list of exerciseToDo
   private Boolean activated = true;
   private ArrayList<String> favoriteTeacherIds;
 
