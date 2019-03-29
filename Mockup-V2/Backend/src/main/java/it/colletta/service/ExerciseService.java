@@ -41,28 +41,24 @@ public class ExerciseService {
 
     public String insertExercise(InsertExerciseModel exercise) {
 
-        String phraseId = phraseService.insertPhrase(exercise.getTextPhrase()).getId();       
+        String phraseId = phraseService
+                .insertPhrase(exercise.getTextPhrase())
+                .getId();
         PhraseModel phraseModel = phraseService.addSolution(phraseId, exercise.getTextMainSolution(), exercise.getAuthorId());
 
         if(exercise.getTextAlternativeSolution() != null) {
             phraseModel = phraseService.addSolution(phraseId, exercise.getTextAlternativeSolution(), exercise.getAuthorId());
         }
-
         ExerciseModel exerciseModel = ExerciseModel.builder()
             .author(exercise.getAuthorId())
             .phraseReference(phraseModel.getId())
             .dateExercise(System.currentTimeMillis())
             .visibilty(exercise.getVisibility())
             .build();
-            
-        
         String exerciseId = exerciseRepository.save(exerciseModel).getId();
-
         userService.addInsertedExercise(exercise.getAuthorId(), exerciseId);
-        userService.assignExerciseToUserIds(exerciseId, exercise.getAssignedUsersIds()); 
-        
-        return exerciseId; 
-        
+        userService.assignExerciseToUserIds(exerciseId, exercise.getAssignedUsersIds());
+        return exerciseId;
     }
 
     public String insertExercise(Boolean visibility, String authorId, String phraseId){

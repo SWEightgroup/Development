@@ -19,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 @Setter
 @NoArgsConstructor
@@ -40,8 +41,10 @@ public class UserModel implements UserDetails {
   private Date dateOfBirth;
   private TimeZone userTimeZone;
   private Integer currentGoal;
-  private ArrayList<String> insertedExercises;     //exercises inserted by teachers
-  private ArrayList<String> exerciseToDo;    //array list of exerciseToDo
+  @Builder.Default
+  private ArrayList<String> insertedExercises = new ArrayList<>();
+  @Builder.Default
+  private ArrayList<String> exerciseToDo = new ArrayList<>();    //array list of exerciseToDo
   private Boolean activated = true;
   private ArrayList<String> favoriteTeacherIds;
 
@@ -55,6 +58,14 @@ public class UserModel implements UserDetails {
 
   public String getLastName() {
     return lastName;
+  }
+
+  public Boolean addExerciseToDo(String exerciseId) {
+    return exerciseToDo.add(exerciseId);
+  }
+
+  public Boolean removeExerciseToDo(String exerciseId) {
+    return exerciseToDo.remove(exerciseId);
   }
 
   @Override

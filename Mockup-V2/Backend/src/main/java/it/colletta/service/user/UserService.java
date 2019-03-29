@@ -73,9 +73,10 @@ public class UserService {
     public void assignExerciseToUserIds(String exerciseId, List<String> userIds) {
         
         Iterable<UserModel> users = applicationUserRepository.findAllById(userIds);
+
         for (UserModel user : users) {
-            user.getExerciseToDo().add(exerciseId);
-            applicationUserRepository.save(user);
+            user.addExerciseToDo(exerciseId);
         }
+        Iterable<UserModel> userModels = applicationUserRepository.saveAll(users);
     }
 }
