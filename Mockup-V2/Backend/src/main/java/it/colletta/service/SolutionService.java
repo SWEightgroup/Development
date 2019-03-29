@@ -40,28 +40,6 @@ public class SolutionService {
     freelingLibrary.closeConnection();
     return solutionModel;
   }
-  
-  /**
-  * @param solution :the solution of the phrase referenced by the phraseId 
-  */
-  public SolutionModel insertSolution(SolutionModel solution) {
-    if(solution != null) {
-          solutionRepository.increaseAffidability(solution);
-          return solutionRepository.save(solution);
-      }
-      else {   // insert the new solution 
-         /*PhraseModel actualPhrase = PhraseService.getById(phraseId);    // get the phraseModel who is going to have the subcollect solution
-         actualPhrase.addSolution()
-         solutionRepository.c
-         SolutionModel solutionToInsert.builder;*/
-         
-         /**
-          * add a solutionText
-            set dateSolution
-            set affidability = 0
-            set authorId
-          */
-      }
-    }
+
 
 }

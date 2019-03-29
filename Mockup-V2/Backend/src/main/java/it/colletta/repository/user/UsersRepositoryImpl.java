@@ -44,6 +44,6 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   public List<String> findAllPhrasesInserted(String id) {
     Query query = new Query(Criteria.where("_id").is(id)) ;
     UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
-    return userModel.getExercises();
+    return userModel.getInsertedExercise();
   }
 }
