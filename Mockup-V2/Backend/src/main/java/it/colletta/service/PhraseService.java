@@ -7,6 +7,7 @@ import it.colletta.repository.phrase.PhraseRepository;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class PhraseService {
      * @param userId the id of the user
      * @return List<PhraseModel> the list of the phrases without solution
      */
-    public List<PhraseModel> getAllPhrases(@NonNull String userId) {
+    public List<PhraseModel> getAllPhrases(@NonNull String userId) { //TODO che senso ha?
         return phraseRepository.findAllByAuthor(userId);
     }
 
@@ -77,5 +78,6 @@ public class PhraseService {
     public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
         return phraseRepository.findAllSolutionsByAuthor(authorId);
     }
+    
 
 }

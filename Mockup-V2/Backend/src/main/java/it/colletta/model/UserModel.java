@@ -1,25 +1,18 @@
 package it.colletta.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 @Setter
 @NoArgsConstructor
@@ -41,6 +34,8 @@ public class UserModel implements UserDetails {
   private Date dateOfBirth;
   private TimeZone userTimeZone;
   private Integer currentGoal;
+  @Builder.Default
+  private ArrayList<String> completedExercises = new ArrayList<>();
   @Builder.Default
   private ArrayList<String> insertedExercises = new ArrayList<>();
   @Builder.Default
@@ -103,6 +98,10 @@ public class UserModel implements UserDetails {
 
   public ArrayList<String> getFavoriteTeacherIds() {
     return favoriteTeacherIds;
+  }
+
+  public ArrayList<String> getCompletedExercises() {
+    return completedExercises;
   }
 
   @Override

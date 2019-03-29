@@ -2,16 +2,20 @@ package it.colletta.repository.phrase;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import it.colletta.model.SolutionModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 import it.colletta.model.PhraseModel;
 import it.colletta.repository.phrase.PhraseCustomQueryInterface;
 
 @Repository
-public interface PhraseRepository extends MongoRepository<PhraseModel, String>, PhraseCustomQueryInterface {
+public interface PhraseRepository extends MongoRepository<PhraseModel, String>, PhraseCustomQueryInterface,
+        QuerydslPredicateExecutor<PhraseModel> {
 
     /**
      * @param phraseToDelete TODO
@@ -60,5 +64,6 @@ public interface PhraseRepository extends MongoRepository<PhraseModel, String>, 
     @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")
     Optional<PhraseModel> getPhraseWithText(String textToCompare);
 
-
+    @Query(value = "{'id': { '$in' : 'ids'?:0 }}")
+    List<PhraseModel> getAllPhrasesByAuthors(List<String> ids);
 }

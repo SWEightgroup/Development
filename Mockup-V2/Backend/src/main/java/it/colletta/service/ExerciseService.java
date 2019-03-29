@@ -13,10 +13,12 @@ import it.colletta.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 public class ExerciseService {
@@ -80,6 +82,18 @@ public class ExerciseService {
         List<String> toDoExerciseIds = user.getExerciseToDo();
         return exerciseRepository.findAllById(toDoExerciseIds);
     }
+
+
+	public void getPublicExercises(String userId) {
+        Optional<UserModel> user = userService.findById(userId);
+        if(user.isPresent()) {
+            UserModel userModel = user.get();
+            ArrayList<String> exerciseToExclude = new ArrayList<>(userModel.getCompletedExercises());
+            exerciseToExclude.addAll(userModel.getExerciseToDo());
+            List<String> phraseIds = exerciseRepository.findAllPublicExercises(exerciseToExclude);
+            
+        }
+	}
 
     /*
     public void assignExerciseToClasses(Iterable<ClassModel> classes, String exerciseId){
