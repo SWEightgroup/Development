@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +47,7 @@ public class ExerciseController {
 
 
     /**
-     * @param phrase the text which needs to be inserted in the database
+     * @param exercise the exercise which needs to be inserted in the database
      * @return A new ResponseEntity that contains the phrase
      */
     @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,9 +65,9 @@ public class ExerciseController {
    *         is unavailable
    */
   @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SolutionModel> getCorrection(@RequestBody Test text) {
+  public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text) {
     try {
-      return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text.text), HttpStatus.OK);
+      return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text), HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
@@ -80,8 +81,4 @@ public class ExerciseController {
       return new ResponseEntity<Iterable<ExerciseModel>>(HttpStatus.BAD_REQUEST);
     }
   }
-}
-
-class Test {
-  public String text = "pippo";
 }
