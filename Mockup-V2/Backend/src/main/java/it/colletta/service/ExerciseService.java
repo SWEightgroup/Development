@@ -1,10 +1,11 @@
 package it.colletta.service;
 
 import it.colletta.model.*;
-import it.colletta.model.helper.InsertExerciseModel;
+import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,45 @@ public class ExerciseService {
     }
 
 
-    public String insertExercise(InsertExerciseModel exercise) {
+
+	public ExerciseModel insertExercise(ExerciseHelper exercise) {
+        
+        SolutionModel mainSolution = SolutionModel.builder()
+            .reliability(0)
+            .authorId(exercise.getAuthor())
+            .solutionText(exercise.getMainSolution())
+            .build();
+
+        SolutionModel alternativeSolution = SolutionModel.builder()
+            .reliability(0)
+            .authorId(exercise.getAuthor())
+            .solutionText(exercise.getAlternativeSolution())
+            .build();
+
+        PhraseModel phrase = PhraseModel.builder()
+            .language(exercise.getLanguage())
+            .datePhrase(System.currentTimeMillis())
+            .phraseText(exercise.getPhraseText())
+            .build();
+            
+        phrase.addSolution(mainSolution);
+        phrase.addSolution(alternativeSolution);
+        phrase = phraseService.insertPhrase(phrase);
+        
+        ExerciseModel exerciseModel = ExerciseModel.builder()
+            .id((new ObjectId().toHexString()))
+            .dateExercise(System.currentTimeMillis())
+            .phraseReference(phrase)
+            .toDo(true)
+            .visibilty(exercise.getVisibility())
+            .build();
+
+        userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
+        return exerciseModel;
+	}
+
+
+   /* public String insertExercise(InsertExerciseModel exercise) {
 
         String phraseId = phraseService
                 .insertPhrase(exercise.getTextPhrase())
@@ -43,8 +82,7 @@ public class ExerciseService {
             phraseModel = phraseService.addSolution(phraseId, exercise.getTextAlternativeSolution(), exercise.getAuthorId());
         }
         ExerciseModel exerciseModel = ExerciseModel.builder()
-            .author(exercise.getAuthorId())
-            .phraseReference(phraseModel.getId())
+            .phraseReference(phraseModel)
             .dateExercise(System.currentTimeMillis())
             .visibilty(exercise.getVisibility())
             .build();
@@ -52,14 +90,13 @@ public class ExerciseService {
         userService.addInsertedExercise(exercise.getAuthorId(), exerciseId);
         userService.assignExerciseToUserIds(exerciseId, exercise.getAssignedUsersIds());
         return exerciseId;
-    }
+    }*/
 
-    public String insertExercise(Boolean visibility, String authorId, String phraseId){
+   /* public String insertExercise(Boolean visibility, String authorId, String phraseId){
         ExerciseModel exercise =
             exerciseRepository.save(
                 ExerciseModel.builder()
                     .dateExercise(System.currentTimeMillis())
-                    .author(authorId)
                     .visibilty(visibility)
                     .phraseReference(phraseId)
                     .build());

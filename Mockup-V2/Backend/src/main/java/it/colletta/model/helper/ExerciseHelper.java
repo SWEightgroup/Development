@@ -1,4 +1,5 @@
 package it.colletta.model.helper;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,12 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class InsertExerciseModel{
+public class ExerciseHelper {     
     private List<String> assignedUsersIds;
-    private String authorId;
-    private Boolean visibility;
-    private String textPhrase;
-    private String textMainSolution;
-    private String textAlternativeSolution;
-    private String language;  
+    private String phraseText;
+    private String mainSolution;
+    private String alternativeSolution;
+    private Boolean visibility; 
+    private String author; 
+    private Long date; 
+    private String language; 
 }

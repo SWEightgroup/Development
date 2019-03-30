@@ -14,7 +14,7 @@ public interface UserCustomQueryInterface {
   /**
   * @param id TODO
   * @return List<String> TODO
-  */
+  
   public List<String> findAllPhrasesInserted(String id);
-
+*/
 }

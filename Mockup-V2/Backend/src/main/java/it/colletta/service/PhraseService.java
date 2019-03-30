@@ -66,7 +66,7 @@ public class PhraseService {
                 .solutionText(solutionText)
                 .authorId(authorId)
                 .dateSolution(System.currentTimeMillis())
-                .affidability(0)
+                .reliability(0)
                 .build();
         return addSolution(phraseId, solutionModel);
     }
@@ -76,7 +76,8 @@ public class PhraseService {
     }
 
 	public List<PhraseModel> getAllPhrasesById(List<String> phraseIds) {
-        return phraseRepository.findAllPhrasesByIds(phraseIds);
+        //return phraseRepository.findAllPhrasesByIds(phraseIds);
+        return null;
 	}
     
 

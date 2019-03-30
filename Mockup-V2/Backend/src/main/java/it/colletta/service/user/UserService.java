@@ -1,5 +1,6 @@
 package it.colletta.service.user;
 
+import it.colletta.model.ExerciseModel;
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
@@ -25,7 +26,7 @@ public class UserService {
         SignupRequestService signupRequestService = new SignupRequestService();
         final String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        user.setActivated(false);
+        user.setEnabled(false);
         user = applicationUserRepository.save(user);
         SignupRequestModel signupRequestModel = SignupRequestModel.builder()
                 .userReference(user.getId())
@@ -58,19 +59,27 @@ public class UserService {
 
     }
 
-    public void addInsertedExercise(String userId, String exerciseId) {
+	public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
+        Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
+        for(UserModel user : users) {
+            user.addExercise(exerciseModel); //TODO se un esercizio ritorna false lancio eccezione
+        }
+        applicationUserRepository.saveAll(users);
+	}
+
+   /* public void addInsertedExercise(String userId, String exerciseId) {
         Optional<UserModel> userOptional = applicationUserRepository.findById(userId);
         if(userOptional.isPresent()) {
             UserModel user = userOptional.get();
-            user.getInsertedExercise().add(exerciseId);
+            user.   .add(exerciseId);
             applicationUserRepository.save(user);
         }
         else{
             throw new UsernameNotFoundException("User does not exist");
         }
-    }
+    }*/
 
-    public void assignExerciseToUserIds(String exerciseId, List<String> userIds) {
+    /*public void assignExerciseToUserIds(String exerciseId, List<String> userIds) {
         
         Iterable<UserModel> users = applicationUserRepository.findAllById(userIds);
 
@@ -78,5 +87,5 @@ public class UserService {
             user.addExerciseToDo(exerciseId);
         }
         Iterable<UserModel> userModels = applicationUserRepository.saveAll(users);
-    }
+    }*/
 }
