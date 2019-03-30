@@ -3,8 +3,7 @@ package it.colletta.controller;
 import java.io.IOException;
 import java.util.List;
 
-import it.colletta.model.helper.ExerciseHelper;
-import it.colletta.repository.exercise.ExerciseRepository;
+import it.colletta.model.helper.InsertExerciseModel;
 import it.colletta.security.ParseJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
-import it.colletta.model.UserModel;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
 
@@ -31,8 +29,6 @@ public class ExerciseController {
   @Autowired
   private ExerciseService exerciseService;
 
-  @Autowired 
-  ExerciseRepository exerciseRepository;
 
   @Autowired
   private SolutionService solutionService;
@@ -44,14 +40,12 @@ public class ExerciseController {
      * @return A new ResponseEntity that contains the phrase
      */
   @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
+  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody InsertExerciseModel exercise) {
         try {
-          // 1) inserire la frase nel sistema 
-          ExerciseModel model = exerciseService.insertExercise(exercise);
-          //exerciseService.insertExercise(exercise);
-          return new ResponseEntity<ExerciseModel>(model, HttpStatus.OK);
-        }catch (Exception e) {
-          return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
+            exerciseService.insertExercise(exercise);
+            return new ResponseEntity<ExerciseModel>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -59,7 +53,7 @@ public class ExerciseController {
   @RequestMapping(value="/get-public-exercises", method=RequestMethod.GET)
   public List<Object> getPublicExercises(@RequestHeader("Authorization") String studentToken) {
       String userId = ParseJWT.parseJWT(studentToken);
-      //exerciseService.getPublicExercises(userId);
+      exerciseService.getPublicExercises(userId);
       return null;
   }
   
@@ -81,7 +75,7 @@ public class ExerciseController {
   @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
     try {
-      return new ResponseEntity<>(null, HttpStatus.OK);
+      return new ResponseEntity<Iterable<ExerciseModel>>(exerciseService.getExercisesToDo(userId), HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<Iterable<ExerciseModel>>(HttpStatus.BAD_REQUEST);
     }

@@ -34,7 +34,7 @@ public class SolutionService {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
     SolutionModel solutionModel = SolutionModel.builder()
             .solutionText(freelingLibrary.getCorrection(correctionText).trim())
-            .reliability(0)
+            .affidability(0)
             .dateSolution(System.currentTimeMillis())
             .build();
     freelingLibrary.closeConnection();

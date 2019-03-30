@@ -9,8 +9,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-
-import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 
 @Repository
@@ -40,10 +38,12 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
    * hint user --> correction -->
   * @param id TODO
   * @return List<String> TODO
+  */
+  //TODO @DAMIEN
   @Override
-  public List<ExerciseModel> findAllPhrasesInserted(String id) {
+  public List<String> findAllPhrasesInserted(String id) {
     Query query = new Query(Criteria.where("_id").is(id)) ;
     UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
-    return userModel.();
-  }*/
+    return userModel.getInsertedExercise();
+  }
 }

@@ -23,4 +23,32 @@ public class ClassModel {
     private String name; 
     private List<String> studentsId;
     private String teacher;
+
+    /**
+     * @param name TODO 
+     * @return  TODO 
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    /*
+    public void addStudent(@NonNull UserModel student) {
+        studentList.add(student);
+    }
+    */
+    
+    /**
+     * @param student TODO
+     * @return TODO
+     */
+    /*
+    public Boolean deleteStudent(@NonNull UserModel student){
+        if(studentList.contains(student)){
+                return studentList.remove(student);
+        }
+        else {
+            return false;
+        }    
+    } 
+    */
 }
