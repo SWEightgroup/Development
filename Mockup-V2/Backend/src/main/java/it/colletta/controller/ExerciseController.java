@@ -76,12 +76,13 @@ public class ExerciseController {
     }
   }
 
-  @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/todo/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
     try {
-      return new ResponseEntity<>(null, HttpStatus.OK);
+      List<ExerciseModel> exerciseToDo = exerciseService.findAllExerciseToDo(userId);
+      return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<Iterable<ExerciseModel>>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 }

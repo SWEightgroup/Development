@@ -66,4 +66,5 @@ public class UserService {
         }
         applicationUserRepository.saveAll(users);
     }
+
 }

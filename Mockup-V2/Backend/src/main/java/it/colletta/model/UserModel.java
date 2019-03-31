@@ -65,6 +65,10 @@ public class UserModel implements UserDetails {
     return lastName;
   }
 
+  public List<ExerciseModel> getExercises() {
+    return exercises;
+  }
+
   @Override
   public String getPassword() {
     return password;
