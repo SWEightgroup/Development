@@ -28,23 +28,15 @@ public class PhraseService {
     }
 
     public PhraseModel insertPhrase(PhraseModel phraseModel) {
-        return phraseRepository.save(phraseModel);
-    }
-
-    public PhraseModel insertPhrase(String phrase) {
-        PhraseModel phraseModel;
-        Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(phrase);
-        if(optionalPhraseModel.isPresent()) {
-            phraseModel = optionalPhraseModel.get();
+        Optional<PhraseModel> phrase = phraseRepository.getPhraseWithText(phraseModel.getPhraseText());
+        if(phrase.isPresent()) {
+            phrase.get().getSolutions().addAll(phraseModel.getSolutions());
+            return phrase.get();
         }
         else {
-            phraseModel = insertPhrase(PhraseModel.builder()
-                .phraseText(phrase)
-                .datePhrase(System.currentTimeMillis()).build());
+            return phraseRepository.save(phraseModel);
         }
-        return phraseModel;
     }
-
 
     public PhraseModel addSolution(String phraseId, SolutionModel solutionModel) {
 

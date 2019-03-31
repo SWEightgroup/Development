@@ -17,7 +17,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
@@ -39,10 +38,16 @@ public class UserModel implements UserDetails {
   private Integer currentGoal;
   @Builder.Default
   private List<ExerciseModel> exercises = new ArrayList<>();
-  private Boolean enabled = true;
+  private Boolean enabled;
   @Builder.Default
   private ArrayList<String> favoriteTeacherIds = new ArrayList<>(); //per forza una lista?
 
+
+  public UserModel() {
+    enabled = true;
+    favoriteTeacherIds = new ArrayList<>();
+    exercises = new ArrayList<>();
+  }
 
   public Boolean addExercise(ExerciseModel exerciseToAdd){
     return exercises.add(exerciseToAdd);

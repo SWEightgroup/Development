@@ -13,7 +13,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @ToString
 public class ExerciseModel {
     @Id
-    private String id;
+    @Builder.Default
+    private String id = new ObjectId().toHexString();;
     private Long dateExercise;
     @DBRef
     private PhraseModel phraseReference;
