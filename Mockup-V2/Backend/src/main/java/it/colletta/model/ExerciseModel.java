@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
 @ToString
@@ -16,15 +15,22 @@ public class ExerciseModel {
     @Builder.Default
     private String id = new ObjectId().toHexString();;
     private Long dateExercise;
-    @DBRef
-    private PhraseModel phraseReference;
+    /*@DBRef
+    private PhraseModel phraseReference;*/
+    private String phraseId;
+    private String phraseText;
+    @DBRef(lazy = true)
+    private SolutionModel mainSolutionReference;
+    @DBRef(lazy = true)
+    private SolutionModel alternativeSolutionReference;
+    private String TeacherName;
+
     private Boolean visibilty;
     private Boolean toDo;
 
     public ExerciseModel() {
         id = new ObjectId().toHexString();
         dateExercise = System.currentTimeMillis();
-        phraseReference = new PhraseModel();
         visibilty = true;
         toDo = false;
     }

@@ -66,26 +66,4 @@ public class UserService {
         }
         applicationUserRepository.saveAll(users);
     }
-
-   /* public void addInsertedExercise(String userId, String exerciseId) {
-        Optional<UserModel> userOptional = applicationUserRepository.findById(userId);
-        if(userOptional.isPresent()) {
-            UserModel user = userOptional.get();
-            user.   .add(exerciseId);
-            applicationUserRepository.save(user);
-        }
-        else{
-            throw new UsernameNotFoundException("User does not exist");
-        }
-    }*/
-
-    /*public void assignExerciseToUserIds(String exerciseId, List<String> userIds) {
-
-        Iterable<UserModel> users = applicationUserRepository.findAllById(userIds);
-
-        for (UserModel user : users) {
-            user.addExerciseToDo(exerciseId);
-        }
-        Iterable<UserModel> userModels = applicationUserRepository.saveAll(users);
-    }*/
 }

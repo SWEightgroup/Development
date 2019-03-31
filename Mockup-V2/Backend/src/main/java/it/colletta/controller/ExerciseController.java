@@ -46,9 +46,7 @@ public class ExerciseController {
   @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
-      // 1) inserire la frase nel sistema
       ExerciseModel model = exerciseService.insertExercise(exercise);
-      //exerciseService.insertExercise(exercise);
       return new ResponseEntity<ExerciseModel>(model, HttpStatus.OK);
     }catch (Exception e) {
       return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);

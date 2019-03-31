@@ -61,7 +61,10 @@ public class ExerciseService {
         ExerciseModel exerciseModel = ExerciseModel.builder()
             .id((new ObjectId().toHexString()))
             .dateExercise(System.currentTimeMillis())
-            .phraseReference(phrase)
+            .mainSolutionReference(mainSolution)
+            .alternativeSolutionReference(alternativeSolution)
+            //.phraseReference(phrase)
+            .phraseId(phrase.getId())
             .toDo(true)
             .visibilty(exercise.getVisibility())
             .build();
