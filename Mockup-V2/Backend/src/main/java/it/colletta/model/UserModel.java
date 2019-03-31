@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,8 +29,8 @@ public class UserModel implements UserDetails {
   @JsonProperty("username")
   @Indexed(unique = true)
   private String email;
-  private String firstName; 
-  private String lastName; 
+  private String firstName;
+  private String lastName;
   private String password;
   private String role;
   private String language;
@@ -36,14 +38,15 @@ public class UserModel implements UserDetails {
   private TimeZone userTimeZone;
   private Integer currentGoal;
   @Builder.Default
-  private ArrayList<String> completedExercises = new ArrayList<>();
+  private List<ExerciseModel> exercises = new ArrayList<>();
+  private Boolean enabled = true;
   @Builder.Default
-  private ArrayList<String> insertedExercises = new ArrayList<>();
-  @Builder.Default
-  private ArrayList<String> exerciseToDo = new ArrayList<>();    
-  @Builder.Default
-  private Boolean activated = true;
-  private ArrayList<String> favoriteTeacherIds;
+  private ArrayList<String> favoriteTeacherIds = new ArrayList<>(); //per forza una lista?
+
+
+  public Boolean addExercise(ExerciseModel exerciseToAdd){
+    return exercises.add(exerciseToAdd);
+  }
 
   public String getId() {
     return id;
@@ -55,14 +58,6 @@ public class UserModel implements UserDetails {
 
   public String getLastName() {
     return lastName;
-  }
-
-  public Boolean addExerciseToDo(String exerciseId) {
-    return exerciseToDo.add(exerciseId);
-  }
-
-  public Boolean removeExerciseToDo(String exerciseId) {
-    return exerciseToDo.remove(exerciseId);
   }
 
   @Override
@@ -86,25 +81,10 @@ public class UserModel implements UserDetails {
     return currentGoal;
   }
 
-  public ArrayList<String> getInsertedExercise() {
-    return insertedExercises;
-  }
-
-  public ArrayList<String> getExerciseToDo() {
-    return exerciseToDo;
-  }
-
-  public Boolean getActivated() {
-    return activated;
-  }
-
   public ArrayList<String> getFavoriteTeacherIds() {
     return favoriteTeacherIds;
   }
 
-  public ArrayList<String> getCompletedExercises() {
-    return completedExercises;
-  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -134,6 +114,6 @@ public class UserModel implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true; //TODO DECOMENNTARE
-    //return activated;
+    //return enabled;
   }
 }

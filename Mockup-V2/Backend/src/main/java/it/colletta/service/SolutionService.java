@@ -19,24 +19,24 @@ public class SolutionService {
 
   @Autowired
   private SolutionRepository solutionRepository;
-  
+
   // TODO
   public SolutionModel findSolution(String Id) {
     return new SolutionModel();
   }
 
   /**
-  * @param correctionText
-  * @throws IOException
-  * @return SolutionModel
-  */
+   * @param correctionText
+   * @throws IOException
+   * @return SolutionModel
+   */
   public SolutionModel getAutomaticCorrection(String correctionText) throws IOException  {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
     SolutionModel solutionModel = SolutionModel.builder()
-            .solutionText(freelingLibrary.getCorrection(correctionText).trim())
-            .affidability(0)
-            .dateSolution(System.currentTimeMillis())
-            .build();
+        .solutionText(freelingLibrary.getCorrection(correctionText).trim())
+        .reliability(0)
+        .dateSolution(System.currentTimeMillis())
+        .build();
     freelingLibrary.closeConnection();
     return solutionModel;
   }
