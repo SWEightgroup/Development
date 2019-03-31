@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
- export const gerarchia = {
+export const gerarchia = {
   adjective: {
     text: { full: 'adjective', short: 'A' },
     attributes: [
@@ -30,6 +30,7 @@
         ],
         condition: null
       },
+
       {
         attrName: 'num',
         choices: [

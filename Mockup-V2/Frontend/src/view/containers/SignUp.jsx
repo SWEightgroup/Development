@@ -8,13 +8,9 @@ import {
   displayError
 } from '../../actions/AuthActions';
 import _translator from '../components/Translator';
-import {
-  validEmail,
-  validDate,
-  validSelect,
-  validPassword
-} from "../../assets/lib/Validator";
+import Validator from '../../assets/lib/Validator';
 import { ExLang } from '../../assets/lib/Languages';
+import RegExpression from '../../assets/lib/RegExpression';
 
 class SignUp extends Component {
   handleChange = e => {
@@ -28,16 +24,19 @@ class SignUp extends Component {
     console.log(signUpData.username);
     console.log(': SignUp -> signUpData', signUpData);
     if (
-      validEmail(signUpData.username) &&
-      validDate(signUpData.dateOfBirth) &&
-      validPassword(signUpData.password) &&
-      validSelect(signUpData.role, [
+      Validator.validEmail(signUpData.username, RegExpression.getRegEmail()) &&
+      Validator.validDate(signUpData.dateOfBirth) &&
+      Validator.validPassword(
+        signUpData.password,
+        RegExpression.getRegPassword()
+      ) &&
+      Validator.validSelect(signUpData.role, [
         'ROLE_STUDENT',
         'ROLE_ADMIN',
         'ROLE_TEACHER',
         'ROLE_DEVELOPER'
       ]) &&
-      validSelect(signUpData.language, ExLang)
+      Validator.validSelect(signUpData.language, ExLang)
     ) {
       if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
         loaderOn();
@@ -157,8 +156,8 @@ class SignUp extends Component {
                         {_translator('signup_selectOption')}
                       </option>
                       {ExLang.map(lang => (
-                        <option value={lang} key={`ALang_${  lang}`}>
-                          {_translator(`gen_${  lang}`)}
+                        <option value={lang} key={`ALang_${lang}`}>
+                          {_translator(`gen_${lang}`)}
                         </option>
                       ))}
                     </select>

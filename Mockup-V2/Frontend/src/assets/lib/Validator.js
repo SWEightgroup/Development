@@ -1,22 +1,23 @@
-const regMail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
-const regPassword = /^(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9*]{6,16}$/;
+class Validator {
+  checkItem = (item, re) => {
+    return item.match(re);
+  };
 
-const checkItem = (item, re) => {
-  return item.match(re);
-};
+  validEmail = (email, regMail) =>
+    email !== null && email !== '' && this.checkItem(email, regMail);
 
-export const validEmail = email =>
-  email !== null && email !== '' && checkItem(email, regMail);
+  validDate = date => {
+    return (
+      date !== null && new Date(date).getTime() && new Date(date) < new Date()
+    );
+  };
 
-export const validDate = date => {
-  return (
-    date !== null && new Date(date).getTime() && new Date(date) < new Date()
-  );
-};
+  validSelect = (option, array) => {
+    return option && option !== '' && array.find(item => item === option);
+  };
 
-export const validSelect = (option, array) => {
-  return option && option !== '' && array.find(item => item === option);
-};
+  validPassword = (pwd, regPassword) =>
+    pwd !== null && pwd !== '' && this.checkItem(pwd, regPassword);
+}
 
-export const validPassword = pwd =>
-  pwd !== null && pwd !== '' && checkItem(pwd, regPassword);
+export default Validator;
