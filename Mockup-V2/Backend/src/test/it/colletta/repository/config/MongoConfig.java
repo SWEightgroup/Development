@@ -3,6 +3,7 @@ package it.colletta.repository.config;
 
 import java.io.IOException;
 import cz.jirutka.spring.embedmongo.EmbeddedMongoFactoryBean;
+import it.colletta.repository.user.UsersRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.*;
@@ -20,4 +21,5 @@ public class MongoConfig {
         MongoTemplate mongoTemplate = new MongoTemplate(mongoClient, MONGO_DB_NAME);
         return mongoTemplate;
     }
+
 }

@@ -122,7 +122,6 @@ public class UserModel implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true; //TODO DECOMENNTARE
-    //return enabled;
+    return enabled;
   }
 }

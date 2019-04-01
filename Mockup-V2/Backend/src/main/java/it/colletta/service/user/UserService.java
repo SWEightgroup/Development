@@ -19,6 +19,7 @@ public class UserService {
 
     @Autowired
     private UsersRepository applicationUserRepository;
+    
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
