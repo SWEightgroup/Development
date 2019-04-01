@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
-import it.colletta.model.UserModel;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
 
@@ -38,7 +36,6 @@ public class ExerciseController {
   private SolutionService solutionService;
 
 
-
   /**
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
@@ -46,8 +43,7 @@ public class ExerciseController {
   @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
-      ExerciseModel model = exerciseService.insertExercise(exercise);
-      return new ResponseEntity<ExerciseModel>(model, HttpStatus.OK);
+      return new ResponseEntity<ExerciseModel>(exerciseService.insertExercise(exercise), HttpStatus.OK);
     }catch (Exception e) {
       return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
     }

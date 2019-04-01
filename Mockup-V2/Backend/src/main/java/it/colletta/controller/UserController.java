@@ -83,7 +83,7 @@ public class UserController {
         try {
             UserModel user = userService.updateUser(newUserData);
             return user;
-            //TODO GESTIONE ECCEZIONI
+            //TODO GESTIONE ECCEZIONI ricordarsi di aggiornare il campo  TeacherName di ExerciseModel
         }
         catch(UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);

@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -36,21 +34,34 @@ public class UserModel implements UserDetails {
   private Date dateOfBirth;
   private TimeZone userTimeZone;
   private Integer currentGoal;
+
   @Builder.Default
-  private List<ExerciseModel> exercises = new ArrayList<>();
+  @DBRef(lazy = true)
+  private List<ExerciseModel> exercisesToDo = new ArrayList<>();
+
+  @Builder.Default
+  @DBRef(lazy = true)
+  private List<ExerciseModel> exercisesDone = new ArrayList<>();
+
   private Boolean enabled;
+
   @Builder.Default
-  private ArrayList<String> favoriteTeacherIds = new ArrayList<>(); //per forza una lista?
+  private ArrayList<String> favoriteTeacherIds = new ArrayList<>();
 
 
   public UserModel() {
     enabled = true;
     favoriteTeacherIds = new ArrayList<>();
-    exercises = new ArrayList<>();
+    exercisesToDo = new ArrayList<>();
+    exercisesDone = new ArrayList<>();
   }
 
-  public Boolean addExercise(ExerciseModel exerciseToAdd){
-    return exercises.add(exerciseToAdd);
+  public Boolean addExerciseToDo(ExerciseModel exerciseToAdd){
+    return exercisesToDo.add(exerciseToAdd);
+  }
+
+  public Boolean addExerciseDone(ExerciseModel exerciseToAdd){
+    return exercisesDone.add(exerciseToAdd);
   }
 
   public String getId() {
@@ -65,10 +76,14 @@ public class UserModel implements UserDetails {
     return lastName;
   }
 
-  public List<ExerciseModel> getExercises() {
-    return exercises;
+  public List<ExerciseModel> getExercisesToDo() {
+    return exercisesToDo;
   }
 
+  public List<ExerciseModel> getExercisesDone() {
+    return exercisesDone;
+  }
+  
   @Override
   public String getPassword() {
     return password;

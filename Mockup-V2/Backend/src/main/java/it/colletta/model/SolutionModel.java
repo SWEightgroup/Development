@@ -26,4 +26,5 @@ public class SolutionModel {
     private Long dateSolution = System.currentTimeMillis();
     private int reliability;
     private String authorId;
+    private Double mark;
 }
