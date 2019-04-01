@@ -16,7 +16,7 @@ import it.colletta.model.UserModel;
 @Repository
 public class UsersRepositoryImpl implements UserCustomQueryInterface {
 
-  MongoTemplate mongoTemplate;
+  private MongoTemplate mongoTemplate;
 
 
 
