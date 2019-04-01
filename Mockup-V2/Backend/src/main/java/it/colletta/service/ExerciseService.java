@@ -73,6 +73,8 @@ public class ExerciseService {
 
         userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
         exerciseRepository.save(exerciseModel);
+        phraseService.increaseReliability(mainSolution);
+        phraseService.increaseReliability(alternativeSolution);
         return exerciseModel;
     }
     public List<ExerciseModel> findAllExerciseToDo(String userId) {

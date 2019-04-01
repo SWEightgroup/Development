@@ -10,5 +10,6 @@ import java.util.List;
 public interface PhraseCustomQueryInterface {
     List<PhraseModel> findAllByAuthor(String  authorId);
     List<SolutionModel> findAllSolutionsByAuthor(String authorId);
+    void increaseReliability(SolutionModel solutionModels);
 }
 

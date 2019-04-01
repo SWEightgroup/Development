@@ -72,5 +72,9 @@ public class PhraseService {
         return null;
     }
 
+	public void increaseReliability(SolutionModel mainSolution) {
+        phraseRepository.increaseReliability(mainSolution);
+	}
+
 
 }
