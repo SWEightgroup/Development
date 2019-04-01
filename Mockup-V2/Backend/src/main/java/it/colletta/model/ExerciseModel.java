@@ -1,21 +1,37 @@
 package it.colletta.model;
 
 import lombok.*;
+
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @ToString
-@Document(collection = "exercises")
 public class ExerciseModel {
     @Id
-    private String id;
+    @Builder.Default
+    private String id = new ObjectId().toHexString();;
     private Long dateExercise;
-    private String phraseReference;   
-    private String author;
+    /*@DBRef
+    private PhraseModel phraseReference;*/
+    private String phraseId;
+    private String phraseText;
+    @DBRef(lazy = true)
+    private SolutionModel mainSolutionReference;
+    @DBRef(lazy = true)
+    private SolutionModel alternativeSolutionReference;
+    private String TeacherName;
+
     private Boolean visibilty;
+    private Boolean toDo;
+
+    public ExerciseModel() {
+        id = new ObjectId().toHexString();
+        dateExercise = System.currentTimeMillis();
+        visibilty = true;
+        toDo = false;
+    }
 }

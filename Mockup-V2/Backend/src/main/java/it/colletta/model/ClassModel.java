@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.Builder;
-import java.util.List; 
+import java.util.List;
 
 
 @Getter
@@ -20,13 +20,13 @@ import java.util.List;
 public class ClassModel {
     @Id
     private String id;
-    private String name; 
+    private String name;
     private List<String> studentsId;
     private String teacher;
 
     /**
      * @param name TODO 
-     * @return  TODO 
+     * @return  TODO
      */
     public void setName(String name) {
         this.name = name;
@@ -36,7 +36,7 @@ public class ClassModel {
         studentList.add(student);
     }
     */
-    
+
     /**
      * @param student TODO
      * @return TODO
