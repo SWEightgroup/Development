@@ -2,6 +2,7 @@ package it.colletta.controller;
 
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
+import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
@@ -139,6 +140,24 @@ public class Controller {
         }
     }
 
+
+    @RequestMapping(value = "/exercises/do/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SolutionModel> doExercise(@RequestBody CorrectionHelper correctionHelper) {
+        try {
+            SolutionModel insertedSolution = exerciseService.doExercise(correctionHelper);
+            return new ResponseEntity<>(insertedSolution, HttpStatus.OK);
+        }
+        catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    /**
+     *
+     * @param userId the user unique id
+     * @return the list of the exercises the user have to do
+     */
     @RequestMapping(value = "/exercises/todo/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
         try {
