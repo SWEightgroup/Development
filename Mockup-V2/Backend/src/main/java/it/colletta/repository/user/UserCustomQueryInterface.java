@@ -6,15 +6,15 @@ import java.util.List;
 public interface UserCustomQueryInterface {
 
   /**
-  * @param id TODO  
-  * @return nothing
-  */
+   * @param id TODO
+   * @return nothing
+   */
   public void updateActivateFlagOnly(String id);
 
   /**
-  * @param id TODO
-  * @return List<String> TODO
-  */
-  public List<String> findAllPhrasesInserted(String id);
+   * @param id TODO
+   * @return List<String> TODO
 
+  public List<String> findAllPhrasesInserted(String id);
+   */
 }

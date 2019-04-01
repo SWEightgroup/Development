@@ -49,5 +49,4 @@ public interface UsersRepository extends MongoRepository<UserModel, String>, Use
   @Override
   List<UserModel> findAll();
 
-
 }

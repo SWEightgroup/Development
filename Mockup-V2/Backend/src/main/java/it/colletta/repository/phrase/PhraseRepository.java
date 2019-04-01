@@ -60,6 +60,6 @@ public interface PhraseRepository extends MongoRepository<PhraseModel, String>, 
     @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")
     Optional<PhraseModel> getPhraseWithText(String textToCompare);
 
-    @Query(value = "{'id': { '$in' : 'ids':?#{[0]}}}")
-    List<PhraseModel> findAllPhrasesByIds(List<String> ids);
+    // @Query(value = "{'id': { '$in' : 'ids':?#{[0]}}}")
+    // List<PhraseModel> findAllPhrasesByIds(List<String> ids);
 }

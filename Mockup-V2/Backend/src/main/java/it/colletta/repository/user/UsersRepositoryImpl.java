@@ -9,24 +9,26 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
+import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 
 @Repository
 public class UsersRepositoryImpl implements UserCustomQueryInterface {
 
   MongoTemplate mongoTemplate;
-  
 
-  
+
+
   @Autowired
   public UsersRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
   }
-  
+
   /**
-  * @param id TODO 
-  * @return nothing
-  */  
+   * @param id TODO
+   * @return nothing
+   */
   @Override
   public void updateActivateFlagOnly(String id) {
     Query query = new Query(Criteria.where("_id").is(id));
@@ -34,16 +36,14 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   }
 
   /**
-  * return all phrases inserted by a user without corrections
+   * return all phrases inserted by a user without corrections
    * hint user --> correction -->
-  * @param id TODO
-  * @return List<String> TODO
-  */
-  //TODO @DAMIEN
-  @Override
-  public List<String> findAllPhrasesInserted(String id) {
-    Query query = new Query(Criteria.where("_id").is(id)) ;
-    UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
-    return userModel.getInsertedExercise();
-  }
+   * @param id TODO
+   * @return List<String> TODO
+   @Override
+   public List<ExerciseModel> findAllPhrasesInserted(String id) {
+   Query query = new Query(Criteria.where("_id").is(id)) ;
+   UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
+   return userModel.();
+   }*/
 }

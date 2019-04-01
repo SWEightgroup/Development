@@ -19,7 +19,7 @@ public class PhraseService {
 
     /**
      * returns all the phrased written by a userId
-     * 
+     *
      * @param userId the id of the user
      * @return List<PhraseModel> the list of the phrases without solution
      */
@@ -28,26 +28,18 @@ public class PhraseService {
     }
 
     public PhraseModel insertPhrase(PhraseModel phraseModel) {
-	    return phraseRepository.save(phraseModel);
-    }
-
-    public PhraseModel insertPhrase(String phrase) {
-        PhraseModel phraseModel;
-        Optional<PhraseModel> optionalPhraseModel = phraseRepository.getPhraseWithText(phrase);
-        if(optionalPhraseModel.isPresent()) {
-            phraseModel = optionalPhraseModel.get();
+        Optional<PhraseModel> phrase = phraseRepository.getPhraseWithText(phraseModel.getPhraseText());
+        if(phrase.isPresent()) {
+            phrase.get().getSolutions().addAll(phraseModel.getSolutions());
+            return phrase.get();
         }
         else {
-            phraseModel = insertPhrase(PhraseModel.builder()
-                    .phraseText(phrase)
-                    .datePhrase(System.currentTimeMillis()).build());
+            return phraseRepository.save(phraseModel);
         }
-        return phraseModel;
     }
 
-
     public PhraseModel addSolution(String phraseId, SolutionModel solutionModel) {
-	    
+
         PhraseModel phraseToReturn = null;
 
         Optional<PhraseModel> phraseModelOptional = phraseRepository.findById(phraseId);
@@ -63,11 +55,11 @@ public class PhraseService {
 
     public PhraseModel addSolution(String phraseId, String solutionText, String authorId) {
         SolutionModel solutionModel = SolutionModel.builder()
-                .solutionText(solutionText)
-                .authorId(authorId)
-                .dateSolution(System.currentTimeMillis())
-                .affidability(0)
-                .build();
+            .solutionText(solutionText)
+            .authorId(authorId)
+            .dateSolution(System.currentTimeMillis())
+            .reliability(0)
+            .build();
         return addSolution(phraseId, solutionModel);
     }
 
@@ -75,9 +67,10 @@ public class PhraseService {
         return phraseRepository.findAllSolutionsByAuthor(authorId);
     }
 
-	public List<PhraseModel> getAllPhrasesById(List<String> phraseIds) {
-        return phraseRepository.findAllPhrasesByIds(phraseIds);
-	}
-    
+    public List<PhraseModel> getAllPhrasesById(List<String> phraseIds) {
+        //return phraseRepository.findAllPhrasesByIds(phraseIds);
+        return null;
+    }
+
 
 }
