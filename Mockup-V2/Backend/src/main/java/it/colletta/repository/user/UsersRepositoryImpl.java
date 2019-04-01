@@ -32,7 +32,7 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   @Override
   public void updateActivateFlagOnly(String id) {
     Query query = new Query(Criteria.where("_id").is(id));
-    mongoTemplate.updateFirst(query, Update.update("actived", true), UserModel.class);
+    mongoTemplate.updateFirst(query, Update.update("enabled", true), UserModel.class);
   }
 
   /**

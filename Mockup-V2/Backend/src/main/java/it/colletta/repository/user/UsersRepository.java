@@ -14,27 +14,27 @@ import java.util.List;
 public interface UsersRepository extends MongoRepository<UserModel, String>, UserCustomQueryInterface {
 
   /**
-  * @param email TODO 
-  * @return UserModel TODO 
+  * @param email TODO
+  * @return UserModel TODO
   */
   UserModel findByEmail(String email);
 
   /**
-  * @param id TODO 
-  * @return Optional<UserModel> TODO 
+  * @param id TODO
+  * @return Optional<UserModel> TODO
   */
   Optional<UserModel> findById(String id);
 
   /**
-  * @param users TODO 
-  * @return nothing 
+  * @param users TODO
+  * @return nothing
   */
   @Override
   void delete(UserModel users);
 
   /**
-  * @param s TODO 
-  * @return nothing 
+  * @param s TODO
+  * @return nothing
   */
   @Override
   void deleteById(String s);
@@ -43,8 +43,8 @@ public interface UsersRepository extends MongoRepository<UserModel, String>, Use
   UserModel save(UserModel user);
 
   /**
-  * @param nothing 
-  * @return List<UserModel> return all the user 
+  * @param nothing
+  * @return List<UserModel> return all the user
   */
   @Override
   List<UserModel> findAll();
