@@ -70,7 +70,6 @@ public class ExerciseService {
             .authorId(exercise.getAuthor())
             .teacherName(teacherName)
             .build();
-
         userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
         exerciseRepository.save(exerciseModel);
         phraseService.increaseReliability(mainSolution);

@@ -32,7 +32,7 @@ public class PhraseModel {
         solutions.add(solutionModel);
     }
 
-    public boolean removeSolution(final SolutionModel  solutionModel) {
+    public boolean removeSolution(final SolutionModel solutionModel) {
        return solutions.remove(solutionModel);
     }
 }
