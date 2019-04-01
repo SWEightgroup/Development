@@ -27,6 +27,7 @@ class App extends Component {
 
   render() {
     const { loader, auth } = this.props;
+    const { language } = auth;
     return (
       <BrowserRouter>
         <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -104,7 +105,7 @@ class App extends Component {
                   isAllowed={auth.user}
                   component={Homework}
                 />
-                <Route component={Error} />
+                <Route render={() => <Error language={language} />} />
               </Switch>
               <Footer />
             </div>

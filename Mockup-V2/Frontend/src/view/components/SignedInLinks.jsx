@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signOut } from '../../actions/AuthActions';
-import _translator from '../components/Translator';
+import _translator from '../../helpers/Translator';
 
 const SignedInLinks = props => {
   const { auth, signOut } = props;

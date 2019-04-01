@@ -98,6 +98,8 @@ class NewExsercise extends Component {
       sentenceString
     } = this.props.newExercise;
 
+    const { language } = this.props.auth.user;
+
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -106,6 +108,7 @@ class NewExsercise extends Component {
               prepareExercise={this.prepareExercise}
               changeNewInputSentence={this.props.changeNewInputSentence}
               sentenceString={sentenceString}
+              language={language}
             />
             <ExecutionExercise
               sentence={sentence} // array di parole
@@ -114,6 +117,7 @@ class NewExsercise extends Component {
               showSolution={showSolution}
               createAt={createAt}
               salvaEsercizio={this.salvaEsercizio}
+              language={language}
             />
           </div>
         </div>

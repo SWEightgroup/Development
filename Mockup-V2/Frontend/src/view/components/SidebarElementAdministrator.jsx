@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import _translator from './Translator';
+import _translator from '../../helpers/Translator';
 class SidebarElementAdministrator extends Component {
   state = {};
   render() {

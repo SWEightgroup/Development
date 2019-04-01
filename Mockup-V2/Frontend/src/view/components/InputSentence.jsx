@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _translator from './Translator';
+import _translator from '../../helpers/Translator';
 
 class InputSentence extends Component {
   handleChange = e => {

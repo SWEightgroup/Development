@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import LanguageStructure from '../../assets/lib/LanguageIterator';
-import SolutionMapper from '../../assets/lib/SolutionTranslator';
+import LanguageStructure from '../../helpers/LanguageIterator';
+import SolutionMapper from '../../helpers/SolutionTranslator';
 
 class Word extends Component {
   constructor(props) {

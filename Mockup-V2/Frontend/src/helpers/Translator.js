@@ -1,4 +1,4 @@
-import { _label } from '../../assets/lib/Label';
+import { _label } from '../constants/Label';
 
 const _translator = (label, lang) => {
   lang = lang ? lang : 'it';

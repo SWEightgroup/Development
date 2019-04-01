@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import _translator from '../components/Translator';
+import _translator from '../../helpers/Translator';
 
 class SignedOutLinks extends Component {
   state = {};

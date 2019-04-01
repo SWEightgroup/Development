@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SignedInLinks from './SignedInLinks';
-import SignedOutLinks from './SignedOutLinks';
+import SignedInLinks from './../components/SignedInLinks';
+import SignedOutLinks from './../components/SignedOutLinks';
 
 class Navbar extends Component {
   render() {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Word from '../containers/Word';
-import { gerarchia } from '../../assets/lib/gerarchia';
-import _translator from './Translator';
+import { gerarchia } from '../../constants/gerarchia';
+import _translator from '../../helpers/Translator';
 import SolutionMapper, {
   solutionTranslator
-} from '../../assets/lib/SolutionTranslator';
+} from '../../helpers/SolutionTranslator';
 
 class ExecutionExercise extends Component {
   /**
@@ -32,7 +32,8 @@ class ExecutionExercise extends Component {
       response,
       showSolution,
       lockInput,
-      createAt
+      createAt,
+      language
     } = this.props;
     const pippo = sentence.filter(word => !word.match(allowedPunctuation));
     if (sentence && sentence.length) {
@@ -42,7 +43,7 @@ class ExecutionExercise extends Component {
             <div className="main-card mb-3 card">
               <div className="card-body">
                 <h5 className="card-title">
-                  {_translator('executionExercise_completeExercise')}
+                  {_translator('executionExercise_completeExercise', language)}
                 </h5>
                 <ul className="list-group">
                   {pippo &&
@@ -72,7 +73,7 @@ class ExecutionExercise extends Component {
                       className="btn btn-success btn-block"
                       onClick={this.confirm}
                     >
-                      {_translator('executionExercise_complete')}
+                      {_translator('executionExercise_complete', language)}
                     </button>
                   </div>
                 </div>

@@ -7,10 +7,10 @@ import {
   changeSignUp,
   displayError
 } from '../../actions/AuthActions';
-import _translator from '../components/Translator';
-import Validator from '../../assets/lib/Validator';
-import { ExLang } from '../../assets/lib/Languages';
-import RegExpression from '../../assets/lib/RegExpression';
+import _translator from '../../helpers/Translator';
+import Validator from '../../helpers/Validator';
+import { ExLang } from '../../constants/Languages';
+import RegExpression from '../../constants/RegExpression';
 
 class SignUp extends Component {
   handleChange = e => {

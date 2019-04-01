@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../actions/AuthActions';
-import _translator from '../components/Translator';
-import { ExLang } from '../../assets/lib/Languages';
-import Validator from '../../assets/lib/Validator';
-import RegExpression from '../../assets/lib/RegExpression';
+import _translator from '../../helpers/Translator';
+import { ExLang } from '../../constants/Languages';
+import Validator from '../../helpers/Validator';
+import RegExpression from '../../constants/RegExpression';
 
 class Account extends Component {
   render() {

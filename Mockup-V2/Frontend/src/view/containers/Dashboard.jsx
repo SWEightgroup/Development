@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _translator from '../components/Translator';
+import _translator from '../../helpers/Translator';
 
 class Dashboard extends Component {
   render() {
+    console.log(this.props.user);
     const { firstName } = this.props.user;
     return (
       <div className="app-main__inner full-height-mobile">
