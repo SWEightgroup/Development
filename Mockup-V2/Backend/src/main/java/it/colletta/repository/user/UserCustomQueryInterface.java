@@ -4,7 +4,7 @@ import java.util.List;
 
 // interface for custom query on users collections
 public interface UserCustomQueryInterface {
-  
+
   /**
   * @param id TODO  
   * @return nothing
