@@ -8,23 +8,22 @@ class Sidebar extends Component {
   render() {
     const { auth } = this.props;
     const { user } = auth;
-    const { role } = user;
+    const { role, language } = user;
     if (!(auth && auth.user)) return null;
     let roleSpecificNav = null;
 
     if (role === 'ROLE_STUDENT') {
-      roleSpecificNav = <SidebarElementStudent />;
+      roleSpecificNav = <SidebarElementStudent language={language} />;
     }
     if (role === 'ROLE_ADMIN') {
-      roleSpecificNav = <SidebarElementAdministrator />;
+      roleSpecificNav = <SidebarElementAdministrator language={language} />;
     }
-
     return (
       <div className="scrollbar-sidebar">
         <div className="app-sidebar__inner">
           <ul className="vertical-nav-menu">
             <li className="app-sidebar__heading">
-              {_translator('gen_dashboard')}
+              {_translator('gen_dashboard', language)}
             </li>
             <li>
               <NavLink
@@ -33,7 +32,7 @@ class Sidebar extends Component {
                 activeClassName="mm-active"
               >
                 <i className={'metismenu-icon pe-7s-user'} />
-                {_translator('gen_userDashboard')}
+                {_translator('gen_userDashboard', language)}
               </NavLink>
             </li>
             {roleSpecificNav}

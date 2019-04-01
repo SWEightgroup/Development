@@ -4,28 +4,29 @@ import _translator from '../../helpers/Translator';
 class SidebarElementStudent extends Component {
   state = {};
   render() {
+    const { language } = this.props;
     return (
       <React.Fragment>
         <li>
           <a href="#root">
             <i className="metismenu-icon pe-7s-car" />
-            {_translator('sidebarElementStudent_exercise')}
+            {_translator('sidebarElementStudent_exercise', language)}
             <i className="metismenu-state-icon pe-7s-angle-down caret-left" />
           </a>
           <ul>
             <li>
               <NavLink to="/acaso" activeClassName="mm-active">
-                {_translator('sidebarElementTeacher_insertExercise')}
+                {_translator('sidebarElementTeacher_insertExercise', language)}
               </NavLink>
             </li>
             <li>
               <NavLink to="/acaso" activeClassName="mm-active">
-                {_translator('sidebarElementTeacher_exercises')}
+                {_translator('sidebarElementTeacher_exercises', language)}
               </NavLink>
             </li>
             <li>
               <NavLink to="/acaso" activeClassName="mm-active">
-                {_translator('sidebarElementTeacher_ExerciseDone')}
+                {_translator('sidebarElementTeacher_ExerciseDone', language)}
               </NavLink>
             </li>
           </ul>

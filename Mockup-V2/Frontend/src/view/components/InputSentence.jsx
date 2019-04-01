@@ -30,13 +30,14 @@ class InputSentence extends Component {
   };
 
   render() {
+    const { language } = this.props;
     return (
       <div className="row justify-content-center">
         <div className="col-12">
           <div className="main-card mb-3 card">
             <div className="card-body">
               <h5 className="card-title ">
-                {_translator('inputSentence_insertSentence')}
+                {_translator('inputSentence_insertSentence', language)}
               </h5>
 
               <form
@@ -48,13 +49,16 @@ class InputSentence extends Component {
                     id="sentenceString"
                     type="text"
                     className="form-control validate"
-                    placeholder={_translator('inputSentence_insertSentence')}
+                    placeholder={_translator(
+                      'inputSentence_insertSentence',
+                      language
+                    )}
                     onChange={this.handleChange}
                     required
                   />
                   <div className="input-group-append">
                     <button className="btn btn-success" type="submit">
-                      {_translator('inputSentence_executeExercise')}
+                      {_translator('inputSentence_executeExercise', language)}
                     </button>
                   </div>
                 </div>

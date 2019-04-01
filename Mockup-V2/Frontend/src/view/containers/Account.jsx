@@ -10,16 +10,19 @@ class Account extends Component {
   render() {
     const { userdata } = this.props;
     const { username, firstName, lastName, language, dateOfBirth } = userdata;
+
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
           <div className="col-md-11">
             <div className="card">
-              <h5 className="card-header">{_translator('account_yourData')}</h5>
+              <h5 className="card-header">
+                {_translator('account_yourData', language)}
+              </h5>
               <div className="card-body">
                 <form onSubmit={this.handleSubmit}>
                   <label htmlFor="firstName">
-                    {_translator('gen_firstName')}
+                    {_translator('gen_firstName', language)}
                   </label>
                   <div className="input-group mb-3">
                     <input
@@ -30,7 +33,7 @@ class Account extends Component {
                     />
                   </div>
                   <label htmlFor="lastName">
-                    {_translator('gen_lastName')}
+                    {_translator('gen_lastName', language)}
                   </label>
                   <div className="input-group mb-3">
                     <input
@@ -40,7 +43,9 @@ class Account extends Component {
                       defaultValue={lastName}
                     />
                   </div>
-                  <label htmlFor="username">{_translator('gen_email')}</label>
+                  <label htmlFor="username">
+                    {_translator('gen_email', language)}
+                  </label>
                   <div className="input-group mb-3">
                     <input
                       type="email"
@@ -51,12 +56,12 @@ class Account extends Component {
                   </div>
                   <div className="position-relative form-group">
                     <label htmlFor="dateOfBirth">
-                      {_translator('gen_birthDate')}
+                      {_translator('gen_birthDate', language)}
                     </label>
                     <input
                       name="dateOfBirth"
                       id="dateOfBirth"
-                      placeholder={_translator('gen_birthDate')}
+                      placeholder={_translator('gen_birthDate', language)}
                       type="date"
                       className="form-control"
                       onChange={this.handleChange}
@@ -67,7 +72,7 @@ class Account extends Component {
                   </div>
                   <div className="position-relative form-group">
                     <label htmlFor="language">
-                      {_translator('gen_language')}
+                      {_translator('gen_language', language)}
                     </label>
                     <select
                       defaultValue={language}
@@ -78,13 +83,13 @@ class Account extends Component {
                     >
                       {ExLang.map(lang => (
                         <option value={lang} key={`ALang_${lang}`}>
-                          {_translator(`gen_${lang}`)}
+                          {_translator(`gen_${lang}`, language)}
                         </option>
                       ))}
                     </select>
                   </div>
                   <button type="submit" className="mt-2 btn btn-primary">
-                    {_translator('gen_modify')}
+                    {_translator('gen_modify', language)}
                   </button>
                 </form>
               </div>

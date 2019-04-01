@@ -6,6 +6,8 @@ import _translator from '../../helpers/Translator';
 
 const SignedInLinks = props => {
   const { auth, signOut } = props;
+  const { user } = auth;
+  const { language } = user;
   return (
     <React.Fragment>
       <div className="app-header-right">
@@ -16,7 +18,7 @@ const SignedInLinks = props => {
                 <ul className="header-menu nav">
                   <li className="nav-item">
                     <NavLink to="/account" className="nav-link">
-                      {_translator('gen_account')}
+                      {_translator('gen_account', language)}
                     </NavLink>
                   </li>
                   <li className="btn-group nav-item">
@@ -26,7 +28,7 @@ const SignedInLinks = props => {
                       tabIndex="0"
                       className="dropdown-item"
                     >
-                      {_translator('gen_logout')}
+                      {_translator('gen_logout', language)}
                     </NavLink>
                   </li>
                 </ul>

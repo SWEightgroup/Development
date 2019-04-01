@@ -4,15 +4,15 @@ import _translator from '../../helpers/Translator';
 
 class Dashboard extends Component {
   render() {
-    console.log(this.props.user);
-    const { firstName } = this.props.user;
+    const { user } = this.props;
+    const { firstName, language } = user;
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
           <div className="py-5 text-center">
-            <h2>{_translator('gen_userDashboard')}</h2>
+            <h2>{_translator('gen_userDashboard', language)}</h2>
             <p className="lead">
-              {_translator('dashboard_hiUser')}
+              {_translator('dashboard_hiUser', language)}
               {firstName}
             </p>
           </div>
@@ -21,7 +21,7 @@ class Dashboard extends Component {
           <div className="col-md-11">
             <div className="card">
               <h5 className="card-header">
-                {_translator('gen_userDashboard')}
+                {_translator('gen_userDashboard', language)}
               </h5>
               <div className="card-body">
                 Pagina con varie carte, praticamente un riassunto delle varie
