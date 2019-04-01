@@ -70,19 +70,9 @@ public class ExerciseService {
             .authorId(exercise.getAuthor())
             .teacherName(teacherName)
             .build();
-        userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
         exerciseRepository.save(exerciseModel);
         phraseService.increaseReliability(mainSolution);
         phraseService.increaseReliability(alternativeSolution);
         return exerciseModel;
-    }
-    public List<ExerciseModel> findAllExerciseToDo(String userId) {
-        Optional<UserModel> userModel = userService.findById(userId);
-        if(userModel.isPresent()) {
-            return userModel.get().getExercisesToDo();
-        }
-        else {
-            throw new UsernameNotFoundException("User not found in the system");
-        }
     }
 }

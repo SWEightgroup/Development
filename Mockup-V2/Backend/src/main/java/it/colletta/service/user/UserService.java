@@ -68,4 +68,13 @@ public class UserService {
         applicationUserRepository.saveAll(users);
     }
 
+    public List<ExerciseModel> findAllExerciseToDo(String userId) {
+        Optional<UserModel> userModel = applicationUserRepository.findById(userId);
+        if(userModel.isPresent()) {
+            return userModel.get().getExercisesToDo();
+        }
+        else {
+            throw new UsernameNotFoundException("User not found in the system");
+        }
+    }
 }

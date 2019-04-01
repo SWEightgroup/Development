@@ -110,7 +110,9 @@ public class Controller {
     @RequestMapping(value = "/exercises/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
         try {
-            return new ResponseEntity<ExerciseModel>(exerciseService.insertExercise(exercise), HttpStatus.OK);
+            ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
+            userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
+            return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
         }
@@ -139,10 +141,10 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/exercises/todo/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/users/todo/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
         try {
-            List<ExerciseModel> exerciseToDo = exerciseService.findAllExerciseToDo(userId);
+            List<ExerciseModel> exerciseToDo = userService.findAllExerciseToDo(userId);
             return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
