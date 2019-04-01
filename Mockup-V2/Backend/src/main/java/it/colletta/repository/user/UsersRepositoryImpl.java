@@ -35,6 +35,11 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
     mongoTemplate.updateFirst(query, Update.update("enabled", true), UserModel.class);
   }
 
+  //TODO: da finire
+  public UserModel updateUser(UserModel updateUser){
+    return updateUser;
+  }
+
   /**
    * return all phrases inserted by a user without corrections
    * hint user --> correction -->

@@ -4,11 +4,14 @@ import it.colletta.model.ExerciseModel;
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
+import it.colletta.security.ParseJWT;
 import it.colletta.service.signup.SignupRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.acl.NotOwnerException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,15 +52,20 @@ public class UserService {
         applicationUserRepository.updateActivateFlagOnly(id);
     }
 
-    public UserModel updateUser(UserModel newUserData){
-        UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
-        if(user.getId().equals(newUserData.getId())) {
-            return applicationUserRepository.save(newUserData);
+    public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
+        String email = ParseJWT.parseJWT(token);
+        if(email.equals(newUserData.getUsername()) ) {    // DA FARE:  caso amministratore:  || email.equals(adminEmails)
+            UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
+            if (email.equals(newUserData.getUsername())) {
+                return applicationUserRepository.updateUser(user);
+            }
+            else {
+                throw new UsernameNotFoundException("User does not exist");
+            }
         }
         else {
-            throw new UsernameNotFoundException("User does not exist");
+            throw new NotOwnerException();
         }
-
     }
 
     public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
