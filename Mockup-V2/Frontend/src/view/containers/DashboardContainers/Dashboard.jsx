@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _translator from '../../helpers/Translator';
+import _translator from '../../../helpers/Translator';
 
 class Dashboard extends Component {
   render() {

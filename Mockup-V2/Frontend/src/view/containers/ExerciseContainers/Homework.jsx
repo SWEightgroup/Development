@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ExercisePreview from '../components/ExercisePreview';
+import ExercisePreview from '../../components/ExercisePreview';
 class Homework extends Component {
   state = {};
   render() {

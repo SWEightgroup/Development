@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Word from '../containers/Word';
+import Word from './Word';
 import { gerarchia } from '../../constants/gerarchia';
 import _translator from '../../helpers/Translator';
 import SolutionMapper, {

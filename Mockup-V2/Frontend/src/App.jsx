@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Navbar from './view/containers/Navbar';
+import Navbar from './view/containers/NavbarContainers/Navbar';
 import Sidebar from './view/components/Sidebar';
-import Dashboard from './view/containers/Dashboard';
+import Dashboard from './view/containers/DashboardContainers/Dashboard';
 import Footer from './view/components/Footer';
-import SignUp from './view/containers/SignUp';
-import SignIn from './view/containers/SignIn';
+import SignUp from './view/containers/AuthContainers/SignUp';
+import SignIn from './view/containers/AuthContainers/SignIn';
 import Error from './view/components/Error';
 //import { initializeAuth } from './actions/AuthActions';
 
 // import { loadAuth } from './actions/AuthActions';
 import './App.css';
-import NewExercise from './view/containers/NewExercise';
-import Account from './view/containers/Account';
-import Homework from './view/containers/Homework';
+import NewExercise from './view/containers/ExerciseContainers/NewExercise';
+import Account from './view/containers/AuthContainers/Account';
+import Homework from './view/containers/ExerciseContainers/Homework';
 
 class App extends Component {
   /*componentDidMount() {

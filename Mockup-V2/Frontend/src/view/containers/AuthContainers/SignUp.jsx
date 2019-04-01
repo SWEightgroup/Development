@@ -6,11 +6,11 @@ import {
   loaderOn,
   changeSignUp,
   displayError
-} from '../../actions/AuthActions';
-import _translator from '../../helpers/Translator';
-import Validator from '../../helpers/Validator';
-import { ExLang } from '../../constants/Languages';
-import RegExpression from '../../constants/RegExpression';
+} from '../../../actions/AuthActions';
+import _translator from '../../../helpers/Translator';
+import Validator from '../../../helpers/Validator';
+import { ExLang } from '../../../constants/Languages';
+import RegExpression from '../../../constants/RegExpression';
 
 class SignUp extends Component {
   handleChange = e => {

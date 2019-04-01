@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import InputSentence from '../components/InputSentence';
-import ExecutionExercise from '../components/ExecutionExercise';
+import InputSentence from '../../components/InputSentence';
+import ExecutionExercise from '../../components/ExecutionExercise';
 import {
   initializeNewExercise,
   updateNewExerciseState,
   changeNewInputSentence
-} from '../../actions/ExerciseActions';
+} from '../../../actions/ExerciseActions';
 
 class NewExsercise extends Component {
   constructor(props) {
