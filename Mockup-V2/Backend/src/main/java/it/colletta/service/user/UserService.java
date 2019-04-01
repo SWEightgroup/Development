@@ -63,7 +63,7 @@ public class UserService {
     public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
         Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
         for(UserModel user : users) {
-            user.addExercise(exerciseModel); //TODO se un esercizio ritorna false lancio eccezione
+            user.addExerciseToDo(exerciseModel); //TODO se un esercizio ritorna false lancio eccezione
         }
         applicationUserRepository.saveAll(users);
     }

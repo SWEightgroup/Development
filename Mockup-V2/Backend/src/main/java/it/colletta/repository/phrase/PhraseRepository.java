@@ -2,7 +2,6 @@ package it.colletta.repository.phrase;
 
 import java.util.List;
 import java.util.Optional;
-
 import it.colletta.model.SolutionModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

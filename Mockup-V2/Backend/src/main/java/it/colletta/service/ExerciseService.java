@@ -4,12 +4,10 @@ import it.colletta.model.*;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +46,7 @@ public class ExerciseService {
             .authorId(exercise.getAuthor())
             .solutionText(exercise.getAlternativeSolution())
             .build();
-
+                        
         PhraseModel phrase = PhraseModel.builder()
             .language(exercise.getLanguage())
             .datePhrase(System.currentTimeMillis())
@@ -59,29 +57,32 @@ public class ExerciseService {
         phrase.addSolution(alternativeSolution);
         phrase = phraseService.insertPhrase(phrase);
 
+        Optional<UserModel> user = userService.findById(exercise.getAuthor());
+        String teacherName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
         ExerciseModel exerciseModel = ExerciseModel.builder()
             .id((new ObjectId().toHexString()))
             .dateExercise(System.currentTimeMillis())
             .mainSolutionReference(mainSolution)
             .alternativeSolutionReference(alternativeSolution)
-            //.phraseReference(phrase)
             .phraseId(phrase.getId())
-            .toDo(true)
+            .phraseText(exercise.getPhraseText())
             .visibilty(exercise.getVisibility())
+            .authorId(exercise.getAuthor())
+            .teacherName(teacherName)
             .build();
-
         userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
+        exerciseRepository.save(exerciseModel);
+        phraseService.increaseReliability(mainSolution);
+        phraseService.increaseReliability(alternativeSolution);
         return exerciseModel;
     }
     public List<ExerciseModel> findAllExerciseToDo(String userId) {
         Optional<UserModel> userModel = userService.findById(userId);
         if(userModel.isPresent()) {
-            return userModel.get().getExercises().stream().filter(exerciseModel -> exerciseModel.getToDo() == true).collect(
-                Collectors.toList());
+            return userModel.get().getExercisesToDo();
         }
         else {
             throw new UsernameNotFoundException("User not found in the system");
         }
     }
-
 }
