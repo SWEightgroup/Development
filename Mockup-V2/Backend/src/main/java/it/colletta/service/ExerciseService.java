@@ -5,13 +5,10 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.util.JSONWrappedObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -101,15 +98,15 @@ public class ExerciseService {
       ExerciseModel exerciseToCorrect = exerciseOptional.get();
       SolutionModel mainSolutionModel = exerciseToCorrect.getMainSolutionReference();
       SolutionModel alternativeSolutionModel = exerciseToCorrect.getAlternativeSolutionReference();
-      HashMap<String, String> studentSolutionMap =
-          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), HashMap.class);
-      HashMap<String, String> mainSolution =
-          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), HashMap.class);
+      ArrayList<String> studentSolutionMap =
+          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), ArrayList.class);
+      ArrayList<String> mainSolution =
+          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
 
       Double mark = correct(studentSolutionMap, mainSolution);
       if(mark < 10.00) {
-        HashMap<String, String> alternativeSolutionMap =
-            new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), HashMap.class);
+        ArrayList<String> alternativeSolutionMap =
+            new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
         Double alternativeMark = correct(studentSolutionMap, alternativeSolutionMap);
         if(mark < alternativeMark) {
           mark = alternativeMark;
@@ -135,11 +132,11 @@ public class ExerciseService {
     }
   }
 
-  private Double correct(HashMap<String, String> studentSolutionMap, HashMap<String, String> systemSolution) {
+  private Double correct(ArrayList<String> studentSolutionMap, ArrayList<String> systemSolution) {
     Integer points = 0;
     if(studentSolutionMap.size() == systemSolution.size()) {
-      Iterator<String> studentSolutionIterator = studentSolutionMap.values().iterator();
-      Iterator<String> mainSolutionIterator = systemSolution.values().iterator();
+      Iterator<String> studentSolutionIterator = studentSolutionMap.iterator();
+      Iterator<String> mainSolutionIterator = systemSolution.iterator();
       while (mainSolutionIterator.hasNext()) {
         String word = mainSolutionIterator.next();
         String studentWord = studentSolutionIterator.next();

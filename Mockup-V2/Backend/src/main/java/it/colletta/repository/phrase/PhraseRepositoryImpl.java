@@ -15,30 +15,30 @@ import com.mongodb.WriteResult;
 import com.mongodb.client.result.UpdateResult;
 
 public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
-    @Autowired
-    MongoTemplate mongoTemplate;
+  @Autowired
+  MongoTemplate mongoTemplate;
 
-    @Override
-    public List<PhraseModel> findAllByAuthor(String authorId) {
-        Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
-        final List<PhraseModel> phraseModels = mongoTemplate.find(query, PhraseModel.class);
-        //TODO eliminare informazioni aggiuntive
-        return phraseModels;
-    }
+  @Override
+  public List<PhraseModel> findAllByAuthor(String authorId) {
+    Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
+    final List<PhraseModel> phraseModels = mongoTemplate.find(query, PhraseModel.class);
+    //TODO eliminare informazioni aggiuntive
+    return phraseModels;
+  }
 
-    @Override
-    public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
-        Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
-        query.fields().include("solutions");
-        return mongoTemplate.find(query, SolutionModel.class);
-    }
-    @Override
-    public void increaseReliability(SolutionModel solutionModel) {
-        UpdateResult wr = mongoTemplate.updateMulti(
-                new Query(Criteria.where("solutions.solutionText").is(solutionModel.getSolutionText())),
+  @Override
+  public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
+    Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
+    query.fields().include("solutions");
+    return mongoTemplate.find(query, SolutionModel.class);
+  }
+  @Override
+  public void increaseReliability(SolutionModel solutionModel) {
+    UpdateResult wr = mongoTemplate.updateMulti(
+        new Query(Criteria.where("solutions.solutionText").is(solutionModel.getSolutionText())),
         new Update().inc("solutions.$.reliability", 1), PhraseModel.class);
-        
-    }
+
+  }
 }
 
 
