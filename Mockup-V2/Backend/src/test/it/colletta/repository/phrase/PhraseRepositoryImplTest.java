@@ -110,9 +110,15 @@ public class PhraseRepositoryImplTest {
 
     @Test
     public void findAllSolutionsByAuthor() {
+
+        List<SolutionModel> solutionsBy1 = phraseRepository.findAllSolutionsByAuthor("1");
+
+        //assertEquals(solutionsBy1.size(),3);
+
     }
 
     @Test
     public void increaseReliability() {
+        
     }
 }
