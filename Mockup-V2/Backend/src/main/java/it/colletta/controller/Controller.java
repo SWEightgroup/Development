@@ -5,7 +5,6 @@ import java.security.acl.NotOwnerException;
 import java.util.List;
 import java.util.Optional;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -143,12 +142,10 @@ public class Controller {
      *         is unavailable
      */
     @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text,@RequestHeader("Authorization") String studentToken) {
+    public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text, @RequestHeader("Authorization") String studentToken) {
         try {
         	String userId = ParseJWT.parseJWT(studentToken);
-        	JSONObject obj = new JSONObject(text);
-
-            return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(obj.getString("text")), HttpStatus.OK);
+            return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text), HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
         }
