@@ -86,15 +86,21 @@ class NewExsercise extends Component {
         }
       )
       .then(res => {
-        const justPunctuationSolution = JSON.parse(
-          res.data.solutionText
-        ).sentences[0].tokens.map(token => {
-          if (token.tag.charAt(0) === 'F') return token.tag;
-          return null;
-        });
+        console.log(
+          'TCL: NewExsercise -> res',
+          JSON.parse(res.data.solutionText).sentences[0].tokens
+        );
+        const justPunctuationSolution = JSON.parse(res.data.solutionText)
+          .sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
+          .map(token => token.tag);
+        const fullSolution = JSON.parse(res.data.solutionText).map(
+          token => token.tag
+        );
+
         updateNewExerciseStateDispatch({
           ...this.props.newExercise,
           justPunctuationSolution,
+          userSolution: fullSolution,
           response: JSON.parse(
             res.data.solutionText
           ).sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
@@ -106,13 +112,7 @@ class NewExsercise extends Component {
   render() {
     const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
     const { user } = auth;
-    const {
-      sentence,
-      response,
-      showSolution,
-      createAt,
-      sentenceString
-    } = newExercise;
+    const { sentence, response, createAt, sentenceString } = newExercise;
 
     const { language } = user;
 
@@ -126,26 +126,47 @@ class NewExsercise extends Component {
               sentenceString={sentenceString}
               language={language}
             />
-            <ExecutionExercise
-              sentence={sentence} // array di parole
-              response={response}
-              showSolution={showSolution}
-              createAt={createAt}
-              salvaEsercizio={this.salvaEsercizio}
-              language={language}
-            />
-            {sentence && sentence.length > 0 && (
+            {
+              <ExecutionExercise
+                sentence={sentence} // array di parole
+                response={response}
+                showSolution
+                createAt={createAt}
+                salvaEsercizio={this.salvaEsercizio}
+                language={language}
+              />
+            }
+            {response && (
               <div className="main-card mb-3 card no-bg-color">
                 <div className="card-body">
                   <div className="row justify-content-end ">
                     <div className="col-12 col-sm-4 py-0 px-0">
-                      <button
-                        type="button"
-                        className="btn btn-success btn-block"
-                        onClick={this.checkSolution}
+                      <div
+                        role="group"
+                        className="btn-group"
+                        data-toggle="buttons"
                       >
-                        {_translator('executionExercise_complete', language)}
-                      </button>
+                        <button
+                          type="button"
+                          className="btn btn-warning "
+                          onClick={this.checkSolution}
+                        >
+                          {_translator(
+                            'insertExercise_editFSolution',
+                            language
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-success "
+                          onClick={this.checkSolution}
+                        >
+                          {_translator(
+                            'insertExercise_confirmFSolution',
+                            language
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

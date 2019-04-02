@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import Word from './Word';
 import gerarchia from '../../constants/gerarchia';
 import _translator from '../../helpers/Translator';
-import SolutionMapper, {
-  solutionTranslator
-} from '../../helpers/SolutionTranslator';
 
 class ExecutionExercise extends Component {
   /**
    * call the confirm parent method
    */
-  confirm = () => {
-    const { checkExerciseFunction } = this.props;
-    checkExerciseFunction();
-  };
 
   salva = () => {
     const { salvaEsercizio } = this.props;
@@ -35,7 +28,7 @@ class ExecutionExercise extends Component {
       createAt,
       language
     } = this.props;
-    const pippo = sentence.filter(word => !word.match(allowedPunctuation));
+    const filterWord = sentence.filter(word => !word.match(allowedPunctuation));
     if (sentence && sentence.length) {
       return (
         <div className="row">
@@ -46,8 +39,8 @@ class ExecutionExercise extends Component {
                   {_translator('executionExercise_completeExercise', language)}
                 </h5>
                 <ul className="list-group">
-                  {pippo &&
-                    pippo.map((item, index) => {
+                  {filterWord &&
+                    filterWord.map((item, index) => {
                       return (
                         <Word
                           key={`${index + item + createAt}word`}
@@ -65,18 +58,6 @@ class ExecutionExercise extends Component {
                       );
                     })}
                 </ul>
-
-                <div className="row justify-content-end px-3">
-                  <div className="col-12 col-sm-4 py-2 px-0">
-                    <button
-                      type="button"
-                      className="btn btn-success btn-block"
-                      onClick={this.confirm}
-                    >
-                      {_translator('executionExercise_complete', language)}
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
