@@ -1,12 +1,9 @@
 package it.colletta.controller;
 
-import it.colletta.model.ExerciseModel;
-import it.colletta.model.SolutionModel;
-import it.colletta.model.helper.ExerciseHelper;
-import it.colletta.service.ExerciseService;
-import it.colletta.service.SolutionService;
 import java.io.IOException;
 import java.util.List;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -21,8 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import it.colletta.model.ExerciseModel;
+import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.security.ParseJWT;
+import it.colletta.service.ExerciseService;
+import it.colletta.service.SolutionService;
 import it.colletta.service.user.UserService;
 
 
@@ -133,9 +135,12 @@ public class Controller {
      *         is unavailable
      */
     @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text) {
+    public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text,@RequestHeader("Authorization") String studentToken) {
         try {
-            return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(text), HttpStatus.OK);
+        	String userId = ParseJWT.parseJWT(studentToken);
+        	JSONObject obj = new JSONObject(text);
+
+            return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(obj.getString("text")), HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
         }

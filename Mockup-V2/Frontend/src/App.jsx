@@ -29,6 +29,7 @@ class App extends Component {
     const { loader, auth } = this.props;
     const { language } = auth;
     return (
+      
       <BrowserRouter>
         <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
           {loader && <div className="loading" />}

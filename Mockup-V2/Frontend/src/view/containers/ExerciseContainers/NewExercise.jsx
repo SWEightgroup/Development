@@ -6,7 +6,9 @@ import ExecutionExercise from '../../components/ExecutionExercise';
 import {
   initializeNewExercise,
   updateNewExerciseState,
-  changeNewInputSentence
+  changeNewInputSentence,
+  saveExerciseSolution,
+  initNewExerciseState
 } from '../../../actions/ExerciseActions';
 
 class NewExsercise extends Component {
@@ -22,22 +24,21 @@ class NewExsercise extends Component {
    */
   prepareExercise = sentenceString => {
     const now = Date.now();
-    const { newExercise } = this.props;
+    const { newExercise, updateNewExerciseStateDispatch } = this.props;
     const sentenceArray = sentenceString.split(' ');
-    updateNewExerciseState({
+    this.getSolution({
       ...newExercise,
       showSolution: false,
       response: null,
       createAt: now,
       sentence: sentenceArray
     });
-
-    this.getSolution();
   };
 
   changeNewInputSentence = input => {
-    this.props.changeNewInputSentence({
-      ...this.props.newExercise,
+    const { changeNewInputSentenceDispatch, newExercise } = this.props;
+    changeNewInputSentenceDispatch({
+      ...newExercise,
       sentenceString: input
     });
   };
@@ -46,17 +47,28 @@ class NewExsercise extends Component {
    * set the showSolution flag to true
    */
   checkSolution = () => {
-    updateNewExerciseState({
-      ...this.props.newExercise,
+    const { newExercise, updateNewExerciseStateDispatch } = this.props;
+    updateNewExerciseStateDispatch({
+      ...newExercise,
       showSolution: true
     });
+    saveExerciseSolution({ ...newExercise });
   };
 
   /**
    * call the server to analyze the sentence
    */
-  getSolution = () => {
-    const { sentenceString } = this.props.newExercise;
+  getSolution = newExercise => {
+    const {
+      auth,
+      initNewExerciseStateDispatch,
+      updateNewExerciseStateDispatch
+    } = this.props;
+    initNewExerciseStateDispatch({
+      ...newExercise,
+      response: null
+    });
+    const { sentenceString } = newExercise;
     // qui faremo la chiamata
     // la soluzione sarà formata da un array di parola/codice
     axios
@@ -67,20 +79,20 @@ class NewExsercise extends Component {
         },
         {
           headers: {
-            Authorization: this.props.auth.token
+            Authorization: auth.token
           }
         }
       )
       .then(res => {
-        console.log(
-          ': NewExsercise -> getSolution -> res',
-          JSON.parse(res.data.solutionText).sentences[0].tokens.filter(
-            token => token.tag.charAt(0) !== 'F'
-          )
-        );
-
-        updateNewExerciseState({
+        const justPunctuationSolution = JSON.parse(
+          res.data.solutionText
+        ).sentences[0].tokens.map(token => {
+          if (token.tag.charAt(0) === 'F') return token.tag;
+          return null;
+        });
+        updateNewExerciseStateDispatch({
           ...this.props.newExercise,
+          justPunctuationSolution,
           response: JSON.parse(
             res.data.solutionText
           ).sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
@@ -90,15 +102,17 @@ class NewExsercise extends Component {
   };
 
   render() {
+    const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
+    const { user } = auth;
     const {
       sentence,
       response,
       showSolution,
       createAt,
       sentenceString
-    } = this.props.newExercise;
+    } = newExercise;
 
-    const { language } = this.props.auth.user;
+    const { language } = user;
 
     return (
       <div className="app-main__inner full-height-mobile">
@@ -106,7 +120,7 @@ class NewExsercise extends Component {
           <div className="col-12 col-md-10">
             <InputSentence
               prepareExercise={this.prepareExercise}
-              changeNewInputSentence={this.props.changeNewInputSentence}
+              changeNewInputSentence={changeNewInputSentenceDispatch}
               sentenceString={sentenceString}
               language={language}
             />
@@ -137,9 +151,14 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     initializeNewExercise: () => dispatch(initializeNewExercise()),
-    updateNewExerciseState: newExercise =>
+    updateNewExerciseStateDispatch: newExercise =>
       dispatch(updateNewExerciseState(newExercise)),
-    changeNewInputSentence: input => dispatch(changeNewInputSentence(input))
+    changeNewInputSentenceDispatch: input =>
+      dispatch(changeNewInputSentence(input)),
+    saveExerciseSolutionDispatch: newExercise =>
+      dispatch(saveExerciseSolution(newExercise)),
+    initNewExerciseStateDispatch: newExercise =>
+      dispatch(initNewExerciseState(newExercise))
   };
 };
 
@@ -158,8 +177,23 @@ export default connect(
            { "id" : "t1.3", "begin" : "19", "end" : "27", "form" : "facebook", "lemma" : "facebook", "tag" : "NCMN000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "masculine", "num" : "invariable"},
            { "id" : "t1.4", "begin" : "28", "end" : "29", "form" : ".", "lemma" : ".", "tag" : "Fp", "ctag" : "Fp", "pos" : "punctuation", "type" : "period"}]}]}
 " 
-
-
+"{ "sentences" : [
+      { "id":"1",
+        "tokens" : [
+           { "id" : "t1.1", "begin" : "0", "end" : "1", "form" : "{", "lemma" : "{", "tag" : "Fla", "ctag" : "Fla", "pos" : "punctuation", "type" : "curlybracket", "punctenclose" : "open"},
+           { "id" : "t1.2", "begin" : "1", "end" : "2", "form" : ""\", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
+           { "id" : "t1.3", "begin" : "2", "end" : "6", "form" : "text", "lemma" : "text", "tag" : "NCMN000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "masculine", "num" : "invariable"},
+           { "id" : "t1.4", "begin" : "6", "end" : "7", "form" : "\"", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
+           { "id" : "t1.5", "begin" : "7", "end" : "8", "form" : ":", "lemma" : ":", "tag" : "Fd", "ctag" : "Fd", "pos" : "punctuation", "type" : "colon"},
+           { "id" : "t1.6", "begin" : "8", "end" : "9", "form" : "\"", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
+           { "id" : "t1.7", "begin" : "9", "end" : "10", "form" : "i", "lemma" : "il", "tag" : "DA0MP0", "ctag" : "DA", "pos" : "determiner", "type" : "article", "gen" : "masculine", "num" : "plural"},
+           { "id" : "t1.8", "begin" : "11", "end" : "15", "form" : "topi", "lemma" : "topo", "tag" : "NCMP000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "masculine", "num" : "plural"},
+           { "id" : "t1.9", "begin" : "16", "end" : "19", "form" : "non", "lemma" : "non", "tag" : "RG", "ctag" : "RG", "pos" : "adverb", "type" : "general"},
+           { "id" : "t1.10", "begin" : "20", "end" : "27", "form" : "avevano", "lemma" : "avere", "tag" : "VAII3P0", "ctag" : "VAI", "pos" : "verb", "type" : "auxiliary", "mood" : "indicative", "tense" : "imperfect", "person" : "3", "num" : "plural"},
+           { "id" : "t1.11", "begin" : "28", "end" : "34", "form" : "nipoti", "lemma" : "nipote", "tag" : "NCCP000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "common", "num" : "plural"},
+           { "id" : "t1.12", "begin" : "34", "end" : "35", "form" : "\"", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
+           { "id" : "t1.13", "begin" : "35", "end" : "36", "form" : "}", "lemma" : "}", "tag" : "Flt", "ctag" : "Flt", "pos" : "punctuation", "type" : "curlybracket", "punctenclose" : "close"},
+           { "id" : "t1.14", "begin" : "37", "end" : "38", "form" : ".", "lemma" : ".", "tag" : "Fp", "ctag" : "Fp", "pos" : "punctuation", "type" : "period"}]}]}"
 
 
 config: {adapter: ƒ, transformRequest: {…}, transformResponse: {…}, timeout: 0, xsrfCookieName: "XSRF-TOKEN", …}

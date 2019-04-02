@@ -29,7 +29,14 @@ export const signIn = credentials => {
         password: credentials.password
       })
       .then(res => {
-        if (res) localStorage.setItem('user', JSON.stringify(res.data));
+        if (res) {
+          localStorage.setItem('user', JSON.stringify(res.data));
+          localStorage.setItem(
+            'token',
+            JSON.stringify(res.headers.authorization)
+          );
+        }
+
         const userInfo = { user: res.data, token: res.headers.authorization };
         dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
@@ -65,7 +72,7 @@ export const updateUserInfo = data => {
 };
 
 export const initializeAuth = token => {
-  //console.log(': token', token);
+  // console.log(': token', token);
   /* return dispatch => {
     // Make a request for a user with a given ID
     if (token !== null) {
@@ -82,5 +89,5 @@ export const initializeAuth = token => {
     } else {
       dispatch({ type: 'SIGNOUT_SUCCESS' });
     }
-  };*/
+  }; */
 };

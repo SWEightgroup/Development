@@ -25,7 +25,9 @@ const initState = {
     firstName: '',
     lastName: ''
   },
-  token: null
+  token: localStorage.getItem('token')
+    ? JSON.parse(localStorage.getItem('token'))
+    : null
 };
 
 const authReducer = (state = initState, action) => {

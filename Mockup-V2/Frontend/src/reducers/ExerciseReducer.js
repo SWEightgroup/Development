@@ -4,7 +4,9 @@ const initState = {
     sentenceString: '',
     response: null,
     showSolution: false,
-    createAt: Date.now()
+    createAt: Date.now(),
+    userSolution: [],
+    justPunctuationSolution: null
   }
 };
 
@@ -15,19 +17,33 @@ const ExerciseReducer = (state = initState, action) => {
         ...state,
         newExercise: initState.newExercise
       };
+    case 'INIT_NEW_EXERCISE':
+      console.log(': initNewExerciseState', action.newExercise);
+      return {
+        ...state,
+        newExercise: action.newExercise
+      };
     case 'UPDATE_EXERCISE':
       return {
         ...state,
         newExercise: action.newExercise
       };
-    case 'CHANGE_INPUT_SENTENCE_DATA':
-      const newExercise = {
-        ...state.newExercise,
-        sentenceString: action.data
-      };
+    case 'UPDATE_WORD_STATE':
+      const userSolution = state.newExercise.userSolution;
+      console.log(': ExerciseReducer -> userSolution', userSolution);
+      userSolution[action.word.index] = action.word;
       return {
         ...state,
-        newExercise
+        newExercise: { ...state.newExercise }
+      };
+
+    case 'CHANGE_INPUT_SENTENCE_DATA':
+      return {
+        ...state,
+        newExercise: {
+          ...state.newExercise,
+          sentenceString: action.data
+        }
       };
 
     default:

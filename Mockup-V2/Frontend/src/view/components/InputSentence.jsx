@@ -26,6 +26,8 @@ class InputSentence extends Component {
 
     document.getElementById('sentenceString').value = cleanString;
     const { prepareExercise } = this.props;
+
+    console.log(': cleanString', cleanString);
     prepareExercise(cleanString);
   };
 

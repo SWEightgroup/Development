@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import LanguageStructure from '../../helpers/LanguageIterator';
 import SolutionMapper from '../../helpers/SolutionTranslator';
+import { updateWordState } from '../../actions/ExerciseActions';
 
 class Word extends Component {
   constructor(props) {
@@ -10,7 +13,8 @@ class Word extends Component {
     this.state = {
       languageIterator,
       buttons: languageIterator.getCurrentButtonList(),
-      solution: ''
+      solution: '',
+      index: this.props.index
     };
   }
 
@@ -43,12 +47,14 @@ class Word extends Component {
   generateNext = button => {
     try {
       const { languageIterator } = this.state;
+      const { updateWordStateDispatch } = this.props;
       languageIterator.nextLevel(button);
       this.setState({
         buttons: languageIterator.getCurrentButtonList(),
         solution: languageIterator.getVerboseSolution(),
         languageIterator
       });
+      updateWordStateDispatch(this.state);
     } catch (err) {
       console.log(err);
     }
@@ -161,4 +167,17 @@ class Word extends Component {
     );
   }
 }
-export default Word;
+const mapStateToProps = store => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateWordStateDispatch: word => dispatch(updateWordState(word))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Word);

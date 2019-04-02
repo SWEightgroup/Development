@@ -29,16 +29,7 @@ class SolutionMapper {
   }
 
   getVerboseSolution() {
-    console.log(
-      ': SolutionMapper -> getVerboseSolution -> this.translation',
-      this.translation
-    );
-    return this.translation
-      .map(element => {
-        console.log('aaaaaaaaaaaaaaaaaaaaa', element);
-        return element.full;
-      })
-      .join(' ');
+    return this.translation.map(element => element.full).join(' ');
   }
 
   getCodeSolution() {
