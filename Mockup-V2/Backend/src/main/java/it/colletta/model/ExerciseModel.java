@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Builder
 @ToString
+@Document(collection = "exercises")
 public class ExerciseModel {
     @Id
     @Builder.Default

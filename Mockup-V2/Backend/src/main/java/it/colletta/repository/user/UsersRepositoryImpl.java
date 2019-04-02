@@ -1,8 +1,12 @@
 package it.colletta.repository.user;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 import it.colletta.repository.user.UserCustomQueryInterface;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -35,9 +39,27 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
     mongoTemplate.updateFirst(query, Update.update("enabled", true), UserModel.class);
   }
 
-  //TODO: da finire
-  public UserModel updateUser(UserModel updateUser){
-    return updateUser;
+  // WE CAN DO BETTER, email e password non si possono cambiare da qui
+  public UserModel updateUser(UserModel user, UserModel newUser){
+      Optional<String> newFirstName = Optional.ofNullable(newUser.getFirstName());
+      Optional<String> newLastName = Optional.ofNullable(newUser.getLastName());
+      Optional<String> newLanguageName = Optional.ofNullable(newUser.getLanguage());
+      Optional<Date> newDateOfBirth = Optional.ofNullable(newUser.getDateOfBirth());
+
+      if(newFirstName.isPresent()){
+          user.setFirstName(newFirstName.get());
+      }
+      if(newLastName.isPresent()){
+          user.setLastName(newLastName.get());
+      }
+      if(newLanguageName.isPresent()){
+          user.setLanguage(newLanguageName.get());
+      }
+      if(newDateOfBirth.isPresent()){
+          user.setDateOfBirth(newDateOfBirth.get());
+      }
+      return mongoTemplate.save(user);
+
   }
 
   /**

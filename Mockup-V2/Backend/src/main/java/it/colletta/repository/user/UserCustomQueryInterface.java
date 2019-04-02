@@ -19,6 +19,10 @@ public interface UserCustomQueryInterface {
 
   public List<String> findAllPhrasesInserted(String id);
    */
-
-  UserModel updateUser(UserModel updateUser);
+  /**
+   * @param newUser the updated version of the user
+   * @param oldUser the new version of the user
+   * @return the modify user
+   */
+  UserModel updateUser(UserModel oldUser, UserModel newUser);
 }

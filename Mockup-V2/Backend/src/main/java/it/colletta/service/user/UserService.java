@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.security.acl.NotOwnerException;
 import java.util.Calendar;
@@ -52,12 +53,14 @@ public class UserService {
         applicationUserRepository.updateActivateFlagOnly(id);
     }
 
+    public UserModel findByEmail(String email){ return applicationUserRepository.findByEmail(email);}
+
     public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
         String email = ParseJWT.parseJWT(token);
-        if(email.equals(newUserData.getUsername()) ) {    // DA FARE:  caso amministratore:  || email.equals(adminEmails)
+        if(email.equals(newUserData.getUsername())) {   // TODO: caso admin che modifica
             UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
             if (email.equals(newUserData.getUsername())) {
-                return applicationUserRepository.updateUser(user);
+                return applicationUserRepository.updateUser(user,newUserData);
             }
             else {
                 throw new UsernameNotFoundException("User does not exist");

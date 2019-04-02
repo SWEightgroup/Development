@@ -8,6 +8,8 @@ import it.colletta.service.SolutionService;
 import java.io.IOException;
 import java.security.acl.NotOwnerException;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -95,9 +97,12 @@ public class Controller {
     @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token, @RequestBody UserModel newUserData) {
         try {
-            UserModel user = userService.updateUser(newUserData,token );
+            Optional<String> role = Optional.ofNullable(newUserData.getRole());
+            if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
+                exerciseService.modifyExerciseName(newUserData,token);
+            }
+            UserModel user = userService.updateUser(newUserData,token);
             return new ResponseEntity<UserModel>(user, HttpStatus.OK);
-            //TODO GESTIONE ECCEZIONI ricordarsi di aggiornare il campo  TeacherName di ExerciseModel
         }
         catch(UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
