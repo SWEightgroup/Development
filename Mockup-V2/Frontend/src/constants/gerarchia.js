@@ -169,7 +169,7 @@ const gerarchia = {
       {
         attrName: 'nesubclass',
         choices: [{ short: '0', full: 'none' }], // se ho una sola scelta metto automaticamente 0
-        condition: null
+        condition: { index: 1, short: 'void' } // farlocco
       },
       {
         attrName: 'degree',

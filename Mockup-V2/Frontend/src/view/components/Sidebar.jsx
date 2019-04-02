@@ -4,7 +4,10 @@ import _translator from '../../helpers/Translator';
 import SidebarElementStudent from './SidebarElementStudent';
 import SidebarElementTeacher from './SidebarElementTeacher';
 import SidebarElementAdministrator from './SidebarElementAdministrator';
+
 class Sidebar extends Component {
+  state = {};
+
   render() {
     const { auth } = this.props;
     const { user } = auth;
@@ -18,6 +21,9 @@ class Sidebar extends Component {
     if (role === 'ROLE_ADMIN') {
       roleSpecificNav = <SidebarElementAdministrator language={language} />;
     }
+    if (role === 'ROLE_TEACHER') {
+      roleSpecificNav = <SidebarElementTeacher language={language} />;
+    }
     return (
       <div className="scrollbar-sidebar">
         <div className="app-sidebar__inner">
@@ -27,11 +33,11 @@ class Sidebar extends Component {
             </li>
             <li>
               <NavLink
-                to={'/dashboard'}
+                to="/dashboard"
                 className="nav-link"
                 activeClassName="mm-active"
               >
-                <i className={'metismenu-icon pe-7s-user'} />
+                <i className="metismenu-icon pe-7s-user" />
                 {_translator('gen_userDashboard', language)}
               </NavLink>
             </li>
@@ -40,14 +46,6 @@ class Sidebar extends Component {
         </div>
       </div>
     );
-  }
-
-  navMaker(to, icon, label) {
-    return {
-      to,
-      icon,
-      label
-    };
   }
 }
 

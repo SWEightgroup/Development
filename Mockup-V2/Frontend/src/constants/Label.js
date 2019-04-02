@@ -4,6 +4,7 @@
  * *******_ = component specific label, where the asterisks stand for the component label
  */
 
+// eslint-disable-next-line import/prefer-default-export
 export const _label = {
   it: {
     account_yourData: 'I tuoi dati',
@@ -47,7 +48,9 @@ export const _label = {
     sidebarElementTeacher_insertExercise: 'Inserisci esercizio',
     sidebarElementTeacher_exercises: 'Esercizi inseriti',
     sidebarElementTeacher_ExerciseDone: 'Esercizi allievi',
-    SidebarElementAdministrator_users: 'Amministra Utenti'
+    SidebarElementAdministrator_users: 'Amministra Utenti',
+    insertExercise_confirmFSolution: 'Inserisci soluzione proposta',
+    insertExercise_editFSolution: 'Modifica soluzione'
   },
   en: {
     account_yourData: 'Your data',
@@ -91,6 +94,8 @@ export const _label = {
     sidebarElementTeacher_insertExercise: 'Insert exercise',
     sidebarElementTeacher_exercises: 'Exercise history',
     sidebarElementTeacher_ExerciseDone: 'Students ecercises',
-    SidebarElementAdministrator_users: 'User Manage'
+    SidebarElementAdministrator_users: 'User Manage',
+    insertExercise_confirmFSolution: 'Insert solution',
+    insertExercise_editFSolution: 'Edit solution'
   }
 };

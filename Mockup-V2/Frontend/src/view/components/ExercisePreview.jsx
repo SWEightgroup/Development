@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 class ExercisePreview extends Component {
   state = {};
+
   render() {
-    const {
-      author,
-      creationDate,
-      executionDate,
-      phrase,
-      mark,
-      isMark
-    } = this.props;
+    const { author, creationDate, phrase, mark, isMark } = this.props;
     return (
       <div className="main-card mb-3 card">
         <div className="card-body">
@@ -39,13 +33,13 @@ class ExercisePreview extends Component {
   }
 }
 
-ExercisePreview.propTypes = {
+/* ExercisePreview.propTypes = {
   author: PropTypes.string.isRequired,
   creationDate: PropTypes.instanceOf(Date).isRequired,
-  executionDate: PropTypes.instanceOf(Date), //could also not exist
+  executionDate: PropTypes.instanceOf(Date), // could also not exist
   phrase: PropTypes.string.isRequired,
   mark: PropTypes.string,
   isMark: PropTypes.bool.isRequired
-};
+}; */
 
 export default ExercisePreview;
