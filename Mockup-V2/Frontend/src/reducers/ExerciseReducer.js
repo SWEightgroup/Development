@@ -6,7 +6,8 @@ const initState = {
     showSolution: false,
     createAt: Date.now(),
     userSolution: [],
-    justPunctuationSolution: null
+    justPunctuationSolution: null,
+    complete: false
   }
 };
 
@@ -18,7 +19,6 @@ const ExerciseReducer = (state = initState, action) => {
         newExercise: initState.newExercise
       };
     case 'INIT_NEW_EXERCISE':
-      console.log(': initNewExerciseState', action.newExercise);
       return {
         ...state,
         newExercise: action.newExercise
@@ -30,8 +30,8 @@ const ExerciseReducer = (state = initState, action) => {
       };
     case 'UPDATE_WORD_STATE':
       const userSolution = state.newExercise.userSolution;
-      console.log(': ExerciseReducer -> userSolution', userSolution);
       userSolution[action.word.index] = action.word;
+
       return {
         ...state,
         newExercise: { ...state.newExercise }
@@ -45,8 +45,15 @@ const ExerciseReducer = (state = initState, action) => {
           sentenceString: action.data
         }
       };
+    case 'SAVE_EXERCISE_SUCCESS':
+      console.log(': ExerciseReducer -> state', state);
+      return {
+        ...state,
+        newExercise: initState.newExercise
+      };
 
     default:
+      console.error('REDUCER ERRATO', state, action);
       return state;
   }
 };

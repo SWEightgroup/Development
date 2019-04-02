@@ -2,20 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import LanguageStructure from '../../helpers/LanguageIterator';
-import SolutionMapper from '../../helpers/SolutionTranslator';
+import SolutionMapper from '../../helpers/SolutionMapper';
 import { updateWordState } from '../../actions/ExerciseActions';
 
 class Word extends Component {
   constructor(props) {
     super(props);
-    const { gerarchy } = props;
+    const { gerarchy, updateWordStateDispatch, solutionTag } = props;
     const languageIterator = new LanguageStructure(gerarchy).getBaseIterator(); // NON VA BENE, VA CAMBIATO
-    this.state = {
+
+    updateWordStateDispatch({
       languageIterator,
       buttons: languageIterator.getCurrentButtonList(),
-      solution: '',
-      index: this.props.index
-    };
+      solution:
+        solutionTag !== null
+          ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution()
+          : '',
+      index: props.index,
+      showButton: props.showButton
+    });
   }
 
   /**
@@ -27,9 +32,13 @@ class Word extends Component {
 
   backOne = () => {
     try {
-      const { languageIterator } = this.state;
+      const { updateWordStateDispatch, newExercise, index } = this.props;
+      const state = newExercise.userSolution[index];
+      const { languageIterator } = state;
       languageIterator.prevLevel();
-      this.setState({
+
+      updateWordStateDispatch({
+        ...state,
         languageIterator,
         buttons: languageIterator.getCurrentButtonList(),
         solution: languageIterator.getVerboseSolution()
@@ -46,15 +55,16 @@ class Word extends Component {
    */
   generateNext = button => {
     try {
-      const { languageIterator } = this.state;
-      const { updateWordStateDispatch } = this.props;
+      const { updateWordStateDispatch, newExercise, index } = this.props;
+      const state = newExercise.userSolution[index];
+      const { languageIterator } = state;
       languageIterator.nextLevel(button);
-      this.setState({
+      updateWordStateDispatch({
+        ...state,
         buttons: languageIterator.getCurrentButtonList(),
         solution: languageIterator.getVerboseSolution(),
         languageIterator
       });
-      updateWordStateDispatch(this.state);
     } catch (err) {
       console.log(err);
     }
@@ -64,18 +74,38 @@ class Word extends Component {
    * Reset the word solution and buttons
    */
   reset = () => {
-    const { languageIterator } = this.state;
+    const { updateWordStateDispatch, newExercise, index } = this.props;
+    const state = newExercise.userSolution[index];
+    const { languageIterator } = state;
     languageIterator.setBaseLevel();
-    this.setState({
+    updateWordStateDispatch({
+      ...state,
       buttons: languageIterator.getCurrentButtonList(),
       solution: languageIterator.getVerboseSolution(),
       languageIterator
     });
   };
 
+  edit = () => {
+    const { updateWordStateDispatch, newExercise, index } = this.props;
+    const state = newExercise.userSolution[index];
+    updateWordStateDispatch({
+      ...state,
+      showButton: true
+    });
+  };
+
   render() {
-    const { parola, solutionTag, showSolution, gerarchy } = this.props;
-    const { buttons, solution } = this.state;
+    const {
+      parola,
+      solutionTag,
+      showSolution,
+      gerarchy,
+      newExercise,
+      index
+    } = this.props;
+    const state = newExercise.userSolution[index];
+    const { buttons, solution, showButton } = state;
     const allowedPunctuation = /[,.?!"'<>;:]/g;
 
     if (parola.match(allowedPunctuation) !== null) {
@@ -92,7 +122,7 @@ class Word extends Component {
           <div className="container-fluid">
             <div className="row ">
               <div className="pt-2  col-md-auto">
-                {showSolution === false && (
+                {buttons && showButton && (
                   <React.Fragment>
                     <button
                       type="button"
@@ -112,6 +142,16 @@ class Word extends Component {
                     </button>
                   </React.Fragment>
                 )}
+                {buttons && showButton === false && showSolution === false && (
+                  <button
+                    type="button"
+                    className="border-0 btn btn-outline-danger btn-sm"
+                    onClick={this.edit}
+                  >
+                    MODIFICA
+                  </button>
+                )}
+
                 <strong className="p-2 text-uppercase">{parola}</strong>
               </div>
 
@@ -122,21 +162,20 @@ class Word extends Component {
                   </p>
                 )}
 
-                {solutionTag &&
+                {!showButton &&
+                  solutionTag &&
                   new SolutionMapper(
                     solutionTag,
                     gerarchy
-                  ).getVerboseSolution() &&
-                  showSolution && (
+                  ).getVerboseSolution() && (
                     <p
                       title="La soluzione automatica"
                       className=" text-warning my-2 text-uppercase"
                     >
-                      {showSolution === true &&
-                        new SolutionMapper(
-                          solutionTag,
-                          gerarchy
-                        ).getVerboseSolution()}
+                      {new SolutionMapper(
+                        solutionTag,
+                        gerarchy
+                      ).getVerboseSolution()}
                     </p>
                   )}
               </div>
@@ -151,6 +190,7 @@ class Word extends Component {
 
         {buttons &&
           showSolution === false &&
+          showButton &&
           buttons.map((button, index) => {
             return (
               <button
@@ -168,7 +208,9 @@ class Word extends Component {
   }
 }
 const mapStateToProps = store => {
-  return {};
+  return {
+    newExercise: store.exercise.newExercise
+  };
 };
 
 const mapDispatchToProps = dispatch => {

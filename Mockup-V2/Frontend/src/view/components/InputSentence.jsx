@@ -24,15 +24,14 @@ class InputSentence extends Component {
     const { sentenceString } = this.props;
     const cleanString = this.removePunctuation(sentenceString);
 
-    document.getElementById('sentenceString').value = cleanString;
+    // document.getElementById('sentenceString').value = cleanString;
     const { prepareExercise } = this.props;
 
-    console.log(': cleanString', cleanString);
     prepareExercise(cleanString);
   };
 
   render() {
-    const { language } = this.props;
+    const { language, sentenceString } = this.props;
     return (
       <div className="row justify-content-center">
         <div className="col-12">
@@ -57,6 +56,7 @@ class InputSentence extends Component {
                     )}
                     onChange={this.handleChange}
                     required
+                    value={sentenceString}
                   />
                   <div className="input-group-append">
                     <button className="btn btn-success" type="submit">

@@ -133,6 +133,7 @@ class NewExsercise extends Component {
               createAt={createAt}
               salvaEsercizio={this.salvaEsercizio}
               language={language}
+              showButton
             />
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
@@ -158,6 +159,7 @@ class NewExsercise extends Component {
   }
 }
 const mapStateToProps = store => {
+  console.log(':  store.exercise.newExercise', store.exercise.newExercise);
   return {
     authError: store.auth.authError,
     auth: store.auth,

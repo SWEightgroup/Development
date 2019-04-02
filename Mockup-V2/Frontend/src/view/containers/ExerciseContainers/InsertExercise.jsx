@@ -13,7 +13,7 @@ import {
   initNewExerciseState
 } from '../../../actions/ExerciseActions';
 
-class NewExsercise extends Component {
+class InsertExercise extends Component {
   constructor(props) {
     super(props);
     props.initializeNewExercise();
@@ -86,21 +86,15 @@ class NewExsercise extends Component {
         }
       )
       .then(res => {
-        console.log(
-          'TCL: NewExsercise -> res',
-          JSON.parse(res.data.solutionText).sentences[0].tokens
-        );
-        const justPunctuationSolution = JSON.parse(res.data.solutionText)
-          .sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
-          .map(token => token.tag);
-        const fullSolution = JSON.parse(res.data.solutionText).map(
-          token => token.tag
-        );
-
+        const justPunctuationSolution = JSON.parse(
+          res.data.solutionText
+        ).sentences[0].tokens.map(token => {
+          if (token.tag.charAt(0) === 'F') return token.tag;
+          return null;
+        });
         updateNewExerciseStateDispatch({
           ...this.props.newExercise,
           justPunctuationSolution,
-          userSolution: fullSolution,
           response: JSON.parse(
             res.data.solutionText
           ).sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
@@ -112,7 +106,13 @@ class NewExsercise extends Component {
   render() {
     const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
     const { user } = auth;
-    const { sentence, response, createAt, sentenceString } = newExercise;
+    const {
+      sentence,
+      response,
+      showSolution,
+      createAt,
+      sentenceString
+    } = newExercise;
 
     const { language } = user;
 
@@ -126,47 +126,29 @@ class NewExsercise extends Component {
               sentenceString={sentenceString}
               language={language}
             />
-            {
+            {response && (
               <ExecutionExercise
                 sentence={sentence} // array di parole
                 response={response}
-                showSolution
+                showSolution={showSolution}
                 createAt={createAt}
                 salvaEsercizio={this.salvaEsercizio}
                 language={language}
+                showButton={false}
               />
-            }
-            {response && (
+            )}
+            {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
                 <div className="card-body">
                   <div className="row justify-content-end ">
                     <div className="col-12 col-sm-4 py-0 px-0">
-                      <div
-                        role="group"
-                        className="btn-group"
-                        data-toggle="buttons"
+                      <button
+                        type="button"
+                        className="btn btn-success btn-block"
+                        onClick={this.checkSolution}
                       >
-                        <button
-                          type="button"
-                          className="btn btn-warning "
-                          onClick={this.checkSolution}
-                        >
-                          {_translator(
-                            'insertExercise_editFSolution',
-                            language
-                          )}
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-success "
-                          onClick={this.checkSolution}
-                        >
-                          {_translator(
-                            'insertExercise_confirmFSolution',
-                            language
-                          )}
-                        </button>
-                      </div>
+                        {_translator('executionExercise_complete', language)}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -204,7 +186,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewExsercise);
+)(InsertExercise);
 
 /* 
 

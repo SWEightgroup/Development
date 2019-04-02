@@ -1,9 +1,13 @@
 package it.colletta.controller;
 
+import com.mongodb.util.JSON;
 import java.io.IOException;
+import java.security.acl.NotOwnerException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import org.json.JSONObject;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -94,14 +98,20 @@ public class Controller {
      * @return
      */
     @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserModel usersModify(@RequestBody UserModel newUserData) {
+    public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token, @RequestBody UserModel newUserData) {
         try {
-            UserModel user = userService.updateUser(newUserData);
-            return user;
-            //TODO GESTIONE ECCEZIONI ricordarsi di aggiornare il campo  TeacherName di ExerciseModel
+            Optional<String> role = Optional.ofNullable(newUserData.getRole());
+            if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
+                exerciseService.modifyExerciseName(newUserData,token);
+            }
+            UserModel user = userService.updateUser(newUserData,token);
+            return new ResponseEntity<UserModel>(user, HttpStatus.OK);
         }
         catch(UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+        catch(NotOwnerException n){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -135,12 +145,13 @@ public class Controller {
      *         is unavailable
      */
     @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SolutionModel> getCorrection(@RequestBody String text,@RequestHeader("Authorization") String studentToken) {
+    public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj, @RequestHeader("Authorization") String studentToken) {
         try {
         	String userId = ParseJWT.parseJWT(studentToken);
-        	JSONObject obj = new JSONObject(text);
-
-            return new ResponseEntity<SolutionModel>(solutionService.getAutomaticCorrection(obj.getString("text")), HttpStatus.OK);
+        	System.out.println("Frase in " + stringObj.get("text"));
+        	SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
+        	System.out.println("Frase out " + solution.getSolutionText());
+            return new ResponseEntity<SolutionModel>(solution, HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
         }

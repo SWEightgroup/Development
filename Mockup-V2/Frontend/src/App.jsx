@@ -77,13 +77,13 @@ class App extends Component {
                 />
                 <ProtectedRoute
                   path="/insert-exercise"
-                  component={InsertExercise}
+                  component={InsertExercise }
                   isAllowed={auth.user}
                 />
                 <ProtectedRoute
                   path="/exercise"
                   component={NewExercise}
-                  isAllowed={auth.user}
+                  isAllowed={auth.user /*&& auth.user.role === 'ROLE_STUDENT'*/}
                 />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />

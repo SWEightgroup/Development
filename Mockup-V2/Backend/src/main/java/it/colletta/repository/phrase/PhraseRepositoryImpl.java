@@ -15,8 +15,15 @@ import com.mongodb.WriteResult;
 import com.mongodb.client.result.UpdateResult;
 
 public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
+
+
+    private MongoTemplate mongoTemplate;
+
     @Autowired
-    MongoTemplate mongoTemplate;
+    public PhraseRepositoryImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
 
     @Override
     public List<PhraseModel> findAllByAuthor(String authorId) {

@@ -1,6 +1,7 @@
 package it.colletta.repository.exercise;
 
 import it.colletta.model.ExerciseModel;
+import it.colletta.model.UserModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
@@ -16,6 +17,6 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
     public Optional<ExerciseModel> findById(String id);
 
 	List<ExerciseModel> findAllPublicExercises(List<String> exerciseToExclude);
-
+    public void modifyAuthorExercise(UserModel newUserData, String teacherId);
 
 }

@@ -4,21 +4,13 @@ import gerarchia from '../../constants/gerarchia';
 import _translator from '../../helpers/Translator';
 
 class ExecutionExercise extends Component {
-  /**
-   * call the confirm parent method
-   */
-
-  salva = () => {
-    const { salvaEsercizio } = this.props;
-    salvaEsercizio();
-  };
-
   extractTag = (response, index) => {
+    console.log(': extractTag -> response[index]', response[index]);
     return response[index].tag;
   };
 
   render() {
-    const allowedPunctuation = /[,.?!"'<-\\{}>;:]/g;
+    const allowedPunctuation = /[a-zA-Z]/g;
     // const allowedPunctuation2 = /[,.?!"'<-{}[]()%\/>;:]/g;
     const {
       sentence,
@@ -26,9 +18,10 @@ class ExecutionExercise extends Component {
       showSolution,
       lockInput,
       createAt,
-      language
+      language,
+      showButton
     } = this.props;
-    const filterWord = sentence.filter(word => !word.match(allowedPunctuation));
+    const filterWord = sentence.filter(word => word.match(allowedPunctuation));
     if (sentence && sentence.length) {
       return (
         <div className="row">
@@ -53,6 +46,7 @@ class ExecutionExercise extends Component {
                               : null
                           }
                           showSolution={showSolution}
+                          showButton={showButton}
                           lock={lockInput}
                         />
                       );
