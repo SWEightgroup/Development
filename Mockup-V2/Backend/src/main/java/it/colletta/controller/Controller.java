@@ -1,9 +1,10 @@
 package it.colletta.controller;
 
 import java.io.IOException;
+import java.security.acl.NotOwnerException;
 import java.util.List;
+import java.util.Optional;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -94,14 +95,20 @@ public class Controller {
      * @return
      */
     @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserModel usersModify(@RequestBody UserModel newUserData) {
+    public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token, @RequestBody UserModel newUserData) {
         try {
-            UserModel user = userService.updateUser(newUserData);
-            return user;
-            //TODO GESTIONE ECCEZIONI ricordarsi di aggiornare il campo  TeacherName di ExerciseModel
+            Optional<String> role = Optional.ofNullable(newUserData.getRole());
+            if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
+                exerciseService.modifyExerciseName(newUserData,token);
+            }
+            UserModel user = userService.updateUser(newUserData,token);
+            return new ResponseEntity<UserModel>(user, HttpStatus.OK);
         }
         catch(UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+        catch(NotOwnerException n){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
 
