@@ -48,8 +48,15 @@ public class UserService {
         return applicationUserRepository.findById(userId);
     }
 
-    public UserModel getUserInfo(UserModel user) {
-        return applicationUserRepository.findByEmail(user.getUsername());
+    public UserModel getUserInfo(String id) {
+        Optional<UserModel> userModelOptional =
+                applicationUserRepository.findById(id);
+        if(userModelOptional.isPresent()) {
+            return userModelOptional.get();
+        }
+        else {
+            throw new UsernameNotFoundException("Id not refer to a user of the sistem");
+        }
     }
 
     public void activateUser(String id) {
