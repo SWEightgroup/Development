@@ -15,12 +15,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import static com.mongodb.client.model.Updates.set;
 
 public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
-    @Autowired MongoTemplate mongoTemplate;
-    @Override
-    public List<ExerciseModel> findAllPublicExercises(List<String> exerciseToExclude) {
-        Query query = new Query(Criteria.where("id").nin(exerciseToExclude).and("visibility").is(true));
-        return mongoTemplate.find(query, ExerciseModel.class);    
-    }
+    @Autowired private MongoTemplate mongoTemplate;
+
 
     @Override
     public void modifyAuthorExercise(UserModel newUserData, String teacherId){
@@ -30,4 +26,9 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
        modify.set("teacherName", newTeacherName);
        mongoTemplate.updateMulti(exerciseToUpdate, modify, ExerciseModel.class);
     }
+
+  public List<ExerciseModel> findAllPublicExercises(List<ExerciseModel> exerciseToExclude) {
+    //Query query = new Query(Criteria.nin(exerciseToExclude).and("visibility").is(true));
+    return null;
+  }
 }

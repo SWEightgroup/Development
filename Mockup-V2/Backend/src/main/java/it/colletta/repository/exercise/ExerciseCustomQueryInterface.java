@@ -7,7 +7,7 @@ import it.colletta.model.UserModel;
 
 public interface ExerciseCustomQueryInterface {
 
-    public List<ExerciseModel> findAllPublicExercises(List<String> exerciseToExclude);
+    public List<ExerciseModel> findAllPublicExercises(List<ExerciseModel> exerciseToExclude);
 
     public void modifyAuthorExercise(UserModel newUserData, String teacherId);
 }
