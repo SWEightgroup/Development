@@ -84,6 +84,7 @@ export const updateUserInfo = user => {
         }
       )
       .then(res => {
+        console.log('TCL: res', res);
         const userInfo = { user: res.data, token: store.getState().auth.token };
 
         if (userInfo.user.username !== user.username) store.dispatch(signOut());

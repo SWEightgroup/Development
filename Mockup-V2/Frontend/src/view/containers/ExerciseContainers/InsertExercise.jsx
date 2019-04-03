@@ -33,7 +33,8 @@ class InsertExercise extends Component {
       showSolution: false,
       response: null,
       createAt: now,
-      sentence: sentenceArray
+      sentence: sentenceArray,
+      assignedUsersIds: []
     });
   };
 
@@ -92,15 +93,38 @@ class InsertExercise extends Component {
           if (token.tag.charAt(0) === 'F') return token.tag;
           return null;
         });
-        updateNewExerciseStateDispatch({
-          ...this.props.newExercise,
-          justPunctuationSolution,
-          response: JSON.parse(
-            res.data.solutionText
-          ).sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
-        });
+
+        axios
+          .get('http://localhost:8081/users/get-students', {
+            headers: {
+              Authorization: auth.token
+            }
+          })
+          .then(resGetStudent => {
+            updateNewExerciseStateDispatch({
+              ...this.props.newExercise,
+              studentList: resGetStudent.data,
+              justPunctuationSolution,
+              response: JSON.parse(
+                res.data.solutionText
+              ).sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
+            });
+          })
+          .catch(err => {
+            console.error(err);
+          });
       })
       .catch(e => console.log(e));
+  };
+
+  handleChange = event => {
+    const { updateNewExerciseStateDispatch, newExercise } = this.props;
+
+    const { studentList } = newExercise;
+
+    studentList.find(student => student.username === event.target.id).check =
+      event.target.checked;
+    updateNewExerciseStateDispatch({ ...newExercise, studentList });
   };
 
   render() {
@@ -111,7 +135,8 @@ class InsertExercise extends Component {
       response,
       showSolution,
       createAt,
-      sentenceString
+      sentenceString,
+      studentList
     } = newExercise;
 
     const { language } = user;
@@ -137,9 +162,37 @@ class InsertExercise extends Component {
                 showButton={false}
               />
             )}
-            {sentence && sentence.length > 0 && (
-              <div className="main-card mb-3 card no-bg-color">
+            {studentList && studentList.length > 0 && (
+              <div className="main-card mb-3 card ">
                 <div className="card-body">
+                  <div className="row">
+                    <div className="col-12 col-sm-12 py-0 px-0">
+                      <ul className="list-group">
+                        {studentList.map(student => (
+                          <li
+                            className="list-group-item"
+                            key={student.username}
+                          >
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value={student.username}
+                                id={student.username}
+                                onChange={this.handleChange}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={student.username}
+                              >
+                                {student.lastName} {student.firstName}
+                              </label>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                   <div className="row justify-content-end ">
                     <div className="col-12 col-sm-4 py-0 px-0">
                       <button

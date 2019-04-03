@@ -61,6 +61,18 @@ export const saveExerciseSolution = newExercise => {
 
   const userSolution = newExercise.userSolution.map(word => word.solution); // questo è un array di codici che invio al backend
 
+  console.log('listaaaaaaaaaaaaaaaaaa', newExercise.studentList);
+
+  console.log({
+    assignedUsersIds: [],
+    phraseText: newExercise.sentenceString,
+    mainSolution: JSON.stringify(userSolution),
+    alternativeSolution: null,
+    visibility: true,
+    author: id,
+    date: new Date().getTime(),
+    language: 'it' // //////////////////////////////DA CAMBIARE
+  });
   axios
     .post(
       'http://localhost:8081/exercises/insert-exercise',
@@ -68,7 +80,7 @@ export const saveExerciseSolution = newExercise => {
         assignedUsersIds: [],
         phraseText: newExercise.sentenceString,
         mainSolution: JSON.stringify(userSolution),
-        alternativeSolution: null,
+        alternativeSolution: '',
         visibility: true,
         author: id,
         date: new Date().getTime(),

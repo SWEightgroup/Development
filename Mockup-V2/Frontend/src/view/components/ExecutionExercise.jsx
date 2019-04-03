@@ -5,7 +5,6 @@ import _translator from '../../helpers/Translator';
 
 class ExecutionExercise extends Component {
   extractTag = (response, index) => {
-    console.log(': extractTag -> response[index]', response[index]);
     return response[index].tag;
   };
 
