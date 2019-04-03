@@ -1,11 +1,14 @@
 package it.colletta.repository.user;
 
+import com.mongodb.BasicDBObject;
+import it.colletta.security.Role;
 import java.util.Optional;
 
 import it.colletta.repository.user.UserCustomQueryInterface;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import it.colletta.model.UserModel;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,4 +53,8 @@ public interface UsersRepository extends MongoRepository<UserModel, String>, Use
   List<UserModel> findAll();
   @Override
   UserModel updateUser(UserModel oldUser, UserModel newUser);
+
+  @Query(" {$and : [{role : '" + Role.STUDENT + "'}, {enabled : true}] }, "
+      + "{ password:0}")
+  List<UserModel> findAllStudents();
 }

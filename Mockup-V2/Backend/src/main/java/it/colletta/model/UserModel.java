@@ -1,6 +1,8 @@
 package it.colletta.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +32,7 @@ public class UserModel implements UserDetails {
   private String email;
   private String firstName;
   private String lastName;
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String password;
   private String role;
   private String language;

@@ -1,11 +1,14 @@
 package it.colletta.service.user;
 
+import com.mongodb.BasicDBObject;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.service.signup.SignupRequestService;
+import java.util.Collections;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -60,7 +63,7 @@ public class UserService {
         if(email.equals(newUserData.getUsername())) {   // TODO: caso admin che modifica
             UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
             if (email.equals(newUserData.getUsername())) {
-                return applicationUserRepository.updateUser(user,newUserData);
+                return applicationUserRepository.updateUser(user, newUserData);
             }
             else {
                 throw new UsernameNotFoundException("User does not exist");
@@ -87,5 +90,9 @@ public class UserService {
         else {
             throw new UsernameNotFoundException("User not found in the system");
         }
+    }
+
+    public List<UserModel> getAllStudents() {
+        return applicationUserRepository.findAllStudents();
     }
 }

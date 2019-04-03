@@ -5,16 +5,16 @@ import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.service.user.UserService;
+import org.apache.commons.collections4.ListUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ExerciseService {
@@ -50,11 +50,14 @@ public class ExerciseService {
             .solutionText(exercise.getMainSolution())
             .build();
 
-        SolutionModel alternativeSolution = SolutionModel.builder()
-            .reliability(0)
-            .authorId(exercise.getAuthor())
-            .solutionText(exercise.getAlternativeSolution())
-            .build();
+      SolutionModel alternativeSolution = null;
+        if(exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
+          alternativeSolution = SolutionModel.builder()
+              .reliability(0)
+              .authorId(exercise.getAuthor())
+              .solutionText(exercise.getAlternativeSolution())
+              .build();
+        }
                         
         PhraseModel phrase = PhraseModel.builder()
             .language(exercise.getLanguage())
@@ -84,4 +87,16 @@ public class ExerciseService {
         phraseService.increaseReliability(alternativeSolution);
         return exerciseModel;
     }
+
+  public List<ExerciseModel> getPublicExercises(String userId) {
+        Optional<UserModel> userModelOptional = userService.findById(userId);
+        if(userModelOptional.isPresent()) {
+            UserModel userModel = userModelOptional.get();
+            List<ExerciseModel> exercisesToDiscard =
+                ListUtils.union(userModel.getExercisesDone(), userModel.getExercisesToDo());
+            exerciseRepository.findAllPublicExercises(exercisesToDiscard);
+            //TODO sistemare
+        }
+        return null;
+  }
 }

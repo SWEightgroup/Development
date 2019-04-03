@@ -9,14 +9,16 @@ import java.util.List;
 
 
 public interface ExerciseRepository extends MongoRepository<ExerciseModel, String> {
-    
-    @Override
-    Iterable<ExerciseModel> findAllById(Iterable<String> ids);
 
-    @Override
-    public Optional<ExerciseModel> findById(String id);
+  @Override
+  Iterable<ExerciseModel> findAllById(Iterable<String> ids);
 
-	List<ExerciseModel> findAllPublicExercises(List<String> exerciseToExclude);
-    public void modifyAuthorExercise(UserModel newUserData, String teacherId);
+  @Override
+  public Optional<ExerciseModel> findById(String id);
+
+  public List<ExerciseModel> findAllPublicExercises(List<ExerciseModel> userId);
+
+
+  public void modifyAuthorExercise(UserModel newUserData, String teacherId);
 
 }
