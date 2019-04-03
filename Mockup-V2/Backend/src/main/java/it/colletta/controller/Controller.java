@@ -73,14 +73,11 @@ public class Controller {
    */
   @RequestMapping(value = "/users/get-info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
-    UserModel user = new UserModel();
-    user.setEmail(ParseJWT.parseJWT(token));
-    user = userService.getUserInfo(user);
-    if(user.getId() != null) {
-      return new ResponseEntity<UserModel>(user, HttpStatus.OK);
+    try {
+      return new ResponseEntity<UserModel>(userService.getUserInfo(token), HttpStatus.OK);
     }
-    else {
-      return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+    catch (UsernameNotFoundException e){
+      return new ResponseEntity<>(HttpStatus.OK);
     }
   }
   
