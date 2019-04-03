@@ -9,34 +9,35 @@ export const initializeNewExercise = () => {
 };
 
 export const initNewExerciseState = newExercise => {
+  const allowedPunctuation = /[a-zA-Z]/g;
   return dispatch => {
     dispatch({
       type: 'INIT_NEW_EXERCISE',
       newExercise: {
         ...newExercise,
-        userSolution: newExercise.sentence.map(() => [])
+        userSolution: newExercise.sentence
+          .filter(word => word.match(allowedPunctuation))
+          .map(() => {
+            return {};
+          })
       }
     });
   };
 };
 
 export const updateNewExerciseState = newExercise => {
-  console.log(': updateNewExerciseState', newExercise);
-
   return dispatch => {
     dispatch({ type: 'UPDATE_EXERCISE', newExercise });
   };
 };
 
 export const changeNewInputSentence = data => {
-  console.log(': changeNewInputSentence');
   return dispatch => {
     dispatch({ type: 'CHANGE_INPUT_SENTENCE_DATA', data });
   };
 };
 
 export const updateWordState = word => {
-  console.log(': updateWordState', word);
   return dispatch => {
     dispatch({ type: 'UPDATE_WORD_STATE', word });
   };
@@ -58,14 +59,16 @@ export const saveExerciseSolution = newExercise => {
   }); */
   // //////////////todooooooooooooooooooooooooooooooooooooooo
 
+  const userSolution = newExercise.userSolution.map(word => word.solution); // questo è un array di codici che invio al backend
+
   axios
     .post(
       'http://localhost:8081/exercises/insert-exercise',
       {
         assignedUsersIds: [],
         phraseText: newExercise.sentenceString,
-        mainSolution: 'Soluzione Provvisoria',
-        alternativeSolution: '',
+        mainSolution: JSON.stringify(userSolution),
+        alternativeSolution: null,
         visibility: true,
         author: id,
         date: new Date().getTime(),
@@ -79,7 +82,8 @@ export const saveExerciseSolution = newExercise => {
     )
     .then(res => {
       console.log(': res', res);
-      return dispatch => dispatch({ type: 'saveExerciseSuccess', newExercise });
+
+      store.dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
     })
     .catch(() => dispatch => dispatch({ type: 'LOGIN_ERROR' }));
 };

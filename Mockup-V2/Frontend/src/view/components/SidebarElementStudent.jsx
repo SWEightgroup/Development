@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import _translator from '../../helpers/Translator';
+
 class SidebarElementStudent extends Component {
   state = {};
+
   render() {
     const { language } = this.props;
     return (

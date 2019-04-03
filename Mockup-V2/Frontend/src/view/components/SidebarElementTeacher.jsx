@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import _translator from '../../helpers/Translator';
+
 class SidebarElementStudent extends Component {
   state = {};
+
   render() {
     const { language } = this.props;
     return (
@@ -15,7 +17,7 @@ class SidebarElementStudent extends Component {
           </a>
           <ul>
             <li>
-              <NavLink to="/acaso" activeClassName="mm-active">
+              <NavLink to="/insert-exercise" activeClassName="mm-active">
                 {_translator('sidebarElementTeacher_insertExercise', language)}
               </NavLink>
             </li>

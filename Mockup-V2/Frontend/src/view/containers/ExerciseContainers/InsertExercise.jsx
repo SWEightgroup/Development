@@ -13,7 +13,7 @@ import {
   initNewExerciseState
 } from '../../../actions/ExerciseActions';
 
-class NewExsercise extends Component {
+class InsertExercise extends Component {
   constructor(props) {
     super(props);
     props.initializeNewExercise();
@@ -126,15 +126,17 @@ class NewExsercise extends Component {
               sentenceString={sentenceString}
               language={language}
             />
-            <ExecutionExercise
-              sentence={sentence} // array di parole
-              response={response}
-              showSolution={showSolution}
-              createAt={createAt}
-              salvaEsercizio={this.salvaEsercizio}
-              language={language}
-              showButton
-            />
+            {response && (
+              <ExecutionExercise
+                sentence={sentence} // array di parole
+                response={response}
+                showSolution={showSolution}
+                createAt={createAt}
+                salvaEsercizio={this.salvaEsercizio}
+                language={language}
+                showButton={false}
+              />
+            )}
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
                 <div className="card-body">
@@ -159,7 +161,6 @@ class NewExsercise extends Component {
   }
 }
 const mapStateToProps = store => {
-  console.log(':  store.exercise.newExercise', store.exercise.newExercise);
   return {
     authError: store.auth.authError,
     auth: store.auth,
@@ -185,7 +186,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewExsercise);
+)(InsertExercise);
 
 /* 
 

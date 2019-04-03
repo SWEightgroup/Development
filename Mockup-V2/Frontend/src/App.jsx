@@ -8,28 +8,29 @@ import Footer from './view/components/Footer';
 import SignUp from './view/containers/AuthContainers/SignUp';
 import SignIn from './view/containers/AuthContainers/SignIn';
 import Error from './view/components/Error';
-//import { initializeAuth } from './actions/AuthActions';
+// import { initializeAuth } from './actions/AuthActions';
 
 // import { loadAuth } from './actions/AuthActions';
 import './App.css';
 import NewExercise from './view/containers/ExerciseContainers/NewExercise';
 import Account from './view/containers/AuthContainers/Account';
 import Homework from './view/containers/ExerciseContainers/Homework';
+import InsertExercise from './view/containers/ExerciseContainers/InsertExercise';
 
 class App extends Component {
-  /*componentDidMount() {
+  state = {};
+  /* componentDidMount() {
     console.log(
       ': App -> componentDidMount -> this.props.auth',
       this.props.auth
     );
     this.props.initializeAuth(this.props.auth.token);
-  }*/
+  } */
 
   render() {
     const { loader, auth } = this.props;
     const { language } = auth;
     return (
-      
       <BrowserRouter>
         <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
           {loader && <div className="loading" />}
@@ -75,9 +76,14 @@ class App extends Component {
                   isAllowed={auth.user}
                 />
                 <ProtectedRoute
+                  path="/insert-exercise"
+                  component={InsertExercise }
+                  isAllowed={auth.user}
+                />
+                <ProtectedRoute
                   path="/exercise"
                   component={NewExercise}
-                  isAllowed={auth.user}
+                  isAllowed={auth.user /*&& auth.user.role === 'ROLE_STUDENT'*/}
                 />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
@@ -128,7 +134,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    //initializeAuth: token => dispatch(initializeAuth(token))
+    // initializeAuth: token => dispatch(initializeAuth(token))
   };
 };
 
