@@ -79,33 +79,32 @@ public class Controller {
     if(user.getId() != null) {
       return new ResponseEntity<UserModel>(user, HttpStatus.OK);
     }
-<<<<<<< HEAD
-
-    /**
-     * @param
-     * @return
-     */
-    @RequestMapping(value = "/users/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,@RequestBody UserModel newUserData) {
-        try {
-            Optional<String> role = Optional.ofNullable(newUserData.getRole());
-            if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
-                exerciseService.modifyExerciseName(newUserData,token);
-            }
-            UserModel user = userService.updateUser(newUserData,token);
-            return new ResponseEntity<UserModel>(user, HttpStatus.OK);
-        }
-        catch(UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
-        catch(NotOwnerException n){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-=======
     else {
       return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
->>>>>>> master
     }
+  }
+  
+  
+  /**
+   * @param
+   * @return
+   */
+  @RequestMapping(value = "/users/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,@RequestBody UserModel newUserData) {
+      try {
+          Optional<String> role = Optional.ofNullable(newUserData.getRole());
+          if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
+              exerciseService.modifyExerciseName(newUserData,token);
+          }
+          UserModel user = userService.updateUser(newUserData,token);
+          return new ResponseEntity<UserModel>(user, HttpStatus.OK);
+      }
+      catch(UsernameNotFoundException e) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+      }
+      catch(NotOwnerException n){
+          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+      }
   }
 
   /**
@@ -119,27 +118,6 @@ public class Controller {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  /**
-   * @param
-   * @return
-   */
-  @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token, @RequestBody UserModel newUserData) {
-    try {
-      Optional<String> role = Optional.ofNullable(newUserData.getRole());
-      if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
-        exerciseService.modifyExerciseName(newUserData,token);
-      }
-      UserModel user = userService.updateUser(newUserData,token);
-      return new ResponseEntity<UserModel>(user, HttpStatus.OK);
-    }
-    catch(UsernameNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-    }
-    catch(NotOwnerException n){
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-    }
-  }
 
   /**
    * @param exercise the exercise which needs to be inserted in the database

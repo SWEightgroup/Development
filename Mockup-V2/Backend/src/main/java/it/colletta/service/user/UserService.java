@@ -59,7 +59,7 @@ public class UserService {
     public UserModel findByEmail(String email){ return applicationUserRepository.findByEmail(email);}
 
     public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
-<<<<<<< HEAD
+
        System.out.println();
     	String email = ParseJWT.parseJWT(token);
         String newEmail =newUserData.getUsername();
@@ -67,22 +67,6 @@ public class UserService {
         	throw new NotOwnerException();
         	UserModel user= applicationUserRepository.findByEmail(email);
     		return applicationUserRepository.updateUser(user,newUserData);
-        
-=======
-        String email = ParseJWT.parseJWT(token);
-        if(email.equals(newUserData.getUsername())) {   // TODO: caso admin che modifica
-            UserModel user = applicationUserRepository.findByEmail(newUserData.getUsername());
-            if (email.equals(newUserData.getUsername())) {
-                return applicationUserRepository.updateUser(user, newUserData);
-            }
-            else {
-                throw new UsernameNotFoundException("User does not exist");
-            }
-        }
-        else {
-            throw new NotOwnerException();
-        }
->>>>>>> master
     }
 
     public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
