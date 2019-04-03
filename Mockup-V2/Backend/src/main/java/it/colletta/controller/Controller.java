@@ -127,10 +127,15 @@ public class Controller {
     }
   }
 
-
-  @RequestMapping(value="/exercises/get-public-exercises/{userid}", method=RequestMethod.GET)
-  public List<Object> getPublicExercises(@PathVariable("userid") String userId) {
-    exerciseService.getPublicExercises(userId);
+  /**
+   * TODO RECUPERARE TUTTI GLI ESERCIZI PUBLIC CHE NON SONO STATI ANCORA SVOLTI
+   * 
+   * @param token
+   * @return
+   */
+  @RequestMapping(value="/exercises/get-public-exercises/", method=RequestMethod.GET)
+  public List<Object> getPublicExercises(@RequestHeader("Authorization") String token) {
+    //exerciseService.getPublicExercises(ParseJWT.getIdFromJwt(token));
     return null;
   }
 
@@ -143,7 +148,7 @@ public class Controller {
   @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj, @RequestHeader("Authorization") String studentToken) {
     try {
-      String userId = ParseJWT.parseJWT(studentToken);
+      String id = ParseJWT.getIdFromJwt(studentToken);
       System.out.println("Frase in " + stringObj.get("text"));
       SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
       System.out.println("Frase out " + solution.getSolutionText());
@@ -153,15 +158,16 @@ public class Controller {
     }
   }
 
-  @RequestMapping(value = "/users/todo/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@PathVariable("userId") String userId) {
+  @RequestMapping(value = "/exercises/user-todo/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@RequestHeader("Authorization") String token) {
     try {
-      List<ExerciseModel> exerciseToDo = userService.findAllExerciseToDo(userId);
+      List<ExerciseModel> exerciseToDo = userService.findAllExerciseToDo(ParseJWT.getIdFromJwt(token));
       return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
+  
 
   @RequestMapping(value = "/users/get-students", method = RequestMethod.GET, produces =  MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getStudentsList() {
