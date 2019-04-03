@@ -53,7 +53,7 @@ const ExerciseReducer = (state = initState, action) => {
       };
 
     default:
-      console.error('REDUCER ERRATO', state, action);
+      // console.error('REDUCER ERRATO', state, action);
       return state;
   }
 };

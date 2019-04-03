@@ -65,10 +65,32 @@ export const signUp = newUser => {
   };
 };
 
-export const updateUserInfo = data => {
-  /* CONTROLLI */
-  /* CHIAMATA ALLA BACKEND */
-  /* CHIAMATA A MODIFY_SUCCES O MODIFY_FAILED */
+export const updateUserInfo = user => {
+  return dispatch => {
+    axios
+      .post(
+        'http://localhost:8081/users/modify',
+        {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: store.getState().auth.user.role,
+          username: user.username
+        },
+        {
+          headers: {
+            'content-type': 'application/json',
+            Authorization: store.getState().auth.token
+          }
+        }
+      )
+      .then(res => {
+        const userInfo = { user: res.data, token: store.getState().auth.token };
+
+        if (userInfo.user.username !== user.username) store.dispatch(signOut());
+        else dispatch({ type: 'LOGIN_SUCCESS', userInfo });
+      })
+      .catch(err => console.warn(err));
+  };
 };
 
 export const initializeAuth = token => {

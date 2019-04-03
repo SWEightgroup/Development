@@ -65,6 +65,8 @@ const authReducer = (state = initState, action) => {
         loader: false
       };
     case 'LOGIN_SUCCESS':
+      console.log('TCL: authReducer -> LOGIN_SUCCESS');
+
       return {
         ...state,
         user: action.userInfo.user,

@@ -97,8 +97,8 @@ public class Controller {
      * @param
      * @return
      */
-    @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token, @RequestBody UserModel newUserData) {
+    @RequestMapping(value = "/users/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,@RequestBody UserModel newUserData) {
         try {
             Optional<String> role = Optional.ofNullable(newUserData.getRole());
             if(role.isPresent() && role.get().equals("ROLE_TEACHER")){

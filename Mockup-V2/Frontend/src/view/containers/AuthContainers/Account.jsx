@@ -9,8 +9,45 @@ import RegExpression from '../../../constants/RegExpression';
 class Account extends Component {
   render() {
     const { userdata } = this.props;
-    const { username, firstName, lastName, language, dateOfBirth } = userdata;
+    const {
+      username,
+      firstName,
+      lastName,
+      language,
+      dateOfBirth,
+      role
+    } = userdata;
 
+    this.handleSubmit = e => {
+      e.preventDefault();
+      const formData = {
+        firstName: e.target.firstName.value,
+        lastName: e.target.lastName.value,
+        username: e.target.username.value,
+        role
+        // dateOfBirth: e.target.dateOfBirth.value,
+        // language: e.target.language.value
+      };
+      if (this.isFormValid(formData)) {
+        console.log('Ok, dati validi > ', formData);
+        this.props.updateUserInfoDispatch(formData);
+      } else {
+        console.log('dati non validi');
+      }
+    };
+
+    this.isFormValid = formData => {
+      const { firstName, lastName, dateOfBirth, username, language } = formData;
+      return (
+        firstName &&
+        firstName !== '' &&
+        lastName &&
+        lastName !== '' &&
+        // Validator.validDate(dateOfBirth) &&
+        Validator.validEmail(username, RegExpression.getRegEmail()) // &&
+        // Validator.validSelect(language, ExLang)
+      );
+    };
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -99,39 +136,11 @@ class Account extends Component {
       </div>
     );
   }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const formData = {
-      firstName: e.target.firstName.value,
-      lastName: e.target.lastName.value,
-      username: e.target.username.value,
-      dateOfBirth: e.target.dateOfBirth.value,
-      language: e.target.language.value
-    };
-    if (this.isFormValid(formData)) {
-      console.log('Ok, dati validi > ', formData);
-      updateUserInfo();
-    }
-  };
-
-  isFormValid = formData => {
-    const { firstName, lastName, dateOfBirth, username, language } = formData;
-    return (
-      firstName &&
-      firstName !== '' &&
-      lastName &&
-      lastName !== '' &&
-      Validator.validDate(dateOfBirth) &&
-      Validator.validEmail(username, RegExpression.getRegEmail()) &&
-      Validator.validSelect(language, ExLang)
-    );
-  };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUserInfo: data => dispatch(updateUserInfo(data))
+    updateUserInfoDispatch: data => dispatch(updateUserInfo(data))
   };
 };
 
