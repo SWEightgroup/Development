@@ -65,10 +65,12 @@ export const saveExerciseSolution = newExercise => {
     .post(
       'http://localhost:8081/exercises/insert-exercise',
       {
-        assignedUsersIds: [],
+        assignedUsersIds: newExercise.studentList
+          .filter(student => student.check)
+          .map(student => student.username),
         phraseText: newExercise.sentenceString,
         mainSolution: JSON.stringify(userSolution),
-        alternativeSolution: null,
+        alternativeSolution: '',
         visibility: true,
         author: id,
         date: new Date().getTime(),

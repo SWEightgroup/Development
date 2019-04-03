@@ -106,6 +106,8 @@ class NewExsercise extends Component {
   render() {
     const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
     const { user } = auth;
+    console.log('TCL: InsertExercise -> render -> auth', auth);
+
     const {
       sentence,
       response,

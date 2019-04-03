@@ -7,7 +7,8 @@ const initState = {
     createAt: Date.now(),
     userSolution: [],
     justPunctuationSolution: null,
-    complete: false
+    complete: false,
+    studentList: []
   }
 };
 
@@ -53,7 +54,7 @@ const ExerciseReducer = (state = initState, action) => {
       };
 
     default:
-      // console.error('REDUCER ERRATO', state, action);
+      //  console.error('REDUCER ERRATO', state, action);
       return state;
   }
 };
