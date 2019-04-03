@@ -21,4 +21,16 @@ public class ParseJWT {
             return e.getMessage();
         }
     }
+    
+    public static String getIdFromJwt(String jwt) {
+        jwt = jwt.replace("Bearer", "");
+        try {
+            DecodedJWT decodedJWT = JWT.decode(jwt);
+            String id = decodedJWT.getId();
+            return id;
+        }
+        catch(JWTDecodeException e) {
+            return e.getMessage();
+        }
+    }
 }

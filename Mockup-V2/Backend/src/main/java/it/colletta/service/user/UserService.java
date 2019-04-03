@@ -34,7 +34,10 @@ public class UserService {
         SignupRequestService signupRequestService = new SignupRequestService();
         final String encode = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        user.setEnabled(false);
+        /**
+         * TODO FARE CHECK SUL RUOLO E SETTARE FALSE SOLO SE SVILUPPATORE
+         */
+        user.setEnabled(true);
         user = applicationUserRepository.save(user);
         SignupRequestModel signupRequestModel = SignupRequestModel.builder()
             .userReference(user.getId())

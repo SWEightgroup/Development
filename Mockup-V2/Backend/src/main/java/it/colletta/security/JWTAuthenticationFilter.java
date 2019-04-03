@@ -72,7 +72,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String email = ((User) auth.getPrincipal()).getUsername();
         UserModel userModel = usersRepository.findByEmail(email);
         userModel.setPassword(null);
-        String token = JWT.create()
+        String token = JWT.create().withJWTId(userModel.getId())
                 .withSubject(email)
                 //.withClaim("id", usersRepository.findByEmail(email).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

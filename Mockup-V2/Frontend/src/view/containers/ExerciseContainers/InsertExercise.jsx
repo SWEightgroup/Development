@@ -101,6 +101,7 @@ class InsertExercise extends Component {
             }
           })
           .then(resGetStudent => {
+						console.log(': InsertExercise -> resGetStudent', resGetStudent)
             updateNewExerciseStateDispatch({
               ...this.props.newExercise,
               studentList: resGetStudent.data,

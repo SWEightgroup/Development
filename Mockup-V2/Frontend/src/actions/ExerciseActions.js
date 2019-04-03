@@ -67,10 +67,10 @@ export const saveExerciseSolution = newExercise => {
       {
         assignedUsersIds: newExercise.studentList
           .filter(student => student.check)
-          .map(student => student.username),
+          .map(student => student.id),
         phraseText: newExercise.sentenceString,
         mainSolution: JSON.stringify(userSolution),
-        alternativeSolution: '',
+        alternativeSolution: JSON.stringify([]),
         visibility: true,
         author: id,
         date: new Date().getTime(),
