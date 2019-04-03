@@ -24,6 +24,7 @@ class Account extends Component {
         firstName: e.target.firstName.value,
         lastName: e.target.lastName.value,
         username: e.target.username.value,
+        language: e.target.language.value,
         role
         // dateOfBirth: e.target.dateOfBirth.value,
         // language: e.target.language.value

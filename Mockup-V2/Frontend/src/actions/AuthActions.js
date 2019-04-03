@@ -66,15 +66,13 @@ export const signUp = newUser => {
 };
 
 export const updateUserInfo = user => {
+  console.log('TCL: user', user);
   return dispatch => {
     axios
       .post(
         'http://localhost:8081/users/modify',
         {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: store.getState().auth.user.role,
-          username: user.username
+          ...user
         },
         {
           headers: {
