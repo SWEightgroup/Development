@@ -17,16 +17,17 @@ import java.util.List;
 public interface UsersRepository extends MongoRepository<UserModel, String>, UserCustomQueryInterface {
 
   /**
-  * @param email TODO
-  * @return UserModel TODO
+   * Find the user by his email
+   * @param email the email of the user
+   * @return UserModel of the user with that email
   */
   UserModel findByEmail(String email);
 
   /**
-  * @param id TODO
-  * @return Optional<UserModel> TODO
+  * @param userId the unique id of the user
+  * @return Optional<UserModel> return the user pojo
   */
-  Optional<UserModel> findById(String id);
+  Optional<UserModel> findById(String userId);
 
   /**
   * @param users TODO
@@ -36,25 +37,39 @@ public interface UsersRepository extends MongoRepository<UserModel, String>, Use
   void delete(UserModel users);
 
   /**
-  * @param s TODO
-  * @return nothing
+   * Delete user from the system
+   * @param id the user id
   */
   @Override
-  void deleteById(String s);
+  void deleteById(String id);
 
+  /**
+   * Insert a new user into the database
+   * @param user the pojo of the user
+   * @return the inserted user model
+   */
   @Override
   UserModel save(UserModel user);
 
   /**
-  * @param nothing
-  * @return List<UserModel> return all the user
+   * Return the list of all users inserted
+   * @return List<UserModel> return all the user
   */
   @Override
   List<UserModel> findAll();
+
   @Override
   UserModel updateUser(UserModel oldUser, UserModel newUser);
 
   @Query(" {$and : [{role : '" + Role.STUDENT + "'}, {enabled : true}] }, "
       + "{ password:0}")
   List<UserModel> findAllStudents();
+
+
+  /**
+   * Remove the exercise from the student
+   * @param exerciseId the exercise document id
+   */
+  @Query("{ $pull: { exercisesToDo: ?0 }}")
+  void deleteFromExerciseToDo(String exerciseId);
 }

@@ -1,14 +1,10 @@
 package it.colletta.controller;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
 import java.io.IOException;
 import java.security.acl.NotOwnerException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -172,6 +168,16 @@ public class Controller {
     ResponseEntity<List<UserModel>> listResponseEntity = new ResponseEntity<List<UserModel>>(
         userService.getAllStudents(), HttpStatus.OK);
     return listResponseEntity;
+  }
+
+  @RequestMapping(value = "/exercises/delete/{exerciseid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Object> deleteExercise(@RequestParam("exerciseid") String exerciseId, @RequestHeader("Authorization") String jwtToken) {
+
+    String userId = ParseJWT.parseJWT(jwtToken);
+    ExerciseModel exercise = exerciseService.deleteExercise(exerciseId);
+    Optional<UserModel> userModel = userService.deleteExerciseAssigned(exercise, userId);
+    return new ResponseEntity<>(userModel, HttpStatus.OK);
+
   }
 
 }

@@ -25,4 +25,5 @@ public interface UserCustomQueryInterface {
    * @return the modify user
    */
   UserModel updateUser(UserModel oldUser, UserModel newUser);
+
 }

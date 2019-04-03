@@ -6,6 +6,7 @@ import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
+import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -71,7 +72,7 @@ public class UserService {
         String newEmail =newUserData.getUsername();
         if(!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null ) //ho modificato la mia mail
         	throw new NotOwnerException();
-        	UserModel user= applicationUserRepository.findByEmail(email);
+        	UserModel user = applicationUserRepository.findByEmail(email);
     		return applicationUserRepository.updateUser(user,newUserData);
     }
 
@@ -95,5 +96,15 @@ public class UserService {
 
     public List<UserModel> getAllStudents() {
         return applicationUserRepository.findAllStudents();
+    }
+
+    public Optional<UserModel> deleteExerciseAssigned(ExerciseModel exercise, String userId) {
+        Optional<UserModel> user = applicationUserRepository.findById(userId);
+        if(user.isPresent()) {
+            if(exercise.getAuthorId().equals(user.get().getId()) && user.get().getRole().equals(Role.TEACHER)) {
+                applicationUserRepository.deleteFromExerciseToDo(exercise.getId());
+            }
+        }
+        return Optional.empty();
     }
 }

@@ -1,20 +1,15 @@
 package it.colletta.repository.user;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
-import it.colletta.repository.user.UserCustomQueryInterface;
-import jdk.nashorn.internal.runtime.options.Option;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-
-import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 
 @Repository
@@ -41,6 +36,8 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
 
   // WE CAN DO BETTER, email e password non si possono cambiare da qui
   public UserModel updateUser(UserModel user, UserModel newUser){
+
+    //TODO compete al service
       Optional<String> newFirstName = Optional.ofNullable(newUser.getFirstName());
       Optional<String> newLastName = Optional.ofNullable(newUser.getLastName());
       Optional<String> newLanguageName = Optional.ofNullable(newUser.getLanguage());
@@ -62,15 +59,4 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
 
   }
 
-  /**
-   * return all phrases inserted by a user without corrections
-   * hint user --> correction -->
-   * @param id TODO
-   * @return List<String> TODO
-   @Override
-   public List<ExerciseModel> findAllPhrasesInserted(String id) {
-   Query query = new Query(Criteria.where("_id").is(id)) ;
-   UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
-   return userModel.();
-   }*/
 }
