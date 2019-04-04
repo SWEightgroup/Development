@@ -82,7 +82,7 @@ public class Controller {
    * @param
    * @return
    */
-  @RequestMapping(value = "/users/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,@RequestBody UserModel newUserData) {
       try {
           Optional<String> role = Optional.ofNullable(newUserData.getRole());
