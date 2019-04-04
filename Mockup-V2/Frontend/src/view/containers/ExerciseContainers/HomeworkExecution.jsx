@@ -130,7 +130,7 @@ class HomeworkExercise extends Component {
               createAt={createAt}
               salvaEsercizio={this.salvaEsercizio}
               language={language}
-              showButton={showButton}
+              showButton
             />
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
