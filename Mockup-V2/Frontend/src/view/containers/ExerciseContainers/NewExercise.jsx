@@ -19,6 +19,10 @@ class NewExsercise extends Component {
     props.initializeNewExercise();
   }
 
+  componentWillUnmount() {
+    this.props.initializeNewExercise();
+  }
+
   /**
    * split the sentence
    *
@@ -31,6 +35,7 @@ class NewExsercise extends Component {
     this.getSolution({
       ...newExercise,
       showSolution: false,
+      showButton: true,
       response: null,
       createAt: now,
       sentence: sentenceArray
@@ -49,7 +54,11 @@ class NewExsercise extends Component {
    * set the showSolution flag to true
    */
   checkSolution = () => {
-    const { newExercise, saveExerciseSolutionDispatch } = this.props;
+    const {
+      newExercise,
+      saveExerciseSolutionDispatch,
+      updateNewExerciseStateDispatch
+    } = this.props;
 
     const codeSolution = newExercise.userSolution.map((word, index) => {
       if (
@@ -59,10 +68,14 @@ class NewExsercise extends Component {
         return newExercise.response[index].tag;
       return word.languageIterator.getCodeSolution();
     }); // questo è un array di codici che invio al backend
+
+    updateNewExerciseStateDispatch({
+      ...newExercise,
+      showSolution: true
+    });
     saveExerciseSolutionDispatch({
       ...newExercise,
-      showSolution: true,
-      ...codeSolution
+      codeSolution
     });
   };
 
@@ -95,6 +108,7 @@ class NewExsercise extends Component {
         }
       )
       .then(res => {
+        console.log('TCL: NewExsercise -> res', res);
         updateNewExerciseStateDispatch({
           ...this.props.newExercise,
           response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
@@ -112,7 +126,8 @@ class NewExsercise extends Component {
       response,
       showSolution,
       createAt,
-      sentenceString
+      sentenceString,
+      showButton
     } = newExercise;
 
     const { language } = user;
@@ -132,9 +147,8 @@ class NewExsercise extends Component {
               response={response}
               showSolution={showSolution}
               createAt={createAt}
-              salvaEsercizio={this.salvaEsercizio}
+              showButton={showButton}
               language={language}
-              showButton
             />
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
@@ -145,6 +159,7 @@ class NewExsercise extends Component {
                         type="button"
                         className="btn btn-success btn-block"
                         onClick={this.checkSolution}
+                        disabled={showSolution}
                       >
                         {_translator('executionExercise_complete', language)}
                       </button>

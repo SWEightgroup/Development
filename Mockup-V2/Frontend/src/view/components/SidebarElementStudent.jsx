@@ -31,11 +31,6 @@ class SidebarElementStudent extends Component {
                 {_translator('sidebarElementStudent_marks', language)}
               </NavLink>
             </li>
-            <li>
-              <NavLink to="/homework-execution" activeClassName="mm-active">
-                {_translator('sidebarElementStudent_freeExercise', language)}
-              </NavLink>
-            </li>
           </ul>
         </li>
       </React.Fragment>

@@ -82,7 +82,7 @@ public class Controller {
    * @param
    * @return
    */
-  @RequestMapping(value = "/users/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,@RequestBody UserModel newUserData) {
       try {
           Optional<String> role = Optional.ofNullable(newUserData.getRole());
@@ -137,7 +137,6 @@ public class Controller {
   @RequestMapping(value="/exercises/get-public-exercises", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ExerciseModel>> getPublicExercises(@RequestHeader("Authorization") String token) {
     String userId = ParseJWT.getIdFromJwt(token);
-    System.out.println("Id" + userId);
     return new ResponseEntity<List<ExerciseModel>>(exerciseService.getPublicExercises(userId), HttpStatus.OK);
   }
 

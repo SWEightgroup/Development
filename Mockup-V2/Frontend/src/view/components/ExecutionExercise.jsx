@@ -15,7 +15,7 @@ class ExecutionExercise extends Component {
     const {
       sentence,
       showSolution,
-      lockInput,
+      initSolution,
       createAt,
       language,
       showButton
@@ -48,7 +48,7 @@ class ExecutionExercise extends Component {
                           }
                           showSolution={showSolution}
                           showButton={showButton}
-                          lock={lockInput}
+                          initSolution={initSolution}
                         />
                       );
                     })}

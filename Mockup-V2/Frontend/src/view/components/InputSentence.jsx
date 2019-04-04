@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
+import { removePunctuation } from '../../helpers/Utils';
 
 class InputSentence extends Component {
   handleChange = e => {
@@ -7,22 +8,10 @@ class InputSentence extends Component {
     this.props.changeNewInputSentence(e.target.value);
   };
 
-  removePunctuation = sentenceString => {
-    const sentence = sentenceString;
-    const punctuationRegEx = /[--@[-`{-~¡-©«-¬®-±´¶-»¿×÷˂-˅˒-˟˥-˫˭˯-˿͵΄-΅·϶҂՚-՟-֊־׀׃׆׳-״؆-؏؛؞-؟٪-٭۔۩۽-۾܀-܍߶-߹।-॥॰৲-৳৺૱୰௳-௺౿ೱ-ೲ൹෴฿๏๚-๛༁-༗༚-༟༴༶༸༺-༽྅྾-࿅࿇-࿌࿎-࿔၊-၏႞-႟჻፠-፨᎐-᎙᙭-᙮᚛-᚜᛫-᛭᜵-᜶។-៖៘-៛᠀-᠊᥀᥄-᥅᧞-᧿᨞-᨟᭚-᭪᭴-᭼᰻-᰿᱾-᱿᾽᾿-῁῍-῏῝-῟῭-`´-῾\u2000-\u206e⁺-⁾₊-₎₠-₵℀-℁℃-℆℈-℉℔№-℘℞-℣℥℧℩℮℺-℻⅀-⅄⅊-⅍⅏←-⏧␀-␦⑀-⑊⒜-ⓩ─-⚝⚠-⚼⛀-⛃✁-✄✆-✉✌-✧✩-❋❍❏-❒❖❘-❞❡-❵➔➘-➯➱-➾⟀-⟊⟌⟐-⭌⭐-⭔⳥-⳪⳹-⳼⳾-⳿⸀-\u2e7e⺀-⺙⺛-⻳⼀-⿕⿰-⿻\u3000-〿゛-゜゠・㆐-㆑㆖-㆟㇀-㇣㈀-㈞㈪-㉃㉐㉠-㉿㊊-㊰㋀-㋾㌀-㏿䷀-䷿꒐-꓆꘍-꘏꙳꙾꜀-꜖꜠-꜡꞉-꞊꠨-꠫꡴-꡷꣎-꣏꤮-꤯꥟꩜-꩟﬩﴾-﴿﷼-﷽︐-︙︰-﹒﹔-﹦﹨-﹫！-／：-＠［-｀｛-･￠-￦￨-￮￼-�]]/g;
-    const allowedPunctuation = /[,.?!"'<->;:]/g;
-    const cleanString = sentence
-      .replace(allowedPunctuation, x => ` ${x} `)
-      .replace(punctuationRegEx, '')
-      .replace(/(\s){2,}/g, '$1')
-      .trim();
-    return cleanString;
-  };
-
   handleSubmit = e => {
     e.preventDefault();
     const { sentenceString } = this.props;
-    const cleanString = this.removePunctuation(sentenceString);
+    const cleanString = removePunctuation(sentenceString);
 
     // document.getElementById('sentenceString').value = cleanString;
     const { prepareExercise } = this.props;

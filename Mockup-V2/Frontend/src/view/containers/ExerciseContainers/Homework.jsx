@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ExercisePreview from '../../components/ExercisePreview';
-import { updateNewExerciseState } from '../../../actions/ExerciseActions';
+import {
+  updateNewExerciseState,
+  initializeNewExercise
+} from '../../../actions/ExerciseActions';
 
 class Homework extends Component {
   state = {};
@@ -9,6 +12,7 @@ class Homework extends Component {
   selectExercise = (phrase, solution) => {
     const { updateNewExerciseStateDispatch, newExercise } = this.props;
     const objSolution = JSON.parse(solution);
+    console.log('-----', newExercise);
     updateNewExerciseStateDispatch({
       ...newExercise,
       sentenceString: phrase,
@@ -16,9 +20,11 @@ class Homework extends Component {
         return { tag: item };
       })
     });
+    this.props.history.push('homework-execution');
   };
 
   render() {
+    console.log('QUESTE SONO LE PROPS', this.props);
     const { auth } = this.props;
     const { user } = auth;
     const { exercisesToDo } = user;
@@ -58,7 +64,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     updateNewExerciseStateDispatch: newExercise =>
-      dispatch(updateNewExerciseState(newExercise))
+      dispatch(updateNewExerciseState(newExercise)),
+    initializeNewExerciseDispatch: () => dispatch(initializeNewExercise)
   };
 };
 

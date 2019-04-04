@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -37,7 +36,6 @@ public class UserModel implements UserDetails {
   private String role;
   private String language;
   private Date dateOfBirth;
-  private TimeZone userTimeZone;
   private Integer currentGoal;
 
   @Builder.Default
@@ -61,11 +59,11 @@ public class UserModel implements UserDetails {
     exercisesDone = new ArrayList<>();
   }
 
-  public Boolean addExerciseToDo(ExerciseModel exerciseToAdd){
+  public Boolean addExerciseToDo(ExerciseModel exerciseToAdd) {
     return exercisesToDo.add(exerciseToAdd);
   }
 
-  public Boolean addExerciseDone(ExerciseModel exerciseToAdd){
+  public Boolean addExerciseDone(ExerciseModel exerciseToAdd) {
     return exercisesDone.add(exerciseToAdd);
   }
 
@@ -88,7 +86,7 @@ public class UserModel implements UserDetails {
   public List<ExerciseModel> getExercisesDone() {
     return exercisesDone;
   }
-  
+
   @Override
   public String getPassword() {
     return password;
@@ -142,7 +140,7 @@ public class UserModel implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true; //TODO DECOMENNTARE
-    //return enabled;
+    return true; // TODO DECOMENNTARE
+    // return enabled;
   }
 }
