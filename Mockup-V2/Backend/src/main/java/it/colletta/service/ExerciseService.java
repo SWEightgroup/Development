@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class ExerciseService {
 
@@ -36,7 +35,7 @@ public class ExerciseService {
     Optional<String> firstName = Optional.ofNullable(newUserData.getFirstName());
     Optional<String> lastName = Optional.ofNullable(newUserData.getLastName());
     if (firstName.isPresent() && !firstName.get().equals(oldUser.getFirstName())
-            || lastName.isPresent() && !lastName.get().equals(oldUser.getLastName())) {
+        || lastName.isPresent() && !lastName.get().equals(oldUser.getLastName())) {
       String authorName = newUserData.getFirstName() + " " + newUserData.getLastName();
       exerciseRepository.modifyAuthorName(authorName, oldUser.getId());
     }
@@ -44,42 +43,125 @@ public class ExerciseService {
 
   public ExerciseModel insertExercise(ExerciseHelper exercise) {
 
-    SolutionModel mainSolution = SolutionModel.builder().reliability(0)
-            .authorId(exercise.getAuthor()).solutionText(exercise.getMainSolution()).build();
+    SolutionModel mainSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+        .solutionText(exercise.getMainSolution()).build();
 
     SolutionModel alternativeSolution = null;
     if (exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
-      alternativeSolution =
-              SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
-                      .solutionText(exercise.getAlternativeSolution()).build();
+      alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+          .solutionText(exercise.getAlternativeSolution()).build();
     }
 
-    PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage())
-            .datePhrase(System.currentTimeMillis()).phraseText(exercise.getPhraseText())
-            .build();
+    PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage()).datePhrase(System.currentTimeMillis())
+        .phraseText(exercise.getPhraseText()).build();
 
     phrase.addSolution(mainSolution);
     phrase.addSolution(alternativeSolution);
     phrase = phraseService.insertPhrase(phrase);
 
-        Optional<UserModel> user = userService.findById(exercise.getAuthor());
-        String authorName =
-                user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName()
-                        : null;
-        ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
-                .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
-                .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId())
-                .phraseText(exercise.getPhraseText()).visibility(exercise.getVisibility())
-                .authorId(exercise.getAuthor()).authorName(authorName).build();
-        exerciseRepository.save(exerciseModel);
-        phraseService.increaseReliability(mainSolution);
-        if(alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
-            phraseService.increaseReliability(alternativeSolution);
-        }
-        return exerciseModel;
+    Optional<UserModel> user = userService.findById(exercise.getAuthor());
+    String authorName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
+    ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
+        .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
+        .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+        .visibility(exercise.getVisibility()).authorId(exercise.getAuthor()).authorName(authorName).build();
+    exerciseRepository.save(exerciseModel);
+    phraseService.increaseReliability(mainSolution);
+    if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+      phraseService.increaseReliability(alternativeSolution);
+    }
+    return exerciseModel;
+  }
+
+  /**
+   * 
+   * Add a phrase solution or free exercise
+   * 
+   * @author Gionata Legrottaglie
+   * @param exercise Exercise/Solution
+   * @param userId   Author Id
+   * @return This Exercise
+   */
+  public ExerciseModel insertFreeExercise(ExerciseHelper exercise, String userId) {
+
+    SolutionModel mainSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+        .solutionText(exercise.getMainSolution()).build();
+
+    SolutionModel alternativeSolution = null;
+    if (exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
+      alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+          .solutionText(exercise.getAlternativeSolution()).build();
     }
 
+    PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage()).datePhrase(System.currentTimeMillis())
+        .phraseText(exercise.getPhraseText()).build();
 
+    phrase.addSolution(mainSolution);
+    if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+    	phrase.addSolution(alternativeSolution);
+      }
+    
+    phrase = phraseService.insertPhrase(phrase);
+
+    Optional<UserModel> user = userService.findById(userId);
+    String authorName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
+    ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
+        .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
+        .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+        .visibility(exercise.getVisibility()).authorId(userId).authorName(authorName).build();
+    phraseService.increaseReliability(mainSolution);
+    if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+      phraseService.increaseReliability(alternativeSolution);
+    }
+    return exerciseModel;
+  }
+
+
+
+
+
+  /**
+   * 
+   * Add a solution in phrase
+   * 
+   * @author Gionata Legrottaglie
+   * @param exercise Exercise/Solution
+   * @param userId   Author Id
+   * @return This Exercise
+   */
+  public ExerciseModel insertSolution(ExerciseHelper exercise, String userId) {
+
+    SolutionModel mainSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+        .solutionText(exercise.getMainSolution()).build();
+
+    SolutionModel alternativeSolution = null;
+    if (exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
+      alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+          .solutionText(exercise.getAlternativeSolution()).build();
+    }
+
+    PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage()).datePhrase(System.currentTimeMillis())
+        .phraseText(exercise.getPhraseText()).build();
+
+    phrase.addSolution(mainSolution);
+    if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+    	phrase.addSolution(alternativeSolution);
+      }
+    
+    phrase = phraseService.insertPhrase(phrase);
+
+    Optional<UserModel> user = userService.findById(userId);
+    String authorName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
+    ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
+        .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
+        .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+        .visibility(exercise.getVisibility()).authorId(userId).authorName(authorName).build();
+    phraseService.increaseReliability(mainSolution);
+    if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+      phraseService.increaseReliability(alternativeSolution);
+    }
+    return exerciseModel;
+  }
 
   public void deleteExercise(String exerciseId) {
     Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);

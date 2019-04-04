@@ -7,48 +7,44 @@ import Validator from '../../../helpers/Validator';
 import RegExpression from '../../../constants/RegExpression';
 
 class Account extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+
+    const { updateUserInfoDispatch } = this.props;
+    const formData = {
+      firstName: e.target.firstName.value,
+      lastName: e.target.lastName.value,
+      username: e.target.username.value,
+      language: e.target.language.value
+
+      // dateOfBirth: e.target.dateOfBirth.value,
+      // language: e.target.language.value
+    };
+    if (this.isFormValid(formData)) {
+      console.log('Ok, dati validi > ', formData);
+      updateUserInfoDispatch(formData);
+    } else {
+      console.log('dati non validi');
+    }
+  };
+
+  isFormValid = formData => {
+    const { firstName, lastName, username } = formData;
+    return (
+      firstName &&
+      firstName !== '' &&
+      lastName &&
+      lastName !== '' &&
+      // Validator.validDate(dateOfBirth) &&
+      Validator.validEmail(username, RegExpression.getRegEmail()) // &&
+      // Validator.validSelect(language, ExLang)
+    );
+  };
+
   render() {
     const { userdata } = this.props;
-    const {
-      username,
-      firstName,
-      lastName,
-      language,
-      dateOfBirth,
-      role
-    } = userdata;
+    const { username, firstName, lastName, language, dateOfBirth } = userdata;
 
-    this.handleSubmit = e => {
-      e.preventDefault();
-      const formData = {
-        firstName: e.target.firstName.value,
-        lastName: e.target.lastName.value,
-        username: e.target.username.value,
-        language: e.target.language.value,
-        role
-        // dateOfBirth: e.target.dateOfBirth.value,
-        // language: e.target.language.value
-      };
-      if (this.isFormValid(formData)) {
-        console.log('Ok, dati validi > ', formData);
-        this.props.updateUserInfoDispatch(formData);
-      } else {
-        console.log('dati non validi');
-      }
-    };
-
-    this.isFormValid = formData => {
-      const { firstName, lastName, dateOfBirth, username, language } = formData;
-      return (
-        firstName &&
-        firstName !== '' &&
-        lastName &&
-        lastName !== '' &&
-        // Validator.validDate(dateOfBirth) &&
-        Validator.validEmail(username, RegExpression.getRegEmail()) // &&
-        // Validator.validSelect(language, ExLang)
-      );
-    };
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">

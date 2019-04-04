@@ -10,7 +10,9 @@ import {
   updateNewExerciseState,
   changeNewInputSentence,
   saveExerciseSolution,
-  initNewExerciseState
+  initNewExerciseState,
+  innerLoaderOff,
+  innerLoaderOn
 } from '../../../actions/ExerciseActions';
 
 class InsertExercise extends Component {
@@ -83,6 +85,7 @@ class InsertExercise extends Component {
       updateNewExerciseStateDispatch
     } = this.props;
 
+    this.props.innerLoaderOn();
     initNewExerciseStateDispatch({
       ...newExercise,
       response: null
@@ -110,6 +113,7 @@ class InsertExercise extends Component {
             }
           })
           .then(resGetStudent => {
+            this.props.innerLoaderOff();
             updateNewExerciseStateDispatch({
               ...this.props.newExercise,
               studentList: resGetStudent.data,
@@ -117,10 +121,14 @@ class InsertExercise extends Component {
             });
           })
           .catch(err => {
+            this.props.innerLoaderOff();
             console.error(err);
           });
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        this.props.innerLoaderOff();
+        console.log(e);
+      });
   };
 
   handleChange = event => {
@@ -242,7 +250,9 @@ const mapDispatchToProps = dispatch => {
     saveExerciseSolutionDispatch: newExercise =>
       dispatch(saveExerciseSolution(newExercise)),
     initNewExerciseStateDispatch: newExercise =>
-      dispatch(initNewExerciseState(newExercise))
+      dispatch(initNewExerciseState(newExercise)),
+    innerLoaderOff: () => dispatch(innerLoaderOff()),
+    innerLoaderOn: () => dispatch(innerLoaderOn())
   };
 };
 

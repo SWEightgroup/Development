@@ -1,9 +1,7 @@
 const initState = {
   signinError: null,
   signupError: null,
-  user: localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user'))
-    : null,
+  user: null,
   loader: false,
   signIn: {
     username: '',
@@ -33,16 +31,14 @@ const initState = {
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case 'CHANGE_SIGNIN_DATA':
-      const signIn = { ...state.signIn, ...action.data };
       return {
         ...state,
-        signIn
+        signIn: { ...state.signIn, ...action.data }
       };
     case 'CHANGE_SIGNUP_DATA':
-      const signUp = { ...state.signUp, ...action.data };
       return {
         ...state,
-        signUp
+        signUp: { ...state.signUp, ...action.data }
       };
     case 'LOADER_ON':
       return {
@@ -52,7 +48,8 @@ const authReducer = (state = initState, action) => {
     case 'LOAD_AUTH':
       return {
         ...state,
-        user: action.user
+        user: action.user,
+        loader: false
       };
     case 'LOGIN_ERROR':
       return {
@@ -63,7 +60,6 @@ const authReducer = (state = initState, action) => {
         loader: false
       };
     case 'LOGIN_SUCCESS':
-
       return {
         ...state,
         user: action.userInfo.user,
@@ -94,11 +90,12 @@ const authReducer = (state = initState, action) => {
     case 'DISPLAY_ERROR':
       return {
         ...state,
-        authError: action.error
+        authError: action.error,
+        loader: false
       };
 
     default:
-      return state;
+      return { ...state, loader: false };
   }
 };
 

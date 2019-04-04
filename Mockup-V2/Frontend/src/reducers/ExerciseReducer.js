@@ -9,11 +9,24 @@ const initState = {
     codeSolution: [],
     complete: false,
     studentList: []
-  }
+  },
+  todoExercises: null,
+  doneExercises: null,
+  innerLoader: false
 };
 
 const ExerciseReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'INNER_LOADER_ON':
+      return {
+        ...state,
+        innerLoader: true
+      };
+    case 'INNER_LOADER_OFF':
+      return {
+        ...state,
+        innerLoader: false
+      };
     case 'INIT_EXERCISE':
       return {
         ...state,
@@ -51,13 +64,27 @@ const ExerciseReducer = (state = initState, action) => {
         newExercise: {
           ...action.newExercise,
           showSolution: true
-        }
+        },
+        innerLoader: false
         // newExercise: initState.newExercise
+      };
+
+    case 'LOAD_TODO_SUCCESS':
+      return {
+        ...state,
+        todoExercises: action.todo,
+        innerLoader: false
+      };
+    case 'LOAD_DONE_SUCCESS':
+      return {
+        ...state,
+        doneExercises: action.todo,
+        innerLoader: false
       };
 
     default:
       //  console.error('REDUCER ERRATO', state, action);
-      return state;
+      return { ...state, innerLoader: false };
   }
 };
 

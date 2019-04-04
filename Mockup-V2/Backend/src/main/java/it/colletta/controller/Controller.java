@@ -132,6 +132,40 @@ public class Controller {
     }
   }
 
+
+  /**
+   * @author Gionata Legrottaglie
+   * @param exercise the exercise which needs to be inserted in the database
+   * @return A new ResponseEntity that contains the phrase
+   */
+  @RequestMapping(value = "/exercises/insert-free-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ExerciseModel> insertFreeExercise(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
+    try {
+      ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise,ParseJWT.getIdFromJwt(token));
+      return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
+    }
+    catch (Exception e) {
+      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  
+  /**
+   * @author Gionata Legrottaglie
+   * @param exercise the exercise which needs to be inserted in the database
+   * @return A new ResponseEntity that contains the phrase
+   */
+  @RequestMapping(value = "/exercises/insert-solution", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ExerciseModel> insertSolution(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
+    try {
+      ExerciseModel exerciseModel = exerciseService.insertSolution(exercise,ParseJWT.getIdFromJwt(token));
+      return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
+    }
+    catch (Exception e) {
+      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
   /**
    * @param stringObj the text which has to be analyzed by freeling as map
    * @return A SolutionModel with the analyzed sentence or empty if the service
@@ -140,10 +174,7 @@ public class Controller {
   @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj, @RequestHeader("Authorization") String studentToken) {
     try {
-      String id = ParseJWT.getIdFromJwt(studentToken);
-      System.out.println("Frase in " + stringObj.get("text"));
       SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
-      System.out.println("Frase out " + solution.getSolutionText());
       return new ResponseEntity<SolutionModel>(solution, HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);

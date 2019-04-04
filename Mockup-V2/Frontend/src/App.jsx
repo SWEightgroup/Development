@@ -9,9 +9,8 @@ import Footer from './view/components/Footer';
 import SignUp from './view/containers/AuthContainers/SignUp';
 import SignIn from './view/containers/AuthContainers/SignIn';
 import Error from './view/components/Error';
-// import { initializeAuth } from './actions/AuthActions';
+import { initializeAuth, loaderOn } from './actions/AuthActions';
 
-// import { loadAuth } from './actions/AuthActions';
 import './App.css';
 import NewExercise from './view/containers/ExerciseContainers/NewExercise';
 import Account from './view/containers/AuthContainers/Account';
@@ -21,16 +20,15 @@ import InsertExercise from './view/containers/ExerciseContainers/InsertExercise'
 
 class App extends Component {
   state = {};
-  /* componentDidMount() {
-    console.log(
-      ': App -> componentDidMount -> this.props.auth',
-      this.props.auth
-    );
+
+  constructor(props) {
+    super(props);
+    this.props.loaderOn();
     this.props.initializeAuth(this.props.auth.token);
-  } */
+  }
 
   render() {
-    const { loader, auth } = this.props;
+    const { loader,innerLoader, auth } = this.props;
     const { language } = auth;
     return (
       <BrowserRouter>
@@ -70,6 +68,7 @@ class App extends Component {
               {auth.user && <Sidebar auth={auth} />}
             </div>
             <div className="app-main__outer">
+            {innerLoader && <div className="loading" />}
               <Switch>
                 <ProtectedRoute
                   exact
@@ -140,12 +139,14 @@ const ProtectedRoute = ({ isAllowed, ...props }) =>
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    loader: state.auth.loader
+    loader: state.auth.loader,
+    innerLoader: state.exercise.innerLoader
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    // initializeAuth: token => dispatch(initializeAuth(token))
+    loaderOn: () => dispatch(loaderOn()),
+    initializeAuth: token => dispatch(initializeAuth(token))
   };
 };
 

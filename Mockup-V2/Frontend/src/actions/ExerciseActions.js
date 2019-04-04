@@ -2,6 +2,17 @@
 import axios from 'axios';
 import { store } from '../index';
 
+export const innerLoaderOn = () => {
+  return dispatch => {
+    dispatch({ type: 'INNER_LOADER_ON' });
+  };
+};
+export const innerLoaderOff = () => {
+  return dispatch => {
+    dispatch({ type: 'INNER_LOADER_OFF' });
+  };
+};
+
 export const initializeNewExercise = () => {
   return dispatch => {
     dispatch({ type: 'INIT_EXERCISE' });
@@ -9,7 +20,7 @@ export const initializeNewExercise = () => {
 };
 
 export const initNewExerciseState = newExercise => {
-  const allowedPunctuation = /[a-zA-Z]/g;
+  // const allowedPunctuation = /[a-zA-Z]/g;
   return dispatch => {
     dispatch({
       type: 'INIT_NEW_EXERCISE',
@@ -43,21 +54,19 @@ export const updateWordState = word => {
   };
 };
 
-export const saveExerciseSolution = newExercise => {
+export const saveFreeExercise = newExercise => {
   return dispatch => {
+    dispatch(innerLoaderOn());
     const { id } = store.getState().auth.user;
-    // prelevo dal response la soluzione della punteggiatuera
 
     axios
       .post(
-        'http://localhost:8081/exercises/insert-exercise',
+        'http://localhost:8081/exercises/insert-free-exercise',
         {
-          assignedUsersIds: newExercise.studentList
-            .filter(student => student.check)
-            .map(student => student.id),
+          assignedUsersIds: null,
           phraseText: newExercise.sentenceString,
           mainSolution: JSON.stringify(newExercise.codeSolution),
-          alternativeSolution: JSON.stringify([]),
+          alternativeSolution: '',
           visibility: true,
           author: id,
           date: new Date().getTime(),
@@ -71,6 +80,107 @@ export const saveExerciseSolution = newExercise => {
       )
       .then(res => {
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
+      })
+      .catch(() => dispatch({ type: 'pippo' }));
+  };
+};
+
+export const saveSolution = newExercise => {
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    const { id } = store.getState().auth.user;
+
+    axios
+      .post(
+        'http://localhost:8081/exercises/insert-solution',
+        {
+          exercise: {
+            assignedUsersIds: null,
+            phraseText: newExercise.sentenceString,
+            mainSolution: JSON.stringify(newExercise.codeSolution),
+            alternativeSolution: '',
+            visibility: true,
+            author: id,
+            date: new Date().getTime(),
+            language: 'it', // //////////////////////////////DA CAMBIARE
+            id: newExercise.id
+          }
+        },
+        {
+          headers: {
+            Authorization: store.getState().auth.token
+          }
+        }
+      )
+      .then(res => {
+        dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
+      })
+      .catch(() => dispatch({ type: 'pippo' }));
+  };
+};
+
+export const saveExerciseSolution = newExercise => {
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    const { id } = store.getState().auth.user;
+    // prelevo dal response la soluzione della punteggiatuera
+
+    axios
+      .post(
+        'http://localhost:8081/exercises/insert-exercise',
+        {
+          assignedUsersIds: newExercise.studentList
+            .filter(student => student.check)
+            .map(student => student.id),
+          phraseText: newExercise.sentenceString,
+          mainSolution: JSON.stringify(newExercise.codeSolution),
+          alternativeSolution: '',
+          visibility: true,
+          author: id,
+          date: new Date().getTime(),
+          language: 'it' // //////////////////////////////DA CAMBIARE
+        },
+        {
+          headers: {
+            Authorization: store.getState().auth.token
+          }
+        }
+      )
+      .then(res => {
+        dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
+      })
+      .catch(() => dispatch({ type: 'pippo' }));
+  };
+};
+
+export const loadTodoExercises = () => {
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    axios
+      .get('http://localhost:8081/exercises/user-todo/', {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        console.log(': loadTodoExercises -> res', res);
+        dispatch({ type: 'LOAD_TODO_SUCCESS', todo: res.data });
+      })
+      .catch(() => dispatch({ type: 'pippo' }));
+  };
+};
+
+export const loadDoneExercises = () => {
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    axios
+      .get('http://localhost:8081/exercises/done/', {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch({ type: 'LOAD_DONE_SUCCESS', todo: res.data });
       })
       .catch(() => dispatch({ type: 'pippo' }));
   };

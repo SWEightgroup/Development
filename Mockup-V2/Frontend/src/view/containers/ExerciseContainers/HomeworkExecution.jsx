@@ -9,7 +9,7 @@ import {
   initializeNewExercise,
   updateNewExerciseState,
   changeNewInputSentence,
-  saveExerciseSolution,
+  saveSolution,
   initNewExerciseState
 } from '../../../actions/ExerciseActions';
 
@@ -55,12 +55,16 @@ class HomeworkExercise extends Component {
    * set the showSolution flag to true
    */
   checkSolution = () => {
-    const { newExercise, updateNewExerciseStateDispatch } = this.props;
+    const {
+      newExercise,
+      updateNewExerciseStateDispatch,
+      saveSolutionDispatch
+    } = this.props;
     updateNewExerciseStateDispatch({
       ...newExercise,
       showSolution: true
     });
-    saveExerciseSolution({ ...newExercise });
+    saveSolutionDispatch({ ...newExercise });
   };
 
   /**
@@ -101,10 +105,10 @@ class HomeworkExercise extends Component {
   };
 
   render() {
-    const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
+    const { newExercise, auth } = this.props;
     const { user } = auth;
 
-    const { response, showSolution, createAt, showButton } = newExercise;
+    const { response, showSolution, createAt } = newExercise;
 
     const { language } = user;
 
@@ -172,8 +176,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateNewExerciseState(newExercise)),
     changeNewInputSentenceDispatch: input =>
       dispatch(changeNewInputSentence(input)),
-    saveExerciseSolutionDispatch: newExercise =>
-      dispatch(saveExerciseSolution(newExercise)),
+    saveSolutionDispatch: newExercise => dispatch(saveSolution(newExercise)),
     initNewExerciseStateDispatch: newExercise =>
       dispatch(initNewExerciseState(newExercise))
   };

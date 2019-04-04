@@ -10,9 +10,9 @@ class ExercisePreview extends Component {
   };
 
   goToExecution = () => {
-    const { solution, phrase, selectExercise } = this.props;
-    const pippo = '["NP00000","AQ0FS00"]';
-    selectExercise(phrase, pippo);
+    const { /* solution, */ phrase, selectExercise, id } = this.props;
+    const pippo = '["NP00000","AQ0FS00","AQ0FS00","AQ0FS00"]';
+    selectExercise(phrase, pippo, id);
 
     // DA SISTEMARE
   };

@@ -9,7 +9,7 @@ class ExecutionExercise extends Component {
   };
 
   render() {
-    const allowedPunctuation = /[a-zA-Z]/g;
+    //const allowedPunctuation = /[a-zA-Z]/g;
     // const allowedPunctuation2 = /[,.?!"'<-{}[]()%\/>;:]/g;
     const { props } = this;
     const {

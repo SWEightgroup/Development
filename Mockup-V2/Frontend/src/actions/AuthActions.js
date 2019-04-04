@@ -29,8 +29,8 @@ export const signIn = credentials => {
         password: credentials.password
       })
       .then(res => {
+        console.log(': res', res);
         if (res) {
-          localStorage.setItem('user', JSON.stringify(res.data));
           localStorage.setItem(
             'token',
             JSON.stringify(res.headers.authorization)
@@ -46,6 +46,7 @@ export const signIn = credentials => {
 
 export const signOut = () => {
   localStorage.removeItem('user');
+  localStorage.removeItem('token');
   return dispatch => {
     dispatch({ type: 'SIGNOUT_SUCCESS' });
   };
@@ -67,8 +68,9 @@ export const signUp = newUser => {
 
 export const updateUserInfo = user => {
   return dispatch => {
+    dispatch(loaderOn());
     axios
-      .post(
+      .put(
         'http://localhost:8081/users/modify',
         {
           ...user
@@ -90,21 +92,24 @@ export const updateUserInfo = user => {
   };
 };
 
-export const initializeAuth = token => {
-  /* return dispatch => {
-    // Make a request for a user with a given ID
-    if (token !== null) {
+export const initializeAuth = () => {
+  return dispatch => {
+    if (store.getState().auth.token !== null) {
       axios
-        .post('http://localhost:8081/users/sign-up', { token })
+        .get('http://localhost:8081/users/get-info', {
+          headers: {
+            Authorization: store.getState().auth.token
+          }
+        })
         .then(res => {
           dispatch({ type: 'LOAD_AUTH', user: res.data });
         })
         .catch(error => {
-          dispatch({ type: 'SIGNOUT_SUCCESS' });
+          dispatch(signOut());
           console.log(error);
         });
     } else {
-      dispatch({ type: 'SIGNOUT_SUCCESS' });
+      dispatch(signOut());
     }
-  }; */
+  };
 };
