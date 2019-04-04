@@ -1,9 +1,12 @@
 package it.colletta.repository.user;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import it.colletta.model.ExerciseModel;
 import it.colletta.security.Role;
 import java.util.Optional;
 import it.colletta.repository.user.UserCustomQueryInterface;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import it.colletta.model.UserModel;
 import org.springframework.data.mongodb.repository.Query;
@@ -72,4 +75,6 @@ public interface UsersRepository
   @Query("{ $pull: { exercisesToDo: ?0 }}")
   void deleteFromExerciseToDo(String exerciseId);
 
+  @Query("{id : ?0}, {exercisesDone:1, id:0}")
+  List<ExerciseModel> findAllExerciseDone(String id);
 }
