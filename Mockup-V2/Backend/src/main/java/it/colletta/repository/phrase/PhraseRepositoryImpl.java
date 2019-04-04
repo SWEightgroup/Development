@@ -40,11 +40,11 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
         return mongoTemplate.find(query, SolutionModel.class);
     }
     @Override
-    public void increaseReliability(SolutionModel solutionModel) {
-        UpdateResult wr = mongoTemplate.updateMulti(
-                new Query(Criteria.where("solutions.solutionText").is(solutionModel.getSolutionText())),
-        new Update().inc("solutions.$.reliability", 1), PhraseModel.class);
-        
+    public UpdateResult increaseReliability(SolutionModel solutionModel) {
+        Query query = new Query(Criteria.where("solutions.solutionText").is(solutionModel.getSolutionText()));
+        Update update = new Update().inc("solutions.$.reliability", 1);
+        UpdateResult updateResult = mongoTemplate.updateMulti(query,update, PhraseModel.class);
+        return updateResult;
     }
 }
 

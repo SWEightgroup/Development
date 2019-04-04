@@ -2,6 +2,7 @@ package it.colletta.repository.user;
 
 import it.colletta.model.UserModel;
 import it.colletta.repository.config.MongoConfig;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,19 @@ public class UsersRepositoryImplTest {
     @Before
     public void setUp() throws Exception {
 
+        usersRepository = new UsersRepositoryImpl(mongoTemplate);
+
+        populateDatabase();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+        mongoTemplate.dropCollection("users");
+    }
+
+    private void populateDatabase() {
+
         UserModel user = UserModel.builder()
                 .firstName("Enrico")
                 .email("a@a.it")
@@ -40,8 +54,6 @@ public class UsersRepositoryImplTest {
                 .build();
 
         testUser = mongoTemplate.save(user);
-
-        usersRepository = new UsersRepositoryImpl(mongoTemplate);
     }
 
     @Test

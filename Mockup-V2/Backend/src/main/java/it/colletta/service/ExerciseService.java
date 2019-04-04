@@ -31,13 +31,14 @@ public class ExerciseService {
         // controllo su id, in caso exception
     }
 
-    public void modifyExerciseName(UserModel newUserData, String token) {
+    public void modifyExerciseAuthorName(UserModel newUserData, String token) {
         UserModel oldUser = userService.findByEmail(newUserData.getUsername());
         Optional<String> firstName = Optional.ofNullable(newUserData.getFirstName());
         Optional<String> lastName = Optional.ofNullable(newUserData.getLastName());
         if (firstName.isPresent() && !firstName.get().equals(oldUser.getFirstName())
                 || lastName.isPresent() && !lastName.get().equals(oldUser.getLastName())) {
-            exerciseRepository.modifyAuthorExercise(newUserData, oldUser.getId());
+            String authorName = newUserData.getFirstName() + " " + newUserData.getLastName();
+            exerciseRepository.modifyAuthorName(authorName, oldUser.getId());
         }
     }
 
@@ -62,14 +63,14 @@ public class ExerciseService {
         phrase = phraseService.insertPhrase(phrase);
 
         Optional<UserModel> user = userService.findById(exercise.getAuthor());
-        String teacherName =
+        String authorName =
                 user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName()
                         : null;
         ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
                 .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
                 .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId())
-                .phraseText(exercise.getPhraseText()).visibilty(exercise.getVisibility())
-                .authorId(exercise.getAuthor()).teacherName(teacherName).build();
+                .phraseText(exercise.getPhraseText()).visibility(exercise.getVisibility())
+                .authorId(exercise.getAuthor()).authorName(authorName).build();
         exerciseRepository.save(exerciseModel);
         phraseService.increaseReliability(mainSolution);
         phraseService.increaseReliability(alternativeSolution);

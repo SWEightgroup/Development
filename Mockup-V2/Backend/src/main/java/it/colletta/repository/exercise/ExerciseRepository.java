@@ -1,5 +1,6 @@
 package it.colletta.repository.exercise;
 
+import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,9 +15,9 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
   Iterable<ExerciseModel> findAllById(Iterable<String> ids);
 
   @Override
-  public Optional<ExerciseModel> findById(String id);
+  Optional<ExerciseModel> findById(String id);
 
 
-  public void modifyAuthorExercise(UserModel newUserData, String teacherId);
+  UpdateResult modifyAuthorName(String newAuthorName, String teacherId);
 
 }

@@ -89,7 +89,7 @@ public class Controller {
       try {
           Optional<String> role = Optional.ofNullable(newUserData.getRole());
           if(role.isPresent() && role.get().equals("ROLE_TEACHER")){
-              exerciseService.modifyExerciseName(newUserData,token);
+              exerciseService.modifyExerciseAuthorName(newUserData,token);
           }
           UserModel user = userService.updateUser(newUserData,token);
           return new ResponseEntity<UserModel>(user, HttpStatus.OK);

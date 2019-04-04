@@ -25,13 +25,13 @@ public class ExerciseModel {
   private SolutionModel mainSolutionReference;
   @DBRef(lazy = true)
   private SolutionModel alternativeSolutionReference;
-  private String teacherName;
+  private String authorName;
   private String authorId;
-  private Boolean visibilty;
+  private Boolean visibility;
 
   public ExerciseModel() {
     id = new ObjectId().toHexString();
     dateExercise = System.currentTimeMillis();
-    visibilty = true;
+    visibility = true;
   }
 }
