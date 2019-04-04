@@ -71,7 +71,7 @@ public class UserService {
 
   public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
 
-    String email = ParseJWT.parseJWT(token);
+    String email = ParseJWT.getEmailFromJWT(token);
     String newEmail = newUserData.getUsername();
     if(!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null ) { //ho modificato la mia mail
       throw new NotOwnerException();
