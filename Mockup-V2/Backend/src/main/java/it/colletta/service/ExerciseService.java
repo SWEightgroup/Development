@@ -99,13 +99,11 @@ public class ExerciseService {
         return null;
   }
 
-    public ExerciseModel deleteExercise(String exerciseId) {
+    public void deleteExercise(String exerciseId) {
        Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
        if(exerciseModelOptional.isPresent()) {
            ExerciseModel exerciseModel = exerciseModelOptional.get();
-           return exerciseModel;
+           exerciseRepository.delete(exerciseModel);
        }
-       //TODO sistemare
-      return null;
     }
 }

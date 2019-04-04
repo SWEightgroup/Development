@@ -118,4 +118,14 @@ public class UserService {
   public List<UserModel> getAllStudents() {
     return applicationUserRepository.findAllStudents();
   }
+
+  public Optional<UserModel> deleteExerciseAssigned(String exerciseId, String userId) {
+    Optional<UserModel> user = applicationUserRepository.findById(userId);
+    if(user.isPresent()) {
+      if(exerciseId.equals(user.get().getId()) && user.get().getRole().equals(Role.TEACHER)) {
+        applicationUserRepository.deleteFromExerciseToDo(exerciseId);
+      }
+    }
+    return Optional.empty();
+  }
 }

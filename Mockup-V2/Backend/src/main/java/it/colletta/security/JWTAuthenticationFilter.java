@@ -26,62 +26,62 @@ import static it.colletta.security.SecurityConstants.SECRET;
 import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
-    private UsersRepository usersRepository;
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UsersRepository usersRepository) {
-        this.authenticationManager = authenticationManager;
-        this.usersRepository = usersRepository;
-    }
+  private AuthenticationManager authenticationManager;
+  private UsersRepository usersRepository;
+  public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UsersRepository usersRepository) {
+    this.authenticationManager = authenticationManager;
+    this.usersRepository = usersRepository;
+  }
 
-    /**
-    * @param req TODO
-    * @param res TODO
-    * @exception AuthenticationException
-    * @return Authentication TODO 
-    */ 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws AuthenticationException {
-        try {
-            UserModel creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), UserModel.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
-                            creds.getPassword(),
-                            new ArrayList<>())
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+  /**
+   * @param req TODO
+   * @param res TODO
+   * @exception AuthenticationException
+   * @return Authentication TODO
+   */
+  @Override
+  public Authentication attemptAuthentication(HttpServletRequest req,
+      HttpServletResponse res) throws AuthenticationException {
+    try {
+      UserModel creds = new ObjectMapper()
+          .readValue(req.getInputStream(), UserModel.class);
+      return authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(
+              creds.getUsername(),
+              creds.getPassword(),
+              new ArrayList<>())
+      );
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    /**
-    * @param req TODO
-    * @param res    TODO
-    * @param auth TODO
-    * @exception IOException TODO 
-    * @exception ServletException TODO 
-    * @return nothing 
-    */
-    @Override
-    protected void successfulAuthentication(HttpServletRequest req,
-                                            HttpServletResponse res,
-                                            FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
-        String email = ((User) auth.getPrincipal()).getUsername();
-        UserModel userModel = usersRepository.findByEmail(email);
-        userModel.setPassword(null);
-        String token = JWT.create().withJWTId(userModel.getId())
-                .withSubject(email)
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(HMAC512(SECRET.getBytes()));
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        res.setHeader("Access-Control-Expose-Headers", "Authorization");
-        res.setStatus(HttpServletResponse.SC_OK);
-        res.getWriter().write((new ObjectMapper()).writeValueAsString(userModel));
-        res.getWriter().flush();
-        res.getWriter().close();
-    }
+  /**
+   * @param req TODO
+   * @param res    TODO
+   * @param auth TODO
+   * @exception IOException TODO
+   * @exception ServletException TODO
+   * @return nothing
+   */
+  @Override
+  protected void successfulAuthentication(HttpServletRequest req,
+      HttpServletResponse res,
+      FilterChain chain,
+      Authentication auth) throws IOException, ServletException {
+    String email = ((User) auth.getPrincipal()).getUsername();
+    UserModel userModel = usersRepository.findByEmail(email);
+    userModel.setPassword(null);
+    String token = JWT.create().withJWTId(userModel.getId())
+        .withSubject(email)
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+        .sign(HMAC512(SECRET.getBytes()));
+    res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+    res.setHeader("Access-Control-Expose-Headers", "Authorization");
+    res.setStatus(HttpServletResponse.SC_OK);
+    res.getWriter().write((new ObjectMapper()).writeValueAsString(userModel));
+    res.getWriter().flush();
+    res.getWriter().close();
+  }
 
 }

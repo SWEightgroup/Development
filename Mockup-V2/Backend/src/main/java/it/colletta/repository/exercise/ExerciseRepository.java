@@ -18,7 +18,6 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
 
   public List<ExerciseModel> findAllPublicExercises(List<ExerciseModel> userId);
 
-
   public void modifyAuthorExercise(UserModel newUserData, String teacherId);
 
 }
