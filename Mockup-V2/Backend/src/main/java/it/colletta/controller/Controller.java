@@ -134,6 +134,7 @@ public class Controller {
   /**
    * TODO RECUPERARE TUTTI GLI ESERCIZI PUBLIC CHE NON SONO STATI ANCORA SVOLTI
    * 
+   * 
    * @param token
    * @return
    */

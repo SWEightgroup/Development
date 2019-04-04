@@ -4,6 +4,21 @@ import React, { Component } from 'react';
 class ExercisePreview extends Component {
   state = {};
 
+  getDate = timestamp => {
+    const date = new Date(timestamp);
+    return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/');
+  };
+
+  goToExecution = () => {
+    const { solution, phrase, selectExercise } = this.props;
+    console.log(': ExercisePreview -> goToExecution -> solution', solution);
+    const pippo =
+      '["NP00000","Fc","PD0FS00","VMIP3S0","PI0FS00","NCFS000","AQ0FS00","Fat"]';
+    selectExercise(phrase, pippo);
+    
+    // DA SISTEMARE
+  };
+
   render() {
     const { author, creationDate, phrase, mark, isMark } = this.props;
     return (
@@ -13,7 +28,11 @@ class ExercisePreview extends Component {
           <h6 className="card-subtitle">{phrase}</h6>
           <p>Aggiunta il: {this.getDate(creationDate)}</p>
           {!isMark && (
-            <button className="mb-2 mr-2 btn btn-primary btn-sm btn-block ">
+            <button
+              type="button"
+              onClick={this.goToExecution}
+              className="mb-2 mr-2 btn btn-primary btn-sm btn-block "
+            >
               Svolgi l'esercizio
             </button>
           )}
@@ -21,15 +40,6 @@ class ExercisePreview extends Component {
         </div>
       </div>
     );
-  }
-
-  getDate(date) {
-    return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/');
-  }
-
-  goToExecution() {
-    // CARICARE NELLO STORE L'ID DELLA SOLUZIONE (VA AGGIUNTO NELLE PROPS)
-    // REINDIRIZZARE L'UTENTE ALLA PAGINA DI ESECIZIONE DELL'ESERICIZIO (SI PUO ANCHE PRENDERE L'ID DAL PATH INVECE CHE METTERLO NELLO STORE)
   }
 }
 

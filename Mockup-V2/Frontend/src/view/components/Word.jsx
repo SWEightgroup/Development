@@ -15,7 +15,7 @@ class Word extends Component {
       languageIterator,
       buttons: languageIterator.getCurrentButtonList(),
       solution:
-        solutionTag !== null
+        solutionTag.charAt(0) !== 'F'
           ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution()
           : '',
       index: props.index,
@@ -111,6 +111,7 @@ class Word extends Component {
     if (parola.match(allowedPunctuation) !== null) {
       return <React.Fragment />;
     }
+
     return (
       <li
         className="list-group-item"

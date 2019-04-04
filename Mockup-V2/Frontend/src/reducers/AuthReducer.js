@@ -40,8 +40,6 @@ const authReducer = (state = initState, action) => {
       };
     case 'CHANGE_SIGNUP_DATA':
       const signUp = { ...state.signUp, ...action.data };
-      console.log(': authReducer -> signUp', signUp);
-
       return {
         ...state,
         signUp
@@ -65,7 +63,6 @@ const authReducer = (state = initState, action) => {
         loader: false
       };
     case 'LOGIN_SUCCESS':
-      console.log('TCL: authReducer -> LOGIN_SUCCESS');
 
       return {
         ...state,

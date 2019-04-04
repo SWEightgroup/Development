@@ -66,7 +66,6 @@ export const signUp = newUser => {
 };
 
 export const updateUserInfo = user => {
-  console.log('TCL: user', user);
   return dispatch => {
     axios
       .post(
@@ -82,7 +81,6 @@ export const updateUserInfo = user => {
         }
       )
       .then(res => {
-        console.log('TCL: res', res);
         const userInfo = { user: res.data, token: store.getState().auth.token };
 
         if (userInfo.user.username !== user.username) store.dispatch(signOut());
@@ -93,14 +91,12 @@ export const updateUserInfo = user => {
 };
 
 export const initializeAuth = token => {
-  // console.log(': token', token);
   /* return dispatch => {
     // Make a request for a user with a given ID
     if (token !== null) {
       axios
         .post('http://localhost:8081/users/sign-up', { token })
         .then(res => {
-          console.log(': response', res);
           dispatch({ type: 'LOAD_AUTH', user: res.data });
         })
         .catch(error => {

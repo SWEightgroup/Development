@@ -13,12 +13,7 @@ import {
   initNewExerciseState
 } from '../../../actions/ExerciseActions';
 
-class InsertExercise extends Component {
-  constructor(props) {
-    super(props);
-    props.initializeNewExercise();
-  }
-
+class HomeworkExercise extends Component {
   /**
    * split the sentence
    *
@@ -33,8 +28,7 @@ class InsertExercise extends Component {
       showSolution: false,
       response: null,
       createAt: now,
-      sentence: sentenceArray,
-      assignedUsersIds: []
+      sentence: sentenceArray
     });
   };
 
@@ -50,18 +44,12 @@ class InsertExercise extends Component {
    * set the showSolution flag to true
    */
   checkSolution = () => {
-    const { newExercise, saveExerciseSolutionDispatch } = this.props;
-
-    const codeSolution = newExercise.userSolution.map((word, index) => {
-      if (word.languageIterator.getSolution().length === 0)
-        return newExercise.response[index].tag;
-      return word.languageIterator.getCodeSolution();
-    }); // questo è un array di codici che invio al backend
-    saveExerciseSolutionDispatch({
+    const { newExercise, updateNewExerciseStateDispatch } = this.props;
+    updateNewExerciseStateDispatch({
       ...newExercise,
-      showSolution: true,
-      codeSolution
+      showSolution: true
     });
+    saveExerciseSolution({ ...newExercise });
   };
 
   /**
@@ -93,102 +81,50 @@ class InsertExercise extends Component {
         }
       )
       .then(res => {
-        axios
-          .get('http://localhost:8081/users/get-students', {
-            headers: {
-              Authorization: auth.token
-            }
-          })
-          .then(resGetStudent => {
-            updateNewExerciseStateDispatch({
-              ...this.props.newExercise,
-              studentList: resGetStudent.data,
-              response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
-            });
-          })
-          .catch(err => {
-            console.error(err);
-          });
+        updateNewExerciseStateDispatch({
+          ...this.props.newExercise,
+          response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
+        });
       })
       .catch(e => console.log(e));
-  };
-
-  handleChange = event => {
-    const { updateNewExerciseStateDispatch, newExercise } = this.props;
-
-    const { studentList } = newExercise;
-
-    studentList.find(student => student.username === event.target.id).check =
-      event.target.checked;
-    updateNewExerciseStateDispatch({ ...newExercise, studentList });
   };
 
   render() {
     const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
     const { user } = auth;
-    const {
-      sentence,
-      response,
-      showSolution,
-      createAt,
-      sentenceString,
-      studentList
-    } = newExercise;
+
+    const { response, showSolution, createAt } = newExercise;
 
     const { language } = user;
 
+    const sentence =
+      newExercise.sentenceString !== ''
+        ? newExercise.sentenceString
+            .split(' ')
+            .filter(item => item.charAt(0) !== 'F')
+        : [];
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10">
-            <InputSentence
-              prepareExercise={this.prepareExercise}
-              changeNewInputSentence={changeNewInputSentenceDispatch}
-              sentenceString={sentenceString}
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Esercizio da svolgere</h5>
+                <p className="card-text">{newExercise.sentenceString}</p>
+              </div>
+            </div>
+            <ExecutionExercise
+              sentence={sentence} // array di parole
+              response={response}
+              showSolution={showSolution}
+              createAt={createAt}
+              salvaEsercizio={this.salvaEsercizio}
               language={language}
+              showButton
             />
-            {response && (
-              <ExecutionExercise
-                sentence={sentence} // array di parole
-                response={response}
-                showSolution={showSolution}
-                createAt={createAt}
-                salvaEsercizio={this.salvaEsercizio}
-                language={language}
-                showButton={false}
-              />
-            )}
-            {studentList && studentList.length > 0 && (
-              <div className="main-card mb-3 card ">
+            {sentence && sentence.length > 0 && (
+              <div className="main-card mb-3 card no-bg-color">
                 <div className="card-body">
-                  <div className="row">
-                    <div className="col-12 col-sm-12 py-0 px-0">
-                      <ul className="list-group">
-                        {studentList.map(student => (
-                          <li
-                            className="list-group-item"
-                            key={student.username}
-                          >
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                value={student.username}
-                                id={student.username}
-                                onChange={this.handleChange}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={student.username}
-                              >
-                                {student.lastName} {student.firstName}
-                              </label>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
                   <div className="row justify-content-end ">
                     <div className="col-12 col-sm-4 py-0 px-0">
                       <button
@@ -210,6 +146,7 @@ class InsertExercise extends Component {
   }
 }
 const mapStateToProps = store => {
+  console.log(':  store.exercise.newExercise', store.exercise.newExercise);
   return {
     authError: store.auth.authError,
     auth: store.auth,
@@ -235,7 +172,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InsertExercise);
+)(HomeworkExercise);
 
 /* 
 
