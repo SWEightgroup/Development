@@ -70,10 +70,10 @@ public class Controller {
   @RequestMapping(value = "/users/get-info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
     try {
-      return new ResponseEntity<UserModel>(userService.getUserInfo(token), HttpStatus.OK);
+      return new ResponseEntity<UserModel>(userService.getUserInfo(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
     }
     catch (UsernameNotFoundException e){
-      return new ResponseEntity<>(HttpStatus.OK);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
@@ -82,7 +82,7 @@ public class Controller {
    * @param
    * @return
    */
-  @RequestMapping(value = "/users/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/modify", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,@RequestBody UserModel newUserData) {
       try {
           Optional<String> role = Optional.ofNullable(newUserData.getRole());
@@ -134,10 +134,11 @@ public class Controller {
    * @param token
    * @return
    */
-  @RequestMapping(value="/exercises/get-public-exercises/", method=RequestMethod.GET)
-  public List<Object> getPublicExercises(@RequestHeader("Authorization") String token) {
-    //exerciseService.getPublicExercises(ParseJWT.getIdFromJwt(token));
-    return null;
+  @RequestMapping(value="/exercises/get-public-exercises", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<ExerciseModel>> getPublicExercises(@RequestHeader("Authorization") String token) {
+    String userId = ParseJWT.getIdFromJwt(token);
+    System.out.println("Id" + userId);
+    return new ResponseEntity<List<ExerciseModel>>(exerciseService.getPublicExercises(userId), HttpStatus.OK);
   }
 
 
@@ -179,12 +180,10 @@ public class Controller {
 
   @RequestMapping(value = "/exercises/delete/{exerciseid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> deleteExercise(@RequestParam("exerciseid") String exerciseId, @RequestHeader("Authorization") String jwtToken) {
-
-    String userId = ParseJWT.parseJWT(jwtToken);
-    ExerciseModel exercise = exerciseService.deleteExercise(exerciseId);
-    Optional<UserModel> userModel = userService.deleteExerciseAssigned(exercise, userId);
-    return new ResponseEntity<>(userModel, HttpStatus.OK);
-
+    String userId = ParseJWT.getIdFromJwt(jwtToken);
+    Optional<UserModel> userModel = userService.deleteExerciseAssigned(exerciseId, userId);
+    exerciseService.deleteExercise(exerciseId);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }

@@ -89,24 +89,21 @@ public class ExerciseService {
     }
 
   public List<ExerciseModel> getPublicExercises(String userId) {
-        Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isPresent()) {
-            UserModel userModel = userModelOptional.get();
+        Optional<UserModel> user = userService.findById(userId);
+        if(user.isPresent()) {
+            UserModel userModel = user.get();
             List<ExerciseModel> exercisesToDiscard =
                 ListUtils.union(userModel.getExercisesDone(), userModel.getExercisesToDo());
-            exerciseRepository.findAllPublicExercises(exercisesToDiscard);
-            //TODO sistemare
+            return exerciseRepository.findAllPublicExercises(exercisesToDiscard);
         }
         return null;
   }
 
-    public ExerciseModel deleteExercise(String exerciseId) {
+    public void deleteExercise(String exerciseId) {
        Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
        if(exerciseModelOptional.isPresent()) {
            ExerciseModel exerciseModel = exerciseModelOptional.get();
-           return exerciseModel;
+           exerciseRepository.delete(exerciseModel);
        }
-       //TODO sistemare
-      return null;
     }
 }
