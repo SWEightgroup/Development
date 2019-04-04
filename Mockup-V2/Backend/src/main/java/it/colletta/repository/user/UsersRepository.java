@@ -58,9 +58,6 @@ public interface UsersRepository extends MongoRepository<UserModel, String>, Use
   @Override
   List<UserModel> findAll();
 
-  @Override
-  UserModel updateUser(UserModel oldUser, UserModel newUser);
-
   @Query(" {$and : [{role : '" + Role.STUDENT + "'}, {enabled : true}] }, "
       + "{ password:0}")
   List<UserModel> findAllStudents();
