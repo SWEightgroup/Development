@@ -74,7 +74,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         userModel.setPassword(null);
         String token = JWT.create().withJWTId(userModel.getId())
                 .withSubject(email)
-                //.withClaim("id", usersRepository.findByEmail(email).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);

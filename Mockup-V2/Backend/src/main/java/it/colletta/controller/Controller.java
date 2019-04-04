@@ -180,7 +180,7 @@ public class Controller {
   @RequestMapping(value = "/exercises/delete/{exerciseid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> deleteExercise(@RequestParam("exerciseid") String exerciseId, @RequestHeader("Authorization") String jwtToken) {
 
-    String userId = ParseJWT.parseJWT(jwtToken);
+    String userId = ParseJWT.getIdFromJwt(jwtToken);
     ExerciseModel exercise = exerciseService.deleteExercise(exerciseId);
     Optional<UserModel> userModel = userService.deleteExerciseAssigned(exercise, userId);
     return new ResponseEntity<>(userModel, HttpStatus.OK);
