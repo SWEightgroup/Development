@@ -49,12 +49,21 @@ class NewExsercise extends Component {
    * set the showSolution flag to true
    */
   checkSolution = () => {
-    const { newExercise, updateNewExerciseStateDispatch } = this.props;
-    updateNewExerciseStateDispatch({
+    const { newExercise, saveExerciseSolutionDispatch } = this.props;
+
+    const codeSolution = newExercise.userSolution.map((word, index) => {
+      if (
+        word.languageIterator.getSolution().length === 0 &&
+        newExercise.response[index].tag.charAt(0) === 'F'
+      )
+        return newExercise.response[index].tag;
+      return word.languageIterator.getCodeSolution();
+    }); // questo è un array di codici che invio al backend
+    saveExerciseSolutionDispatch({
       ...newExercise,
-      showSolution: true
+      showSolution: true,
+      ...codeSolution
     });
-    saveExerciseSolution({ ...newExercise });
   };
 
   /**
@@ -86,18 +95,9 @@ class NewExsercise extends Component {
         }
       )
       .then(res => {
-        const justPunctuationSolution = JSON.parse(
-          res.data.solutionText
-        ).sentences[0].tokens.map(token => {
-          if (token.tag.charAt(0) === 'F') return token.tag;
-          return null;
-        });
         updateNewExerciseStateDispatch({
           ...this.props.newExercise,
-          justPunctuationSolution,
-          response: JSON.parse(
-            res.data.solutionText
-          ).sentences[0].tokens.filter(token => token.tag.charAt(0) !== 'F')
+          response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
         });
       })
       .catch(e => console.log(e));
@@ -106,7 +106,6 @@ class NewExsercise extends Component {
   render() {
     const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
     const { user } = auth;
-    console.log('TCL: InsertExercise -> render -> auth', auth);
 
     const {
       sentence,
@@ -161,7 +160,6 @@ class NewExsercise extends Component {
   }
 }
 const mapStateToProps = store => {
-  console.log(':  store.exercise.newExercise', store.exercise.newExercise);
   return {
     authError: store.auth.authError,
     auth: store.auth,

@@ -5,8 +5,8 @@ const initState = {
     response: null,
     showSolution: false,
     createAt: Date.now(),
-    userSolution: [],
-    justPunctuationSolution: null,
+    userSolution: [], // lista di stati per le word
+    codeSolution: [],
     complete: false,
     studentList: []
   }
@@ -25,6 +25,7 @@ const ExerciseReducer = (state = initState, action) => {
         newExercise: action.newExercise
       };
     case 'UPDATE_EXERCISE':
+      console.log('UPDATE', action.newExercise);
       return {
         ...state,
         newExercise: action.newExercise

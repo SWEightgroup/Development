@@ -15,6 +15,7 @@ import './App.css';
 import NewExercise from './view/containers/ExerciseContainers/NewExercise';
 import Account from './view/containers/AuthContainers/Account';
 import Homework from './view/containers/ExerciseContainers/Homework';
+import HomeworkExecution from './view/containers/ExerciseContainers/HomeworkExecution';
 import InsertExercise from './view/containers/ExerciseContainers/InsertExercise';
 
 class App extends Component {
@@ -111,6 +112,11 @@ class App extends Component {
                   path="/homework"
                   isAllowed={auth.user}
                   component={Homework}
+                />
+                <ProtectedRoute
+                  path="/homework-execution"
+                  isAllowed={auth.user /*&& auth.user.role === 'ROLE_STUDENT'*/}
+                  component={HomeworkExecution}
                 />
                 <Route render={() => <Error language={language} />} />
               </Switch>

@@ -11,16 +11,18 @@ class ExecutionExercise extends Component {
   render() {
     const allowedPunctuation = /[a-zA-Z]/g;
     // const allowedPunctuation2 = /[,.?!"'<-{}[]()%\/>;:]/g;
+    const { props } = this;
     const {
       sentence,
-      response,
       showSolution,
       lockInput,
       createAt,
       language,
       showButton
     } = this.props;
-    const filterWord = sentence.filter(word => word.match(allowedPunctuation));
+
+    const filterWord = sentence; // .filter(word => word.match(allowedPunctuation));
+
     if (sentence && sentence.length) {
       return (
         <div className="row">
@@ -40,8 +42,8 @@ class ExecutionExercise extends Component {
                           gerarchy={gerarchia}
                           index={index}
                           solutionTag={
-                            response && response.length
-                              ? this.extractTag(response, index)
+                            props.response && props.response.length
+                              ? this.extractTag(props.response, index)
                               : null
                           }
                           showSolution={showSolution}

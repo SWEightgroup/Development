@@ -44,50 +44,37 @@ export const updateWordState = word => {
 };
 
 export const saveExerciseSolution = newExercise => {
-  const { id } = store.getState().auth.user;
+  return dispatch => {
+    const { id } = store.getState().auth.user;
+    // prelevo dal response la soluzione della punteggiatuera
+    console.log(': newExercise.codeSolution', newExercise.codeSolution);
 
-  /*   const wordSolution = null;
-  const codeSolution = newExercise.userSolution.map(wordState => {
-    if (wordState.languageIterator)
-      return wordState.languageIterator.getCodeSolution();
-    return '';
-  });
-  console.log(': codeSolution', codeSolution);
-  const solutionToSubmit = newExercise.justPunctuationSolution.map(position => {
-    if (position === null) return wordSolution.shift();
-    return position;
-  }); */
-  // //////////////todooooooooooooooooooooooooooooooooooooooo
-
-  const userSolution = newExercise.userSolution.map(word => word.solution); // questo è un array di codici che invio al backend
-
-  axios
-    .post(
-      'http://localhost:8081/exercises/insert-exercise',
-      {
-        assignedUsersIds: newExercise.studentList
-          .filter(student => student.check)
-          .map(student => student.id),
-        phraseText: newExercise.sentenceString,
-        mainSolution: JSON.stringify(userSolution),
-        alternativeSolution: JSON.stringify([]),
-        visibility: true,
-        author: id,
-        date: new Date().getTime(),
-        language: 'it' // //////////////////////////////DA CAMBIARE
-      },
-      {
-        headers: {
-          Authorization: store.getState().auth.token
+    axios
+      .post(
+        'http://localhost:8081/exercises/insert-exercise',
+        {
+          assignedUsersIds: newExercise.studentList
+            .filter(student => student.check)
+            .map(student => student.id),
+          phraseText: newExercise.sentenceString,
+          mainSolution: JSON.stringify(newExercise.codeSolution),
+          alternativeSolution: JSON.stringify([]),
+          visibility: true,
+          author: id,
+          date: new Date().getTime(),
+          language: 'it' // //////////////////////////////DA CAMBIARE
+        },
+        {
+          headers: {
+            Authorization: store.getState().auth.token
+          }
         }
-      }
-    )
-    .then(res => {
-      console.log(': res', res);
-
-      store.dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
-    })
-    .catch(() => dispatch => dispatch({ type: 'LOGIN_ERROR' }));
+      )
+      .then(res => {
+        dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
+      })
+      .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
+  };
 };
 
 /* {

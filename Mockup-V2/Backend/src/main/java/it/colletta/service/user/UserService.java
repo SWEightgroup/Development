@@ -6,6 +6,7 @@ import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
+import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
 import java.util.Collections;
 import java.util.stream.Collectors;

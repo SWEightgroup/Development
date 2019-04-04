@@ -98,4 +98,14 @@ public class ExerciseService {
         }
         return null;
   }
+
+    public ExerciseModel deleteExercise(String exerciseId) {
+       Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
+       if(exerciseModelOptional.isPresent()) {
+           ExerciseModel exerciseModel = exerciseModelOptional.get();
+           return exerciseModel;
+       }
+       //TODO sistemare
+      return null;
+    }
 }
