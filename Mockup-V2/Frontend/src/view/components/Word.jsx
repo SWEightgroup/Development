@@ -15,7 +15,7 @@ class Word extends Component {
       languageIterator,
       buttons: languageIterator.getCurrentButtonList(),
       solution:
-        solutionTag.charAt(0) !== 'F'
+        solutionTag && props.initSolution && solutionTag.charAt(0) !== 'F'
           ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution()
           : '',
       index: props.index,
@@ -104,6 +104,8 @@ class Word extends Component {
       newExercise,
       index
     } = this.props;
+
+    console.log('TCL: render -> solutionTag', solutionTag);
     const state = newExercise.userSolution[index];
     const { buttons, solution, showButton } = state;
     const allowedPunctuation = /[,.?!"'<>;:]/g;
@@ -111,7 +113,6 @@ class Word extends Component {
     if (parola.match(allowedPunctuation) !== null) {
       return <React.Fragment />;
     }
-
     return (
       <li
         className="list-group-item"
@@ -123,7 +124,7 @@ class Word extends Component {
           <div className="container-fluid">
             <div className="row ">
               <div className="pt-2  col-md-auto">
-                {buttons && showButton && (
+                {buttons && showButton && !showSolution && (
                   <React.Fragment>
                     <button
                       type="button"
@@ -143,19 +144,23 @@ class Word extends Component {
                     </button>
                   </React.Fragment>
                 )}
-                {buttons && showButton === false && showSolution === false && (
-                  <button
-                    type="button"
-                    className="border-0 btn btn-outline-danger btn-sm"
-                    onClick={this.edit}
-                  >
-                    MODIFICA
-                  </button>
-                )}
+                {buttons &&
+                  !showButton &&
+                  !showSolution &&
+                  this.props.initSolution && (
+                    <button
+                      type="button"
+                      className="border-0 btn btn-outline-danger btn-sm"
+                      onClick={this.edit}
+                    >
+                      MODIFICA
+                    </button>
+                  )}
 
                 <strong className="p-2 text-uppercase">{parola}</strong>
               </div>
 
+              {/** USER SOLUTION */}
               <div className=" col-md-auto text-uppercase shwo-tooltip">
                 {solution && (
                   <p title="La tua soluzione" className="bg-light p-2 mb-2">
@@ -163,22 +168,18 @@ class Word extends Component {
                   </p>
                 )}
 
-                {!showButton &&
-                  solutionTag &&
-                  new SolutionMapper(
-                    solutionTag,
-                    gerarchy
-                  ).getVerboseSolution() && (
-                    <p
-                      title="La soluzione automatica"
-                      className=" text-warning my-2 text-uppercase"
-                    >
-                      {new SolutionMapper(
-                        solutionTag,
-                        gerarchy
-                      ).getVerboseSolution()}
-                    </p>
-                  )}
+                {/** SYSTEM/TEACHER SOLUTION */}
+                {showSolution && solutionTag && (
+                  <p
+                    title="La soluzione automatica"
+                    className=" text-warning my-2 text-uppercase"
+                  >
+                    {new SolutionMapper(
+                      solutionTag,
+                      gerarchy
+                    ).getVerboseSolution()}
+                  </p>
+                )}
               </div>
             </div>
             {/* <div className="row justify-content-end">

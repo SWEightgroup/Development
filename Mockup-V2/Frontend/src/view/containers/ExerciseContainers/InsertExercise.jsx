@@ -31,6 +31,7 @@ class InsertExercise extends Component {
     this.getSolution({
       ...newExercise,
       showSolution: false,
+      showButton: false,
       response: null,
       createAt: now,
       sentence: sentenceArray,
@@ -50,13 +51,21 @@ class InsertExercise extends Component {
    * set the showSolution flag to true
    */
   checkSolution = () => {
-    const { newExercise, saveExerciseSolutionDispatch } = this.props;
+    const {
+      newExercise,
+      saveExerciseSolutionDispatch,
+      updateNewExerciseStateDispatch
+    } = this.props;
 
     const codeSolution = newExercise.userSolution.map((word, index) => {
       if (word.languageIterator.getSolution().length === 0)
         return newExercise.response[index].tag;
       return word.languageIterator.getCodeSolution();
     }); // questo è un array di codici che invio al backend
+    updateNewExerciseStateDispatch({
+      ...newExercise,
+      showSolution: true
+    });
     saveExerciseSolutionDispatch({
       ...newExercise,
       showSolution: true,
@@ -73,6 +82,7 @@ class InsertExercise extends Component {
       initNewExerciseStateDispatch,
       updateNewExerciseStateDispatch
     } = this.props;
+
     initNewExerciseStateDispatch({
       ...newExercise,
       response: null
@@ -132,8 +142,10 @@ class InsertExercise extends Component {
       showSolution,
       createAt,
       sentenceString,
-      studentList
+      studentList,
+      showButton
     } = newExercise;
+    console.log('TCL: InsertExercise -> render -> showButton', newExercise);
 
     const { language } = user;
 
@@ -155,7 +167,8 @@ class InsertExercise extends Component {
                 createAt={createAt}
                 salvaEsercizio={this.salvaEsercizio}
                 language={language}
-                showButton={false}
+                initSolution
+                showButton={showButton}
               />
             )}
             {studentList && studentList.length > 0 && (
@@ -195,6 +208,7 @@ class InsertExercise extends Component {
                         type="button"
                         className="btn btn-success btn-block"
                         onClick={this.checkSolution}
+                        disabled={showSolution}
                       >
                         {_translator('executionExercise_complete', language)}
                       </button>

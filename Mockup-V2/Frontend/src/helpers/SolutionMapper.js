@@ -9,6 +9,7 @@ class SolutionMapper {
     const primoLivello = langStructArray.find(
       item => item.text.short === arrayCode[0]
     );
+
     trad.push(primoLivello.text);
 
     for (let i = 0; i < primoLivello.attributes.length; i += 1) {

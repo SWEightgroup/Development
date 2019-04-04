@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import InputSentence from '../../components/InputSentence';
 import ExecutionExercise from '../../components/ExecutionExercise';
 import _translator from '../../../helpers/Translator';
+import { removePunctuation } from '../../../helpers/Utils';
 
 import {
   initializeNewExercise,
@@ -14,6 +14,16 @@ import {
 } from '../../../actions/ExerciseActions';
 
 class HomeworkExercise extends Component {
+  constructor(props) {
+    super(props);
+    if (this.props.newExercise.sentenceString === '')
+      this.props.history.push('homework');
+  }
+
+  componentWillUnmount() {
+    this.props.initializeNewExercise();
+  }
+
   /**
    * split the sentence
    *
@@ -27,6 +37,7 @@ class HomeworkExercise extends Component {
       ...newExercise,
       showSolution: false,
       response: null,
+      showButton: true,
       createAt: now,
       sentence: sentenceArray
     });
@@ -93,15 +104,14 @@ class HomeworkExercise extends Component {
     const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
     const { user } = auth;
 
-    const { response, showSolution, createAt } = newExercise;
+    const { response, showSolution, createAt, showButton } = newExercise;
 
     const { language } = user;
 
+    const sentenceString = removePunctuation(newExercise.sentenceString);
     const sentence =
-      newExercise.sentenceString !== ''
-        ? newExercise.sentenceString
-            .split(' ')
-            .filter(item => item.charAt(0) !== 'F')
+      sentenceString !== ''
+        ? sentenceString.split(' ').filter(item => item.charAt(0) !== 'F')
         : [];
     return (
       <div className="app-main__inner full-height-mobile">
@@ -131,6 +141,7 @@ class HomeworkExercise extends Component {
                         type="button"
                         className="btn btn-success btn-block"
                         onClick={this.checkSolution}
+                        disabled={showSolution}
                       >
                         {_translator('executionExercise_complete', language)}
                       </button>
@@ -146,7 +157,6 @@ class HomeworkExercise extends Component {
   }
 }
 const mapStateToProps = store => {
-  console.log(':  store.exercise.newExercise', store.exercise.newExercise);
   return {
     authError: store.auth.authError,
     auth: store.auth,

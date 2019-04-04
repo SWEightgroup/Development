@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 import Navbar from './view/containers/NavbarContainers/Navbar';
 import Sidebar from './view/components/Sidebar';
@@ -78,13 +79,15 @@ class App extends Component {
                 />
                 <ProtectedRoute
                   path="/insert-exercise"
-                  component={InsertExercise }
+                  component={InsertExercise}
                   isAllowed={auth.user}
                 />
                 <ProtectedRoute
                   path="/exercise"
                   component={NewExercise}
-                  isAllowed={auth.user /*&& auth.user.role === 'ROLE_STUDENT'*/}
+                  isAllowed={
+                    auth.user /* && auth.user.role === 'ROLE_STUDENT' */
+                  }
                 />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
@@ -115,7 +118,9 @@ class App extends Component {
                 />
                 <ProtectedRoute
                   path="/homework-execution"
-                  isAllowed={auth.user /*&& auth.user.role === 'ROLE_STUDENT'*/}
+                  isAllowed={
+                    auth.user /* && auth.user.role === 'ROLE_STUDENT' */
+                  }
                   component={HomeworkExecution}
                 />
                 <Route render={() => <Error language={language} />} />
