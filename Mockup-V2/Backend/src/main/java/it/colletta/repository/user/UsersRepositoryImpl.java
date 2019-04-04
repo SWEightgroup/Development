@@ -1,6 +1,7 @@
 package it.colletta.repository.user;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -33,17 +34,4 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
     Query query = new Query(Criteria.where("_id").is(id));
     mongoTemplate.updateFirst(query, Update.update("enabled", true), UserModel.class);
   }
-
-
-  /**
-   * return all phrases inserted by a user without corrections
-   * hint user --> correction -->
-   * @param id TODO
-   * @return List<String> TODO
-   @Override
-   public List<ExerciseModel> findAllPhrasesInserted(String id) {
-   Query query = new Query(Criteria.where("_id").is(id)) ;
-   UserModel userModel = mongoTemplate.findOne(query, UserModel.class);
-   return userModel.();
-   }*/
 }

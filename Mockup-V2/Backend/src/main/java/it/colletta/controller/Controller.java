@@ -1,10 +1,12 @@
 package it.colletta.controller;
 
+import com.mongodb.DBObject;
 import java.io.IOException;
 import java.security.acl.NotOwnerException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -156,7 +158,17 @@ public class Controller {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
-  
+
+  /**
+   *
+   * @param token the token authorization
+   * @return the list of the exercise done by the student
+   */
+  @RequestMapping(value = "/exercises/done/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
+    return new ResponseEntity<>(userService.getAllExerciseDone(token), HttpStatus.OK);
+  }
+
 
   @RequestMapping(value = "/users/get-students", method = RequestMethod.GET, produces =  MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getStudentsList() {
