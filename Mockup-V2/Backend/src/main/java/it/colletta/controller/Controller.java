@@ -126,7 +126,8 @@ public class Controller {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
       userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
       return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
-    }catch (Exception e) {
+    }
+    catch (Exception e) {
       return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
     }
   }

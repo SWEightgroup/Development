@@ -73,7 +73,9 @@ public class ExerciseService {
                 .authorId(exercise.getAuthor()).authorName(authorName).build();
         exerciseRepository.save(exerciseModel);
         phraseService.increaseReliability(mainSolution);
-        phraseService.increaseReliability(alternativeSolution);
+        if(alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+            phraseService.increaseReliability(alternativeSolution);
+        }
         return exerciseModel;
     }
 
