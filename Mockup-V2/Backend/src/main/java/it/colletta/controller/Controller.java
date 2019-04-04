@@ -128,20 +128,6 @@ public class Controller {
   }
 
   /**
-   * TODO RECUPERARE TUTTI GLI ESERCIZI PUBLIC CHE NON SONO STATI ANCORA SVOLTI
-   * 
-   * 
-   * @param token
-   * @return
-   */
-  @RequestMapping(value="/exercises/get-public-exercises", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<ExerciseModel>> getPublicExercises(@RequestHeader("Authorization") String token) {
-    String userId = ParseJWT.getIdFromJwt(token);
-    return null;
-  }
-
-
-  /**
    * @param stringObj the text which has to be analyzed by freeling as map
    * @return A SolutionModel with the analyzed sentence or empty if the service
    *         is unavailable

@@ -72,11 +72,4 @@ public interface UsersRepository
   @Query("{ $pull: { exercisesToDo: ?0 }}")
   void deleteFromExerciseToDo(String exerciseId);
 
-  /**
-   * Return the list Ids of the exercise that the user has done or ha
-   * 
-   * @param exerciseId the exercise document id
-   */
-  @Query("{ $setUnion: [{id : ?0}, {id:0, firstName:0, lastName:0, dateOfBirth:0, language:0, role:0, favoriteTeacherIds:0, , }]}")
-  List<String> userExercises(String userId);
 }
