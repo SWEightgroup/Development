@@ -25,7 +25,6 @@ const ExerciseReducer = (state = initState, action) => {
         newExercise: action.newExercise
       };
     case 'UPDATE_EXERCISE':
-      console.log('UPDATE', action.newExercise);
       return {
         ...state,
         newExercise: action.newExercise
@@ -33,7 +32,6 @@ const ExerciseReducer = (state = initState, action) => {
     case 'UPDATE_WORD_STATE':
       const userSolution = state.newExercise.userSolution;
       userSolution[action.word.index] = action.word;
-
       return {
         ...state,
         newExercise: { ...state.newExercise }
@@ -48,10 +46,13 @@ const ExerciseReducer = (state = initState, action) => {
         }
       };
     case 'SAVE_EXERCISE_SUCCESS':
-      console.log(': ExerciseReducer -> state', state);
       return {
-        ...state,
-        newExercise: initState.newExercise
+        // ...state,
+        newExercise: {
+          ...action.newExercise,
+          showSolution: true
+        }
+        // newExercise: initState.newExercise
       };
 
     default:

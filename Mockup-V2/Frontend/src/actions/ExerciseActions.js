@@ -16,7 +16,7 @@ export const initNewExerciseState = newExercise => {
       newExercise: {
         ...newExercise,
         userSolution: newExercise.sentence
-          .filter(word => word.match(allowedPunctuation))
+          // .filter(word => word.match(allowedPunctuation))
           .map(() => {
             return {};
           })
@@ -47,7 +47,6 @@ export const saveExerciseSolution = newExercise => {
   return dispatch => {
     const { id } = store.getState().auth.user;
     // prelevo dal response la soluzione della punteggiatuera
-    console.log(': newExercise.codeSolution', newExercise.codeSolution);
 
     axios
       .post(
@@ -73,7 +72,7 @@ export const saveExerciseSolution = newExercise => {
       .then(res => {
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
       })
-      .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
+      .catch(() => dispatch({ type: 'pippo' }));
   };
 };
 

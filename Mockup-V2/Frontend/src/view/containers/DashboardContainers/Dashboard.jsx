@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
 
 class Dashboard extends Component {
+  state = {};
+
   render() {
     const { user } = this.props;
     const { firstName, language } = user;

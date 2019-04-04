@@ -11,11 +11,10 @@ class ExercisePreview extends Component {
 
   goToExecution = () => {
     const { solution, phrase, selectExercise } = this.props;
-    console.log(': ExercisePreview -> goToExecution -> solution', solution);
     const pippo =
       '["NP00000","Fc","PD0FS00","VMIP3S0","PI0FS00","NCFS000","AQ0FS00","Fat"]';
     selectExercise(phrase, pippo);
-    
+
     // DA SISTEMARE
   };
 
