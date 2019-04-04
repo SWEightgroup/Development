@@ -70,6 +70,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         .sign(HMAC512(SECRET.getBytes()));
     res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     res.setHeader("Access-Control-Expose-Headers", "Authorization");
+    res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
     res.setStatus(HttpServletResponse.SC_OK);
     userModel.setExercisesDone(null);
     userModel.setExercisesToDo(null);
