@@ -76,7 +76,7 @@ public class UserService {
     if(!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null ) { //ho modificato la mia mail
       throw new NotOwnerException();
     }
-    UserModel user= applicationUserRepository.findByEmail(email);
+    UserModel user = applicationUserRepository.findByEmail(email);
     Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
     Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());
     Optional<String> newLanguageName = Optional.ofNullable(newUserData.getLanguage());
