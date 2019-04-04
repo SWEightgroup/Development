@@ -25,16 +25,4 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
     mongoTemplate.updateMulti(exerciseToUpdate, modify, ExerciseModel.class);
   }
 
-  @Override
-  public List<String> findAllPublicExercises(List<String> exerciseToExclude) {// deve essere Stringa
-                                                                              // di Id
-    Query query = new Query();
-    query.addCriteria(Criteria.where("visibilty").is(true).and("id").nin(exerciseToExclude));
-    // query.add
-    query.fields().include("exerciseToDo.$id");
-
-    List<ExerciseModel> myExercises = mongoTemplate.find(query, ExerciseModel.class);
-    System.out.println("lista esercizi" + myExercises);
-    return myExercises;
-  }
 }

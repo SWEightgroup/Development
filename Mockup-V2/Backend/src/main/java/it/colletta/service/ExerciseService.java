@@ -76,19 +76,6 @@ public class ExerciseService {
         return exerciseModel;
     }
 
-    public List<ExerciseModel> getPublicExercises(String userId) {
-        // SELECT exerciseToDo.$id, exerciseDone.$id FROM users WHERE users.id = userId
-        List<String> exerciseIds = userService.findExercisesRefernceById(userId); // return the list
-                                                                                  // of the id
-                                                                                  // exercises done
-                                                                                  // and todo
-        if (user.isPresent()) {
-            UserModel userModel = user.get();
-            List<String> exercisesToDiscardIds = ListUtils.union(getExerciseToDoIds());
-            return exerciseRepository.findAllPublicExercises(exercisesToDiscard);
-        }
-        return null; // non null ma exception
-    }
 
 
     public void deleteExercise(String exerciseId) {
