@@ -74,10 +74,10 @@ public class Controller {
   @RequestMapping(value = "/users/get-info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
     try {
-      return new ResponseEntity<UserModel>(userService.getUserInfo(token), HttpStatus.OK);
+      return new ResponseEntity<UserModel>(userService.getUserInfo(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
     }
     catch (UsernameNotFoundException e){
-      return new ResponseEntity<>(HttpStatus.OK);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
@@ -137,10 +137,11 @@ public class Controller {
    * @param token
    * @return
    */
-  @RequestMapping(value="/exercises/get-public-exercises/", method=RequestMethod.GET)
-  public List<Object> getPublicExercises(@RequestHeader("Authorization") String token) {
-    //exerciseService.getPublicExercises(ParseJWT.getIdFromJwt(token));
-    return null;
+  @RequestMapping(value="/exercises/get-public-exercises", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<ExerciseModel>> getPublicExercises(@RequestHeader("Authorization") String token) {
+    String userId = ParseJWT.getIdFromJwt(token);
+    System.out.println("Id" + userId);
+    return new ResponseEntity<List<ExerciseModel>>(exerciseService.getPublicExercises(userId), HttpStatus.OK);
   }
 
 

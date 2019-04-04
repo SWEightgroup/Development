@@ -24,79 +24,97 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UsersRepository applicationUserRepository;
-    
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  private UsersRepository applicationUserRepository;
 
-    public UserModel addUser(UserModel user) {
-        SignupRequestService signupRequestService = new SignupRequestService();
-        final String encode = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encode);
-        /**
-         * TODO FARE CHECK SUL RUOLO E SETTARE FALSE SOLO SE SVILUPPATORE
-         */
-        user.setEnabled(true);
-        user = applicationUserRepository.save(user);
-        SignupRequestModel signupRequestModel = SignupRequestModel.builder()
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+  public UserModel addUser(UserModel user) {
+    SignupRequestService signupRequestService = new SignupRequestService();
+    final String encode = bCryptPasswordEncoder.encode(user.getPassword());
+    user.setPassword(encode);
+    /**
+     * TODO FARE CHECK SUL RUOLO E SETTARE FALSE SOLO SE SVILUPPATORE
+     */
+    user.setEnabled(true);
+    user = applicationUserRepository.save(user);
+    SignupRequestModel signupRequestModel = SignupRequestModel.builder()
             .userReference(user.getId())
             .requestDate(Calendar.getInstance().getTime())
             .build();
-        user.setPassword(null);
-        return user;
+    user.setPassword(null);
+    return user;
+  }
+
+  public Optional<UserModel> findById(String userId) {
+    return applicationUserRepository.findById(userId);
+  }
+
+  public UserModel getUserInfo(String id) {
+    Optional<UserModel> userModelOptional =
+            applicationUserRepository.findById(id);
+    if(userModelOptional.isPresent()) {
+      return userModelOptional.get();
     }
-
-    public Optional<UserModel> findById(String userId) {
-        return applicationUserRepository.findById(userId);
+    else {
+      throw new UsernameNotFoundException("Id not refer to a user of the sistem");
     }
+  }
 
-    public UserModel getUserInfo(String id) {
-        Optional<UserModel> userModelOptional =
-                applicationUserRepository.findById(id);
-        if(userModelOptional.isPresent()) {
-            return userModelOptional.get();
-        }
-        else {
-            throw new UsernameNotFoundException("Id not refer to a user of the sistem");
-        }
+  public void activateUser(String id) {
+    applicationUserRepository.updateActivateFlagOnly(id);
+  }
+
+  public UserModel findByEmail(String email){ return applicationUserRepository.findByEmail(email);}
+
+  public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
+
+    String email = ParseJWT.parseJWT(token);
+    String newEmail = newUserData.getUsername();
+    if(!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null ) { //ho modificato la mia mail
+      throw new NotOwnerException();
     }
+    UserModel user= applicationUserRepository.findByEmail(email);
+    Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
+    Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());
+    Optional<String> newLanguageName = Optional.ofNullable(newUserData.getLanguage());
+    Optional<Date> newDateOfBirth = Optional.ofNullable(newUserData.getDateOfBirth());
 
-    public void activateUser(String id) {
-        applicationUserRepository.updateActivateFlagOnly(id);
+    if(newFirstName.isPresent()){
+      user.setFirstName(newFirstName.get());
     }
-
-    public UserModel findByEmail(String email){ return applicationUserRepository.findByEmail(email);}
-
-    public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
-
-    	String email = ParseJWT.parseJWT(token);
-        String newEmail =newUserData.getUsername();
-        if(!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null ) //ho modificato la mia mail
-        	throw new NotOwnerException();
-        	UserModel user= applicationUserRepository.findByEmail(email);
-    		return applicationUserRepository.updateUser(user,newUserData);
+    if(newLastName.isPresent()){
+      user.setLastName(newLastName.get());
     }
-
-    public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
-        Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
-        for(UserModel user : users) {
-            user.addExerciseToDo(exerciseModel); //TODO se un esercizio ritorna false lancio eccezione
-        }
-        applicationUserRepository.saveAll(users);
+    if(newLanguageName.isPresent()){
+      user.setLanguage(newLanguageName.get());
     }
-
-    public List<ExerciseModel> findAllExerciseToDo(String userId) {
-        Optional<UserModel> userModel = applicationUserRepository.findById(userId);
-        if(userModel.isPresent()) {
-            return userModel.get().getExercisesToDo();
-        }
-        else {
-            throw new UsernameNotFoundException("User not found in the system");
-        }
+    if(newDateOfBirth.isPresent()){
+      user.setDateOfBirth(newDateOfBirth.get());
     }
+    return applicationUserRepository.save(user);
+  }
 
-    public List<UserModel> getAllStudents() {
-        return applicationUserRepository.findAllStudents();
+  public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
+    Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
+    for(UserModel user : users) {
+      user.addExerciseToDo(exerciseModel); //TODO se un esercizio ritorna false lancio eccezione
     }
+    applicationUserRepository.saveAll(users);
+  }
+
+  public List<ExerciseModel> findAllExerciseToDo(String userId) {
+    Optional<UserModel> userModel = applicationUserRepository.findById(userId);
+    if(userModel.isPresent()) {
+      return userModel.get().getExercisesToDo();
+    }
+    else {
+      throw new UsernameNotFoundException("User not found in the system");
+    }
+  }
+
+  public List<UserModel> getAllStudents() {
+    return applicationUserRepository.findAllStudents();
+  }
 }

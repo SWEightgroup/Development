@@ -89,13 +89,12 @@ public class ExerciseService {
     }
 
   public List<ExerciseModel> getPublicExercises(String userId) {
-        Optional<UserModel> userModelOptional = userService.findById(userId);
-        if(userModelOptional.isPresent()) {
-            UserModel userModel = userModelOptional.get();
+        Optional<UserModel> user = userService.findById(userId);
+        if(user.isPresent()) {
+            UserModel userModel = user.get();
             List<ExerciseModel> exercisesToDiscard =
                 ListUtils.union(userModel.getExercisesDone(), userModel.getExercisesToDo());
-            exerciseRepository.findAllPublicExercises(exercisesToDiscard);
-            //TODO sistemare
+            return exerciseRepository.findAllPublicExercises(exercisesToDiscard);
         }
         return null;
   }
