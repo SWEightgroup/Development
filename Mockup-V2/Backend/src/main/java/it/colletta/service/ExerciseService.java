@@ -10,8 +10,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,82 +26,77 @@ public class ExerciseService {
     @Autowired
     private UserService userService;
 
-    public Optional<ExerciseModel> findById(String id){
+    public Optional<ExerciseModel> findById(String id) {
         return exerciseRepository.findById(id);
+        // controllo su id, in caso exception
     }
 
-    public void modifyExerciseName(UserModel newUserData,String token){
+    public void modifyExerciseName(UserModel newUserData, String token) {
         UserModel oldUser = userService.findByEmail(newUserData.getUsername());
         Optional<String> firstName = Optional.ofNullable(newUserData.getFirstName());
         Optional<String> lastName = Optional.ofNullable(newUserData.getLastName());
-        if(firstName.isPresent() && !firstName.get().equals(oldUser.getFirstName())
-                || lastName.isPresent() && !lastName.get().equals(oldUser.getLastName())){
-                         exerciseRepository.modifyAuthorExercise(newUserData, oldUser.getId());
+        if (firstName.isPresent() && !firstName.get().equals(oldUser.getFirstName())
+                || lastName.isPresent() && !lastName.get().equals(oldUser.getLastName())) {
+            exerciseRepository.modifyAuthorExercise(newUserData, oldUser.getId());
         }
     }
 
     public ExerciseModel insertExercise(ExerciseHelper exercise) {
 
-        SolutionModel mainSolution = SolutionModel.builder()
-            .reliability(0)
-            .authorId(exercise.getAuthor())
-            .solutionText(exercise.getMainSolution())
-            .build();
+        SolutionModel mainSolution = SolutionModel.builder().reliability(0)
+                .authorId(exercise.getAuthor()).solutionText(exercise.getMainSolution()).build();
 
-      SolutionModel alternativeSolution = null;
-        if(exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
-          alternativeSolution = SolutionModel.builder()
-              .reliability(0)
-              .authorId(exercise.getAuthor())
-              .solutionText(exercise.getAlternativeSolution())
-              .build();
+        SolutionModel alternativeSolution = null;
+        if (exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
+            alternativeSolution =
+                    SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+                            .solutionText(exercise.getAlternativeSolution()).build();
         }
-                        
-        PhraseModel phrase = PhraseModel.builder()
-            .language(exercise.getLanguage())
-            .datePhrase(System.currentTimeMillis())
-            .phraseText(exercise.getPhraseText())
-            .build();
+
+        PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage())
+                .datePhrase(System.currentTimeMillis()).phraseText(exercise.getPhraseText())
+                .build();
 
         phrase.addSolution(mainSolution);
         phrase.addSolution(alternativeSolution);
         phrase = phraseService.insertPhrase(phrase);
 
         Optional<UserModel> user = userService.findById(exercise.getAuthor());
-        String teacherName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
-        ExerciseModel exerciseModel = ExerciseModel.builder()
-            .id((new ObjectId().toHexString()))
-            .dateExercise(System.currentTimeMillis())
-            .mainSolutionReference(mainSolution)
-            .alternativeSolutionReference(alternativeSolution)
-            .phraseId(phrase.getId())
-            .phraseText(exercise.getPhraseText())
-            .visibilty(exercise.getVisibility())
-            .authorId(exercise.getAuthor())
-            .teacherName(teacherName)
-            .build();
+        String teacherName =
+                user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName()
+                        : null;
+        ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
+                .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
+                .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId())
+                .phraseText(exercise.getPhraseText()).visibilty(exercise.getVisibility())
+                .authorId(exercise.getAuthor()).teacherName(teacherName).build();
         exerciseRepository.save(exerciseModel);
         phraseService.increaseReliability(mainSolution);
         phraseService.increaseReliability(alternativeSolution);
         return exerciseModel;
     }
 
-  public List<ExerciseModel> getPublicExercises(String userId) {
-        Optional<UserModel> user = userService.findById(userId);
-        if(user.isPresent()) {
+    public List<ExerciseModel> getPublicExercises(String userId) {
+        // SELECT exerciseToDo.$id, exerciseDone.$id FROM users WHERE users.id = userId
+        List<String> exerciseIds = userService.findExercisesRefernceById(userId); // return the list
+                                                                                  // of the id
+                                                                                  // exercises done
+                                                                                  // and todo
+        if (user.isPresent()) {
             UserModel userModel = user.get();
-            List<ExerciseModel> exercisesToDiscard =
-                ListUtils.union(userModel.getExercisesDone(), userModel.getExercisesToDo());
+            List<String> exercisesToDiscardIds = ListUtils.union(getExerciseToDoIds());
             return exerciseRepository.findAllPublicExercises(exercisesToDiscard);
         }
-        return null;
-  }
+        return null; // non null ma exception
+    }
+
 
     public void deleteExercise(String exerciseId) {
-       Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
-       if(exerciseModelOptional.isPresent()) {
-           ExerciseModel exerciseModel = exerciseModelOptional.get();
-           exerciseRepository.delete(exerciseModel);
-       }
+        Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
+        if (exerciseModelOptional.isPresent()) {
+            ExerciseModel exerciseModel = exerciseModelOptional.get();
+            exerciseRepository.delete(exerciseModel);
+        }
+        // else exception
     }
 }

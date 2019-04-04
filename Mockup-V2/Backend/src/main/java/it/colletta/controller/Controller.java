@@ -137,7 +137,6 @@ public class Controller {
   @RequestMapping(value="/exercises/get-public-exercises", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ExerciseModel>> getPublicExercises(@RequestHeader("Authorization") String token) {
     String userId = ParseJWT.getIdFromJwt(token);
-    System.out.println("Id" + userId);
     return new ResponseEntity<List<ExerciseModel>>(exerciseService.getPublicExercises(userId), HttpStatus.OK);
   }
 
