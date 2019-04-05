@@ -1,4 +1,4 @@
-package it.colletta.Error;
+package it.colletta.error;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
