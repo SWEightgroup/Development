@@ -38,7 +38,7 @@ public class UserService {
             .userReference(user.getId())
             .requestDate(Calendar.getInstance().getTime())
             .build();
-    signupRequestService.addSignUpRequest(signupRequestModel);
+    //signupRequestService.addSignUpRequest(signupRequestModel);
     user.setPassword(null);
     return user;
   }
