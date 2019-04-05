@@ -28,20 +28,17 @@ public class UserService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  public UserModel addUser(UserModel user) {
+  public UserModel addUser(@org.jetbrains.annotations.NotNull UserModel user) {
     SignupRequestService signupRequestService = new SignupRequestService();
     final String encode = bCryptPasswordEncoder.encode(user.getPassword());
     user.setPassword(encode);
-    /**
-     * TODO FARE CHECK SUL RUOLO E SETTARE FALSE SOLO SE SVILUPPATORE : errato, un utente è ablitato quando conferma il suo account per email
-     *
-     */
-    user.setEnabled(true);
+    user.setEnabled(false);
     user = applicationUserRepository.save(user);
     SignupRequestModel signupRequestModel = SignupRequestModel.builder()
             .userReference(user.getId())
             .requestDate(Calendar.getInstance().getTime())
             .build();
+    signupRequestService.addSignUpRequest(signupRequestModel);
     user.setPassword(null);
     return user;
   }

@@ -1,5 +1,6 @@
 package it.colletta.service.signup;
 import it.colletta.model.UserModel;
+import it.colletta.repository.administration.SingupRequestRepository;
 import it.colletta.security.Role;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
