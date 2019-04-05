@@ -54,17 +54,31 @@ class HomeworkExercise extends Component {
   /**
    * set the showSolution flag to true
    */
+
   checkSolution = () => {
     const {
       newExercise,
-      updateNewExerciseStateDispatch,
-      saveSolutionDispatch
+      saveSolutionDispatch,
+      updateNewExerciseStateDispatch
     } = this.props;
+
+    const codeSolution = newExercise.userSolution.map((word, index) => {
+      if (
+        word.languageIterator.getSolution().length === 0 &&
+        newExercise.response[index].tag.charAt(0) === 'F'
+      )
+        return newExercise.response[index].tag;
+      return word.languageIterator.getCodeSolution();
+    }); // questo è un array di codici che invio al backend
+
     updateNewExerciseStateDispatch({
       ...newExercise,
       showSolution: true
     });
-    saveSolutionDispatch({ ...newExercise });
+    saveSolutionDispatch({
+      ...newExercise,
+      codeSolution
+    });
   };
 
   /**
@@ -106,6 +120,7 @@ class HomeworkExercise extends Component {
 
   render() {
     const { newExercise, auth } = this.props;
+    console.log(': HomeworkExercise -> render -> newExercise', newExercise);
     const { user } = auth;
 
     const { response, showSolution, createAt } = newExercise;

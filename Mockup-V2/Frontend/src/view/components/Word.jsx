@@ -105,7 +105,6 @@ class Word extends Component {
       index
     } = this.props;
 
-    console.log('TCL: render -> solutionTag', solutionTag);
     const state = newExercise.userSolution[index];
     const { buttons, solution, showButton } = state;
     const allowedPunctuation = /[,.?!"'<>;:]/g;

@@ -153,7 +153,6 @@ class InsertExercise extends Component {
       studentList,
       showButton
     } = newExercise;
-    console.log('TCL: InsertExercise -> render -> showButton', newExercise);
 
     const { language } = user;
 
