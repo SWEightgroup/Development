@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
 import DeveloperToAccept from '../../components/DeveloperToAccept';
+import { fetchDeveloperList } from '../../../actions/AdminActions';
 
 class AdminDevDashBoard extends Component {
   acceptDeveloper(isAccepted, username) {
@@ -10,36 +11,54 @@ class AdminDevDashBoard extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, admin } = this.props;
     const { language } = user;
+    //const { devList } = admin;
 
-    const sampleUsers = [
+    const devList = [
       {
         firstName: 'Sebastiano',
         lastName: 'Caccaro',
         username: 'sebastianocaccaro@gmail.com'
       },
       {
-        firstName: 'Sebastiano',
-        lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.com'
+        firstName: 'Damien',
+        lastName: 'Ciagola',
+        username: 'damien.ciagola@gmail.com'
       },
       {
         firstName: 'Sebastiano',
         lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.com'
+        username: 'sebastianocaccaro@gmail.cm'
       },
       {
         firstName: 'Sebastiano',
         lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.com'
+        username: 'sebastianocaccaro@gmail.co'
       },
       {
         firstName: 'Sebastiano',
         lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.com'
+        username: 'sebastianocaccaro@gmail.c'
       }
     ];
+
+    const devRender =
+      devList.length > 0
+        ? devList.map(dev => (
+            <DeveloperToAccept
+              key={'dev-' + dev.username}
+              firstName={dev.firstName}
+              lastName={dev.lastName}
+              username={dev.username}
+              language={language}
+              btAction={(isAccepted, username) =>
+                this.acceptDeveloper(isAccepted, username)
+              }
+            />
+          ))
+        : 'Nessun developer da approvare';
+
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -53,20 +72,15 @@ class AdminDevDashBoard extends Component {
         <div className="row justify-content-center">
           <div className="main-card mb-3 card col-lg-8 col-md-10 col-sm-11">
             <div className="card-body">
-              <h5 className="card-title">List group custom content</h5>
-              <ul className="list-group">
-                {sampleUsers.map(user => (
-                  <DeveloperToAccept
-                    firstName={user.firstName}
-                    lastName={user.lastName}
-                    username={user.username}
-                    language={language}
-                    btAction={(isAccepted, username) =>
-                      this.acceptDeveloper(isAccepted, username)
-                    }
-                  />
-                ))}
-              </ul>
+              <h5 className="card-title">Developer to Approve</h5>
+              <ul className="list-group">{devRender}</ul>
+              <a
+                href="#"
+                onClick={fetchDeveloperList}
+                className="btn btn-primary mt-2"
+              >
+                {_translator('developerDashBoard_devDown', language)}
+              </a>
             </div>
           </div>
         </div>
@@ -77,7 +91,8 @@ class AdminDevDashBoard extends Component {
 
 const mapStateToProps = store => {
   return {
-    user: store.auth.user
+    user: store.auth.user,
+    admin: store.admin
   };
 };
 

@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import authReducer from './AuthReducer';
 import ExerciseReducer from './ExerciseReducer';
+import AdminReducer from './AdminReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  exercise: ExerciseReducer
+  exercise: ExerciseReducer,
+  admin: AdminReducer
 });
 
 export default rootReducer;
