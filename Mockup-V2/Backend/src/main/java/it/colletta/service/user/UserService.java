@@ -33,7 +33,8 @@ public class UserService {
     final String encode = bCryptPasswordEncoder.encode(user.getPassword());
     user.setPassword(encode);
     /**
-     * TODO FARE CHECK SUL RUOLO E SETTARE FALSE SOLO SE SVILUPPATORE
+     * TODO FARE CHECK SUL RUOLO E SETTARE FALSE SOLO SE SVILUPPATORE : errato, un utente è ablitato quando conferma il suo account per email
+     *
      */
     user.setEnabled(true);
     user = applicationUserRepository.save(user);

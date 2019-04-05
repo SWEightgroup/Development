@@ -202,3 +202,65 @@ public class ExerciseService {
     // else exception
   }
 }
+
+ public SolutionModel doExercise(CorrectionHelper correctionHelper) throws Exception {
+    Optional<ExerciseModel> exerciseOptional =
+        exerciseRepository.findById(correctionHelper.getExerciseId());
+
+    if(exerciseOptional.isPresent()) {
+      ExerciseModel exerciseToCorrect = exerciseOptional.get();
+      SolutionModel mainSolutionModel = exerciseToCorrect.getMainSolutionReference();
+      SolutionModel alternativeSolutionModel = exerciseToCorrect.getAlternativeSolutionReference();
+      ArrayList<String> studentSolutionMap =
+          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), ArrayList.class);
+      ArrayList<String> mainSolution =
+          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
+
+      Double mark = correct(studentSolutionMap, mainSolution);
+      if(mark < 10.00) {
+        ArrayList<String> alternativeSolutionMap =
+            new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
+        Double alternativeMark = correct(studentSolutionMap, alternativeSolutionMap);
+        if(mark < alternativeMark) {
+          mark = alternativeMark;
+        }
+      }
+      Optional<PhraseModel> phraseModel =
+          phraseService.getPhraseById(exerciseToCorrect.getPhraseId());
+      SolutionModel studentSolution = SolutionModel.builder()
+          .dateSolution(System.currentTimeMillis())
+          .mark(mark)
+          .authorId(correctionHelper.getStudentId())
+          .reliability(0)
+          .build();
+      if(phraseModel.isPresent()) {
+        phraseModel.get().addSolution(studentSolution);
+        phraseService.insertPhrase(phraseModel.get());
+        phraseService.increaseReliability(studentSolution);
+      }
+      return studentSolution;
+    }
+    else {
+      throw new IllegalArgumentException("Exercise not defined in the system");
+    }
+  }
+
+  private Double correct(ArrayList<String> studentSolutionMap, ArrayList<String> systemSolution) {
+    Integer points = 0;
+    if(studentSolutionMap.size() == systemSolution.size()) {
+      Iterator<String> studentSolutionIterator = studentSolutionMap.iterator();
+      Iterator<String> mainSolutionIterator = systemSolution.iterator();
+      while (mainSolutionIterator.hasNext()) {
+        String word = mainSolutionIterator.next();
+        String studentWord = studentSolutionIterator.next();
+        if(word.equals(studentWord)) {
+          ++points;
+        }
+      }
+    }
+    else {
+      throw new IllegalArgumentException("Solutions have different length");
+    }
+    return (points*10/((double)systemSolution.size()));
+  }
+}

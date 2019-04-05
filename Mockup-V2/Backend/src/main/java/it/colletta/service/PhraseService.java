@@ -59,6 +59,7 @@ public class PhraseService {
 	public void increaseReliability(SolutionModel mainSolution) {
         phraseRepository.increaseReliability(mainSolution);
 	}
-
-
+	public Optional<PhraseModel> getPhraseById(String phraseId) {
+        return phraseRepository.findById(phraseId);
+  }
 }
