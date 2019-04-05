@@ -24,7 +24,7 @@ export const changeSignUp = data => {
 export const signIn = credentials => {
   return dispatch => {
     axios
-      .post('http://localhost:8081/login/', {
+      .post('http://localhost:8081/login', {
         username: credentials.username,
         password: credentials.password
       })
