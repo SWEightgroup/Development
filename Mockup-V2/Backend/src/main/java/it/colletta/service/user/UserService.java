@@ -130,4 +130,16 @@ public class UserService {
     return applicationUserRepository.findAllExerciseDone(userid);
   }
 
+  public List<UserModel> getAllDevelopmentToEnable(String userId){
+    Optional<UserModel> user = applicationUserRepository.findById(userId);
+    List<UserModel> mydevelopment;
+
+    if(user.isPresent()) {
+      if (user.get().getRole().equals(Role.ADMIN)) {
+        //mydevelopment = applicationUserRepository.findAll(UserModel.); // TODO prendere solo quelli con campo enable = false
+      }
+    }
+    return null;
+  }
+
 }

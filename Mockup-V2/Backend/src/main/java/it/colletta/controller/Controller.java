@@ -216,4 +216,12 @@ public class Controller {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/users/get-all-development-to-enable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(@RequestHeader("Authorization") String jwtToken) {
+      String userId = ParseJWT.getIdFromJwt(jwtToken);
+      ResponseEntity<List<UserModel>> mydevelopmentneedenable = new ResponseEntity<List<UserModel>>(
+              userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
+      return mydevelopmentneedenable;
+  }
+
 }
