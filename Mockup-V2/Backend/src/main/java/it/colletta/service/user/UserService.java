@@ -140,4 +140,15 @@ public class UserService {
       applicationUserRepository.save(user);
     }
   }
+  public List<UserModel> getAllDevelopmentToEnable(String userId){
+    Optional<UserModel> user = applicationUserRepository.findById(userId);
+    List<UserModel> mydevelopment = null;
+    if(user.isPresent()) {
+      if (user.get().getRole().equals(Role.ADMIN)) {
+      }
+        mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
+    }
+  }
+    return mydevelopment;
+
 }
