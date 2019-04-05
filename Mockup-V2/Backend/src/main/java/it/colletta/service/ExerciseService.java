@@ -134,6 +134,7 @@ public class ExerciseService {
 	  	        userService.findById(studentId);
 	      if(userOptional.isPresent()) 
 	    	  userOptional.get().addExerciseDone(exerciseToCorrect);
+	      	      
 	      SolutionModel mainSolutionModel = exerciseToCorrect.getMainSolutionReference();
 	      SolutionModel alternativeSolutionModel = exerciseToCorrect.getAlternativeSolutionReference();
 	      ArrayList<String> studentSolutionMap =

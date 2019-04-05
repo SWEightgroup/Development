@@ -74,7 +74,8 @@ public class Controller {
     try {
       return new ResponseEntity<UserModel>(userService.getUserInfo(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
     }
-    catch (UsernameNotFoundException e){
+    catch (UsernameNotFoundException error){
+    	error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -95,10 +96,12 @@ public class Controller {
           UserModel user = userService.updateUser(newUserData,token);
           return new ResponseEntity<UserModel>(user, HttpStatus.OK);
       }
-      catch(UsernameNotFoundException e) {
-          throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+      catch(UsernameNotFoundException error) {
+    	  error.printStackTrace();
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, error.getMessage(), error);
       }
-      catch(NotOwnerException n){
+      catch(NotOwnerException error){
+    	  error.printStackTrace();
           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
       }
   }
@@ -126,7 +129,8 @@ public class Controller {
       userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
       return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
     }
-    catch (Exception e) {
+    catch (Exception error) {
+    	error.printStackTrace();
       return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -143,7 +147,8 @@ public class Controller {
       ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise,ParseJWT.getIdFromJwt(token));
       return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
     }
-    catch (Exception e) {
+    catch (Exception error) {
+    	error.printStackTrace();
       return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -155,8 +160,8 @@ public class Controller {
           SolutionModel insertedSolution = exerciseService.doExercise(correctionHelper,ParseJWT.getIdFromJwt(token));
           return new ResponseEntity<>(insertedSolution, HttpStatus.OK);
       }
-      catch(Exception e) {
-    	  e.printStackTrace();
+      catch(Exception error) {
+    	  error.printStackTrace();
           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
       }
@@ -174,7 +179,8 @@ public class Controller {
     try {
       SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
       return new ResponseEntity<SolutionModel>(solution, HttpStatus.OK);
-    } catch (IOException e) {
+    } catch (IOException error) {
+    	error.printStackTrace();
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
@@ -184,7 +190,8 @@ public class Controller {
     try {
       List<ExerciseModel> exerciseToDo = userService.findAllExerciseToDo(ParseJWT.getIdFromJwt(token));
       return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
-    } catch (Exception e) {
+    } catch (Exception error) {
+    	error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
