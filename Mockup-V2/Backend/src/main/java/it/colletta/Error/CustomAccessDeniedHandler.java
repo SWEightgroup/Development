@@ -1,4 +1,4 @@
-package it.colletta.Error;
+package it.colletta.error;
 
 import java.io.IOException;
 

@@ -78,6 +78,6 @@ public interface UsersRepository
   @Query("{id : ?0}, {exercisesDone:1, id:0}")
   List<ExerciseModel> findAllExerciseDone(String id);
 
-  @Query("{$and[{role : '" + Role.DEVELOPER + "'}, {enabled : false}]}")
+  @Query("{$and : [{role : '" + Role.DEVELOPER + "'}, {enabled : false}]}")
   List<UserModel> findAllDeveloperDisabled();
 }
