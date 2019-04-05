@@ -54,7 +54,7 @@ public class Controller {
    * @return ResponseEntity if the operation completed correctly otherwise return an error
    * response
    */
-  @RequestMapping(value = "/users/sign-up/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> signUp(@RequestBody UserModel user) {
     if(userService.addUser(user).getId() != null) {
       return new ResponseEntity<UserModel>(user, HttpStatus.OK);
@@ -141,7 +141,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/student/insert-free-exercise/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/student/insert-free-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise,ParseJWT.getIdFromJwt(token));
@@ -174,7 +174,7 @@ public class Controller {
    * @return A SolutionModel with the analyzed sentence or empty if the service
    *         is unavailable
    */
-  @RequestMapping(value = "/exercises/automatic-solution/", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj, @RequestHeader("Authorization") String studentToken) {
     try {
       SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
@@ -203,7 +203,7 @@ public class Controller {
    */
   @RequestMapping(value = "/exercises/done/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
-    return new ResponseEntity<>(userService.getAllExerciseDone(token), HttpStatus.OK);
+    return new ResponseEntity<>(userService.getAllExerciseDone(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
   }
 
 

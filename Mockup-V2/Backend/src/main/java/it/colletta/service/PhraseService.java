@@ -59,4 +59,8 @@ public class PhraseService {
 	public void increaseReliability(SolutionModel mainSolution) {
         phraseRepository.increaseReliability(mainSolution);
 	}
+	
+	public PhraseModel getSolutionInPhrase(String phraseId,String solutionId){
+		return phraseRepository.getSolution(phraseId, solutionId);
+	}
 }

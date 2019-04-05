@@ -69,8 +69,8 @@ public class ExerciseService {
     Optional<UserModel> user = userService.findById(exercise.getAuthor());
     String authorName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
     ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
-        .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
-        .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+        .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
+        .alternativeSolutionId(alternativeSolution != null ? alternativeSolution.getId() : null).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
         .visibility(exercise.getVisibility()).authorId(exercise.getAuthor()).authorName(authorName).build();
     exerciseRepository.save(exerciseModel);
     phraseService.increaseReliability(mainSolution);
@@ -113,8 +113,8 @@ public class ExerciseService {
     Optional<UserModel> user = userService.findById(userId);
     String authorName = user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
     ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
-        .dateExercise(System.currentTimeMillis()).mainSolutionReference(mainSolution)
-        .alternativeSolutionReference(alternativeSolution).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+        .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
+        .alternativeSolutionId(alternativeSolution.getId()).phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
         .visibility(exercise.getVisibility()).authorId(userId).authorName(authorName).build();
     phraseService.increaseReliability(mainSolution);
     if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
@@ -129,15 +129,18 @@ public class ExerciseService {
 	        exerciseRepository.findById(correctionHelper.getExerciseId());
 	    if(exerciseOptional.isPresent()) {
 	      ExerciseModel exerciseToCorrect = exerciseOptional.get();
-	      SolutionModel mainSolutionModel = exerciseToCorrect.getMainSolutionReference();
-	      SolutionModel alternativeSolutionModel = exerciseToCorrect.getAlternativeSolutionReference();
+	      
+	      PhraseModel phrase = phraseService.getSolutionInPhrase(exerciseToCorrect.getPhraseId(), exerciseToCorrect.getMainSolutionId());
+	      
+	      SolutionModel mainSolutionModel = phrase.getSolutions().get(0);
+	      SolutionModel alternativeSolutionModel = null;
 	      ArrayList<String> studentSolutionMap =
 	          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), ArrayList.class);
 	      ArrayList<String> mainSolution =
-	          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
+	          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(),ArrayList.class);
 
 	      Double mark = correct(studentSolutionMap, mainSolution);
-	      if(mark < 10.00) {
+	      /*if(mark < 10.00) {
 	        ArrayList<String> alternativeSolutionMap =
 	            new ObjectMapper().readValue(alternativeSolutionModel.getSolutionText(), ArrayList.class);
 	        if(alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
@@ -146,7 +149,7 @@ public class ExerciseService {
 		          mark = alternativeMark;
 		        }
 	        }
-	      }
+	      }*/
 	      Optional<PhraseModel> phraseModel =
 	          phraseService.getPhraseById(exerciseToCorrect.getPhraseId());
 	      SolutionModel studentSolution = SolutionModel.builder()

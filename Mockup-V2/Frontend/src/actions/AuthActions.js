@@ -56,7 +56,7 @@ export const signUp = newUser => {
   delete newUser.password_confirm;
   return dispatch => {
     axios
-      .post('http://localhost:8081/users/sign-up/', newUser)
+      .post('http://localhost:8081/users/sign-up', newUser)
       .then(res => {
         dispatch(
           signIn({ username: newUser.username, password: newUser.password })

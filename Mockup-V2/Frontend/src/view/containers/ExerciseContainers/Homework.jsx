@@ -47,7 +47,7 @@ class Homework extends Component {
                   creationDate={exercise.dateExercise}
                   executionDate={null}
                   phrase={exercise.phraseText}
-                  solution={exercise.mainSolutionReference.solutionText}
+                  solution={""}
                   mark={null}
                   isMark={false}
                   selectExercise={this.selectExercise}

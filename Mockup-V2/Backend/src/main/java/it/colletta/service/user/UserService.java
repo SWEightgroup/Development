@@ -125,7 +125,14 @@ public class UserService {
   }
 
   public List<ExerciseModel> getAllExerciseDone(String userid) {
-    return applicationUserRepository.findAllExerciseDone(userid);
+	  Optional<UserModel> userModel = applicationUserRepository.findById(userid);
+	    if(userModel.isPresent()) {
+	      return userModel.get().getExercisesDone();
+	    }
+	    else {
+	      throw new UsernameNotFoundException("User not found in the system");
+	    }
+   // return applicationUserRepository.findAllExerciseDone(userid);
   }
 
   public void exerciseCompleted(String studentId, ExerciseModel exerciseToCorrect) {

@@ -22,7 +22,7 @@ class ExercisePreview extends Component {
     return (
       <div className="main-card mb-3 card">
         <div className="card-body">
-          <h5 className="card-title">{author}</h5>
+          <h5 className="card-title"> {author}</h5>
           <h6 className="card-subtitle">{phrase}</h6>
           <p>Aggiunta il: {this.getDate(creationDate)}</p>
           {!isMark && (
@@ -35,6 +35,7 @@ class ExercisePreview extends Component {
             </button>
           )}
           {isMark && <p className=" ">{mark}</p>}
+          <small>{}</small>
         </div>
       </div>
     );

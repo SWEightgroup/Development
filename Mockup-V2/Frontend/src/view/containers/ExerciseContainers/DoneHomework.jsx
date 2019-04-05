@@ -23,11 +23,11 @@ class DoneHomework extends Component {
               doneExercises.map(exercise => (
                 <ExercisePreview
                   key={`ex${exercise.id}`}
-                  author={exercise.teacherName}
+                  author={exercise.authorName}
                   creationDate={exercise.dateExercise}
                   executionDate={null}
                   phrase={exercise.phraseText}
-                  solution={exercise.mainSolutionReference.solutionText}
+                  solution=""
                   mark={null}
                   isMark
                   selectExercise={this.selectExercise}

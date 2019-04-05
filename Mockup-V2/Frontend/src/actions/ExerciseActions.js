@@ -61,7 +61,7 @@ export const saveFreeExercise = newExercise => {
 
     axios
       .post(
-        'http://localhost:8081/exercises/insert-free-exercise/',
+        'http://localhost:8081/exercises/student/insert-free-exercise',
         {
           assignedUsersIds: null,
           phraseText: newExercise.sentenceString,
