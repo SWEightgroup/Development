@@ -141,7 +141,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-free-exercise/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/student/insert-free-exercise/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise,ParseJWT.getIdFromJwt(token));
@@ -154,7 +154,7 @@ public class Controller {
   }
 
   
-  @RequestMapping(value = "/exercises/do/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/student/do/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,@RequestBody CorrectionHelper correctionHelper) {
       try {
           SolutionModel insertedSolution = exerciseService.doExercise(correctionHelper,ParseJWT.getIdFromJwt(token));

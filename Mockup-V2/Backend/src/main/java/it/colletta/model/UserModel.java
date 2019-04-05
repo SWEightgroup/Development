@@ -26,7 +26,8 @@ import lombok.ToString;
 @Builder
 @ToString
 @Document(collection = "users")
-public class UserModel implements UserDetails {
+public class
+UserModel implements UserDetails {
   private static final long serialVersionUID = 1L;
   @Id
   private String id;
@@ -65,6 +66,9 @@ public class UserModel implements UserDetails {
 
   public Boolean addExerciseToDo(ExerciseModel exerciseToAdd) {
     return exercisesToDo.add(exerciseToAdd);
+  }
+  public Boolean removeExerciseToDo(ExerciseModel exerciseToRemove) {
+    return exercisesToDo.remove(exerciseToRemove);
   }
 
   public Boolean addExerciseDone(ExerciseModel exerciseToAdd) {

@@ -131,4 +131,13 @@ public class UserService {
     return applicationUserRepository.findAllExerciseDone(userid);
   }
 
+  public void exerciseCompleted(String studentId, ExerciseModel exerciseToCorrect) {
+    Optional<UserModel> userOptional = applicationUserRepository.findById(studentId);
+    if(userOptional.isPresent()) {
+      UserModel user = userOptional.get();
+      user.removeExerciseToDo(exerciseToCorrect);
+      user.addExerciseDone(exerciseToCorrect);
+      applicationUserRepository.save(user);
+    }
+  }
 }

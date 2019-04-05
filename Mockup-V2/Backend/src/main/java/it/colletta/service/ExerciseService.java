@@ -124,17 +124,11 @@ public class ExerciseService {
   }
 
   
-  public SolutionModel doExercise(CorrectionHelper correctionHelper,String studentId) throws Exception {
+  public SolutionModel doExercise(CorrectionHelper correctionHelper, String studentId) throws Exception {
 	    Optional<ExerciseModel> exerciseOptional =
 	        exerciseRepository.findById(correctionHelper.getExerciseId());
-
 	    if(exerciseOptional.isPresent()) {
 	      ExerciseModel exerciseToCorrect = exerciseOptional.get();
-	      Optional<UserModel> userOptional =
-	  	        userService.findById(studentId);
-	      if(userOptional.isPresent()) 
-	    	  userOptional.get().addExerciseDone(exerciseToCorrect);
-	      	      
 	      SolutionModel mainSolutionModel = exerciseToCorrect.getMainSolutionReference();
 	      SolutionModel alternativeSolutionModel = exerciseToCorrect.getAlternativeSolutionReference();
 	      ArrayList<String> studentSolutionMap =
@@ -145,7 +139,7 @@ public class ExerciseService {
 	      Double mark = correct(studentSolutionMap, mainSolution);
 	      if(mark < 10.00) {
 	        ArrayList<String> alternativeSolutionMap =
-	            new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
+	            new ObjectMapper().readValue(alternativeSolutionModel.getSolutionText(), ArrayList.class);
 	        if(alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
 	        	Double alternativeMark = correct(studentSolutionMap, alternativeSolutionMap);
 		        if(mark < alternativeMark) {
@@ -165,7 +159,9 @@ public class ExerciseService {
 	        phraseModel.get().addSolution(studentSolution);
 	        phraseService.insertPhrase(phraseModel.get());
 	        phraseService.increaseReliability(studentSolution);
+	        userService.exerciseCompleted(studentId, exerciseToCorrect);
 	      }
+
 	      return studentSolution;
 	    }
 	    else {
