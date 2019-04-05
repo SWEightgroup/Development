@@ -24,7 +24,7 @@ export const changeSignUp = data => {
 export const signIn = credentials => {
   return dispatch => {
     axios
-      .post('http://localhost:8081/login', {
+      .post('http://localhost:8081/login/', {
         username: credentials.username,
         password: credentials.password
       })
@@ -56,7 +56,7 @@ export const signUp = newUser => {
   delete newUser.password_confirm;
   return dispatch => {
     axios
-      .post('http://localhost:8081/users/sign-up', newUser)
+      .post('http://localhost:8081/users/sign-up/', newUser)
       .then(res => {
         dispatch(
           signIn({ username: newUser.username, password: newUser.password })
@@ -71,7 +71,7 @@ export const updateUserInfo = user => {
     dispatch(loaderOn());
     axios
       .put(
-        'http://localhost:8081/users/modify',
+        'http://localhost:8081/users/modify/',
         {
           ...user
         },
@@ -96,7 +96,7 @@ export const initializeAuth = () => {
   return dispatch => {
     if (store.getState().auth.token !== null) {
       axios
-        .get('http://localhost:8081/users/get-info', {
+        .get('http://localhost:8081/users/get-info/', {
           headers: {
             Authorization: store.getState().auth.token
           }

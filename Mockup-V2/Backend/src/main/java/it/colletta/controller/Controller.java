@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.security.ParseJWT;
 import it.colletta.service.ExerciseService;
@@ -53,9 +54,8 @@ public class Controller {
    * @return ResponseEntity if the operation completed correctly otherwise return an error
    * response
    */
-  @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/sign-up/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> signUp(@RequestBody UserModel user) {
-    System.out.println(user.toString());
     if(userService.addUser(user).getId() != null) {
       return new ResponseEntity<UserModel>(user, HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class Controller {
    * @return An Usermodel if the operation completed correctly otherwise return an unavailable
    * response
    */
-  @RequestMapping(value = "/users/get-info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/get-info/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
     try {
       return new ResponseEntity<UserModel>(userService.getUserInfo(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
@@ -119,7 +119,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-exercise", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/insert-exercise/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
@@ -137,7 +137,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-free-exercise", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/insert-free-exercise/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise,ParseJWT.getIdFromJwt(token));
@@ -149,28 +149,27 @@ public class Controller {
   }
 
   
-  /**
-   * @author Gionata Legrottaglie
-   * @param exercise the exercise which needs to be inserted in the database
-   * @return A new ResponseEntity that contains the phrase
-   */
-  @RequestMapping(value = "/exercises/insert-solution", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExerciseModel> insertSolution(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
-    try {
-      ExerciseModel exerciseModel = exerciseService.insertSolution(exercise,ParseJWT.getIdFromJwt(token));
-      return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
-    }
-    catch (Exception e) {
-      return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
-    }
-  }
+  @RequestMapping(value = "/exercises/do/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,@RequestBody CorrectionHelper correctionHelper) {
+      try {
+          SolutionModel insertedSolution = exerciseService.doExercise(correctionHelper,ParseJWT.getIdFromJwt(token));
+          return new ResponseEntity<>(insertedSolution, HttpStatus.OK);
+      }
+      catch(Exception e) {
+    	  e.printStackTrace();
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+      }
+  }
+  
+  
+ 
   /**
    * @param stringObj the text which has to be analyzed by freeling as map
    * @return A SolutionModel with the analyzed sentence or empty if the service
    *         is unavailable
    */
-  @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/automatic-solution/", method = RequestMethod.POST,  produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj, @RequestHeader("Authorization") String studentToken) {
     try {
       SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
@@ -201,7 +200,7 @@ public class Controller {
   }
 
 
-  @RequestMapping(value = "/users/get-students", method = RequestMethod.GET, produces =  MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/get-students/", method = RequestMethod.GET, produces =  MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getStudentsList() {
     ResponseEntity<List<UserModel>> listResponseEntity = new ResponseEntity<List<UserModel>>(
         userService.getAllStudents(), HttpStatus.OK);
@@ -211,7 +210,7 @@ public class Controller {
   @RequestMapping(value = "/exercises/delete/{exerciseid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> deleteExercise(@RequestParam("exerciseid") String exerciseId, @RequestHeader("Authorization") String jwtToken) {
     String userId = ParseJWT.getIdFromJwt(jwtToken);
-    Optional<UserModel> userModel = userService.deleteExerciseAssigned(exerciseId, userId);
+    userService.deleteExerciseAssigned(exerciseId, userId);
     exerciseService.deleteExercise(exerciseId);
     return new ResponseEntity<>(HttpStatus.OK);
   }

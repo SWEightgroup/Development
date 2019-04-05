@@ -95,7 +95,7 @@ class InsertExercise extends Component {
     // la soluzione sarà formata da un array di parola/codice
     axios
       .post(
-        `http://localhost:8081/exercises/automatic-solution`,
+        `http://localhost:8081/exercises/automatic-solution/`,
         {
           text: sentenceString.trim()
         },
@@ -107,7 +107,7 @@ class InsertExercise extends Component {
       )
       .then(res => {
         axios
-          .get('http://localhost:8081/users/get-students', {
+          .get('http://localhost:8081/users/get-students/', {
             headers: {
               Authorization: auth.token
             }

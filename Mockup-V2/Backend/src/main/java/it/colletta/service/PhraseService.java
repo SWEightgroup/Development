@@ -1,15 +1,16 @@
 package it.colletta.service;
 
-import it.colletta.model.PhraseModel;
-import it.colletta.model.SolutionModel;
-import it.colletta.repository.phrase.PhraseRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import it.colletta.model.PhraseModel;
+import it.colletta.model.SolutionModel;
+import it.colletta.repository.phrase.PhraseRepository;
+import lombok.NonNull;
 
 
 @Service
@@ -50,6 +51,10 @@ public class PhraseService {
         //return phraseRepository.findAllPhrasesByIds(phraseIds);
         return null;
     }
+    
+    public Optional<PhraseModel> getPhraseById(String phraseId) {
+        return phraseRepository.findById(phraseId);
+  }
 
 	public void increaseReliability(SolutionModel mainSolution) {
         phraseRepository.increaseReliability(mainSolution);

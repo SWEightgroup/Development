@@ -61,7 +61,7 @@ export const saveFreeExercise = newExercise => {
 
     axios
       .put(
-        'http://localhost:8081/exercises/insert-free-exercise',
+        'http://localhost:8081/exercises/insert-free-exercise/',
         {
           assignedUsersIds: null,
           phraseText: newExercise.sentenceString,
@@ -87,22 +87,16 @@ export const saveFreeExercise = newExercise => {
 };
 
 export const saveSolution = newExercise => {
+  console.log('TCL: newExercise', newExercise);
   return dispatch => {
     dispatch(innerLoaderOn());
     const { id } = store.getState().auth.user;
     axios
       .put(
-        'http://localhost:8081/exercises/insert-solution',
+        'http://localhost:8081/exercises/do/',
         {
-          assignedUsersIds: null,
-          phraseText: newExercise.sentenceString,
-          mainSolution: JSON.stringify(newExercise.codeSolution),
-          alternativeSolution: '',
-          visibility: true,
-          author: id,
-          date: new Date().getTime(),
-          language: 'it', // //////////////////////////////DA CAMBIARE
-          id: newExercise.id
+          solutionFromStudent: JSON.stringify(newExercise.codeSolution),
+          exerciseId: newExercise.id
         },
         {
           headers: {
@@ -126,7 +120,7 @@ export const saveExerciseSolution = newExercise => {
 
     axios
       .put(
-        'http://localhost:8081/exercises/insert-exercise',
+        'http://localhost:8081/exercises/insert-exercise/',
         {
           assignedUsersIds: newExercise.studentList
             .filter(student => student.check)

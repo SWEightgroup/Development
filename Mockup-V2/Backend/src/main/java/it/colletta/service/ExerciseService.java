@@ -1,8 +1,11 @@
 package it.colletta.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,7 @@ import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
@@ -119,52 +123,75 @@ public class ExerciseService {
     return exerciseModel;
   }
 
-  /**
-   * 
-   * Add a solution in phrase
-   * 
-   * @author Gionata Legrottaglie
-   * @param exercise Exercise/Solution
-   * @param userId   Author Id
-   * @return This Exercise
-   */
-  public ExerciseModel insertSolution(ExerciseHelper exercise, String userId) {
+  
+  public SolutionModel doExercise(CorrectionHelper correctionHelper,String studentId) throws Exception {
+	    Optional<ExerciseModel> exerciseOptional =
+	        exerciseRepository.findById(correctionHelper.getExerciseId());
 
-    Optional<UserModel> optionalUser = userService.findById(userId);
-    Optional<ExerciseModel> teacherExercise = exerciseRepository.findById(exercise.getId());
-    if (optionalUser.isPresent() && teacherExercise.isPresent()) {
+	    if(exerciseOptional.isPresent()) {
+	      ExerciseModel exerciseToCorrect = exerciseOptional.get();
+	      Optional<UserModel> userOptional =
+	  	        userService.findById(studentId);
+	      if(userOptional.isPresent()) 
+	    	  userOptional.get().addExerciseDone(exerciseToCorrect);
+	      SolutionModel mainSolutionModel = exerciseToCorrect.getMainSolutionReference();
+	      SolutionModel alternativeSolutionModel = exerciseToCorrect.getAlternativeSolutionReference();
+	      ArrayList<String> studentSolutionMap =
+	          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), ArrayList.class);
+	      ArrayList<String> mainSolution =
+	          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
 
-      UserModel user = optionalUser.get();
-      ExerciseModel exerciseModel = teacherExercise.get();
-
-      user.addExerciseDone(exerciseModel);
-      SolutionModel alternativeSolution = null;
-      if (exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
-        alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
-            .solutionText(exercise.getAlternativeSolution()).build();
-      }
-        SolutionModel mainSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
-            .solutionText(exercise.getMainSolution()).build();
-        PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage())
-            .datePhrase(System.currentTimeMillis()).phraseText(exercise.getPhraseText()).build();
-
-        phrase.addSolution(mainSolution);
-        if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
-          phrase.addSolution(alternativeSolution);
-        }
-
-        phrase = phraseService.insertPhrase(phrase);
-        phraseService.increaseReliability(mainSolution);
-        if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
-          phraseService.increaseReliability(alternativeSolution);
-        }
-      
-      return exerciseModel;
-    } else {
-      return null;
-    }
-
-  }
+	      Double mark = correct(studentSolutionMap, mainSolution);
+	      if(mark < 10.00) {
+	        ArrayList<String> alternativeSolutionMap =
+	            new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
+	        if(alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
+	        	Double alternativeMark = correct(studentSolutionMap, alternativeSolutionMap);
+		        if(mark < alternativeMark) {
+		          mark = alternativeMark;
+		        }
+	        }
+	      }
+	      Optional<PhraseModel> phraseModel =
+	          phraseService.getPhraseById(exerciseToCorrect.getPhraseId());
+	      SolutionModel studentSolution = SolutionModel.builder()
+	          .dateSolution(System.currentTimeMillis())
+	          .mark(mark)
+	          .authorId(studentId)
+	          .reliability(0)
+	          .build();
+	      if(phraseModel.isPresent()) {
+	        phraseModel.get().addSolution(studentSolution);
+	        phraseService.insertPhrase(phraseModel.get());
+	        phraseService.increaseReliability(studentSolution);
+	      }
+	      return studentSolution;
+	    }
+	    else {
+	      throw new IllegalArgumentException("Exercise not defined in the system");
+	    }
+	  }
+  
+  private Double correct(ArrayList<String> studentSolutionMap, ArrayList<String> systemSolution) {
+	    Integer points = 0;
+	    if(studentSolutionMap.size() == systemSolution.size()) {
+	      Iterator<String> studentSolutionIterator = studentSolutionMap.iterator();
+	      Iterator<String> mainSolutionIterator = systemSolution.iterator();
+	      while (mainSolutionIterator.hasNext()) {
+	        String word = mainSolutionIterator.next();
+	        String studentWord = studentSolutionIterator.next();
+	        if(word.equals(studentWord)) {
+	          ++points;
+	        }
+	      }
+	    }
+	    else {
+	      throw new IllegalArgumentException("Solutions have different length");
+	    }
+	    return (points*10/((double)systemSolution.size()));
+	  }
+  
+  
 
   public void deleteExercise(String exerciseId) {
     Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
