@@ -1,7 +1,16 @@
 package it.colletta.service.user;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import java.security.acl.NotOwnerException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
@@ -9,20 +18,6 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
-import java.util.Collections;
-import java.util.stream.Collectors;
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.security.acl.NotOwnerException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {

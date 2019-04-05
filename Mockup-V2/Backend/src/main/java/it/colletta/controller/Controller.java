@@ -1,12 +1,11 @@
 package it.colletta.controller;
 
-import com.mongodb.DBObject;
 import java.io.IOException;
 import java.security.acl.NotOwnerException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.bson.types.ObjectId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -120,7 +119,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/insert-exercise", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
@@ -138,7 +137,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-free-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/insert-free-exercise", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise,ParseJWT.getIdFromJwt(token));
@@ -155,7 +154,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-solution", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/insert-solution", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertSolution(@RequestHeader("Authorization") String token,@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertSolution(exercise,ParseJWT.getIdFromJwt(token));

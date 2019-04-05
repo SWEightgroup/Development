@@ -60,7 +60,7 @@ export const saveFreeExercise = newExercise => {
     const { id } = store.getState().auth.user;
 
     axios
-      .post(
+      .put(
         'http://localhost:8081/exercises/insert-free-exercise',
         {
           assignedUsersIds: null,
@@ -74,6 +74,7 @@ export const saveFreeExercise = newExercise => {
         },
         {
           headers: {
+            'content-type': 'application/json',
             Authorization: store.getState().auth.token
           }
         }
@@ -89,25 +90,23 @@ export const saveSolution = newExercise => {
   return dispatch => {
     dispatch(innerLoaderOn());
     const { id } = store.getState().auth.user;
-
     axios
-      .post(
+      .put(
         'http://localhost:8081/exercises/insert-solution',
         {
-          exercise: {
-            assignedUsersIds: null,
-            phraseText: newExercise.sentenceString,
-            mainSolution: JSON.stringify(newExercise.codeSolution),
-            alternativeSolution: '',
-            visibility: true,
-            author: id,
-            date: new Date().getTime(),
-            language: 'it', // //////////////////////////////DA CAMBIARE
-            id: newExercise.id
-          }
+          assignedUsersIds: null,
+          phraseText: newExercise.sentenceString,
+          mainSolution: JSON.stringify(newExercise.codeSolution),
+          alternativeSolution: '',
+          visibility: true,
+          author: id,
+          date: new Date().getTime(),
+          language: 'it', // //////////////////////////////DA CAMBIARE
+          id: newExercise.id
         },
         {
           headers: {
+            'content-type': 'application/json',
             Authorization: store.getState().auth.token
           }
         }
@@ -126,7 +125,7 @@ export const saveExerciseSolution = newExercise => {
     // prelevo dal response la soluzione della punteggiatuera
 
     axios
-      .post(
+      .put(
         'http://localhost:8081/exercises/insert-exercise',
         {
           assignedUsersIds: newExercise.studentList
@@ -142,6 +141,7 @@ export const saveExerciseSolution = newExercise => {
         },
         {
           headers: {
+            'content-type': 'application/json',
             Authorization: store.getState().auth.token
           }
         }
@@ -163,7 +163,6 @@ export const loadTodoExercises = () => {
         }
       })
       .then(res => {
-        console.log(': loadTodoExercises -> res', res);
         dispatch({ type: 'LOAD_TODO_SUCCESS', todo: res.data });
       })
       .catch(() => dispatch({ type: 'pippo' }));

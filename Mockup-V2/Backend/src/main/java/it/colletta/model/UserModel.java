@@ -1,14 +1,10 @@
 package it.colletta.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import java.util.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,6 +12,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @AllArgsConstructor

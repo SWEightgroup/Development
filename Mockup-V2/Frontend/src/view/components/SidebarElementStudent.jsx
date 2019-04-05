@@ -27,6 +27,11 @@ class SidebarElementStudent extends Component {
               </NavLink>
             </li>
             <li>
+              <NavLink to="/doneHomework" activeClassName="mm-active">
+                {_translator('sidebarElementStudent_doneExercises', language)}
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/grades" activeClassName="mm-active">
                 {_translator('sidebarElementStudent_marks', language)}
               </NavLink>

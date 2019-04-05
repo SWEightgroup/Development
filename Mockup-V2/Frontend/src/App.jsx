@@ -19,6 +19,7 @@ import HomeworkExecution from './view/containers/ExerciseContainers/HomeworkExec
 import InsertExercise from './view/containers/ExerciseContainers/InsertExercise';
 import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperDashBoard';
 import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
+import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
 
 class App extends Component {
   state = {};
@@ -116,6 +117,11 @@ class App extends Component {
                   path="/homework"
                   isAllowed={auth.user}
                   component={Homework}
+                />
+                <ProtectedRoute
+                  path="/doneHomework"
+                  isAllowed={auth.user}
+                  component={DoneHomework}
                 />
                 <ProtectedRoute
                   path="/homework-execution"

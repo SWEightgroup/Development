@@ -32,7 +32,6 @@ class Homework extends Component {
   };
 
   render() {
-    console.log('QUESTE SONO LE PROPS', this.props);
     const { todoExercises } = this.props;
     const areThereExerciseToDo = todoExercises && todoExercises.length > 0;
     return (

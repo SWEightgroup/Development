@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ExercisePreview from '../../components/ExercisePreview';
 import { loadDoneExercises } from '../../../actions/ExerciseActions';
 
-class Homework extends Component {
+class DoneHomework extends Component {
   constructor(props) {
     super(props);
     props.loadDoneExercisesDispatch();
@@ -29,7 +29,7 @@ class Homework extends Component {
                   phrase={exercise.phraseText}
                   solution={exercise.mainSolutionReference.solutionText}
                   mark={null}
-                  isMark={false}
+                  isMark
                   selectExercise={this.selectExercise}
                 />
               ))}
@@ -56,4 +56,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Homework);
+)(DoneHomework);
