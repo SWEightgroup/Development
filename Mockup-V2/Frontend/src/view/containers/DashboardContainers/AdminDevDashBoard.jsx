@@ -13,35 +13,7 @@ class AdminDevDashBoard extends Component {
   render() {
     const { user, admin } = this.props;
     const { language } = user;
-    //const { devList } = admin;
-
-    const devList = [
-      {
-        firstName: 'Sebastiano',
-        lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.com'
-      },
-      {
-        firstName: 'Damien',
-        lastName: 'Ciagola',
-        username: 'damien.ciagola@gmail.com'
-      },
-      {
-        firstName: 'Sebastiano',
-        lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.cm'
-      },
-      {
-        firstName: 'Sebastiano',
-        lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.co'
-      },
-      {
-        firstName: 'Sebastiano',
-        lastName: 'Caccaro',
-        username: 'sebastianocaccaro@gmail.c'
-      }
-    ];
+    const { devList } = admin;
 
     const devRender =
       devList.length > 0
@@ -76,7 +48,7 @@ class AdminDevDashBoard extends Component {
               <ul className="list-group">{devRender}</ul>
               <a
                 href="#"
-                onClick={fetchDeveloperList}
+                onClick={() => fetchDeveloperList()}
                 className="btn btn-primary mt-2"
               >
                 {_translator('developerDashBoard_devDown', language)}
