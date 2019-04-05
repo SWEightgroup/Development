@@ -4,6 +4,7 @@ import _translator from '../../helpers/Translator';
 import SidebarElementStudent from './SidebarElementStudent';
 import SidebarElementTeacher from './SidebarElementTeacher';
 import SidebarElementAdministrator from './SidebarElementAdministrator';
+import SidebarElementDeveloper from './SidebarElementDeveloper';
 
 class Sidebar extends Component {
   state = {};
@@ -17,12 +18,12 @@ class Sidebar extends Component {
 
     if (role === 'ROLE_STUDENT') {
       roleSpecificNav = <SidebarElementStudent language={language} />;
-    }
-    if (role === 'ROLE_ADMIN') {
+    } else if (role === 'ROLE_ADMIN') {
       roleSpecificNav = <SidebarElementAdministrator language={language} />;
-    }
-    if (role === 'ROLE_TEACHER') {
+    } else if (role === 'ROLE_TEACHER') {
       roleSpecificNav = <SidebarElementTeacher language={language} />;
+    } else if (role === 'ROLE_DEVELOPER') {
+      roleSpecificNav = <SidebarElementDeveloper language={language} />;
     }
     return (
       <div className="scrollbar-sidebar">

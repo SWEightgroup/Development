@@ -17,6 +17,8 @@ import Account from './view/containers/AuthContainers/Account';
 import Homework from './view/containers/ExerciseContainers/Homework';
 import HomeworkExecution from './view/containers/ExerciseContainers/HomeworkExecution';
 import InsertExercise from './view/containers/ExerciseContainers/InsertExercise';
+import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperDashBoard';
+import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
 
 class App extends Component {
   state = {};
@@ -28,7 +30,7 @@ class App extends Component {
   }
 
   render() {
-    const { loader,innerLoader, auth } = this.props;
+    const { loader, innerLoader, auth } = this.props;
     const { language } = auth;
     return (
       <BrowserRouter>
@@ -68,7 +70,7 @@ class App extends Component {
               {auth.user && <Sidebar auth={auth} />}
             </div>
             <div className="app-main__outer">
-            {innerLoader && <div className="loading" />}
+              {innerLoader && <div className="loading" />}
               <Switch>
                 <ProtectedRoute
                   exact
@@ -121,6 +123,20 @@ class App extends Component {
                     auth.user /* && auth.user.role === 'ROLE_STUDENT' */
                   }
                   component={HomeworkExecution}
+                />
+                <ProtectedRoute
+                  path="/developer-dashboard"
+                  isAllowed={
+                    auth.user /* && auth.user.role === 'ROLE_DEVELOPER' */
+                  }
+                  component={DeveloperDashBoard}
+                />
+                <ProtectedRoute
+                  path="/developers-management"
+                  isAllowed={
+                    auth.user /* && auth.user.role === 'ROLE_DEVELOPER' */
+                  }
+                  component={AdminDevDashBoard}
                 />
                 <Route render={() => <Error language={language} />} />
               </Switch>

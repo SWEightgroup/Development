@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
 import { NavLink } from 'react-router-dom';
 
-class SidebarElementAdministrator extends Component {
+class SidebarElementDeveloper extends Component {
   state = {};
 
   render() {
@@ -11,16 +11,16 @@ class SidebarElementAdministrator extends Component {
       <React.Fragment>
         <li>
           <NavLink
-            to="/developers-management"
+            to="/developer-dashboard"
             className="nav-link"
             activeClassName="mm-active"
           >
-            <i className="metismenu-icon pe-7s-plugin" />
-            {_translator('SidebarElementAdministrator_devs', language)}
+            <i className="metismenu-icon pe-7s-cloud-download" />
+            {_translator('gen_devDashboard', language)}
           </NavLink>
         </li>
       </React.Fragment>
     );
   }
 }
-export default SidebarElementAdministrator;
+export default SidebarElementDeveloper;

@@ -48,9 +48,16 @@ export const _label = {
     sidebarElementTeacher_insertExercise: 'Inserisci esercizio',
     sidebarElementTeacher_exercises: 'Esercizi inseriti',
     sidebarElementTeacher_ExerciseDone: 'Esercizi allievi',
-    SidebarElementAdministrator_users: 'Amministra Utenti',
+    SidebarElementAdministrator_devs: 'Sviluppatori',
     insertExercise_confirmFSolution: 'Inserisci soluzione proposta',
-    insertExercise_editFSolution: 'Modifica soluzione'
+    insertExercise_editFSolution: 'Modifica soluzione',
+    gen_devDashboard: 'Pannello Sviluppatore',
+    developerDashBoard_desc: 'Filtra e scarica i dati che ti interessano',
+    developerDashBoard_devDownText:
+      "Premendo il bottone sottostante, puoi scaricare i dati di analisi grammaticale generati dali utenti di Colletta. Potrebbe volerci un po' di tempo, fatti un caffè, dai.",
+    developerDashBoard_devDown: 'Scarica',
+    developerToAccept_allow: 'Accetta',
+    developerToAccept_deny: 'Rifiuta'
   },
   en: {
     account_yourData: 'Your data',
@@ -94,8 +101,16 @@ export const _label = {
     sidebarElementTeacher_insertExercise: 'Insert exercise',
     sidebarElementTeacher_exercises: 'Exercise history',
     sidebarElementTeacher_ExerciseDone: 'Students ecercises',
-    SidebarElementAdministrator_users: 'User Manage',
+    SidebarElementAdministrator_devs: 'Developers',
     insertExercise_confirmFSolution: 'Insert solution',
-    insertExercise_editFSolution: 'Edit solution'
+    insertExercise_editFSolution: 'Edit solution',
+    gen_devDashboard: 'Developer Dashboard',
+    developerDashBoard_desc: "Filter and download the data you're looking for",
+    developerDashBoard_devDownText:
+      'By clicking the button below, you can can download all the user generated data of Colletta. This may take a while, feel free to go grab a coffe!',
+    developerDashBoard_devDown: 'Download',
+
+    developerToAccept_allow: 'Allow',
+    developerToAccept_deny: 'Deny'
   }
 };
