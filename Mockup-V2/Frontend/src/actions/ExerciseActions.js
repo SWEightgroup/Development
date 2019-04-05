@@ -60,7 +60,7 @@ export const saveFreeExercise = newExercise => {
     const { id } = store.getState().auth.user;
 
     axios
-      .put(
+      .post(
         'http://localhost:8081/exercises/insert-free-exercise/',
         {
           assignedUsersIds: null,
@@ -70,7 +70,7 @@ export const saveFreeExercise = newExercise => {
           visibility: true,
           author: id,
           date: new Date().getTime(),
-          language: 'it' // //////////////////////////////DA CAMBIARE
+          language: 'it'
         },
         {
           headers: {
@@ -92,8 +92,8 @@ export const saveSolution = newExercise => {
     dispatch(innerLoaderOn());
     const { id } = store.getState().auth.user;
     axios
-      .put(
-        'http://localhost:8081/exercises/do/',
+      .post(
+        'http://localhost:8081/exercises/student/do/',
         {
           solutionFromStudent: JSON.stringify(newExercise.codeSolution),
           exerciseId: newExercise.id
