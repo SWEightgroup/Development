@@ -70,9 +70,6 @@ public interface UsersRepository
   @Query("{ $pull: { exercisesToDo: ?0 }}")
   void deleteFromExerciseToDo(String exerciseId);
 
-  @Query("{id : ?0}, {exercisesDone:1, id:0}")
-  List<ExerciseModel> findAllExerciseDone(String id);
-
   @Query("{$and : [{role : '" + Role.DEVELOPER + "'}, {enabled : false}]}")
   List<UserModel> findAllDeveloperDisabled();
 }
