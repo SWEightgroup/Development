@@ -29,7 +29,7 @@ class AdminDevDashBoard extends Component {
               }
             />
           ))
-        : 'Nessun developer da approvare';
+        : _translator('adminDevDashBoard_noDevApprove', language);
 
     return (
       <div className="app-main__inner full-height-mobile">
@@ -37,14 +37,16 @@ class AdminDevDashBoard extends Component {
           <div className="py-5 text-center">
             <h2>{_translator('SidebarElementAdministrator_devs', language)}</h2>
             <p className="lead">
-              Approve or deny developers' subscription requests
+              {_translator('adminDevDashBoard_subtitle', language)}
             </p>
           </div>
         </div>
         <div className="row justify-content-center">
           <div className="main-card mb-3 card col-lg-8 col-md-10 col-sm-11">
             <div className="card-body">
-              <h5 className="card-title">Developer to Approve</h5>
+              <h5 className="card-title">
+                {_translator('adminDevDashBoard_devToApprove', language)}
+              </h5>
               <ul className="list-group">{devRender}</ul>
               <a
                 href="#"

@@ -58,7 +58,11 @@ export const _label = {
       "Premendo il bottone sottostante, puoi scaricare i dati di analisi grammaticale generati dali utenti di Colletta. Potrebbe volerci un po' di tempo, fatti un caffè, dai.",
     developerDashBoard_devDown: 'Scarica',
     developerToAccept_allow: 'Accetta',
-    developerToAccept_deny: 'Rifiuta'
+    developerToAccept_deny: 'Rifiuta',
+    adminDevDashBoard_subtitle:
+      'Accetta o rifiuta le richieste di iscrizione degli sviluppatori',
+    adminDevDashBoard_noDevApprove: 'Nessun developer da approvare',
+    adminDevDashBoard_devToApprove: 'Sviluppatori da approvare'
   },
   en: {
     account_yourData: 'Your data',
@@ -113,6 +117,10 @@ export const _label = {
     developerDashBoard_devDown: 'Download',
 
     developerToAccept_allow: 'Allow',
-    developerToAccept_deny: 'Deny'
+    developerToAccept_deny: 'Deny',
+    adminDevDashBoard_subtitle:
+      "Approve or deny developers' subscription requests",
+    adminDevDashBoard_noDevApprove: 'No developer needs to be approved',
+    adminDevDashBoard_devToApprove: 'Developer to Approve'
   }
 };
