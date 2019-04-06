@@ -56,7 +56,7 @@ public class Controller {
 
   // TODO: mettere @PreAuthorize e controllare ruolo admin
   @RequestMapping(
-      value = "/users/get-all-development-to-enable",
+      value = "/users/developer/get-all-disabled",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(
@@ -69,7 +69,7 @@ public class Controller {
   }
 
   @RequestMapping(
-      value = "/admin/get-all-user",
+      value = "/users/admin/get-all-user",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getAllUser(@RequestHeader("Authorization") String token) {
