@@ -69,7 +69,7 @@ public class Controller {
    * @return An Usermodel if the operation completed correctly otherwise return an unavailable
    * response
    */
-  @RequestMapping(value = "/users/get-info/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/get-info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
     try {
       return new ResponseEntity<UserModel>(userService.getUserInfo(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
@@ -122,7 +122,7 @@ public class Controller {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
    */
-  @RequestMapping(value = "/exercises/insert-exercise/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/insert-exercise", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
@@ -154,7 +154,7 @@ public class Controller {
   }
 
   
-  @RequestMapping(value = "/exercises/student/do/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/student/do", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,@RequestBody CorrectionHelper correctionHelper) {
       try {
           SolutionModel insertedSolution = exerciseService.doExercise(correctionHelper,ParseJWT.getIdFromJwt(token));
@@ -185,7 +185,7 @@ public class Controller {
     }
   }
 
-  @RequestMapping(value = "/exercises/user-todo/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/user-todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@RequestHeader("Authorization") String token) {
     try {
       List<ExerciseModel> exerciseToDo = userService.findAllExerciseToDo(ParseJWT.getIdFromJwt(token));
@@ -201,13 +201,13 @@ public class Controller {
    * @param token the token authorization
    * @return the list of the exercise done by the student
    */
-  @RequestMapping(value = "/exercises/done/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/exercises/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
     return new ResponseEntity<>(userService.getAllExerciseDone(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
   }
 
 
-  @RequestMapping(value = "/users/get-students/", method = RequestMethod.GET, produces =  MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/get-students", method = RequestMethod.GET, produces =  MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getStudentsList() {
     ResponseEntity<List<UserModel>> listResponseEntity = new ResponseEntity<List<UserModel>>(
         userService.getAllStudents(), HttpStatus.OK);

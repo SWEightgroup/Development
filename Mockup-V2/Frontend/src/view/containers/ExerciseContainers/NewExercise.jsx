@@ -10,7 +10,8 @@ import {
   updateNewExerciseState,
   changeNewInputSentence,
   saveFreeExercise,
-  initNewExerciseState
+  initNewExerciseState,
+  getAutomaticSolution
 } from '../../../actions/ExerciseActions';
 
 class NewExsercise extends Component {
@@ -86,35 +87,14 @@ class NewExsercise extends Component {
     const {
       auth,
       initNewExerciseStateDispatch,
-      updateNewExerciseStateDispatch
+      getAutomaticSolutionDispatch
     } = this.props;
     initNewExerciseStateDispatch({
       ...newExercise,
       response: null
     });
     const { sentenceString } = newExercise;
-    // qui faremo la chiamata
-    // la soluzione sarà formata da un array di parola/codice
-    axios
-      .post(
-        `http://localhost:8081/exercises/automatic-solution`,
-        {
-          text: sentenceString.trim()
-        },
-        {
-          headers: {
-            Authorization: auth.token
-          }
-        }
-      )
-      .then(res => {
-        console.log('TCL: NewExsercise -> res', res);
-        updateNewExerciseStateDispatch({
-          ...this.props.newExercise,
-          response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
-        });
-      })
-      .catch(e => console.log(e));
+    getAutomaticSolutionDispatch(sentenceString);
   };
 
   render() {
@@ -193,7 +173,9 @@ const mapDispatchToProps = dispatch => {
     saveFreeExerciseDispatch: newExercise =>
       dispatch(saveFreeExercise(newExercise)),
     initNewExerciseStateDispatch: newExercise =>
-      dispatch(initNewExerciseState(newExercise))
+      dispatch(initNewExerciseState(newExercise)),
+    getAutomaticSolutionDispatch: sentenceString =>
+      dispatch(getAutomaticSolution(sentenceString))
   };
 };
 

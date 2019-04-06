@@ -8,7 +8,6 @@ import { removePunctuation } from '../../../helpers/Utils';
 import {
   initializeNewExercise,
   updateNewExerciseState,
-  changeNewInputSentence,
   saveSolution,
   initNewExerciseState
 } from '../../../actions/ExerciseActions';
@@ -23,33 +22,6 @@ class HomeworkExercise extends Component {
   componentWillUnmount() {
     this.props.initializeNewExercise();
   }
-
-  /**
-   * split the sentence
-   *
-   * @param sentence the sentence to analyze
-   */
-  prepareExercise = sentenceString => {
-    const now = Date.now();
-    const { newExercise } = this.props;
-    const sentenceArray = sentenceString.split(' ');
-    this.getSolution({
-      ...newExercise,
-      showSolution: false,
-      response: null,
-      showButton: true,
-      createAt: now,
-      sentence: sentenceArray
-    });
-  };
-
-  changeNewInputSentence = input => {
-    const { changeNewInputSentenceDispatch, newExercise } = this.props;
-    changeNewInputSentenceDispatch({
-      ...newExercise,
-      sentenceString: input
-    });
-  };
 
   /**
    * set the showSolution flag to true
@@ -79,43 +51,6 @@ class HomeworkExercise extends Component {
       ...newExercise,
       codeSolution
     });
-  };
-
-  /**
-   * call the server to analyze the sentence
-   */
-  getSolution = newExercise => {
-    const {
-      auth,
-      initNewExerciseStateDispatch,
-      updateNewExerciseStateDispatch
-    } = this.props;
-    initNewExerciseStateDispatch({
-      ...newExercise,
-      response: null
-    });
-    const { sentenceString } = newExercise;
-    // qui faremo la chiamata
-    // la soluzione sarà formata da un array di parola/codice
-    axios
-      .post(
-        `http://localhost:8081/exercises/automatic-solution/`,
-        {
-          text: sentenceString.trim()
-        },
-        {
-          headers: {
-            Authorization: auth.token
-          }
-        }
-      )
-      .then(res => {
-        updateNewExerciseStateDispatch({
-          ...this.props.newExercise,
-          response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
-        });
-      })
-      .catch(e => console.log(e));
   };
 
   render() {
@@ -189,8 +124,6 @@ const mapDispatchToProps = dispatch => {
     initializeNewExercise: () => dispatch(initializeNewExercise()),
     updateNewExerciseStateDispatch: newExercise =>
       dispatch(updateNewExerciseState(newExercise)),
-    changeNewInputSentenceDispatch: input =>
-      dispatch(changeNewInputSentence(input)),
     saveSolutionDispatch: newExercise => dispatch(saveSolution(newExercise)),
     initNewExerciseStateDispatch: newExercise =>
       dispatch(initNewExerciseState(newExercise))

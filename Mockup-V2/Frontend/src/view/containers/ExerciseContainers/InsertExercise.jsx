@@ -12,13 +12,17 @@ import {
   saveExerciseSolution,
   initNewExerciseState,
   innerLoaderOff,
-  innerLoaderOn
+  innerLoaderOn,
+  getAutomaticSolution,
+  getAllStudents,
+  updateStudentList
 } from '../../../actions/ExerciseActions';
 
 class InsertExercise extends Component {
   constructor(props) {
     super(props);
     props.initializeNewExercise();
+    props.getAllStudentsDispatch();
   }
 
   /**
@@ -82,7 +86,7 @@ class InsertExercise extends Component {
     const {
       auth,
       initNewExerciseStateDispatch,
-      updateNewExerciseStateDispatch
+      getAutomaticSolutionDispatch
     } = this.props;
 
     this.props.innerLoaderOn();
@@ -93,56 +97,24 @@ class InsertExercise extends Component {
     const { sentenceString } = newExercise;
     // qui faremo la chiamata
     // la soluzione sarà formata da un array di parola/codice
-    axios
-      .post(
-        `http://localhost:8081/exercises/automatic-solution`,
-        {
-          text: sentenceString.trim()
-        },
-        {
-          headers: {
-            Authorization: auth.token
-          }
-        }
-      )
-      .then(res => {
-        axios
-          .get('http://localhost:8081/users/get-students/', {
-            headers: {
-              Authorization: auth.token
-            }
-          })
-          .then(resGetStudent => {
-            this.props.innerLoaderOff();
-            updateNewExerciseStateDispatch({
-              ...this.props.newExercise,
-              studentList: resGetStudent.data,
-              response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
-            });
-          })
-          .catch(err => {
-            this.props.innerLoaderOff();
-            console.error(err);
-          });
-      })
-      .catch(e => {
-        this.props.innerLoaderOff();
-        console.log(e);
-      });
+    getAutomaticSolutionDispatch(sentenceString);
   };
 
   handleChange = event => {
-    const { updateNewExerciseStateDispatch, newExercise } = this.props;
-
-    const { studentList } = newExercise;
+    const { updateStudentListDispatch, studentList } = this.props;
 
     studentList.find(student => student.username === event.target.id).check =
       event.target.checked;
-    updateNewExerciseStateDispatch({ ...newExercise, studentList });
+    updateStudentListDispatch(studentList);
   };
 
   render() {
-    const { changeNewInputSentenceDispatch, newExercise, auth } = this.props;
+    const {
+      changeNewInputSentenceDispatch,
+      newExercise,
+      auth,
+      studentList
+    } = this.props;
     const { user } = auth;
     const {
       sentence,
@@ -150,12 +122,11 @@ class InsertExercise extends Component {
       showSolution,
       createAt,
       sentenceString,
-      studentList,
       showButton
     } = newExercise;
 
     const { language } = user;
-
+    console.log(studentList);
     return (
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
@@ -178,7 +149,7 @@ class InsertExercise extends Component {
                 showButton={showButton}
               />
             )}
-            {studentList && studentList.length > 0 && (
+            {response && studentList && studentList.length > 0 && (
               <div className="main-card mb-3 card ">
                 <div className="card-body">
                   <div className="row">
@@ -209,18 +180,20 @@ class InsertExercise extends Component {
                       </ul>
                     </div>
                   </div>
-                  <div className="row justify-content-end ">
-                    <div className="col-12 col-sm-4 py-0 px-0">
-                      <button
-                        type="button"
-                        className="btn btn-success btn-block"
-                        onClick={this.checkSolution}
-                        disabled={showSolution}
-                      >
-                        {_translator('executionExercise_complete', language)}
-                      </button>
-                    </div>
-                  </div>
+                </div>
+              </div>
+            )}
+            {response && (
+              <div className="row  ">
+                <div className="col-sm-6 offset-sm-5 py-0 px-2 ">
+                  <button
+                    type="button"
+                    className="btn btn-success btn-lg btn-block"
+                    onClick={this.checkSolution}
+                    disabled={showSolution}
+                  >
+                    {_translator('executionExercise_complete', language)}
+                  </button>
                 </div>
               </div>
             )}
@@ -235,7 +208,8 @@ const mapStateToProps = store => {
     authError: store.auth.authError,
     auth: store.auth,
     token: store.auth.user.token,
-    newExercise: store.exercise.newExercise
+    newExercise: store.exercise.newExercise,
+    studentList: store.exercise.studentList
   };
 };
 
@@ -251,7 +225,12 @@ const mapDispatchToProps = dispatch => {
     initNewExerciseStateDispatch: newExercise =>
       dispatch(initNewExerciseState(newExercise)),
     innerLoaderOff: () => dispatch(innerLoaderOff()),
-    innerLoaderOn: () => dispatch(innerLoaderOn())
+    innerLoaderOn: () => dispatch(innerLoaderOn()),
+    getAutomaticSolutionDispatch: sentenceString =>
+      dispatch(getAutomaticSolution(sentenceString)),
+    getAllStudentsDispatch: () => dispatch(getAllStudents()),
+    updateStudentListDispatch: studentList =>
+      dispatch(updateStudentList(studentList))
   };
 };
 

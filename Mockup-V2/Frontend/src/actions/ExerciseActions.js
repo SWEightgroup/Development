@@ -42,6 +42,12 @@ export const updateNewExerciseState = newExercise => {
   };
 };
 
+export const updateStudentList = studentList => {
+  return dispatch => {
+    dispatch({ type: 'UPDATE_STUDENT_LIST', studentList });
+  };
+};
+
 export const changeNewInputSentence = data => {
   return dispatch => {
     dispatch({ type: 'CHANGE_INPUT_SENTENCE_DATA', data });
@@ -93,7 +99,7 @@ export const saveSolution = newExercise => {
     const { id } = store.getState().auth.user;
     axios
       .post(
-        'http://localhost:8081/exercises/student/do/',
+        'http://localhost:8081/exercises/student/do',
         {
           solutionFromStudent: JSON.stringify(newExercise.codeSolution),
           exerciseId: newExercise.id
@@ -120,10 +126,11 @@ export const saveExerciseSolution = newExercise => {
 
     axios
       .put(
-        'http://localhost:8081/exercises/insert-exercise/',
+        'http://localhost:8081/exercises/insert-exercise',
         {
-          assignedUsersIds: newExercise.studentList
-            .filter(student => student.check)
+          assignedUsersIds: store
+            .getState()
+            .exercise.studentList.filter(student => student.check)
             .map(student => student.id),
           phraseText: newExercise.sentenceString,
           mainSolution: JSON.stringify(newExercise.codeSolution),
@@ -143,7 +150,7 @@ export const saveExerciseSolution = newExercise => {
       .then(res => {
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
       })
-      .catch(() => dispatch({ type: 'pippo' }));
+      .catch(() => dispatch({ type: '' }));
   };
 };
 
@@ -151,7 +158,7 @@ export const loadTodoExercises = () => {
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
-      .get('http://localhost:8081/exercises/user-todo/', {
+      .get('http://localhost:8081/exercises/user-todo', {
         headers: {
           Authorization: store.getState().auth.token
         }
@@ -159,7 +166,7 @@ export const loadTodoExercises = () => {
       .then(res => {
         dispatch({ type: 'LOAD_TODO_SUCCESS', todo: res.data });
       })
-      .catch(() => dispatch({ type: 'pippo' }));
+      .catch(() => dispatch({ type: '' }));
   };
 };
 
@@ -167,7 +174,7 @@ export const loadDoneExercises = () => {
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
-      .get('http://localhost:8081/exercises/done/', {
+      .get('http://localhost:8081/exercises/done', {
         headers: {
           Authorization: store.getState().auth.token
         }
@@ -175,10 +182,52 @@ export const loadDoneExercises = () => {
       .then(res => {
         dispatch({ type: 'LOAD_DONE_SUCCESS', todo: res.data });
       })
-      .catch(() => dispatch({ type: 'pippo' }));
+      .catch(() => dispatch({ type: '' }));
   };
 };
 
+export const getAutomaticSolution = sentenceString => {
+  return dispatch => {
+    axios
+      .post(
+        `http://localhost:8081/exercises/automatic-solution`,
+        {
+          text: sentenceString.trim()
+        },
+        {
+          headers: {
+            Authorization: store.getState().auth.token
+          }
+        }
+      )
+      .then(res => {
+        dispatch(
+          updateNewExerciseState({
+            response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
+          })
+        );
+        dispatch(innerLoaderOff());
+      })
+      .catch(e => console.error(e));
+  };
+};
+
+export const getAllStudents = () => {
+  return dispatch => {
+    axios
+      .get('http://localhost:8081/users/get-students', {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(resGetStudent => {
+        dispatch(updateStudentList(resGetStudent.data));
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+};
 /* {
   "assignedUsersIds": [
     "demoData"

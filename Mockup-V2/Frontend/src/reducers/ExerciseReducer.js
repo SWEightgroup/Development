@@ -7,9 +7,9 @@ const initState = {
     createAt: Date.now(),
     userSolution: [], // lista di stati per le word
     codeSolution: [],
-    complete: false,
-    studentList: []
+    complete: false
   },
+  studentList: [],
   todoExercises: null,
   doneExercises: null,
   innerLoader: false
@@ -40,7 +40,12 @@ const ExerciseReducer = (state = initState, action) => {
     case 'UPDATE_EXERCISE':
       return {
         ...state,
-        newExercise: action.newExercise
+        newExercise: { ...state.newExercise, ...action.newExercise }
+      };
+    case 'UPDATE_STUDENT_LIST':
+      return {
+        ...state,
+        studentList: action.studentList
       };
     case 'UPDATE_WORD_STATE':
       const userSolution = state.newExercise.userSolution;
@@ -81,7 +86,6 @@ const ExerciseReducer = (state = initState, action) => {
         doneExercises: action.todo,
         innerLoader: false
       };
-
     default:
       //  console.error('REDUCER ERRATO', state, action);
       return { ...state, innerLoader: false };

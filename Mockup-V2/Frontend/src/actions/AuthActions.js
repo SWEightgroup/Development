@@ -96,7 +96,7 @@ export const initializeAuth = () => {
   return dispatch => {
     if (store.getState().auth.token !== null) {
       axios
-        .get('http://localhost:8081/users/get-info/', {
+        .get('http://localhost:8081/users/get-info', {
           headers: {
             Authorization: store.getState().auth.token
           }
