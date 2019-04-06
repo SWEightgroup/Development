@@ -1,6 +1,7 @@
 package it.colletta.repository.user;
 
 import it.colletta.model.UserModel;
+import it.colletta.security.Role;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -33,7 +34,7 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   public List<UserModel> getAllUsers() {
     Query query = new Query();
     query.fields().exclude("exercisesToDo").exclude("exercisesDone").exclude("favoriteTeacherIds");
-    query.addCriteria(Criteria.where("role").ne("ROLE_ADMIN"));
+    query.addCriteria(Criteria.where("role").ne(Role.ADMIN));
     return mongoTemplate.find(query, UserModel.class);
   }
 }
