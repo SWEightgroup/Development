@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+import it.colletta.security.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -33,5 +34,13 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   public void updateActivateFlagOnly(String id) {
     Query query = new Query(Criteria.where("_id").is(id));
     mongoTemplate.updateFirst(query, Update.update("enabled", true), UserModel.class);
+  }
+
+  @Override
+  public List<UserModel> getAllUsers(){
+    Query query = new Query();
+    query.fields().exclude("exercisesToDo").exclude("exercisesDone").exclude("favoriteTeacherIds");
+    query.addCriteria(Criteria.where("role").ne("ROLE_ADMIN"));
+    return mongoTemplate.find(query, UserModel.class);
   }
 }

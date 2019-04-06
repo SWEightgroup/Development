@@ -12,4 +12,9 @@ public interface UserCustomQueryInterface {
    * @return nothing
    */
   public void updateActivateFlagOnly(String id);
+
+  /**
+   * @return all the user who are successfully register and activated in the system
+   */
+  List<UserModel> getAllUsers();
 }
