@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,8 @@ import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
 import it.colletta.service.user.UserService;
 
+import javax.ws.rs.Path;
+
 
 /**
  *
@@ -48,6 +51,32 @@ public class Controller {
   @Autowired
   @Lazy
   SolutionService solutionService;
+
+
+  //TODO: mettere @PreAuthorize e controllare ruolo admin
+  @RequestMapping(value = "/admin/delete-user/{userId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserModel> deleteUser(@PathVariable("userId") String userId) {
+    try {
+      return new ResponseEntity<UserModel>(userService.deleteUser(userId), HttpStatus.OK);
+    } catch (UsernameNotFoundException error) {
+      error.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+  }
+
+  //TODO: mettere @PreAuthorize e controllare ruolo admin
+  @RequestMapping(value = "/users/get-all-development-to-enable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(@RequestHeader("Authorization") String jwtToken) {
+    String userId = ParseJWT.getIdFromJwt(jwtToken);
+    ResponseEntity<List<UserModel>> mydevelopmentneedenable = new ResponseEntity<List<UserModel>>(
+            userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
+    return mydevelopmentneedenable;
+  }
+
+  @RequestMapping(value = "/admin/get-all-user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<UserModel>> getAllUser(@RequestHeader("Authorization") String token){
+    return new ResponseEntity<List<UserModel>>(userService.getAllUsers(), HttpStatus.OK);
+  }
 
   /**
    * @param user the user obj with username and password
@@ -113,10 +142,8 @@ public class Controller {
   @RequestMapping(value = "/users/activate-user/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> activateUser(@PathVariable("id") String id) {
     userService.activateUser(id);
-    //TODO BETTER
     return new ResponseEntity<>(HttpStatus.OK);
   }
-
 
   /**
    * @param exercise the exercise which needs to be inserted in the database
@@ -134,7 +161,6 @@ public class Controller {
       return new ResponseEntity<ExerciseModel>(HttpStatus.BAD_REQUEST);
     }
   }
-
 
   /**
    * @author Gionata Legrottaglie
@@ -166,9 +192,7 @@ public class Controller {
 
       }
   }
-  
-  
- 
+
   /**
    * @param stringObj the text which has to be analyzed by freeling as map
    * @return A SolutionModel with the analyzed sentence or empty if the service
@@ -221,13 +245,4 @@ public class Controller {
     exerciseService.deleteExercise(exerciseId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
-
-  @RequestMapping(value = "/users/get-all-development-to-enable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(@RequestHeader("Authorization") String jwtToken) {
-      String userId = ParseJWT.getIdFromJwt(jwtToken);
-      ResponseEntity<List<UserModel>> mydevelopmentneedenable = new ResponseEntity<List<UserModel>>(
-              userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
-      return mydevelopmentneedenable;
-  }
-
 }

@@ -18,6 +18,7 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class UserService {
@@ -60,6 +61,16 @@ public class UserService {
 
   public void activateUser(String id) {
     applicationUserRepository.updateActivateFlagOnly(id);
+  }
+  public UserModel deleteUser(String userId){
+    Optional<UserModel> userToDelete = applicationUserRepository.findById(userId);
+    if(userToDelete.isPresent()){
+      applicationUserRepository.delete(userToDelete.get());
+      return userToDelete.get();
+    }
+    else{
+      throw new UsernameNotFoundException("Id not found");
+    }
   }
 
   public UserModel findByEmail(String email){ return applicationUserRepository.findByEmail(email);}
@@ -112,6 +123,10 @@ public class UserService {
 
   public List<UserModel> getAllStudents() {
     return applicationUserRepository.findAllStudents();
+  }
+
+  public List<UserModel> getAllUsers(){
+    return applicationUserRepository.getAllUsers();
   }
 
   public Optional<UserModel> deleteExerciseAssigned(String exerciseId, String userId) {
