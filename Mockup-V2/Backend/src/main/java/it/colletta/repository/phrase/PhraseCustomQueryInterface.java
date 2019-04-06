@@ -12,6 +12,6 @@ public interface PhraseCustomQueryInterface {
     List<PhraseModel> findAllByAuthor(String  authorId);
     List<SolutionModel> findAllSolutionsByAuthor(String authorId);
     UpdateResult increaseReliability(SolutionModel solutionModels);
-    PhraseModel getSolution(String phraseId,String solutionId);
+    SolutionModel getSolution(String phraseId, String solutionId);
 }
 

@@ -2,6 +2,7 @@ package it.colletta.service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -129,18 +130,21 @@ public class ExerciseService {
 	        exerciseRepository.findById(correctionHelper.getExerciseId());
 	    if(exerciseOptional.isPresent()) {
 	      ExerciseModel exerciseToCorrect = exerciseOptional.get();
-	      
-	      PhraseModel phrase = phraseService.getSolutionInPhrase(exerciseToCorrect.getPhraseId(), exerciseToCorrect.getMainSolutionId());
-	      
-	      SolutionModel mainSolutionModel = phrase.getSolutions().get(0);
+	      SolutionModel mainSolutionModel =
+            phraseService.getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
+                exerciseToCorrect.getMainSolutionId());
 	      SolutionModel alternativeSolutionModel = null;
+	      if(exerciseToCorrect.getAlternativeSolutionId() != null &&
+            !exerciseToCorrect.getAlternativeSolutionId().isEmpty()) {
+          alternativeSolutionModel = phraseService.getSolutionInPhrase(exerciseToCorrect.getPhraseId(), exerciseToCorrect.getAlternativeSolutionId());
+        }
 	      ArrayList<String> studentSolutionMap =
 	          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), ArrayList.class);
 	      ArrayList<String> mainSolution =
 	          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(),ArrayList.class);
 
 	      Double mark = correct(studentSolutionMap, mainSolution);
-	      /*if(mark < 10.00) {
+	      if(mark < 10.00 && alternativeSolutionModel != null) {
 	        ArrayList<String> alternativeSolutionMap =
 	            new ObjectMapper().readValue(alternativeSolutionModel.getSolutionText(), ArrayList.class);
 	        if(alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
@@ -149,7 +153,7 @@ public class ExerciseService {
 		          mark = alternativeMark;
 		        }
 	        }
-	      }*/
+	      }
 	      Optional<PhraseModel> phraseModel =
 	          phraseService.getPhraseById(exerciseToCorrect.getPhraseId());
 	      SolutionModel studentSolution = SolutionModel.builder()
