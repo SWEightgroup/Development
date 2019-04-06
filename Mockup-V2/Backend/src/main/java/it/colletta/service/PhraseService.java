@@ -34,8 +34,7 @@ public class PhraseService {
         if(phraseOptional.isPresent()) {
             PhraseModel phrase = phraseOptional.get();
             ArrayList<SolutionModel> solutions = phrase.getSolutions();
-            solutions.addAll(phraseModel.getSolutions());
-            phrase.setSolutions(solutions);
+            phrase.setSolutions(phraseModel.getSolutions());
             return phraseRepository.save(phrase);
         }
         else {

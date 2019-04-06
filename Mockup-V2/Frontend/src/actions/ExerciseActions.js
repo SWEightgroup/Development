@@ -96,7 +96,6 @@ export const saveSolution = newExercise => {
   console.log('TCL: newExercise', newExercise);
   return dispatch => {
     dispatch(innerLoaderOn());
-    const { id } = store.getState().auth.user;
     axios
       .post(
         'http://localhost:8081/exercises/student/do',
@@ -112,6 +111,7 @@ export const saveSolution = newExercise => {
         }
       )
       .then(res => {
+        console.log(': res', res);
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
       })
       .catch(() => dispatch({ type: 'pippo' }));

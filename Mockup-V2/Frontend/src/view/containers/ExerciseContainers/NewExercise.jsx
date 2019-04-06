@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import InputSentence from '../../components/InputSentence';
 import ExecutionExercise from '../../components/ExecutionExercise';
@@ -85,7 +84,6 @@ class NewExsercise extends Component {
    */
   getSolution = newExercise => {
     const {
-      auth,
       initNewExerciseStateDispatch,
       getAutomaticSolutionDispatch
     } = this.props;

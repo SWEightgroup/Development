@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import InputSentence from '../../components/InputSentence';
 import ExecutionExercise from '../../components/ExecutionExercise';
@@ -84,9 +83,9 @@ class InsertExercise extends Component {
    */
   getSolution = newExercise => {
     const {
-      auth,
       initNewExerciseStateDispatch,
-      getAutomaticSolutionDispatch
+      getAutomaticSolutionDispatch,
+
     } = this.props;
 
     this.props.innerLoaderOn();
@@ -230,7 +229,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getAutomaticSolution(sentenceString)),
     getAllStudentsDispatch: () => dispatch(getAllStudents()),
     updateStudentListDispatch: studentList =>
-      dispatch(updateStudentList(studentList))
+      dispatch(updateStudentList(studentList)),
   };
 };
 

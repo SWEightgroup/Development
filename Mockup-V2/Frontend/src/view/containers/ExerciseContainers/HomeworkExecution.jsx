@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import ExecutionExercise from '../../components/ExecutionExercise';
 import _translator from '../../../helpers/Translator';

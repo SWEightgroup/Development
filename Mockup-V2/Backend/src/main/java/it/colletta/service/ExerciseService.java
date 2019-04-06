@@ -157,10 +157,10 @@ public class ExerciseService {
 	      Optional<PhraseModel> phraseModel =
 	          phraseService.getPhraseById(exerciseToCorrect.getPhraseId());
 	      SolutionModel studentSolution = SolutionModel.builder()
-	          .dateSolution(System.currentTimeMillis())
 	          .mark(mark)
 	          .authorId(studentId)
 	          .reliability(0)
+	          .solutionText(correctionHelper.getSolutionFromStudent())
 	          .build();
 	      if(phraseModel.isPresent()) {
 	        phraseModel.get().addSolution(studentSolution);
