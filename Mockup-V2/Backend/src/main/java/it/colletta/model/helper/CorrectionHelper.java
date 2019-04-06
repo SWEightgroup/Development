@@ -12,5 +12,4 @@ public class CorrectionHelper {
   public String getExerciseId() {
     return exerciseId;
   }
-
 }

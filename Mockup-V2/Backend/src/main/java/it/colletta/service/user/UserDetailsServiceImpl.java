@@ -1,20 +1,21 @@
 package it.colletta.service.user;
 
+import static java.util.Collections.emptyList;
+
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import static java.util.Collections.emptyList;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private UsersRepository applicationUserRepository;
+  private UsersRepository applicationUserRepository;
 
-    public UserDetailsServiceImpl(UsersRepository applicationUserRepository) {
-        this.applicationUserRepository = applicationUserRepository;
-    }
+  public UserDetailsServiceImpl(UsersRepository applicationUserRepository) {
+    this.applicationUserRepository = applicationUserRepository;
+  }
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -24,6 +25,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
     return new org.springframework.security.core.userdetails.User(
         applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
-    }
-
+  }
 }

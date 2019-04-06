@@ -1,17 +1,13 @@
 package it.colletta.repository.user;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import it.colletta.model.ExerciseModel;
-import it.colletta.security.Role;
-import java.util.Optional;
-import it.colletta.repository.user.UserCustomQueryInterface;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import it.colletta.model.UserModel;
+import it.colletta.security.Role;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public interface UsersRepository
@@ -19,7 +15,7 @@ public interface UsersRepository
 
   /**
    * Find the user by his email
-   * 
+   *
    * @param email the email of the user
    * @return UserModel of the user with that email
    */
@@ -40,7 +36,7 @@ public interface UsersRepository
 
   /**
    * Delete user from the system
-   * 
+   *
    * @param id the user id
    */
   @Override
@@ -48,7 +44,7 @@ public interface UsersRepository
 
   /**
    * Insert a new user into the database
-   * 
+   *
    * @param user the pojo of the user
    * @return the inserted user model
    */
@@ -57,7 +53,7 @@ public interface UsersRepository
 
   /**
    * Return the list of all users inserted
-   * 
+   *
    * @return List<UserModel> return all the user
    */
   @Override
@@ -66,10 +62,9 @@ public interface UsersRepository
   @Query(" {$and : [{role : '" + Role.STUDENT + "'}, {enabled : true}] }, " + "{ password:0}")
   List<UserModel> findAllStudents();
 
-
   /**
    * Remove the exercise from the student
-   * 
+   *
    * @param exerciseId the exercise document id
    */
   @Query("{ $pull: { exercisesToDo: ?0 }}")

@@ -1,16 +1,5 @@
 package it.colletta.service.user;
 
-import java.security.acl.NotOwnerException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
@@ -18,16 +7,22 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
-import org.springframework.web.client.HttpClientErrorException;
+import java.security.acl.NotOwnerException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-  @Autowired
-  private UsersRepository applicationUserRepository;
+  @Autowired private UsersRepository applicationUserRepository;
 
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public UserModel addUser(@org.jetbrains.annotations.NotNull UserModel user) {
     SignupRequestService signupRequestService = new SignupRequestService();
@@ -35,11 +30,12 @@ public class UserService {
     user.setPassword(encode);
     user.setEnabled(false);
     user = applicationUserRepository.save(user);
-    SignupRequestModel signupRequestModel = SignupRequestModel.builder()
+    SignupRequestModel signupRequestModel =
+        SignupRequestModel.builder()
             .userReference(user.getId())
             .requestDate(Calendar.getInstance().getTime())
             .build();
-    //signupRequestService.addSignUpRequest(signupRequestModel);
+    // signupRequestService.addSignUpRequest(signupRequestModel);
     user.setPassword(null);
     return user;
   }
@@ -49,12 +45,10 @@ public class UserService {
   }
 
   public UserModel getUserInfo(String id) {
-    Optional<UserModel> userModelOptional =
-            applicationUserRepository.findById(id);
-    if(userModelOptional.isPresent()) {
+    Optional<UserModel> userModelOptional = applicationUserRepository.findById(id);
+    if (userModelOptional.isPresent()) {
       return userModelOptional.get();
-    }
-    else {
+    } else {
       throw new UsernameNotFoundException("Id not refer to a user of the sistem");
     }
   }
@@ -62,24 +56,27 @@ public class UserService {
   public void activateUser(String id) {
     applicationUserRepository.updateActivateFlagOnly(id);
   }
-  public UserModel deleteUser(String userId){
+
+  public UserModel deleteUser(String userId) {
     Optional<UserModel> userToDelete = applicationUserRepository.findById(userId);
-    if(userToDelete.isPresent()){
+    if (userToDelete.isPresent()) {
       applicationUserRepository.delete(userToDelete.get());
       return userToDelete.get();
-    }
-    else{
+    } else {
       throw new UsernameNotFoundException("Id not found");
     }
   }
 
-  public UserModel findByEmail(String email){ return applicationUserRepository.findByEmail(email);}
+  public UserModel findByEmail(String email) {
+    return applicationUserRepository.findByEmail(email);
+  }
 
-  public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException{
+  public UserModel updateUser(UserModel newUserData, String token) throws NotOwnerException {
 
     String email = ParseJWT.getEmailFromJWT(token);
     String newEmail = newUserData.getUsername();
-    if(!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null ) { //ho modificato la mia mail
+    if (!email.equals(newEmail)
+        && applicationUserRepository.findByEmail(newEmail) != null) { // ho modificato la mia mail
       throw new NotOwnerException();
     }
     UserModel user = applicationUserRepository.findByEmail(email);
@@ -88,16 +85,16 @@ public class UserService {
     Optional<String> newLanguageName = Optional.ofNullable(newUserData.getLanguage());
     Optional<Date> newDateOfBirth = Optional.ofNullable(newUserData.getDateOfBirth());
 
-    if(newFirstName.isPresent()){
+    if (newFirstName.isPresent()) {
       user.setFirstName(newFirstName.get());
     }
-    if(newLastName.isPresent()){
+    if (newLastName.isPresent()) {
       user.setLastName(newLastName.get());
     }
-    if(newLanguageName.isPresent()){
+    if (newLanguageName.isPresent()) {
       user.setLanguage(newLanguageName.get());
     }
-    if(newDateOfBirth.isPresent()){
+    if (newDateOfBirth.isPresent()) {
       user.setDateOfBirth(newDateOfBirth.get());
     }
     return applicationUserRepository.save(user);
@@ -105,18 +102,18 @@ public class UserService {
 
   public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
     Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
-    for(UserModel user : users) {
-      user.addExerciseToDo(exerciseModel); //TODO se un esercizio ritorna false lancio eccezione
+    for (UserModel user : users) {
+      user.addExerciseToDo(
+          exerciseModel.getId()); // TODO se un esercizio ritorna false lancio eccezione
     }
     applicationUserRepository.saveAll(users);
   }
 
-  public List<ExerciseModel> findAllExerciseToDo(String userId) {
+  public List<String> findAllExerciseToDo(String userId) {
     Optional<UserModel> userModel = applicationUserRepository.findById(userId);
-    if(userModel.isPresent()) {
+    if (userModel.isPresent()) {
       return userModel.get().getExercisesToDo();
-    }
-    else {
+    } else {
       throw new UsernameNotFoundException("User not found in the system");
     }
   }
@@ -125,46 +122,45 @@ public class UserService {
     return applicationUserRepository.findAllStudents();
   }
 
-  public List<UserModel> getAllUsers(){
+  public List<UserModel> getAllUsers() {
     return applicationUserRepository.getAllUsers();
   }
 
   public Optional<UserModel> deleteExerciseAssigned(String exerciseId, String userId) {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
-    if(user.isPresent()) {
-      if(exerciseId.equals(user.get().getId()) && user.get().getRole().equals(Role.TEACHER)) {
+    if (user.isPresent()) {
+      if (exerciseId.equals(user.get().getId()) && user.get().getRole().equals(Role.TEACHER)) {
         applicationUserRepository.deleteFromExerciseToDo(exerciseId);
       }
     }
     return Optional.empty();
   }
 
-  public List<ExerciseModel> getAllExerciseDone(String userid) {
-	  Optional<UserModel> userModel = applicationUserRepository.findById(userid);
-	    if(userModel.isPresent()) {
-	      return userModel.get().getExercisesDone();
-	    }
-	    else {
-	      throw new UsernameNotFoundException("User not found in the system");
-	    }
-   // return applicationUserRepository.findAllExerciseDone(userid);
+  public List<String> getAllExerciseDone(String userid) {
+    Optional<UserModel> userModel = applicationUserRepository.findById(userid);
+    if (userModel.isPresent()) {
+      return userModel.get().getExercisesDone();
+    } else {
+      throw new UsernameNotFoundException("User not found in the system");
+    }
   }
 
   public void exerciseCompleted(String studentId, ExerciseModel exerciseToCorrect) {
     Optional<UserModel> userOptional = applicationUserRepository.findById(studentId);
-    if(userOptional.isPresent()) {
+    if (userOptional.isPresent()) {
       UserModel user = userOptional.get();
-      user.removeExerciseToDo(exerciseToCorrect);
-      user.addExerciseDone(exerciseToCorrect);
+      user.removeExerciseToDo(exerciseToCorrect.getId());
+      user.addExerciseDone(exerciseToCorrect.getId());
       applicationUserRepository.save(user);
     }
   }
+
+  // TODO e' developer....
   public List<UserModel> getAllDevelopmentToEnable(String userId) {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
     List<UserModel> mydevelopment = null;
     if (user.isPresent()) {
-      if (user.get().getRole().equals(Role.ADMIN)) {
-      }
+      if (user.get().getRole().equals(Role.ADMIN)) {}
       mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
     }
     return mydevelopment;

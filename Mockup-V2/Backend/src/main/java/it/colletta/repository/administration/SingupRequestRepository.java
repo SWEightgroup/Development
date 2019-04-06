@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface SingupRequestRepository extends MongoRepository<SignupRequestModel, String> {
 
-    @Override
-    SignupRequestModel save(SignupRequestModel signUpRequest);
+  @Override
+  SignupRequestModel save(SignupRequestModel signUpRequest);
 }

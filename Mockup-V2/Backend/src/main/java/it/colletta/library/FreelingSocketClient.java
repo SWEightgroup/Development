@@ -19,7 +19,7 @@ public class FreelingSocketClient {
 
   /**
    * Creates a socket.
-   * 
+   *
    * @param host address.
    * @param port address.
    */
@@ -48,7 +48,7 @@ public class FreelingSocketClient {
 
   /**
    * WriteMessage.
-   * 
+   *
    * @param out out.
    * @param message message.
    * @param encoding encoding.
@@ -63,7 +63,7 @@ public class FreelingSocketClient {
 
   /**
    * readMessage.
-   * 
+   *
    * @param bufferEntrada bufferEntrada.
    * @return StringBuffer StringBufferì.
    * @throws IOException Exception.
@@ -87,7 +87,7 @@ public class FreelingSocketClient {
 
   /**
    * processSegment.
-   * 
+   *
    * @param text text.
    * @return String String.
    * @throws IOException Exception.
@@ -102,7 +102,7 @@ public class FreelingSocketClient {
 
   /**
    * Close the connection.
-   * 
+   *
    * @throws IOException Exception.
    */
   public void close() throws IOException {
@@ -111,7 +111,7 @@ public class FreelingSocketClient {
 
   /**
    * getReadyMSG.
-   * 
+   *
    * @return String String.
    */
   public String getReadyMsg() {

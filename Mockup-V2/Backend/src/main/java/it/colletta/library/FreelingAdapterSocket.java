@@ -1,8 +1,7 @@
 package it.colletta.library;
 
-import org.springframework.util.StringUtils;
-
 import java.io.IOException;
+import org.springframework.util.StringUtils;
 
 public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
@@ -10,7 +9,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   /**
    * Creates a socket.
-   * 
+   *
    * @param host address
    * @param port address
    */
@@ -24,7 +23,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   /**
    * get a sentence's correction
-   * 
+   *
    * @param sentence String.
    * @return correction String.
    */
@@ -49,11 +48,10 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
   /**
    * Close the connection.
-   * 
+   *
    * @throws IOException IOException.
    */
   public void closeConnection() throws IOException {
     socketClient.close();
   }
 }
-

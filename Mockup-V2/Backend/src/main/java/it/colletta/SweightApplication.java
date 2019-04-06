@@ -8,14 +8,17 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 @CrossOrigin
 @SpringBootApplication
 public class SweightApplication extends SpringBootServletInitializer {
   private static final Logger logger = LogManager.getLogger(SweightApplication.class);
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
   public static void main(String[] args) {
     SpringApplication.run(SweightApplication.class, args);
   }
