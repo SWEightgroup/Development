@@ -19,6 +19,16 @@ class SidebarElementAdministrator extends Component {
             {_translator('SidebarElementAdministrator_devs', language)}
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/users-management"
+            className="nav-link"
+            activeClassName="mm-active"
+          >
+            <i className="metismenu-icon pe-7s-users" />
+            {_translator('gen_adminUsers', language)}
+          </NavLink>
+        </li>
       </React.Fragment>
     );
   }

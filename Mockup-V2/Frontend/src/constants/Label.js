@@ -62,7 +62,10 @@ export const _label = {
     adminDevDashBoard_subtitle:
       'Accetta o rifiuta le richieste di iscrizione degli sviluppatori',
     adminDevDashBoard_noDevApprove: 'Nessun developer da approvare',
-    adminDevDashBoard_devToApprove: 'Sviluppatori da approvare'
+    adminDevDashBoard_noUser: 'Nessun utente trovato',
+    adminDevDashBoard_devToApprove: 'Sviluppatori da approvare',
+    gen_adminUsers: 'Utenti',
+    adminUserDashBoard_desc: 'Visualizza e elimina gli utenti'
   },
   en: {
     account_yourData: 'Your data',
@@ -121,6 +124,9 @@ export const _label = {
     adminDevDashBoard_subtitle:
       "Approve or deny developers' subscription requests",
     adminDevDashBoard_noDevApprove: 'No developer needs to be approved',
-    adminDevDashBoard_devToApprove: 'Developer to Approve'
+    adminDevDashBoard_devToApprove: 'Developer to Approve',
+    gen_adminUsers: 'Users',
+    adminUserDashBoard_desc: 'View and delete users',
+    adminDevDashBoard_noUser: 'No user found'
   }
 };

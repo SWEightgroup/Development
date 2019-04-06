@@ -19,6 +19,7 @@ import HomeworkExecution from './view/containers/ExerciseContainers/HomeworkExec
 import InsertExercise from './view/containers/ExerciseContainers/InsertExercise';
 import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperDashBoard';
 import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
+import AdminUserDashBoard from './view/containers/DashboardContainers/AdminUserDashBoard';
 import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
 
 class App extends Component {
@@ -139,10 +140,13 @@ class App extends Component {
                 />
                 <ProtectedRoute
                   path="/developers-management"
-                  isAllowed={
-                    auth.user /* && auth.user.role === 'ROLE_DEVELOPER' */
-                  }
+                  isAllowed={auth.user /* && auth.user.role === 'ROLE_ADMIN' */}
                   component={AdminDevDashBoard}
+                />
+                <ProtectedRoute
+                  path="/users-management"
+                  isAllowed={auth.user /* && auth.user.role === 'ROLE_ADMIN' */}
+                  component={AdminUserDashBoard}
                 />
                 <Route render={() => <Error language={language} />} />
               </Switch>
