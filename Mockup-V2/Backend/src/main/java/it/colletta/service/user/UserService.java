@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,11 +21,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-  @Autowired private UsersRepository applicationUserRepository;
+  @Autowired
+  private UsersRepository applicationUserRepository;
 
-  @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  public UserModel addUser(@org.jetbrains.annotations.NotNull UserModel user) {
+  public UserModel addUser(@NotNull UserModel user) {
     SignupRequestService signupRequestService = new SignupRequestService();
     final String encode = bCryptPasswordEncoder.encode(user.getPassword());
     user.setPassword(encode);
@@ -160,7 +163,8 @@ public class UserService {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
     List<UserModel> mydevelopment = null;
     if (user.isPresent()) {
-      if (user.get().getRole().equals(Role.ADMIN)) {}
+      if (user.get().getRole().equals(Role.ADMIN)) {
+      }
       mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
     }
     return mydevelopment;

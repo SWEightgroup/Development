@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailServiceImpl {
+
   private MailSender mailSender;
 
   private SimpleMailMessage message;

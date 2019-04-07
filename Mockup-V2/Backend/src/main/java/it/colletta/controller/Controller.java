@@ -30,15 +30,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-/** */
+/**
+ *
+ */
 @RestController
 public class Controller {
 
-  @Autowired UserService userService;
+  @Autowired
+  UserService userService;
 
-  @Autowired ExerciseService exerciseService;
+  @Autowired
+  ExerciseService exerciseService;
 
-  @Autowired @Lazy SolutionService solutionService;
+  @Autowired
+  @Lazy
+  SolutionService solutionService;
 
   // TODO: mettere @PreAuthorize e controllare ruolo admin
   @RequestMapping(
@@ -95,7 +101,7 @@ public class Controller {
   /**
    * @param token the JWT token from the header of the request
    * @return An Usermodel if the operation completed correctly otherwise return an unavailable
-   *     response
+   * response
    */
   @RequestMapping(
       value = "/users/get-info",
@@ -112,8 +118,7 @@ public class Controller {
   }
 
   /**
-   * @param
-   * @return
+   *
    */
   @CrossOrigin(origins = "*")
   @RequestMapping(
@@ -171,9 +176,9 @@ public class Controller {
   }
 
   /**
-   * @author Gionata Legrottaglie
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase
+   * @author Gionata Legrottaglie
    */
   @RequestMapping(
       value = "/exercises/student/insert-free-exercise",
@@ -235,8 +240,7 @@ public class Controller {
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(
       @RequestHeader("Authorization") String token) {
     try {
-      List<String> exercisesToDoId =
-          userService.findAllExerciseToDo(ParseJWT.getIdFromJwt(token));
+      List<String> exercisesToDoId = userService.findAllExerciseToDo(ParseJWT.getIdFromJwt(token));
       Iterable<ExerciseModel> exerciseToDo = exerciseService.getAllByIds(exercisesToDoId);
       return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
     } catch (Exception error) {
@@ -254,8 +258,7 @@ public class Controller {
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
-    List<String> exercisesDoneid =
-          userService.getAllExerciseDone(ParseJWT.getIdFromJwt(token));
+    List<String> exercisesDoneid = userService.getAllExerciseDone(ParseJWT.getIdFromJwt(token));
     Iterable<ExerciseModel> exercisesDone = exerciseService.getAllByIds(exercisesDoneid);
     return new ResponseEntity<>(exercisesDone, HttpStatus.OK);
   }

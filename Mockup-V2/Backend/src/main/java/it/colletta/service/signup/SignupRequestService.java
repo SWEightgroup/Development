@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class SignupRequestService {
 
-  @Autowired private SingupRequestRepository singupRequestRepository;
+  @Autowired
+  private SingupRequestRepository singupRequestRepository;
 
   public SignupRequestModel addSignUpRequest(@NonNull SignupRequestModel requestModel) {
     return singupRequestRepository.save(requestModel);

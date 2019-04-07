@@ -8,6 +8,7 @@ import java.util.List;
 // interface for custom query on phrases collections
 
 public interface PhraseCustomQueryInterface {
+
   List<PhraseModel> findAllByAuthor(String authorId);
 
   List<SolutionModel> findAllSolutionsByAuthor(String authorId);

@@ -76,9 +76,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   // 500
 
   @ExceptionHandler({
-    NullPointerException.class,
-    IllegalArgumentException.class,
-    IllegalStateException.class
+      NullPointerException.class,
+      IllegalArgumentException.class,
+      IllegalStateException.class
   })
   /*500*/ public ResponseEntity<Object> handleInternal(
       final RuntimeException ex, final WebRequest request) {

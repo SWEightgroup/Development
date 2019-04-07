@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PhraseService {
 
-  @Autowired private PhraseRepository phraseRepository;
+  @Autowired
+  private PhraseRepository phraseRepository;
 
   /**
    * returns all the phrased written by a userId

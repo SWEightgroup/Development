@@ -1,6 +1,5 @@
 package it.colletta.repository.user;
 
-import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
 import java.util.List;

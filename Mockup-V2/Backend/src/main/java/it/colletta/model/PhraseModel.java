@@ -15,12 +15,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document(collection = "phrases")
 public class PhraseModel {
-  @Id private String id;
+
+  @Id
+  private String id;
 
   @Indexed(unique = true)
   private String phraseText;
 
-  @Builder.Default private ArrayList<SolutionModel> solutions = new ArrayList<>();
+  @Builder.Default
+  private ArrayList<SolutionModel> solutions = new ArrayList<>();
   private String language;
   private Long datePhrase;
 

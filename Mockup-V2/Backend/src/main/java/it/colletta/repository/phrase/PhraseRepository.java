@@ -27,14 +27,12 @@ public interface PhraseRepository
   void deleteById(String phraseId);
 
   /**
-   * @param TODO
    * @return List<PhraseModel>
    */
   @Override
   List<PhraseModel> findAll();
 
   /**
-   * @param textToCompare
    * @return Long
    */
   @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}", count = true)
@@ -42,7 +40,6 @@ public interface PhraseRepository
   // WE CAN DO BETTER cit.
 
   /**
-   * @param ids
    * @return Optional<PhraseModel>
    */
   @Override
@@ -53,7 +50,6 @@ public interface PhraseRepository
   List<SolutionModel> findAllSolutionsByAuthor(String authorId);
 
   /**
-   * @param phraseTexr
    * @return Optional<PhraseModel>
    */
   @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")

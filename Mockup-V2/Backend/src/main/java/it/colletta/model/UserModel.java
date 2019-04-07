@@ -25,8 +25,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ToString
 @Document(collection = "users")
 public class UserModel implements UserDetails {
+
   private static final long serialVersionUID = 1L;
-  @Id private String id;
+  @Id
+  private String id;
 
   @JsonProperty("username")
   @Indexed(unique = true)
@@ -43,13 +45,16 @@ public class UserModel implements UserDetails {
   private Date dateOfBirth;
   private Integer currentGoal;
 
-  @Builder.Default private List<String> exercisesToDo = new ArrayList<>();
+  @Builder.Default
+  private List<String> exercisesToDo = new ArrayList<>();
 
-  @Builder.Default private List<String> exercisesDone = new ArrayList<>();
+  @Builder.Default
+  private List<String> exercisesDone = new ArrayList<>();
 
   private Boolean enabled;
 
-  @Builder.Default private ArrayList<String> favoriteTeacherIds = new ArrayList<>();
+  @Builder.Default
+  private ArrayList<String> favoriteTeacherIds = new ArrayList<>();
 
   public Boolean addExerciseToDo(String exerciseToAddId) {
     if (exercisesToDo == null) {

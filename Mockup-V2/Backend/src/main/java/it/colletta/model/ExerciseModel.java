@@ -14,7 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Document(collection = "exercises")
 public class ExerciseModel {
-  @Id @Builder.Default private String id = new ObjectId().toHexString();
+
+  @Id
+  @Builder.Default
+  private String id = new ObjectId().toHexString();
   private Long dateExercise;
   private String phraseId;
   private String phraseText;

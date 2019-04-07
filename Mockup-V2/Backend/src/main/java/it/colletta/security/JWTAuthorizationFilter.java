@@ -32,9 +32,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
    * @param HttpServletRequest TODO
    * @param HttpServletResponse TODO
    * @param FilterChain TODO
-   * @exception IOException TODO
-   * @exception ServletException TODO
    * @return nothing
+   * @throws IOException TODO
+   * @throws ServletException TODO
    */
   @Override
   protected void doFilterInternal(

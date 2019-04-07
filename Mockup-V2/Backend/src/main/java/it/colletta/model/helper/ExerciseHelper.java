@@ -11,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ExerciseHelper {
+
   private List<String> assignedUsersIds;
   private String phraseText;
   private String mainSolution;

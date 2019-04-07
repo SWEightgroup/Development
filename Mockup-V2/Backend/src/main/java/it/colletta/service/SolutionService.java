@@ -19,8 +19,6 @@ public class SolutionService {
   }
 
   /**
-   * @param correctionText
-   * @throws IOException
    * @return SolutionModel
    */
   public SolutionModel getAutomaticCorrection(String correctionText) throws IOException {

@@ -16,7 +16,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Document(collection = "classes")
 public class ClassModel {
-  @Id private String id;
+
+  @Id
+  private String id;
   private String name;
   private List<String> studentsId;
   private String teacher;

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClassRepository
-    extends MongoRepository<ClassModel, String>, ClassCustomQueryInterface {}
+    extends MongoRepository<ClassModel, String>, ClassCustomQueryInterface {
+
+}

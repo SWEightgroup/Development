@@ -14,7 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Document(collection = "singuprequests")
 public class SignupRequestModel {
-  @Id private String id;
+
+  @Id
+  private String id;
   private String token;
   private Date requestDate;
   private String userReference;

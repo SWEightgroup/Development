@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
+
   private MongoTemplate mongoTemplate;
 
   @Autowired

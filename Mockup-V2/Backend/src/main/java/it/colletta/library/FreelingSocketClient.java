@@ -5,8 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-/** A simple client to communicate with Freeling 3.1 server */
+/**
+ * A simple client to communicate with Freeling 3.1 server
+ */
 public class FreelingSocketClient {
+
   private static final String server_ready_msg = "FL-SERVER-READY";
   private static final String reset_stat_msg = "RESET_STATS";
   private static final String encoding = "UTF8";

@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
   private AuthenticationManager authenticationManager;
   private UsersRepository usersRepository;
 
@@ -37,7 +38,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   /**
    * @param req TODO
    * @param res TODO
-   * @exception AuthenticationException
    * @return Authentication TODO
    */
   @Override
@@ -57,9 +57,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    * @param req TODO
    * @param res TODO
    * @param auth TODO
-   * @exception IOException TODO
-   * @exception ServletException TODO
    * @return nothing
+   * @throws IOException TODO
+   * @throws ServletException TODO
    */
   @Override
   protected void successfulAuthentication(
