@@ -125,7 +125,7 @@ class InsertExercise extends Component {
 
     const { language } = user;
     return (
-      <div className="app-main__inner full-height-mobile">
+      <React.Fragment>
         <InputSentence
           prepareExercise={this.prepareExercise}
           changeNewInputSentence={changeNewInputSentenceDispatch}
@@ -227,7 +227,7 @@ class InsertExercise extends Component {
             </div>
           </div>
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

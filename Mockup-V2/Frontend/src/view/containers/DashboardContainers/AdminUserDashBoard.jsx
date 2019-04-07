@@ -32,7 +32,7 @@ class AdminDevDashBoard extends Component {
         : _translator('adminDevDashBoard_noUser', language);
 
     return (
-      <div className="app-main__inner full-height-mobile">
+      <React.Fragment>
         <div className="row justify-content-center">
           <div className="py-5 text-center">
             <h2>{_translator('gen_adminUsers', language)}</h2>
@@ -58,7 +58,7 @@ class AdminDevDashBoard extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

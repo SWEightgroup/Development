@@ -46,87 +46,85 @@ class Account extends Component {
     const { username, firstName, lastName, language, dateOfBirth } = userdata;
 
     return (
-      <div className="app-main__inner full-height-mobile">
-        <div className="row justify-content-center">
-          <div className="col-md-11">
-            <div className="card">
-              <h5 className="card-header">
-                {_translator('account_yourData', language)}
-              </h5>
-              <div className="card-body">
-                <form onSubmit={this.handleSubmit}>
-                  <label htmlFor="firstName">
-                    {_translator('gen_firstName', language)}
+      <div className="row justify-content-center">
+        <div className="col-md-11">
+          <div className="card">
+            <h5 className="card-header">
+              {_translator('account_yourData', language)}
+            </h5>
+            <div className="card-body">
+              <form onSubmit={this.handleSubmit}>
+                <label htmlFor="firstName">
+                  {_translator('gen_firstName', language)}
+                </label>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="firstName"
+                    defaultValue={firstName}
+                  />
+                </div>
+                <label htmlFor="lastName">
+                  {_translator('gen_lastName', language)}
+                </label>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lastName"
+                    defaultValue={lastName}
+                  />
+                </div>
+                <label htmlFor="username">
+                  {_translator('gen_email', language)}
+                </label>
+                <div className="input-group mb-3">
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="username"
+                    defaultValue={username}
+                  />
+                </div>
+                <div className="position-relative form-group">
+                  <label htmlFor="dateOfBirth">
+                    {_translator('gen_birthDate', language)}
                   </label>
-                  <div className="input-group mb-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      defaultValue={firstName}
-                    />
-                  </div>
-                  <label htmlFor="lastName">
-                    {_translator('gen_lastName', language)}
+                  <input
+                    name="dateOfBirth"
+                    id="dateOfBirth"
+                    placeholder={_translator('gen_birthDate', language)}
+                    type="date"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    defaultValue={new Date(dateOfBirth)
+                      .toISOString()
+                      .substr(0, 10)}
+                  />
+                </div>
+                <div className="position-relative form-group">
+                  <label htmlFor="language">
+                    {_translator('gen_language', language)}
                   </label>
-                  <div className="input-group mb-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      defaultValue={lastName}
-                    />
-                  </div>
-                  <label htmlFor="username">
-                    {_translator('gen_email', language)}
-                  </label>
-                  <div className="input-group mb-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="username"
-                      defaultValue={username}
-                    />
-                  </div>
-                  <div className="position-relative form-group">
-                    <label htmlFor="dateOfBirth">
-                      {_translator('gen_birthDate', language)}
-                    </label>
-                    <input
-                      name="dateOfBirth"
-                      id="dateOfBirth"
-                      placeholder={_translator('gen_birthDate', language)}
-                      type="date"
-                      className="form-control"
-                      onChange={this.handleChange}
-                      defaultValue={new Date(dateOfBirth)
-                        .toISOString()
-                        .substr(0, 10)}
-                    />
-                  </div>
-                  <div className="position-relative form-group">
-                    <label htmlFor="language">
-                      {_translator('gen_language', language)}
-                    </label>
-                    <select
-                      defaultValue={language}
-                      className="form-control"
-                      name="language"
-                      id="language"
-                      onChange={this.handleChange}
-                    >
-                      {ExLang.map(lang => (
-                        <option value={lang} key={`ALang_${lang}`}>
-                          {_translator(`gen_${lang}`, language)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <button type="submit" className="mt-2 btn btn-primary">
-                    {_translator('gen_modify', language)}
-                  </button>
-                </form>
-              </div>
+                  <select
+                    defaultValue={language}
+                    className="form-control"
+                    name="language"
+                    id="language"
+                    onChange={this.handleChange}
+                  >
+                    {ExLang.map(lang => (
+                      <option value={lang} key={`ALang_${lang}`}>
+                        {_translator(`gen_${lang}`, language)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button type="submit" className="mt-2 btn btn-primary">
+                  {_translator('gen_modify', language)}
+                </button>
+              </form>
             </div>
           </div>
         </div>

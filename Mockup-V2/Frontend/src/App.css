@@ -30,7 +30,7 @@
 /*-----------------------------spinner -------------------------------*/
 /* Absolute Center Spinner */
 .loading {
-  position: fixed;
+  position: absolute;
   z-index: 999;
   height: 2em;
   width: 2em;
@@ -40,6 +40,10 @@
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+.relative {
+  position: relative !important;
 }
 
 /* Transparent Overlay */

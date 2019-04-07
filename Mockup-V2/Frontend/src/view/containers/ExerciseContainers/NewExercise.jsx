@@ -111,7 +111,7 @@ class NewExsercise extends Component {
     const { language } = user;
 
     return (
-      <div className="app-main__inner full-height-mobile">
+      <React.Fragment>
         <div className="row justify-content-center">
           <div className="col-12 col-md-10">
             <InputSentence
@@ -148,7 +148,7 @@ class NewExsercise extends Component {
             )}
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

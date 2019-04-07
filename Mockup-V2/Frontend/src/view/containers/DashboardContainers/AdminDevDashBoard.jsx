@@ -19,7 +19,7 @@ class AdminDevDashBoard extends Component {
       devList.length > 0
         ? devList.map(dev => (
             <DeveloperToAccept
-              key={`dev-${  dev.username}`}
+              key={`dev-${dev.username}`}
               firstName={dev.firstName}
               lastName={dev.lastName}
               username={dev.username}
@@ -32,7 +32,7 @@ class AdminDevDashBoard extends Component {
         : _translator('adminDevDashBoard_noDevApprove', language);
 
     return (
-      <div className="app-main__inner full-height-mobile">
+      <React.Fragment>
         <div className="row justify-content-center">
           <div className="py-5 text-center">
             <h2>{_translator('SidebarElementAdministrator_devs', language)}</h2>
@@ -58,7 +58,7 @@ class AdminDevDashBoard extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
