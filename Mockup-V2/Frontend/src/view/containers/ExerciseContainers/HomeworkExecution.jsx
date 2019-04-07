@@ -14,12 +14,13 @@ import {
 class HomeworkExercise extends Component {
   constructor(props) {
     super(props);
-    if (this.props.newExercise.sentenceString === '')
-      this.props.history.push('homework');
+    if (props.newExercise.sentenceString === '') props.history.push('homework');
   }
 
   componentWillUnmount() {
-    this.props.initializeNewExercise();
+    const { initializeNewExerciseDispatch } = this.props;
+    console.log('inizializzo stato newExercise');
+    initializeNewExerciseDispatch();
   }
 
   /**
@@ -54,10 +55,9 @@ class HomeworkExercise extends Component {
 
   render() {
     const { newExercise, auth } = this.props;
-    console.log(': HomeworkExercise -> render -> newExercise', newExercise);
     const { user } = auth;
 
-    const { response, showSolution, createAt } = newExercise;
+    const { response, showSolution, createAt, mark } = newExercise;
 
     const { language } = user;
 
@@ -70,10 +70,15 @@ class HomeworkExercise extends Component {
       <div className="app-main__inner full-height-mobile">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10">
-            <div className="card">
+            <div className="main-card mb-3 card">
               <div className="card-body">
-                <h5 className="card-title">Esercizio da svolgere</h5>
-                <p className="card-text">{newExercise.sentenceString}</p>
+                <div className="row">
+                  <div className="col-12">
+                    <h5 className="card-title">Esercizio da svolgere</h5>
+                    <p className="card-text">{newExercise.sentenceString}</p>
+                    {mark && <h1 className="pull-right">{mark}</h1>}
+                  </div>
+                </div>
               </div>
             </div>
             <ExecutionExercise
@@ -85,6 +90,7 @@ class HomeworkExercise extends Component {
               language={language}
               showButton
             />
+
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
                 <div className="card-body">
@@ -120,7 +126,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    initializeNewExercise: () => dispatch(initializeNewExercise()),
+    initializeNewExerciseDispatch: () => dispatch(initializeNewExercise()),
     updateNewExerciseStateDispatch: newExercise =>
       dispatch(updateNewExerciseState(newExercise)),
     saveSolutionDispatch: newExercise => dispatch(saveSolution(newExercise)),

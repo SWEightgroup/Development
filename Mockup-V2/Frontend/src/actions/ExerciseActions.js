@@ -93,7 +93,7 @@ export const saveFreeExercise = newExercise => {
 };
 
 export const saveSolution = newExercise => {
-  console.log('TCL: newExercise', newExercise);
+  console.log(': newExercise', newExercise);
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
@@ -111,8 +111,37 @@ export const saveSolution = newExercise => {
         }
       )
       .then(res => {
-        console.log(': res', res);
-        dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
+        const { exercise } = store.getState();
+        const { doneExercises, todoExercises } = exercise;
+        const { solutionText, mark, reliability } = res.data;
+        const objSolution = JSON.parse(solutionText);
+        console.log('aaaaaaaaaaaaaaaaaa', {
+          response: objSolution.map(item => {
+            return { tag: item };
+          }),
+          mark,
+          reliability
+        });
+        const indexNewExercise = todoExercises.findIndex(
+          element => element.id === newExercise.id
+        );
+        console.log(': indexNewExercise', indexNewExercise);
+        /* if (indexNewExercise > -1) {
+          todoExercises.splice(indexNewExercise, 1);
+          doneExercises.push(res.data);
+
+          // dispatch({ type: 'LOAD_TODO_SUCCESS', todo: todoExercises });
+        } */
+        dispatch({
+          type: 'SAVE_EXERCISE_SUCCESS',
+          newExercise: {
+            response: objSolution.map(item => {
+              return { tag: item };
+            }),
+            mark,
+            reliability
+          }
+        });
       })
       .catch(() => dispatch({ type: 'pippo' }));
   };

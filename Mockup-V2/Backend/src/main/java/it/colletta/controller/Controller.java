@@ -235,9 +235,9 @@ public class Controller {
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(
       @RequestHeader("Authorization") String token) {
     try {
-      List<String> exerciseToDoReference =
+      List<String> exercisesToDoId =
           userService.findAllExerciseToDo(ParseJWT.getIdFromJwt(token));
-      Iterable<ExerciseModel> exerciseToDo = exerciseService.getAllByIds(exerciseToDoReference);
+      Iterable<ExerciseModel> exerciseToDo = exerciseService.getAllByIds(exercisesToDoId);
       return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
     } catch (Exception error) {
       error.printStackTrace();
@@ -254,8 +254,10 @@ public class Controller {
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
-    return new ResponseEntity<>(
-        userService.getAllExerciseDone(ParseJWT.getIdFromJwt(token)), HttpStatus.OK);
+    List<String> exercisesDoneid =
+          userService.getAllExerciseDone(ParseJWT.getIdFromJwt(token));
+    Iterable<ExerciseModel> exercisesDone = exerciseService.getAllByIds(exercisesDoneid);
+    return new ResponseEntity<>(exercisesDone, HttpStatus.OK);
   }
 
   @RequestMapping(

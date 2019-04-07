@@ -9,7 +9,7 @@ class ExecutionExercise extends Component {
   };
 
   render() {
-    //const allowedPunctuation = /[a-zA-Z]/g;
+    // const allowedPunctuation = /[a-zA-Z]/g;
     // const allowedPunctuation2 = /[,.?!"'<-{}[]()%\/>;:]/g;
     const { props } = this;
     const {
@@ -25,36 +25,32 @@ class ExecutionExercise extends Component {
 
     if (sentence && sentence.length) {
       return (
-        <div className="row">
-          <div className="col-12">
-            <div className="main-card mb-3 card">
-              <div className="card-body">
-                <h5 className="card-title">
-                  {_translator('executionExercise_completeExercise', language)}
-                </h5>
-                <ul className="list-group">
-                  {filterWord &&
-                    filterWord.map((item, index) => {
-                      return (
-                        <Word
-                          key={`${index + item + createAt}word`}
-                          parola={item}
-                          gerarchy={gerarchia}
-                          index={index}
-                          solutionTag={
-                            props.response && props.response.length
-                              ? this.extractTag(props.response, index)
-                              : null
-                          }
-                          showSolution={showSolution}
-                          showButton={showButton}
-                          initSolution={initSolution}
-                        />
-                      );
-                    })}
-                </ul>
-              </div>
-            </div>
+        <div className="main-card mb-3 card">
+          <div className="card-body">
+            <h5 className="card-title">
+              {_translator('executionExercise_completeExercise', language)}
+            </h5>
+            <ul className="list-group">
+              {filterWord &&
+                filterWord.map((item, index) => {
+                  return (
+                    <Word
+                      key={`${index + item + createAt}word`}
+                      parola={item}
+                      gerarchy={gerarchia}
+                      index={index}
+                      solutionTag={
+                        props.response && props.response.length
+                          ? this.extractTag(props.response, index)
+                          : null
+                      }
+                      showSolution={showSolution}
+                      showButton={showButton}
+                      initSolution={initSolution}
+                    />
+                  );
+                })}
+            </ul>
           </div>
         </div>
       );

@@ -30,11 +30,17 @@ class SolutionMapper {
   }
 
   getVerboseSolution() {
-    return this.translation.map(element => element.full).join(' ');
+    return this.translation
+      .map(element => {
+        return element ? element.full : '';
+      }) // ------------------------------------------------------------ DA CONTROLLARE
+      .join(' ');
   }
 
   getCodeSolution() {
-    return this.translation.map(element => element.short).join('');
+    return this.translation
+      .map(element => (element ? element.short : '')) // ------------------------------------------------------------ DA CONTROLLARE
+      .join('');
   }
 }
 

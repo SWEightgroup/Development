@@ -29,7 +29,6 @@ export const signIn = credentials => {
         password: credentials.password
       })
       .then(res => {
-        console.log(': res', res);
         if (res) {
           localStorage.setItem(
             'token',

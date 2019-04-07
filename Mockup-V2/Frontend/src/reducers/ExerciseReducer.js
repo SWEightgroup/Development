@@ -67,6 +67,7 @@ const ExerciseReducer = (state = initState, action) => {
       return {
         // ...state,
         newExercise: {
+          ...state.newExercise,
           ...action.newExercise,
           showSolution: true
         },
@@ -87,7 +88,7 @@ const ExerciseReducer = (state = initState, action) => {
         innerLoader: false
       };
     default:
-      //  console.error('REDUCER ERRATO', state, action);
+      // console.error('REDUCER ERRATO', state, action);
       return { ...state, innerLoader: false };
   }
 };

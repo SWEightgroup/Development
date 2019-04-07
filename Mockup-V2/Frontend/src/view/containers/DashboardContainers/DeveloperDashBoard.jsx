@@ -28,13 +28,13 @@ class DeveloperDashboard extends Component {
               </h5>
               <div className="card-body">
                 <p>{_translator('developerDashBoard_devDownText', language)}</p>
-                <a
-                  href="#"
+                <button
+                  type="button"
                   onClick={this.downloadData}
                   className="btn btn-primary"
                 >
                   {_translator('developerDashBoard_devDown', language)}
-                </a>
+                </button>
               </div>
             </div>
           </div>

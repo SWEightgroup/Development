@@ -10,22 +10,19 @@ import {
 class Homework extends Component {
   constructor(props) {
     super(props);
-    const { todoExercises } = props;
-    if (!todoExercises) props.loadTodoExercisesDispatch();
+    const { todoExercises, initializeNewExerciseDispatch } = props;
+    // if (!todoExercises)
+    props.loadTodoExercisesDispatch();
+    initializeNewExerciseDispatch();
   }
 
   state = {};
 
-  selectExercise = (phrase, solution, id) => {
+  selectExercise = (phrase, id) => {
     const { updateNewExerciseStateDispatch, newExercise } = this.props;
-    const objSolution = JSON.parse(solution);
-    console.log('-----', newExercise);
     updateNewExerciseStateDispatch({
       ...newExercise,
       sentenceString: phrase,
-      response: objSolution.map(item => {
-        return { tag: item };
-      }),
       id
     });
     this.props.history.push('homework-execution');
@@ -47,7 +44,7 @@ class Homework extends Component {
                   creationDate={exercise.dateExercise}
                   executionDate={null}
                   phrase={exercise.phraseText}
-                  solution={""}
+                  solution=""
                   mark={null}
                   isMark={false}
                   selectExercise={this.selectExercise}

@@ -6,13 +6,14 @@ import { loadDoneExercises } from '../../../actions/ExerciseActions';
 class DoneHomework extends Component {
   constructor(props) {
     super(props);
-    props.loadDoneExercisesDispatch();
+    const { doneExercises, loadDoneExercisesDispatch } = props;
+    // if (!doneExercises)
+    loadDoneExercisesDispatch();
   }
 
   state = {};
 
   render() {
-    console.log('QUESTE SONO LE PROPS', this.props);
     const { doneExercises } = this.props;
     const areThereExerciseDone = doneExercises && doneExercises.length > 0;
     return (
@@ -20,19 +21,22 @@ class DoneHomework extends Component {
         <div className="row justify-content-center">
           <div className="col-12 col-xs-10 col-md-8 col-xl-6 ">
             {areThereExerciseDone &&
-              doneExercises.map(exercise => (
-                <ExercisePreview
-                  key={`ex${exercise.id}`}
-                  author={exercise.authorName}
-                  creationDate={exercise.dateExercise}
-                  executionDate={null}
-                  phrase={exercise.phraseText}
-                  solution=""
-                  mark={null}
-                  isMark
-                  selectExercise={this.selectExercise}
-                />
-              ))}
+              doneExercises.map(exercise => {
+                console.log(exercise);
+                return (
+                  <ExercisePreview
+                    key={`ex${exercise.id}`}
+                    author={exercise.authorName}
+                    creationDate={exercise.dateExercise}
+                    executionDate={null}
+                    phrase={exercise.phraseText}
+                    solution=""
+                    mark={null}
+                    isMark
+                    selectExercise={this.selectExercise}
+                  />
+                );
+              })}
           </div>
         </div>
       </div>

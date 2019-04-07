@@ -162,7 +162,8 @@ const gerarchia = {
           { short: 'S', full: 'person' },
           { short: 'G', full: 'location' },
           { short: 'O', full: 'oranization' },
-          { short: 'V', full: 'other' }
+          { short: 'V', full: 'other' },
+          { short: '0', full: 'none' }
         ],
         condition: null
       },
@@ -175,7 +176,8 @@ const gerarchia = {
         attrName: 'degree',
         choices: [
           { short: 'A', full: 'augmentative' },
-          { short: 'D', full: 'diminutive' }
+          { short: 'D', full: 'diminutive' },
+          { short: '0', full: 'none' }
         ],
         condition: null
       }
@@ -239,7 +241,8 @@ const gerarchia = {
           { short: 'F', full: 'feminile' },
           { short: 'M', full: 'masculine' },
           { short: 'C', full: 'common' },
-          { short: 'N', full: 'neuter' }
+          { short: 'N', full: 'neuter' },
+          { short: '0', full: 'none' }
         ],
         condition: null
       }

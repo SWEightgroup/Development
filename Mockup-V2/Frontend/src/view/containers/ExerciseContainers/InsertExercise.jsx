@@ -84,8 +84,7 @@ class InsertExercise extends Component {
   getSolution = newExercise => {
     const {
       initNewExerciseStateDispatch,
-      getAutomaticSolutionDispatch,
-
+      getAutomaticSolutionDispatch
     } = this.props;
 
     this.props.innerLoaderOn();
@@ -125,79 +124,109 @@ class InsertExercise extends Component {
     } = newExercise;
 
     const { language } = user;
-    console.log(studentList);
     return (
       <div className="app-main__inner full-height-mobile">
-        <div className="row justify-content-center">
-          <div className="col-12 col-md-10">
-            <InputSentence
-              prepareExercise={this.prepareExercise}
-              changeNewInputSentence={changeNewInputSentenceDispatch}
-              sentenceString={sentenceString}
-              language={language}
-            />
-            {response && (
-              <ExecutionExercise
-                sentence={sentence} // array di parole
-                response={response}
-                showSolution={showSolution}
-                createAt={createAt}
-                salvaEsercizio={this.salvaEsercizio}
-                language={language}
-                initSolution
-                showButton={showButton}
-              />
-            )}
-            {response && studentList && studentList.length > 0 && (
-              <div className="main-card mb-3 card ">
+        <InputSentence
+          prepareExercise={this.prepareExercise}
+          changeNewInputSentence={changeNewInputSentenceDispatch}
+          sentenceString={sentenceString}
+          language={language}
+        />
+        {response && (
+          <ExecutionExercise
+            sentence={sentence} // array di parole
+            response={response}
+            showSolution={showSolution}
+            createAt={createAt}
+            salvaEsercizio={this.salvaEsercizio}
+            language={language}
+            initSolution
+            showButton={showButton}
+          />
+        )}
+
+        {response && studentList && studentList.length > 0 && (
+          <div className="row">
+            <div className="col-md-12 ">
+              <div className="mb-3 card">
+                <div className="card-header-tab card-header-tab-animation card-header">
+                  <div className="card-header-title">
+                    <i className="header-icon lnr-apartment icon-gradient bg-love-kiss" />
+                    Vuoi assegnarlo a qualcuno in particolare?
+                  </div>
+                </div>
                 <div className="card-body">
-                  <div className="row">
-                    <div className="col-12 col-sm-12 py-0 px-0">
-                      <ul className="list-group">
-                        {studentList.map(student => (
-                          <li
-                            className="list-group-item"
-                            key={student.username}
-                          >
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                value={student.username}
-                                id={student.username}
-                                onChange={this.handleChange}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={student.username}
-                              >
-                                {student.lastName} {student.firstName}
-                              </label>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
+                  <div className="tab-content">
+                    <div className="tab-pane fade show active">
+                      <h6 className="text-muted text-uppercase font-size-md opacity-5 font-weight-normal">
+                        Studenti disponibili
+                      </h6>
+                      <div className="scroll-area-sm">
+                        <div className="scrollbar-container">
+                          <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
+                            {studentList.map(student => (
+                              <li className="list-group-item">
+                                <div className="widget-content p-0">
+                                  <div className="widget-content-wrapper">
+                                    <div className="widget-content-left mr-3">
+                                      <input
+                                        type="checkbox"
+                                        value={student.username}
+                                        id={student.username}
+                                        onChange={this.handleChange}
+                                      />
+                                    </div>
+
+                                    <div className="widget-content-left">
+                                      <label htmlFor={student.username}>
+                                        <div className="widget-heading">
+                                          {student.lastName} {student.firstName}
+                                        </div>
+                                        <div className="widget-subheading">
+                                          {student.username}
+                                        </div>
+                                      </label>
+                                    </div>
+
+                                    <div className="widget-content-right">
+                                      <div className="font-size-xlg text-muted">
+                                        <small className="opacity-5 pr-1">
+                                          $
+                                        </small>
+                                        <span>129</span>
+                                        <small className="text-danger pl-2">
+                                          <i className="fa fa-angle-down" />
+                                        </small>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            )}
-            {response && (
-              <div className="row  ">
-                <div className="col-sm-6 offset-sm-5 py-0 px-2 ">
-                  <button
-                    type="button"
-                    className="btn btn-success btn-lg btn-block"
-                    onClick={this.checkSolution}
-                    disabled={showSolution}
-                  >
-                    {_translator('executionExercise_complete', language)}
-                  </button>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
+        {response && (
+          <div className="main-card mb-3 card no-bg-color ">
+            <div className="card-body">
+              <button
+                type="button"
+                className="btn btn-success btn-lg btn-block"
+                onClick={this.checkSolution}
+                disabled={showSolution}
+              >
+                {_translator('executionExercise_complete', language)}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -229,7 +258,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getAutomaticSolution(sentenceString)),
     getAllStudentsDispatch: () => dispatch(getAllStudents()),
     updateStudentListDispatch: studentList =>
-      dispatch(updateStudentList(studentList)),
+      dispatch(updateStudentList(studentList))
   };
 };
 

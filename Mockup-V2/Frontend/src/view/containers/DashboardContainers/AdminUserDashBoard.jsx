@@ -19,7 +19,7 @@ class AdminDevDashBoard extends Component {
       usersList.length > 0
         ? usersList.map(dev => (
             <DeveloperToAccept
-              key={'dev-' + dev.username}
+              key={`dev-${dev.username}`}
               firstName={dev.firstName}
               lastName={dev.lastName}
               username={dev.username}
@@ -48,13 +48,13 @@ class AdminDevDashBoard extends Component {
                 {_translator('gen_adminUsers', language)}
               </h5>
               <ul className="list-group">{devRender}</ul>
-              <a
-                href="#"
+              <button
+                type="button"
                 onClick={() => fetchUsersList()}
                 className="btn btn-primary mt-2"
               >
                 {_translator('developerDashBoard_devDown', language)}
-              </a>
+              </button>
             </div>
           </div>
         </div>

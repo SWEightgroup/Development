@@ -10,6 +10,7 @@ import SignUp from './view/containers/AuthContainers/SignUp';
 import SignIn from './view/containers/AuthContainers/SignIn';
 import Error from './view/components/Error';
 import { initializeAuth, loaderOn } from './actions/AuthActions';
+import { initializeNewExercise } from './actions/ExerciseActions';
 
 import './App.css';
 import NewExercise from './view/containers/ExerciseContainers/NewExercise';
@@ -27,8 +28,15 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.props.loaderOn();
-    this.props.initializeAuth(this.props.auth.token);
+    const {
+      initializeNewExerciseDispatch,
+      loaderOnDispatch,
+      initializeAuthDispatch,
+      auth
+    } = this.props;
+    loaderOnDispatch();
+    initializeAuthDispatch(auth.token);
+    initializeNewExerciseDispatch();
   }
 
   render() {
@@ -171,8 +179,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    loaderOn: () => dispatch(loaderOn()),
-    initializeAuth: token => dispatch(initializeAuth(token))
+    loaderOnDispatch: () => dispatch(loaderOn()),
+    initializeAuthDispatch: token => dispatch(initializeAuth(token)),
+    initializeNewExerciseDispatch: () => dispatch(initializeNewExercise())
   };
 };
 
