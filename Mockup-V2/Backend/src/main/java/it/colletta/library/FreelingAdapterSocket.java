@@ -1,7 +1,8 @@
 package it.colletta.library;
 
-import java.io.IOException;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
 
 public class FreelingAdapterSocket implements FreelingAdapterInterface {
 

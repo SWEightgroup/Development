@@ -1,7 +1,9 @@
 package it.colletta.repository.exercise;
 
 import com.mongodb.client.result.UpdateResult;
+
 import it.colletta.model.ExerciseModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,6 +14,10 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   private MongoTemplate mongoTemplate;
 
+  /**
+   * 
+   * @param mongoTemplate
+   */
   @Autowired
   public ExerciseRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;

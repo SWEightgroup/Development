@@ -3,8 +3,10 @@ package it.colletta.security;
 import static it.colletta.security.SecurityConstants.SIGN_UP_URL;
 
 import com.google.common.collect.ImmutableList;
+
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.user.UserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -26,6 +28,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   private UserDetailsServiceImpl userDetailsService;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  /**
+   * 
+   * @param userDetailsService
+   * @param bCryptPasswordEncoder
+   */
   public WebSecurity(
       UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userDetailsService = userDetailsService;
@@ -66,6 +73,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
   /**
    * Define the registerCorsConfiguration
+   */
+  
+  /**
+   * 
+   * @return
    */
   @Bean
   CorsConfigurationSource corsConfigurationSource() {

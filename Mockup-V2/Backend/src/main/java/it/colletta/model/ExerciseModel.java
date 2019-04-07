@@ -1,12 +1,13 @@
 package it.colletta.model;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @AllArgsConstructor
@@ -28,6 +29,9 @@ public class ExerciseModel {
   private String authorId;
   private Boolean visibility;
 
+  /**
+   * Constructor.
+   */
   public ExerciseModel() {
     id = new ObjectId().toHexString();
     dateExercise = System.currentTimeMillis();

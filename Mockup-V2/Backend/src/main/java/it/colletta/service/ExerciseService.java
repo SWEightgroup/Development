@@ -8,14 +8,16 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExerciseService {
@@ -29,11 +31,21 @@ public class ExerciseService {
   @Autowired
   private UserService userService;
 
+  /**
+   * 
+   * @param id
+   * @return
+   */
   public Optional<ExerciseModel> findById(String id) {
     return exerciseRepository.findById(id);
     // controllo su id, in caso exception
   }
 
+  /**
+   * 
+   * @param newUserData
+   * @param token
+   */
   public void modifyExerciseAuthorName(UserModel newUserData, String token) {
     UserModel oldUser = userService.findByEmail(newUserData.getUsername());
     Optional<String> firstName = Optional.ofNullable(newUserData.getFirstName());

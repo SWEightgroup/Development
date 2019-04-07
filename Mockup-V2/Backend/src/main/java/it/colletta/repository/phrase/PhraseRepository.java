@@ -2,11 +2,13 @@ package it.colletta.repository.phrase;
 
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
-import java.util.List;
-import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PhraseRepository
@@ -45,16 +47,29 @@ public interface PhraseRepository
   @Override
   Iterable<PhraseModel> findAllById(Iterable<String> ids);
 
+  /**
+   * @paramauthorId
+   */
   List<PhraseModel> findAllByAuthor(String authorId);
 
+  /**
+   * @paramauthorId
+   */
   List<SolutionModel> findAllSolutionsByAuthor(String authorId);
 
   /**
-   * @return Optional<PhraseModel>
+   * 
+   * @param textToCompare
+   * @return  Optional<PhraseModel>
    */
   @Query(value = "{'phraseText': {$regex: ?0, $options: 'i'}}")
   Optional<PhraseModel> getPhraseWithText(String textToCompare);
 
+  /**
+   * 
+   * @param solutionIId
+   * @return
+   */
   @Query("{'phrases.solutions._id' : ?0} , {solutions: 1, id:0}")
   List<SolutionModel> getSolution(String solutionIId);
   // @Query(value = "{'id': { '$in' : 'ids':?#{[0]}}}")

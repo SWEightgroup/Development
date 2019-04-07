@@ -1,14 +1,16 @@
 package it.colletta.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /*
  * This class is used to manage the signup request from user
  * */
 
 import java.util.Date;
+
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @Getter

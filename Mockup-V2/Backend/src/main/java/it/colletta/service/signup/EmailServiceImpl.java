@@ -2,6 +2,7 @@ package it.colletta.service.signup;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
+
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
@@ -13,14 +14,26 @@ public class EmailServiceImpl {
 
   private SimpleMailMessage message;
 
+  /**
+   * 
+   * @param mailSender
+   */
   public void setMailSender(MailSender mailSender) {
     this.mailSender = mailSender;
   }
 
+  /**
+   * 
+   * @param templateMessage
+   */
   public void setTemplateMessage(SimpleMailMessage templateMessage) {
     this.message = templateMessage;
   }
 
+  /**
+   * 
+   * @param user
+   */
   public void activateUserMail(UserModel user) {
     SimpleMailMessage email = new SimpleMailMessage(this.message);
     email.setTo(user.getUsername());

@@ -1,6 +1,7 @@
 package it.colletta.model.helper;
 
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -7,16 +7,19 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import java.security.acl.NotOwnerException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -27,6 +30,11 @@ public class UserService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  /**
+   * 
+   * @param user
+   * @return
+   */
   public UserModel addUser(@NotNull UserModel user) {
     SignupRequestService signupRequestService = new SignupRequestService();
     final String encode = bCryptPasswordEncoder.encode(user.getPassword());

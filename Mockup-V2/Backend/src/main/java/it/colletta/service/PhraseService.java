@@ -3,12 +3,15 @@ package it.colletta.service;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
@@ -26,6 +29,11 @@ public class PhraseService {
     return phraseRepository.findAllByAuthor(userId);
   }
 
+  /**
+   * 
+   * @param phraseModel
+   * @return
+   */
   public PhraseModel insertPhrase(PhraseModel phraseModel) {
     Optional<PhraseModel> phraseOptional =
         phraseRepository.getPhraseWithText(phraseModel.getPhraseText());
@@ -39,23 +47,48 @@ public class PhraseService {
     }
   }
 
+  /**
+   * 
+   * @param authorId
+   * @return
+   */
   public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
     return phraseRepository.findAllSolutionsByAuthor(authorId);
   }
 
+  /**
+   * 
+   * @param phraseIds
+   * @return
+   */
   public List<PhraseModel> getAllPhrasesById(List<String> phraseIds) {
     // return phraseRepository.findAllPhrasesByIds(phraseIds);
     return null;
   }
 
+  /**
+   * 
+   * @param phraseId
+   * @return
+   */
   public Optional<PhraseModel> getPhraseById(String phraseId) {
     return phraseRepository.findById(phraseId);
   }
 
+  /**
+   * 
+   * @param mainSolution
+   */
   public void increaseReliability(SolutionModel mainSolution) {
     phraseRepository.increaseReliability(mainSolution);
   }
 
+  /**
+   * 
+   * @param phraseId
+   * @param solutionId
+   * @return
+   */
   public SolutionModel getSolutionInPhrase(String phraseId, String solutionId) {
     return phraseRepository.getSolution(phraseId, solutionId);
   }

@@ -23,6 +23,11 @@ public class ParseJWT {
     }
   }
 
+  /**
+   * 
+   * @param jwt
+   * @return
+   */
   public static String getIdFromJwt(String jwt) {
     jwt = jwt.replace("Bearer", "");
     try {

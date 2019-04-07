@@ -4,9 +4,10 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.matc
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
 import com.mongodb.client.result.UpdateResult;
+
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
-import java.util.List;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,16 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.List;
+
 public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
   private MongoTemplate mongoTemplate;
 
+  /**
+   * 
+   * @param mongoTemplate
+   */
   @Autowired
   public PhraseRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;

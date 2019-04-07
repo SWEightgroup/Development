@@ -3,8 +3,10 @@ package it.colletta.service;
 import it.colletta.library.FreelingAdapterInterface;
 import it.colletta.library.FreelingAdapterSocket;
 import it.colletta.model.SolutionModel;
-import java.io.IOException;
+
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class SolutionService {

@@ -8,6 +8,10 @@ public class ClassRepositoryImpl implements ClassCustomQueryInterface {
   MongoTemplate mongoTemplate;
 
   @Autowired
+  /**
+   * 
+   * @param mongoTemplate
+   */
   public ClassRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
   }
