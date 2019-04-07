@@ -11,7 +11,7 @@ class DeveloperDashboard extends Component {
     const { user } = this.props;
     const { language } = user;
     return (
-      <div className="app-main__inner full-height-mobile">
+      <React.Fragment>
         <div className="row justify-content-center">
           <div className="py-5 text-center">
             <h2>{_translator('gen_devDashboard', language)}</h2>
@@ -39,7 +39,7 @@ class DeveloperDashboard extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

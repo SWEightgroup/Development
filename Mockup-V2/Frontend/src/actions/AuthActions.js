@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { store } from '../index';
+import _translator from '../helpers/Translator';
 
 export const loaderOn = () => {
   return dispatch => {
@@ -37,9 +39,25 @@ export const signIn = credentials => {
         }
 
         const userInfo = { user: res.data, token: res.headers.authorization };
+        toast.success(_translator('gen_welcome', res.data.language), {
+          position: toast.POSITION.TOP_CENTER,
+          hideProgressBar: true,
+          className: {
+            color: '#343a40',
+            minHeight: '60px',
+            borderRadius: '8px',
+            background: '#2FEDAD',
+            boxShadow: '2px 2px 20px 2px rgba(0,0,0,0.3)'
+          },
+        });
         dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
-      .catch(() => dispatch({ type: 'LOGIN_ERROR' }));
+      .catch(e => {
+        toast.error(`Login error`, {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+        dispatch({ type: 'LOGIN_ERROR' });
+      });
   };
 };
 
@@ -101,6 +119,10 @@ export const initializeAuth = () => {
           }
         })
         .then(res => {
+          toast.success(_translator('gen_welcome', res.data.language), {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true
+          });
           dispatch({ type: 'LOAD_AUTH', user: res.data });
         })
         .catch(error => {

@@ -22,6 +22,7 @@ import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperD
 import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
 import AdminUserDashBoard from './view/containers/DashboardContainers/AdminUserDashBoard';
 import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
+import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
   state = {};
@@ -45,6 +46,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+          <ToastContainer />
           {loader && <div className="loading" />}
           <Navbar />
           <div className="app-main">
@@ -80,84 +82,90 @@ class App extends Component {
               {auth.user && <Sidebar auth={auth} />}
             </div>
             <div className="app-main__outer">
-              {innerLoader && <div className="loading" />}
-              <Switch>
-                <ProtectedRoute
-                  exact
-                  path="/"
-                  component={Dashboard}
-                  isAllowed={auth.user}
-                />
-                <ProtectedRoute
-                  path="/insert-exercise"
-                  component={InsertExercise}
-                  isAllowed={auth.user}
-                />
-                <ProtectedRoute
-                  path="/exercise"
-                  component={NewExercise}
-                  isAllowed={
-                    auth.user /* && auth.user.role === 'ROLE_STUDENT' */
-                  }
-                />
-                <Route path="/signin" component={SignIn} />
-                <Route path="/signup" component={SignUp} />
-                <ProtectedRoute
-                  path="/dashboard"
-                  isAllowed={auth.user}
-                  component={Dashboard}
-                />
-                <ProtectedRoute
-                  path="/account"
-                  isAllowed={auth.user}
-                  component={Account}
-                />
-                <ProtectedRoute
-                  path="/teachers"
-                  isAllowed={auth.user}
-                  component={Account}
-                />
-                <ProtectedRoute
-                  path="/grades"
-                  isAllowed={auth.user}
-                  component={Account}
-                />
-                <ProtectedRoute
-                  path="/homework"
-                  isAllowed={auth.user}
-                  component={Homework}
-                />
-                <ProtectedRoute
-                  path="/doneHomework"
-                  isAllowed={auth.user}
-                  component={DoneHomework}
-                />
-                <ProtectedRoute
-                  path="/homework-execution"
-                  isAllowed={
-                    auth.user /* && auth.user.role === 'ROLE_STUDENT' */
-                  }
-                  component={HomeworkExecution}
-                />
-                <ProtectedRoute
-                  path="/developer-dashboard"
-                  isAllowed={
-                    auth.user /* && auth.user.role === 'ROLE_DEVELOPER' */
-                  }
-                  component={DeveloperDashBoard}
-                />
-                <ProtectedRoute
-                  path="/developers-management"
-                  isAllowed={auth.user /* && auth.user.role === 'ROLE_ADMIN' */}
-                  component={AdminDevDashBoard}
-                />
-                <ProtectedRoute
-                  path="/users-management"
-                  isAllowed={auth.user /* && auth.user.role === 'ROLE_ADMIN' */}
-                  component={AdminUserDashBoard}
-                />
-                <Route render={() => <Error language={language} />} />
-              </Switch>
+              <div className="app-main__inner relative full-height-mobile">
+                {innerLoader && <div className="loading" />}
+                <Switch>
+                  <ProtectedRoute
+                    exact
+                    path="/"
+                    component={Dashboard}
+                    isAllowed={auth.user}
+                  />
+                  <ProtectedRoute
+                    path="/insert-exercise"
+                    component={InsertExercise}
+                    isAllowed={auth.user}
+                  />
+                  <ProtectedRoute
+                    path="/exercise"
+                    component={NewExercise}
+                    isAllowed={
+                      auth.user /* && auth.user.role === 'ROLE_STUDENT' */
+                    }
+                  />
+                  <Route path="/signin" component={SignIn} />
+                  <Route path="/signup" component={SignUp} />
+                  <ProtectedRoute
+                    path="/dashboard"
+                    isAllowed={auth.user}
+                    component={Dashboard}
+                  />
+                  <ProtectedRoute
+                    path="/account"
+                    isAllowed={auth.user}
+                    component={Account}
+                  />
+                  <ProtectedRoute
+                    path="/teachers"
+                    isAllowed={auth.user}
+                    component={Account}
+                  />
+                  <ProtectedRoute
+                    path="/grades"
+                    isAllowed={auth.user}
+                    component={Account}
+                  />
+                  <ProtectedRoute
+                    path="/homework"
+                    isAllowed={auth.user}
+                    component={Homework}
+                  />
+                  <ProtectedRoute
+                    path="/doneHomework"
+                    isAllowed={auth.user}
+                    component={DoneHomework}
+                  />
+                  <ProtectedRoute
+                    path="/homework-execution"
+                    isAllowed={
+                      auth.user /* && auth.user.role === 'ROLE_STUDENT' */
+                    }
+                    component={HomeworkExecution}
+                  />
+                  <ProtectedRoute
+                    path="/developer-dashboard"
+                    isAllowed={
+                      auth.user /* && auth.user.role === 'ROLE_DEVELOPER' */
+                    }
+                    component={DeveloperDashBoard}
+                  />
+                  <ProtectedRoute
+                    path="/developers-management"
+                    isAllowed={
+                      auth.user /* && auth.user.role === 'ROLE_ADMIN' */
+                    }
+                    component={AdminDevDashBoard}
+                  />
+                  <ProtectedRoute
+                    path="/users-management"
+                    isAllowed={
+                      auth.user /* && auth.user.role === 'ROLE_ADMIN' */
+                    }
+                    component={AdminUserDashBoard}
+                  />
+                  <Route render={() => <Error language={language} />} />
+                </Switch>
+              </div>
               <Footer />
             </div>
           </div>

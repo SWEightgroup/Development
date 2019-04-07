@@ -67,49 +67,47 @@ class HomeworkExercise extends Component {
         ? sentenceString.split(' ').filter(item => item.charAt(0) !== 'F')
         : [];
     return (
-      <div className="app-main__inner full-height-mobile">
-        <div className="row justify-content-center">
-          <div className="col-12 col-md-10">
-            <div className="main-card mb-3 card">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10">
+          <div className="main-card mb-3 card">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-12">
+                  <h5 className="card-title">Esercizio da svolgere</h5>
+                  <p className="card-text">{newExercise.sentenceString}</p>
+                  {mark && <h1 className="pull-right">{mark}</h1>}
+                </div>
+              </div>
+            </div>
+          </div>
+          <ExecutionExercise
+            sentence={sentence} // array di parole
+            response={response}
+            showSolution={showSolution}
+            createAt={createAt}
+            salvaEsercizio={this.salvaEsercizio}
+            language={language}
+            showButton
+          />
+
+          {sentence && sentence.length > 0 && (
+            <div className="main-card mb-3 card no-bg-color">
               <div className="card-body">
-                <div className="row">
-                  <div className="col-12">
-                    <h5 className="card-title">Esercizio da svolgere</h5>
-                    <p className="card-text">{newExercise.sentenceString}</p>
-                    {mark && <h1 className="pull-right">{mark}</h1>}
+                <div className="row justify-content-end ">
+                  <div className="col-12 col-sm-4 py-0 px-0">
+                    <button
+                      type="button"
+                      className="btn btn-success btn-block"
+                      onClick={this.checkSolution}
+                      disabled={showSolution}
+                    >
+                      {_translator('executionExercise_complete', language)}
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-            <ExecutionExercise
-              sentence={sentence} // array di parole
-              response={response}
-              showSolution={showSolution}
-              createAt={createAt}
-              salvaEsercizio={this.salvaEsercizio}
-              language={language}
-              showButton
-            />
-
-            {sentence && sentence.length > 0 && (
-              <div className="main-card mb-3 card no-bg-color">
-                <div className="card-body">
-                  <div className="row justify-content-end ">
-                    <div className="col-12 col-sm-4 py-0 px-0">
-                      <button
-                        type="button"
-                        className="btn btn-success btn-block"
-                        onClick={this.checkSolution}
-                        disabled={showSolution}
-                      >
-                        {_translator('executionExercise_complete', language)}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
     );
