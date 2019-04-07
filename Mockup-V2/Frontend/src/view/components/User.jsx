@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
 
-export default class DeveloperToAccept extends Component {
+export default class User extends Component {
   render() {
     const {
       firstName,
@@ -9,8 +9,27 @@ export default class DeveloperToAccept extends Component {
       username,
       language,
       btAction,
+      role,
       id
     } = this.props;
+    let textRole = '';
+    switch (role) {
+      case 'ROLE_ADMINISTRATOR':
+        textRole = _translator('gen_admin', language);
+        break;
+      case 'ROLE_DEVELOPER':
+        textRole = _translator('gen_developer', language);
+        break;
+      case 'ROLE_STUDENT':
+        textRole = _translator('gen_student', language);
+        break;
+      case 'ROLE_TEACHER':
+        textRole = _translator('gen_teacher', language);
+        break;
+      default:
+        textRole = '????';
+        break;
+    }
     return (
       <tr>
         <td>
@@ -33,21 +52,15 @@ export default class DeveloperToAccept extends Component {
           </div>
         </td>
         <td class="text-center">{username}</td>
+        <td class="text-center">{textRole}</td>
         <td class="text-center">
           <div className="btn-group" role="group" aria-label="Basic example">
             <button
               type="button"
-              className="btn btn-success"
-              onClick={() => btAction(true, username)}
-            >
-              {_translator('developerToAccept_allow', language)}
-            </button>
-            <button
-              type="button"
               className="btn btn-danger"
-              onClick={() => btAction(false, id)}
+              onClick={() => btAction(id)}
             >
-              {_translator('developerToAccept_deny', language)}
+              {_translator('adminUserDashBoard_delete', language)}
             </button>
           </div>
         </td>

@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
 import DeveloperToAccept from '../../components/DeveloperToAccept';
-import { fetchDeveloperList } from '../../../actions/AdminActions';
+import { fetchDeveloperList, deleteUser } from '../../../actions/AdminActions';
 
 class AdminDevDashBoard extends Component {
-  acceptDeveloper(isAccepted, username) {
+  acceptDeveloper(isAccepted, usernameOrId) {
     console.log(isAccepted);
-    console.log(username);
+    console.log(usernameOrId);
+    if (isAccepted) {
+      console.log('YEAHHHHHHH');
+    } else {
+      deleteUser(usernameOrId);
+    }
   }
 
   render() {
@@ -19,7 +24,8 @@ class AdminDevDashBoard extends Component {
       devList.length > 0
         ? devList.map(dev => (
             <DeveloperToAccept
-              key={`dev-${  dev.username}`}
+              key={`dev-${dev.username}`}
+              id={dev.id}
               firstName={dev.firstName}
               lastName={dev.lastName}
               username={dev.username}
@@ -32,33 +38,41 @@ class AdminDevDashBoard extends Component {
         : _translator('adminDevDashBoard_noDevApprove', language);
 
     return (
-      <div className="app-main__inner full-height-mobile">
-        <div className="row justify-content-center">
-          <div className="py-5 text-center">
-            <h2>{_translator('SidebarElementAdministrator_devs', language)}</h2>
-            <p className="lead">
-              {_translator('adminDevDashBoard_subtitle', language)}
-            </p>
-          </div>
-        </div>
-        <div className="row justify-content-center">
-          <div className="main-card mb-3 card col-lg-8 col-md-10 col-sm-11">
-            <div className="card-body">
-              <h5 className="card-title">
-                {_translator('adminDevDashBoard_devToApprove', language)}
-              </h5>
-              <ul className="list-group">{devRender}</ul>
-              <button
-                type="button"
-                onClick={() => fetchDeveloperList()}
-                className="btn btn-primary mt-2"
-              >
-                {_translator('developerDashBoard_devDown', language)}
-              </button>
+      <React.Fragment>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="main-card mb-3 card">
+              <div class="card-header">
+                {_translator('SidebarElementAdministrator_devs', language)}
+              </div>
+              <div class="table-responsive">
+                <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>{_translator('gen_firstName', language)}</th>
+                      <th class="text-center">
+                        {_translator('gen_email', language)}
+                      </th>
+                      <th class="text-center">
+                        {_translator('developerDashBoard_action', language)}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>{devRender}</tbody>
+                </table>
+              </div>
+              <div class="d-block text-center card-footer">
+                <button
+                  onClick={() => fetchDeveloperList()}
+                  class="btn-wide btn btn-primary"
+                >
+                  {_translator('developerDashBoard_devDown', language)}
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

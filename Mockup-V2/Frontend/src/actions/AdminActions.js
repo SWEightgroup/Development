@@ -31,3 +31,17 @@ export const fetchUsersList = () => {
       console.log(error);
     });
 };
+
+export const deleteUser = id => {
+  axios
+    .delete('http://localhost:8081/admin/delete-user/' + id, {
+      headers: {
+        Authorization: store.getState().auth.token
+      }
+    })
+    .then(res => {
+      console.log(res);
+      store.dispatch({ type: 'USER_DELETE_SUCCES', payload: { id: id } });
+    })
+    .catch(error => console.log(error));
+};

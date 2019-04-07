@@ -56,7 +56,7 @@ export const _label = {
     developerDashBoard_desc: 'Filtra e scarica i dati che ti interessano',
     developerDashBoard_devDownText:
       "Premendo il bottone sottostante, puoi scaricare i dati di analisi grammaticale generati dali utenti di Colletta. Potrebbe volerci un po' di tempo, fatti un caffè, dai.",
-    developerDashBoard_devDown: 'Scarica',
+    developerDashBoard_devDown: 'Aggiorna',
     developerToAccept_allow: 'Accetta',
     developerToAccept_deny: 'Rifiuta',
     adminDevDashBoard_subtitle:
@@ -65,7 +65,9 @@ export const _label = {
     adminDevDashBoard_noUser: 'Nessun utente trovato',
     adminDevDashBoard_devToApprove: 'Sviluppatori da approvare',
     gen_adminUsers: 'Utenti',
-    adminUserDashBoard_desc: 'Visualizza e elimina gli utenti'
+    adminUserDashBoard_desc: 'Visualizza e elimina gli utenti',
+    adminUserDashBoard_delete: 'Elimina',
+    developerDashBoard_action: 'Azioni'
   },
   en: {
     account_yourData: 'Your data',
@@ -117,7 +119,7 @@ export const _label = {
     developerDashBoard_desc: "Filter and download the data you're looking for",
     developerDashBoard_devDownText:
       'By clicking the button below, you can can download all the user generated data of Colletta. This may take a while, feel free to go grab a coffe!',
-    developerDashBoard_devDown: 'Download',
+    developerDashBoard_devDown: 'Update',
 
     developerToAccept_allow: 'Allow',
     developerToAccept_deny: 'Deny',
@@ -127,6 +129,8 @@ export const _label = {
     adminDevDashBoard_devToApprove: 'Developer to Approve',
     gen_adminUsers: 'Users',
     adminUserDashBoard_desc: 'View and delete users',
-    adminDevDashBoard_noUser: 'No user found'
+    adminDevDashBoard_noUser: 'No user found',
+    adminUserDashBoard_delete: 'Delete',
+    developerDashBoard_action: 'Actions'
   }
 };
