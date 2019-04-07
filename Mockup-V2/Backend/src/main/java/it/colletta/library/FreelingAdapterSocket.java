@@ -29,7 +29,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
    */
   public String getCorrection(String sentence) {
     String analyzedSentence = "";
-    if (sentence.length() == 0) {
+    if (sentence == null || sentence.length() == 0) {
       throw new IllegalArgumentException("La stringa non può essere vuota");
     }
     if (StringUtils.countOccurrencesOf(sentence, ".") == 0) {
