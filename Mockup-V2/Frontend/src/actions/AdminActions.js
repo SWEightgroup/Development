@@ -45,3 +45,21 @@ export const deleteUser = id => {
     })
     .catch(error => console.log(error));
 };
+
+export const activateUser = id => {
+  axios
+    .put(
+      'http://localhost:8081/users/activate-user/' + id,
+      {},
+      {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      }
+    )
+    .then(res => {
+      console.log(res);
+      store.dispatch({ type: 'DEV_APPROVE_SUCCES', payload: { id: id } });
+    })
+    .catch(error => console.log(error));
+};

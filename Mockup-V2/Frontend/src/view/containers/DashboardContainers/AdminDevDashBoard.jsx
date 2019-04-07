@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
 import DeveloperToAccept from '../../components/DeveloperToAccept';
-import { fetchDeveloperList, deleteUser } from '../../../actions/AdminActions';
+import {
+  fetchDeveloperList,
+  deleteUser,
+  activateUser
+} from '../../../actions/AdminActions';
 
 class AdminDevDashBoard extends Component {
   acceptDeveloper(isAccepted, usernameOrId) {
     console.log(isAccepted);
     console.log(usernameOrId);
     if (isAccepted) {
-      console.log('YEAHHHHHHH');
+      activateUser(usernameOrId);
     } else {
       deleteUser(usernameOrId);
     }
@@ -36,26 +40,30 @@ class AdminDevDashBoard extends Component {
           />
         ))
       ) : (
-        <td>{_translator('adminDevDashBoard_noDevApprove', language)}</td>
+        <tr>
+          <td>{_translator('adminDevDashBoard_noDevApprove', language)}</td>
+          <td />
+          <td />
+        </tr>
       );
 
     return (
       <React.Fragment>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="main-card mb-3 card">
-              <div class="card-header">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="main-card mb-3 card">
+              <div className="card-header">
                 {_translator('SidebarElementAdministrator_devs', language)}
               </div>
-              <div class="table-responsive">
-                <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+              <div className="table-responsive">
+                <table className="align-middle mb-0 table table-borderless table-striped table-hover">
                   <thead>
                     <tr>
                       <th>{_translator('gen_firstName', language)}</th>
-                      <th class="text-center">
+                      <th className="text-center">
                         {_translator('gen_email', language)}
                       </th>
-                      <th class="text-center">
+                      <th className="text-center">
                         {_translator('developerDashBoard_action', language)}
                       </th>
                     </tr>
@@ -63,10 +71,10 @@ class AdminDevDashBoard extends Component {
                   <tbody>{devRender}</tbody>
                 </table>
               </div>
-              <div class="d-block text-center card-footer">
+              <div className="d-block text-center card-footer">
                 <button
                   onClick={() => fetchDeveloperList()}
-                  class="btn-wide btn btn-primary"
+                  className="btn-wide btn btn-primary"
                 >
                   {_translator('developerDashBoard_devDown', language)}
                 </button>

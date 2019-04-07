@@ -26,29 +26,34 @@ class AdminDevDashBoard extends Component {
           />
         ))
       ) : (
-        <td>{_translator('adminDevDashBoard_noUser', language)}</td>
+        <tr>
+          <td>{_translator('adminDevDashBoard_noUser', language)}</td>
+          <td />
+          <td />
+          <td />
+        </tr>
       );
 
     return (
       <React.Fragment>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="main-card mb-3 card">
-              <div class="card-header">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="main-card mb-3 card">
+              <div className="card-header">
                 {_translator('SidebarElementAdministrator_devs', language)}
               </div>
-              <div class="table-responsive">
-                <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+              <div className="table-responsive">
+                <table className="align-middle mb-0 table table-borderless table-striped table-hover">
                   <thead>
                     <tr>
                       <th>{_translator('gen_firstName', language)}</th>
-                      <th class="text-center">
+                      <th className="text-center">
                         {_translator('gen_email', language)}
                       </th>
-                      <th class="text-center">
+                      <th className="text-center">
                         {_translator('gen_role', language)}
                       </th>
-                      <th class="text-center">
+                      <th className="text-center">
                         {_translator('developerDashBoard_action', language)}
                       </th>
                     </tr>
@@ -56,7 +61,7 @@ class AdminDevDashBoard extends Component {
                   <tbody>{devRender}</tbody>
                 </table>
               </div>
-              <div class="d-block text-center card-footer">
+              <div className="d-block text-center card-footer">
                 <button
                   type="button"
                   onClick={() => fetchUsersList()}
