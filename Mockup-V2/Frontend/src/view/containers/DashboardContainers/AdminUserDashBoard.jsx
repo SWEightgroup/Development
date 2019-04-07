@@ -12,20 +12,22 @@ class AdminDevDashBoard extends Component {
     console.log(usersList);
 
     const devRender =
-      usersList.length > 0
-        ? usersList.map(user => (
-            <User
-              key={`user-${user.username}`}
-              id={user.id}
-              firstName={user.firstName}
-              lastName={user.lastName}
-              username={user.username}
-              role={user.role}
-              language={language}
-              btAction={id => deleteUser(id)}
-            />
-          ))
-        : _translator('adminDevDashBoard_noUser', language);
+      usersList.length > 0 ? (
+        usersList.map(user => (
+          <User
+            key={`user-${user.username}`}
+            id={user.id}
+            firstName={user.firstName}
+            lastName={user.lastName}
+            username={user.username}
+            role={user.role}
+            language={language}
+            btAction={id => deleteUser(id)}
+          />
+        ))
+      ) : (
+        <td>{_translator('adminDevDashBoard_noUser', language)}</td>
+      );
 
     return (
       <React.Fragment>

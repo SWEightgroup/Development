@@ -21,21 +21,23 @@ class AdminDevDashBoard extends Component {
     const { devList } = admin;
 
     const devRender =
-      devList.length > 0
-        ? devList.map(dev => (
-            <DeveloperToAccept
-              key={`dev-${dev.username}`}
-              id={dev.id}
-              firstName={dev.firstName}
-              lastName={dev.lastName}
-              username={dev.username}
-              language={language}
-              btAction={(isAccepted, username) =>
-                this.acceptDeveloper(isAccepted, username)
-              }
-            />
-          ))
-        : _translator('adminDevDashBoard_noDevApprove', language);
+      devList.length > 0 ? (
+        devList.map(dev => (
+          <DeveloperToAccept
+            key={`dev-${dev.username}`}
+            id={dev.id}
+            firstName={dev.firstName}
+            lastName={dev.lastName}
+            username={dev.username}
+            language={language}
+            btAction={(isAccepted, username) =>
+              this.acceptDeveloper(isAccepted, username)
+            }
+          />
+        ))
+      ) : (
+        <td>{_translator('adminDevDashBoard_noDevApprove', language)}</td>
+      );
 
     return (
       <React.Fragment>
