@@ -1,11 +1,10 @@
 package it.colletta.repository.phrase;
 
-import static org.junit.Assert.*;
-
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.config.MongoConfig;
+import it.colletta.repository.user.UsersRepositoryImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
 
 
 @RunWith(SpringRunner.class)
@@ -27,89 +28,74 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(classes = {MongoConfig.class})
 public class PhraseRepositoryImplTest {
 
-  @Autowired private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-  private PhraseRepositoryImpl phraseRepository;
+    private PhraseRepositoryImpl phraseRepository;
 
-  private PhraseModel noSolutionPhrase;
-  private PhraseModel oneSolutionPhrase;
-  private PhraseModel multipleSolutionsPhrase;
 
-  @Before
-  public void setUp() {
+    private PhraseModel noSolutionPhrase;
+    private PhraseModel oneSolutionPhrase;
+    private PhraseModel multipleSolutionsPhrase;
 
-    phraseRepository = new PhraseRepositoryImpl(mongoTemplate);
-    populateDatabase();
-  }
 
-  @Test
-  public void findAllByAuthor() {
+    @Before
+    public void setUp() {
 
-    List<PhraseModel> phrasesBy1 = phraseRepository.findAllByAuthor("1");
+        phraseRepository = new PhraseRepositoryImpl(mongoTemplate);
+        populateDatabase();
 
-    assertEquals(phrasesBy1.size(), 2);
-    assertEquals(phrasesBy1.get(0).getId(), oneSolutionPhrase.getId());
-    assertEquals(phrasesBy1.get(1).getId(), multipleSolutionsPhrase.getId());
+    }
 
-    List<PhraseModel> phrasesBy2 = phraseRepository.findAllByAuthor("2");
+
 
     @Test
     public void findAllByAuthor() {
 
-    List<PhraseModel> phrasesBy3 = phraseRepository.findAllByAuthor("3");
+        List<PhraseModel> phrasesBy1 = phraseRepository.findAllByAuthor("1");
 
         assertEquals(phrasesBy1.size(), 2);
-        assertEquals(phrasesBy1.get(0).getId(), oneSolutionPhrase.getId());
-        assertEquals(phrasesBy1.get(1).getId(), multipleSolutionsPhrase.getId());
+        assertEquals(phrasesBy1.get(0).getId(),oneSolutionPhrase.getId());
+        assertEquals(phrasesBy1.get(1).getId(),multipleSolutionsPhrase.getId());
 
-  @Test
-  public void findAllSolutionsByAuthor() {
 
-    List<SolutionModel> solutionsBy1 = phraseRepository.findAllSolutionsByAuthor("1");
+        List<PhraseModel> phrasesBy2 = phraseRepository.findAllByAuthor("2");
 
         assertEquals(phrasesBy2.size(), 1);
-        assertEquals(phrasesBy2.get(0).getId(), multipleSolutionsPhrase.getId());
+        assertEquals(phrasesBy2.get(0).getId(),multipleSolutionsPhrase.getId());
 
-  }
 
-  @Test
-  public void increaseReliability() {
-
-    SolutionModel solution =
-        SolutionModel.builder().solutionText("first solution").authorId("1").build();
-
-    UpdateResult updateResult = phraseRepository.increaseReliability(solution);
-
-        assertEquals(phrasesBy3.size(), 0);
     }
 
-  @After
-  public void tearDown() {
-    mongoTemplate.dropCollection("phrases");
-  }
+    @Test
+    public void findNoPhrasesWithWrongAuthor() {
 
-  private void populateDatabase() {
+        List<PhraseModel> phrasesBy3 = phraseRepository.findAllByAuthor("3");
 
-    ArrayList<SolutionModel> oneSolutionList = new ArrayList<>();
-    oneSolutionList.add(
-        SolutionModel.builder().solutionText("first solution").authorId("1").build());
+        assertEquals(phrasesBy3.size(),0);
+    }
 
-    ArrayList<SolutionModel> multipleSolutionsList = new ArrayList<>();
-    multipleSolutionsList.add(
-        SolutionModel.builder().solutionText("second solution").authorId("1").build());
 
-    multipleSolutionsList.add(
-        SolutionModel.builder().solutionText("third solution").authorId("2").build());
+    @Test
+    public void findAllSolutionsByAuthor() {
 
-    multipleSolutionsList.add(
-        SolutionModel.builder().solutionText("fourth solution").authorId("1").build());
+        List<SolutionModel> solutionsBy1 = phraseRepository.findAllSolutionsByAuthor("1");
 
-    noSolutionPhrase = PhraseModel.builder().phraseText("no solution phrase").build();
+        //assertEquals(solutionsBy1.size(),3);
 
-    oneSolutionPhrase =
-        PhraseModel.builder().phraseText("one solution phrase").solutions(oneSolutionList).build();
+    }
 
-        assertEquals(updateResult.getModifiedCount(), 1);
+    @Test
+    public void increaseReliability() {
+
+        SolutionModel solution = SolutionModel.builder()
+                .solutionText("first solution")
+                .authorId("1").build();
+
+        UpdateResult updateResult = phraseRepository.increaseReliability(solution);
+
+        assertEquals(updateResult.getModifiedCount(),1);
+
 
 
     }

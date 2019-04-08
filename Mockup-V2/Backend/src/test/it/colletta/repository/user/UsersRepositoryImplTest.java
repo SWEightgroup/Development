@@ -59,11 +59,7 @@ public class UsersRepositoryImplTest {
     Query query = new Query(Criteria.where("_id").is(testUser.getId()));
     UserModel updatedUser = mongoTemplate.findOne(query, UserModel.class);
 
-        usersRepository.updateActivateFlagOnly(testUser.getId());
-        Query query = new Query(Criteria.where("_id").is(testUser.getId()));
-        UserModel updatedUser = mongoTemplate.findOne(query, UserModel.class);
-
-        assertNotNull(updatedUser);
-        assertTrue(updatedUser.isEnabled());
-    }
+    assertNotNull(updatedUser);
+    assertTrue(updatedUser.isEnabled());
+  }
 }

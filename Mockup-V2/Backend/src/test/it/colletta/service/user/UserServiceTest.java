@@ -122,10 +122,10 @@ public class UserServiceTest {
 
         //Check that the first user has the inserted exercise in exercisesToDo
         assertEquals(insertedUsers.get(0).getExercisesToDo().size(), 1);
-        assertEquals(insertedUsers.get(0).getExercisesToDo().get(0).getId(), "11");
+        assertEquals(insertedUsers.get(0).getExercisesToDo().get(0), "11");
 
         //Check that the second user has the inserted exercise in exercisesToDo
         assertEquals(insertedUsers.get(1).getExercisesToDo().size(), 1);
-        assertEquals(insertedUsers.get(1).getExercisesToDo().get(0).getId(), "11");
+        assertEquals(insertedUsers.get(1).getExercisesToDo().get(0), "11");
     }
 }
