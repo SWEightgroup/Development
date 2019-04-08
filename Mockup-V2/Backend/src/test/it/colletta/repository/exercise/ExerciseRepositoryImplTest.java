@@ -16,6 +16,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = {MongoConfig.class})
@@ -35,27 +40,24 @@ public class ExerciseRepositoryImplTest {
 
   private void populateDatabase() {
 
-    ArrayList<ExerciseModel> publicExercises = new ArrayList<>();
-    publicExercises.add(
-        ExerciseModel.builder()
-            .phraseText("first phrase")
-            .authorName("Bob Smith")
-            .authorId("1")
-            .build());
+        ArrayList<ExerciseModel> publicExercises = new ArrayList<>();
+        publicExercises.add(ExerciseModel.builder()
+                .phraseText("first phrase")
+                .authorName("Bob Smith")
+                .authorId("1")
+                .build());
 
-    publicExercises.add(
-        ExerciseModel.builder()
-            .phraseText("first phrase")
-            .authorName("Tom Brown")
-            .authorId("2")
-            .build());
+        publicExercises.add(ExerciseModel.builder()
+                .phraseText("first phrase")
+                .authorName("Tom Brown")
+                .authorId("2")
+                .build());
 
-    publicExercises.add(
-        ExerciseModel.builder()
-            .phraseText("second phrase")
-            .authorName("Tom Brown")
-            .authorId("2")
-            .build());
+        publicExercises.add(ExerciseModel.builder()
+                .phraseText("second phrase")
+                .authorName("Tom Brown")
+                .authorId("2")
+                .build());
 
     mongoTemplate.insertAll(publicExercises);
   }
@@ -69,8 +71,9 @@ public class ExerciseRepositoryImplTest {
   @Test
   public void modifyAuthorName() {
 
-    UpdateResult result = exerciseRepository.modifyAuthorName("Tom White", "2");
+        UpdateResult result = exerciseRepository.modifyAuthorName("Tom White", "2");
 
-    assertEquals(result.getModifiedCount(), 2);
-  }
+        assertEquals(result.getModifiedCount(), 2);
+
+    }
 }

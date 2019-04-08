@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.*;
 
+import java.io.IOException;
+
 @Configuration
 public class MongoConfig {
   private static final String MONGO_DB_URL = "localhost";

@@ -30,11 +30,12 @@ public class UserService {
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  /**
-   * 
-   * @param user
-   * @return
-   */
+  UserService(UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder)
+  {
+    this.applicationUserRepository = usersRepository;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+  }
+
   public UserModel addUser(@NotNull UserModel user) {
     SignupRequestService signupRequestService = new SignupRequestService();
     final String encode = bCryptPasswordEncoder.encode(user.getPassword());
@@ -59,8 +60,9 @@ public class UserService {
     Optional<UserModel> userModelOptional = applicationUserRepository.findById(id);
     if (userModelOptional.isPresent()) {
       return userModelOptional.get();
-    } else {
-      throw new UsernameNotFoundException("Id not refer to a user of the sistem");
+    }
+    else {
+      throw new UsernameNotFoundException("Id not refer to a user of the system");
     }
   }
 

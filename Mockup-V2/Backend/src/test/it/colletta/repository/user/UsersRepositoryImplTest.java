@@ -16,6 +16,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = {MongoConfig.class})
@@ -55,7 +59,11 @@ public class UsersRepositoryImplTest {
     Query query = new Query(Criteria.where("_id").is(testUser.getId()));
     UserModel updatedUser = mongoTemplate.findOne(query, UserModel.class);
 
-    assertNotNull(updatedUser);
-    assertTrue(updatedUser.isEnabled());
-  }
+        usersRepository.updateActivateFlagOnly(testUser.getId());
+        Query query = new Query(Criteria.where("_id").is(testUser.getId()));
+        UserModel updatedUser = mongoTemplate.findOne(query, UserModel.class);
+
+        assertNotNull(updatedUser);
+        assertTrue(updatedUser.isEnabled());
+    }
 }
