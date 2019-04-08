@@ -3,26 +3,47 @@ import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
 import User from '../../components/User';
 import { fetchUsersList, deleteUser } from '../../../actions/AdminActions';
+import { _confirmAlert } from '../../../helpers/Utils';
 
 class AdminDevDashBoard extends Component {
+  state = {};
+
+  constructor(props) {
+    super(props);
+    props.fetchUsersListDispatch();
+  }
+
   render() {
-    const { user, admin } = this.props;
+    const {
+      user,
+      admin,
+      fetchUsersListDispatch,
+      deleteUserDispatch
+    } = this.props;
     const { language } = user;
     const { usersList } = admin;
-    console.log(usersList);
 
     const devRender =
       usersList.length > 0 ? (
-        usersList.map(user => (
+        usersList.map(_user => (
           <User
-            key={`user-${user.username}`}
-            id={user.id}
-            firstName={user.firstName}
-            lastName={user.lastName}
-            username={user.username}
-            role={user.role}
+            key={`user-${_user.username}`}
+            id={_user.id}
+            firstName={_user.firstName}
+            lastName={_user.lastName}
+            username={_user.username}
+            role={_user.role}
             language={language}
-            btAction={id => deleteUser(id)}
+            btAction={usernameOrId =>
+              _confirmAlert(
+                {
+                  title: 'Attenzione',
+                  message: 'Sei sicuro di voler Eliminare?'
+                },
+                deleteUserDispatch,
+                { usernameOrId }
+              )
+            }
           />
         ))
       ) : (
@@ -64,7 +85,7 @@ class AdminDevDashBoard extends Component {
               <div className="d-block text-center card-footer">
                 <button
                   type="button"
-                  onClick={() => fetchUsersList()}
+                  onClick={() => fetchUsersListDispatch()}
                   className="btn btn-wide btn-primary mt-2"
                 >
                   {_translator('developerDashBoard_devDown', language)}
@@ -85,4 +106,14 @@ const mapStateToProps = store => {
   };
 };
 
-export default connect(mapStateToProps)(AdminDevDashBoard);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUsersListDispatch: () => dispatch(fetchUsersList()),
+    deleteUserDispatch: user => dispatch(deleteUser(user))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdminDevDashBoard);

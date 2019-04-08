@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
 
-export default class DeveloperToAccept extends Component {
+class DeveloperToAccept extends Component {
+  state = {};
+
   render() {
     const {
       firstName,
@@ -28,7 +30,7 @@ export default class DeveloperToAccept extends Component {
               </div>
               <div className="widget-content-left flex2">
                 <div className="widget-heading">
-                  {firstName + ' ' + lastName}
+                  {`${firstName} ${lastName}`}
                 </div>
               </div>
             </div>
@@ -57,3 +59,4 @@ export default class DeveloperToAccept extends Component {
     );
   }
 }
+export default DeveloperToAccept;

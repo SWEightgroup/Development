@@ -7,20 +7,34 @@ import {
   deleteUser,
   activateUser
 } from '../../../actions/AdminActions';
+import { _confirmAlert } from '../../../helpers/Utils';
 
 class AdminDevDashBoard extends Component {
+  constructor(props) {
+    super(props);
+    props.fetchDeveloperListDispatch();
+  }
+
   acceptDeveloper(isAccepted, usernameOrId) {
-    console.log(isAccepted);
-    console.log(usernameOrId);
+    const { activateUserDispatch, deleteUserDispatch } = this.props;
+
     if (isAccepted) {
-      activateUser(usernameOrId);
+      _confirmAlert(
+        { message: 'Sei sicuro di voler approvare?' },
+        activateUserDispatch,
+        { usernameOrId }
+      );
     } else {
-      deleteUser(usernameOrId);
+      _confirmAlert(
+        { message: 'Sei sicuro di voler eliminare?' },
+        deleteUserDispatch,
+        { usernameOrId }
+      );
     }
   }
 
   render() {
-    const { user, admin } = this.props;
+    const { user, admin, fetchDeveloperListDispatch } = this.props;
     const { language } = user;
     const { devList } = admin;
 
@@ -73,7 +87,8 @@ class AdminDevDashBoard extends Component {
               </div>
               <div className="d-block text-center card-footer">
                 <button
-                  onClick={() => fetchDeveloperList()}
+                  type="button"
+                  onClick={() => fetchDeveloperListDispatch()}
                   className="btn-wide btn btn-primary"
                 >
                   {_translator('developerDashBoard_devDown', language)}
@@ -94,4 +109,15 @@ const mapStateToProps = store => {
   };
 };
 
-export default connect(mapStateToProps)(AdminDevDashBoard);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchDeveloperListDispatch: () => dispatch(fetchDeveloperList()),
+    deleteUserDispatch: user => dispatch(deleteUser(user)),
+    activateUserDispatch: user => dispatch(activateUser(user))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdminDevDashBoard);

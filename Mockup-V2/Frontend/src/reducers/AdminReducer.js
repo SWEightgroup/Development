@@ -18,23 +18,28 @@ const AdminReducer = (state = initState, action) => {
       };
     }
     case 'USER_DELETE_SUCCES': {
-      const { id } = action.payload;
+      const { usernameOrId } = action.payload;
       const { usersList, devList } = state;
-      const newUsersList = usersList.filter(user => user.id !== id);
-      const newDevList = devList.filter(user => user.id !== id);
+      const indexUser = usersList.findIndex(user => user.id === usernameOrId);
+      if (indexUser > -1) usersList.splice(indexUser, 1);
+
+      const indexDev = devList.findIndex(dev => dev.id === usernameOrId);
+      if (indexDev > -1) devList.splice(indexDev, 1);
+
       return {
         ...state,
-        usersList: newUsersList,
-        devList: newDevList
+        usersList,
+        devList
       };
     }
     case 'DEV_APPROVE_SUCCES': {
-      const { id } = action.payload;
+      const { usernameOrId } = action.payload;
       const { devList } = state;
-      const newDevList = devList.filter(user => user.id !== id);
+      const indexDev = devList.findIndex(dev => dev.id === usernameOrId);
+      if (indexDev > -1) devList.splice(indexDev, 1);
       return {
         ...state,
-        devList: newDevList
+        devList
       };
     }
     default: {

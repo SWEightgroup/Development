@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { ToastContainer, Flip } from 'react-toastify';
 
 import { connect } from 'react-redux';
 import Navbar from './view/containers/NavbarContainers/Navbar';
@@ -22,7 +23,6 @@ import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperD
 import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
 import AdminUserDashBoard from './view/containers/DashboardContainers/AdminUserDashBoard';
 import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
-import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
   state = {};
@@ -46,7 +46,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-          <ToastContainer />
+          <ToastContainer transition={Flip} />
           {loader && <div className="loading" />}
           <Navbar />
           <div className="app-main">

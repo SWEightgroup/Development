@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { store } from '../index';
 import _translator from '../helpers/Translator';
+import { _toastSuccess, _toastError } from '../helpers/Utils';
 
 export const loaderOn = () => {
   return dispatch => {
@@ -39,23 +39,12 @@ export const signIn = credentials => {
         }
 
         const userInfo = { user: res.data, token: res.headers.authorization };
-        toast.success(_translator('gen_welcome', res.data.language), {
-          position: toast.POSITION.TOP_CENTER,
-          hideProgressBar: true,
-          className: {
-            color: '#343a40',
-            minHeight: '60px',
-            borderRadius: '8px',
-            background: '#2FEDAD',
-            boxShadow: '2px 2px 20px 2px rgba(0,0,0,0.3)'
-          },
-        });
+        _toastSuccess(_translator('gen_welcome', res.data.language));
+
         dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
       .catch(e => {
-        toast.error(`Login error`, {
-          position: toast.POSITION.BOTTOM_CENTER
-        });
+        _toastError('Autenticazione fallita');
         dispatch({ type: 'LOGIN_ERROR' });
       });
   };
@@ -70,8 +59,8 @@ export const signOut = () => {
 };
 
 export const signUp = newUser => {
-  delete newUser.password_confirm;
   return dispatch => {
+    delete newUser.password_confirm;
     axios
       .post('http://localhost:8081/users/sign-up', newUser)
       .then(res => {
@@ -119,10 +108,7 @@ export const initializeAuth = () => {
           }
         })
         .then(res => {
-          toast.success(_translator('gen_welcome', res.data.language), {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: true
-          });
+          _toastSuccess(_translator('gen_welcome', res.data.language));
           dispatch({ type: 'LOAD_AUTH', user: res.data });
         })
         .catch(error => {
