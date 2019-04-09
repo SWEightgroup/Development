@@ -1,0 +1,3 @@
+total rows: 7524
+comment rows: 945
+percentage: 12.559808612440191
