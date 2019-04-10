@@ -21,10 +21,9 @@ class Account extends Component {
       // language: e.target.language.value
     };
     if (this.isFormValid(formData)) {
-      console.log('Ok, dati validi > ', formData);
       updateUserInfoDispatch(formData);
     } else {
-      console.log('dati non validi');
+      console.error('dati non validi');
     }
   };
 
@@ -84,6 +83,7 @@ class Account extends Component {
                     type="email"
                     className="form-control"
                     id="username"
+                    readOnly
                     defaultValue={username}
                   />
                 </div>

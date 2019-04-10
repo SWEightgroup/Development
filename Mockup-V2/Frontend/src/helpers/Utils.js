@@ -58,7 +58,6 @@ export const _confirmAlert = (
   onConfirm,
   param
 ) => {
-  console.log('TCL: param', param);
   confirmAlert({
     title: title !== null ? title : '',
     message: message !== null ? message : '',

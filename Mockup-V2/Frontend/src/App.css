@@ -21,25 +21,30 @@
   background-color: transparent;
   box-shadow: none;
 }
-@media screen and (max-width: 992px) {
-  .full-height-mobile {
-    min-height: calc(100vh - 120px);
-  }
-}
 
 /*-----------------------------spinner -------------------------------*/
 /* Absolute Center Spinner */
 .loading {
-  position: absolute;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  overflow: show;
-  margin: auto;
+  position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+  z-index: 999;
+  height: calc(100vh);
+  padding-top: calc(50vh);
+  padding-left: 50vw;
+  width: 100%;
+  margin: 0 auto;
+}
+.loading_inner {
+  position: fixed;
+  z-index: 999;
+  height: calc(100vh - 150px);
+  padding-top: calc(50vh - 75px);
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 50%;
+  overflow: show;
+  margin: auto;
 }
 
 .relative {
@@ -178,4 +183,13 @@
 .react-confirm-alert-body > h1 {
   font-size: 18px;
   font-weight: 600;
+}
+
+@media screen and (max-width: 992px) {
+  .full-height-mobile {
+    min-height: calc(100vh - 120px);
+  }
+  .loading_inner {
+    z-index: 5;
+  }
 }

@@ -28,10 +28,9 @@ export const fetchUsersList = () => {
       })
       .then(res => {
         dispatch({ type: 'UPDATE_USER_LIST', payload: res.data });
-        console.log(res);
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   };
 };
@@ -45,11 +44,9 @@ export const deleteUser = ({ usernameOrId }) => {
         }
       })
       .then(res => {
-        console.log(res);
         dispatch({ type: 'USER_DELETE_SUCCES', payload: { usernameOrId } });
-        console.log('ppppppppppp');
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   };
 };
 
@@ -66,10 +63,8 @@ export const activateUser = ({ usernameOrId }) => {
         }
       )
       .then(res => {
-        console.log(res);
         dispatch({ type: 'DEV_APPROVE_SUCCES', payload: { usernameOrId } });
-        console.log('ppppppppppp');
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   };
 };
