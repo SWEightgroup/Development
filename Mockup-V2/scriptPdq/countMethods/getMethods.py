@@ -1,5 +1,5 @@
 '''
-get fields for file (ONLY BACKEND FOLDER)
+get methods for file (ONLY BACKEND FOLDER)
 '''
 
 import os
@@ -15,10 +15,7 @@ with open('paths.txt','r') as paths:
                 if (file.endswith(".js") or file.endswith(".java") or file.endswith(".jsx")):
                     FILES.append(os.path.join(root, file))
 
-
-OptimalRangeFile = 0
-acceptableRangeFile = 0
-notPassedFile = 0
+sumAllMethodCount = 0
 countFiles = 0
 for file in FILES:
     countFiles += 1
@@ -36,28 +33,22 @@ for file in FILES:
         data = data.replace("\\", "")
         data = data.replace("\"", "")
         data = data.replace("\'", "")
+        data = data.replace(",", "")
 
         # regular expression for count filds in file
         # warning: if file have more than one class result could be wrong
-        fieldsCount = re.findall(r"(private|protected|public)\w*\=*\w*\;",data)
+        methodCountInline = re.findall(r"(private|protected|public)\w*\(\w*\)\{",data)
+        methodCount = re.findall(r"(private|protected|public)\w*\(\w*\)\;",data)
+        
+        totMethodCount = len(methodCountInline) + len(methodCount)
+        sumAllMethodCount += totMethodCount
         print(file)
-        print(len(fieldsCount))
+        print(totMethodCount)
         
-        if(len(fieldsCount) <= 10):
-            OptimalRangeFile += 1
-        if(10 < len(fieldsCount) < 15):
-            acceptableRangeFile += 1
-        if(len(fieldsCount) > 15):
-            notPassedFile += 1
-        
-        #   FOR DEBUGGING
-        if(len(fieldsCount)>9):
-            print("file:" + file)
-            print("have " + str(len(fieldsCount)) + " fields")
+average = sumAllMethodCount / countFiles
+print(average)
 
 with open('results.txt', 'w') as result:
     result.write("analyzed files: {}\n".format(countFiles))
-    result.write("files with optimal range: {}\n".format(OptimalRangeFile))
-    result.write("files with acceptable range: {}\n".format(acceptableRangeFile))
-    result.write("not passed: {}\n".format(notPassedFile))
+    result.write("methods average for file: {}\n".format(average))
 

@@ -1,4 +1,2 @@
 analyzed files: 44
-files with optimal range: 43
-files with acceptable range: 1
-not passed: 0
+methods average for file: 2.477272727272727
