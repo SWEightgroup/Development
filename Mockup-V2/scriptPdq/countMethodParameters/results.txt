@@ -1,0 +1,3 @@
+analyzed files: 92
+methods with five or more parameters: 0
+methods with eigth or more parameters: 0
