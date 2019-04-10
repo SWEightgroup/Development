@@ -1,0 +1,4 @@
+analyzed files: 44
+files with optimal range: 44
+files with acceptable range: 0
+not passed: 0

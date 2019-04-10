@@ -1,5 +1,5 @@
 '''
-get parameters 
+get fields for file (ONLY BACKEND FOLDER)
 '''
 
 import os
@@ -15,6 +15,10 @@ with open('paths.txt','r') as paths:
                 if (file.endswith(".js") or file.endswith(".java") or file.endswith(".jsx")):
                     FILES.append(os.path.join(root, file))
 
+
+OptimalRangeFile = 0
+acceptableRangeFile = 0
+notPassedFile = 0
 countFiles = 0
 for file in FILES:
     countFiles += 1
@@ -30,23 +34,26 @@ for file in FILES:
         data = data.replace(" ", "")
         data = data.replace("\n", "")
 
-        # regular expression for count method with more than 4 parameters.
-        fiveOrMoreParameter = re.findall(r"(private|protected|public)\w*\((\w*\,){4,}",data)
-        # regular expression for count method with more than 4 parameters.
-        eigthOrMoreParameter = re.findall(r"(private|protected|public)\w*\((\w*\,){7,}",data)
-
-        # 
+        # regular expression for count filds in file
+        # warning: if file have more than one class result could be wrong
+        fieldsCount = re.findall(r"(private|protected|public)\w*\;",data)
+        
+        
+        if(len(fieldsCount) <= 10):
+            OptimalRangeFile += 1
+        if(10 < len(fieldsCount) < 15):
+            acceptableRangeFile += 1
+        if(len(fieldsCount) > 15):
+            notPassedFile += 1
+        
         #   FOR DEBUGGING
-        # 
-        # if(len(fiveOrMoreParameter)>0):
-        #     print(file)
-        #     print("There are methods with five or more parameters")
-        # if(len(eigthOrMoreParameter)>0):
-        #     print(file)
-        #     print("There are methods with eigth or more parameters")
+        if(len(fieldsCount)>9):
+            print("file:" + file)
+            print("have " + str(len(fieldsCount)) + " fields")
 
 with open('results.txt', 'w') as result:
     result.write("analyzed files: {}\n".format(countFiles))
-    result.write("methods with five or more parameters: {}\n".format(len(fiveOrMoreParameter)))
-    result.write("methods with eigth or more parameters: {}\n".format(len(eigthOrMoreParameter)))
+    result.write("files with optimal range: {}\n".format(OptimalRangeFile))
+    result.write("files with acceptable range: {}\n".format(acceptableRangeFile))
+    result.write("not passed: {}\n".format(notPassedFile))
 
