@@ -57,7 +57,8 @@ export const _label = {
     developerDashBoard_desc: 'Filtra e scarica i dati che ti interessano',
     developerDashBoard_devDownText:
       "Premendo il bottone sottostante, puoi scaricare i dati di analisi grammaticale generati dali utenti di Colletta. Potrebbe volerci un po' di tempo, fatti un caffè, dai.",
-    developerDashBoard_devDown: 'Aggiorna',
+    developerDashBoard_devDown: 'Scarica',
+    adminDashBoard_update: 'Aggiorna',
     developerToAccept_allow: 'Accetta',
     developerToAccept_deny: 'Rifiuta',
     adminDevDashBoard_subtitle:
@@ -121,8 +122,8 @@ export const _label = {
     developerDashBoard_desc: "Filter and download the data you're looking for",
     developerDashBoard_devDownText:
       'By clicking the button below, you can can download all the user generated data of Colletta. This may take a while, feel free to go grab a coffe!',
-    developerDashBoard_devDown: 'Update',
-
+    developerDashBoard_devDown: 'Download',
+    adminDashBoard_update: 'Update',
     developerToAccept_allow: 'Allow',
     developerToAccept_deny: 'Deny',
     adminDevDashBoard_subtitle:

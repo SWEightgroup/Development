@@ -91,7 +91,7 @@ class AdminDevDashBoard extends Component {
                   onClick={() => fetchDeveloperListDispatch()}
                   className="btn-wide btn btn-primary"
                 >
-                  {_translator('developerDashBoard_devDown', language)}
+                  {_translator('adminDashBoard_update', language)}
                 </button>
               </div>
             </div>
