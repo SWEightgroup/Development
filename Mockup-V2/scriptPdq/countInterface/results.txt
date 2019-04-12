@@ -1,0 +1,2 @@
+analyzed files: 92
+analyzed method: 0
