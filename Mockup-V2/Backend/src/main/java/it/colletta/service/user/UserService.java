@@ -7,31 +7,25 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJWT;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.security.acl.NotOwnerException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-  @Autowired
-  private UsersRepository applicationUserRepository;
+  @Autowired private UsersRepository applicationUserRepository;
 
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  UserService(UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder)
-  {
+  UserService(UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.applicationUserRepository = usersRepository;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
@@ -60,8 +54,7 @@ public class UserService {
     Optional<UserModel> userModelOptional = applicationUserRepository.findById(id);
     if (userModelOptional.isPresent()) {
       return userModelOptional.get();
-    }
-    else {
+    } else {
       throw new UsernameNotFoundException("Id not refer to a user of the system");
     }
   }
@@ -173,8 +166,7 @@ public class UserService {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
     List<UserModel> mydevelopment = null;
     if (user.isPresent()) {
-      if (user.get().getRole().equals(Role.ADMIN)) {
-      }
+      if (user.get().getRole().equals(Role.ADMIN)) {}
       mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
     }
     return mydevelopment;

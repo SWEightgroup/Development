@@ -1,8 +1,13 @@
 package it.colletta.service.user;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
+import java.util.ArrayList;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,116 +21,101 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource(properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
+@TestPropertySource(
+    properties =
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class UserServiceTest {
 
+  @MockBean private UsersRepository usersRepository;
 
-    @MockBean
-    private UsersRepository usersRepository;
-
-    private UserService userService;
+  private UserService userService;
 
   private UserModel testUser;
 
-    @Before
-    public void setUp() throws Exception {
+  @Before
+  public void setUp() throws Exception {
 
-        userService = new UserService(usersRepository, new BCryptPasswordEncoder());
+    userService = new UserService(usersRepository, new BCryptPasswordEncoder());
 
-        testUser = UserModel.builder()
-                .id("1")
-                .email("test@test.it")
-                .password("12345")
-                .firstName("Tom")
-                .build();
+    testUser =
+        UserModel.builder()
+            .id("1")
+            .email("test@test.it")
+            .password("12345")
+            .firstName("Tom")
+            .build();
+  }
 
-    }
+  @Test
+  public void addUser() {
 
+    Mockito.when(usersRepository.save(testUser)).thenReturn(testUser);
 
-    @Test
-    public void addUser() {
+    UserModel addedUser = userService.addUser(testUser);
+    assertEquals(addedUser.getId(), "1");
+    assertNull(addedUser.getPassword());
+  }
 
-        Mockito.when(usersRepository.save(testUser)).thenReturn(testUser);
+  @Test
+  public void findById() {
 
-        UserModel addedUser = userService.addUser(testUser);
-        assertEquals(addedUser.getId(), "1");
-        assertNull(addedUser.getPassword());
-    }
+    Mockito.when(usersRepository.findById("1")).thenReturn(Optional.of(testUser));
 
-    @Test
-    public void findById() {
+    Optional<UserModel> userOptional = userService.findById("1");
+    if (userOptional.isPresent()) assertEquals(userOptional.get().getId(), "1");
+    else Assert.fail();
+  }
 
-        Mockito.when(usersRepository.findById("1")).thenReturn(Optional.of(testUser));
+  @Test
+  public void getUserInfo() {
 
-        Optional<UserModel> userOptional = userService.findById("1");
-        if (userOptional.isPresent())
-            assertEquals(userOptional.get().getId(), "1");
-        else
-            Assert.fail();
-    }
+    Mockito.when(usersRepository.findById("1")).thenReturn(Optional.of(testUser));
 
-    @Test
-    public void getUserInfo() {
+    UserModel addedUser = userService.getUserInfo("1");
 
-        Mockito.when(usersRepository.findById("1")).thenReturn(Optional.of(testUser));
+    assertEquals(addedUser.getId(), "1");
+  }
 
-        UserModel addedUser = userService.getUserInfo("1");
+  @Test(expected = UsernameNotFoundException.class)
+  public void getUserInfoWithWrongId() {
+    Mockito.when(usersRepository.findById("2")).thenReturn(Optional.empty());
 
-        assertEquals(addedUser.getId(), "1");
-    }
+    userService.getUserInfo("2");
+  }
 
-    @Test(expected = UsernameNotFoundException.class)
-    public void getUserInfoWithWrongId() {
-        Mockito.when(usersRepository.findById("2")).thenReturn(Optional.empty());
+  @Test
+  public void updateUser() {}
 
-        userService.getUserInfo("2");
-    }
+  @Test
+  public void addExerciseItem() {
 
-    @Test
-    public void updateUser() {
-        
+    ArrayList<UserModel> users = new ArrayList<>();
+    users.add(UserModel.builder().id("2").build());
+    users.add(UserModel.builder().id("3").build());
 
-    }
+    ArrayList<String> userIds = new ArrayList<>();
+    userIds.add("2");
+    userIds.add("3");
 
-    @Test
-    public void addExerciseItem() {
+    ExerciseModel exercise = ExerciseModel.builder().id("11").build();
 
-        ArrayList<UserModel> users = new ArrayList<>();
-        users.add(UserModel.builder().id("2").build());
-        users.add(UserModel.builder().id("3").build());
+    Mockito.when(usersRepository.findAllById(userIds)).thenReturn(users);
 
-        ArrayList<String> userIds = new ArrayList<>();
-        userIds.add("2");
-        userIds.add("3");
+    userService.addExerciseItem(userIds, exercise);
 
-        ExerciseModel exercise = ExerciseModel.builder()
-                .id("11")
-                .build();
+    // Capture the users that are passed to saveAll
+    ArgumentCaptor<ArrayList> argumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
+    Mockito.verify(usersRepository).saveAll(argumentCaptor.capture());
+    ArrayList<UserModel> insertedUsers = argumentCaptor.getValue();
 
-        Mockito.when(usersRepository.findAllById(userIds)).thenReturn(users);
+    // Check that the first user has the inserted exercise in exercisesToDo
+    assertEquals(insertedUsers.get(0).getExercisesToDo().size(), 1);
+    assertEquals(insertedUsers.get(0).getExercisesToDo().get(0), "11");
 
-        userService.addExerciseItem(userIds, exercise);
-
-        //Capture the users that are passed to saveAll
-        ArgumentCaptor<ArrayList> argumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-        Mockito.verify(usersRepository).saveAll(argumentCaptor.capture());
-        ArrayList<UserModel> insertedUsers = argumentCaptor.getValue();
-
-        //Check that the first user has the inserted exercise in exercisesToDo
-        assertEquals(insertedUsers.get(0).getExercisesToDo().size(), 1);
-        assertEquals(insertedUsers.get(0).getExercisesToDo().get(0), "11");
-
-        //Check that the second user has the inserted exercise in exercisesToDo
-        assertEquals(insertedUsers.get(1).getExercisesToDo().size(), 1);
-        assertEquals(insertedUsers.get(1).getExercisesToDo().get(0), "11");
-    }
+    // Check that the second user has the inserted exercise in exercisesToDo
+    assertEquals(insertedUsers.get(1).getExercisesToDo().size(), 1);
+    assertEquals(insertedUsers.get(1).getExercisesToDo().get(0), "11");
+  }
 }

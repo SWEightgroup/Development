@@ -1,15 +1,13 @@
 package it.colletta.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
@@ -18,34 +16,26 @@ import lombok.Setter;
 @Document(collection = "phrases")
 public class PhraseModel {
 
-  @Id
-  private String id;
+  @Id private String id;
 
   @Indexed(unique = true)
   private String phraseText;
 
-  @Builder.Default
-  private ArrayList<SolutionModel> solutions = new ArrayList<>();
+  @Builder.Default private ArrayList<SolutionModel> solutions = new ArrayList<>();
   private String language;
   private Long datePhrase;
 
-  /**
-   * constructor.
-   */
+  /** constructor. */
   public PhraseModel() {
     solutions = new ArrayList<>();
   }
 
-  /**
-   * 
-   * @param solutionModel
-   */
+  /** @param solutionModel */
   public void addSolution(final SolutionModel solutionModel) {
     solutions.add(solutionModel);
   }
 
   /**
-   * 
    * @param solutionModel
    * @return
    */

@@ -2,24 +2,21 @@ package it.colletta.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @AllArgsConstructor
@@ -30,8 +27,7 @@ import lombok.ToString;
 public class UserModel implements UserDetails {
 
   private static final long serialVersionUID = 1L;
-  @Id
-  private String id;
+  @Id private String id;
 
   @JsonProperty("username")
   @Indexed(unique = true)
@@ -48,19 +44,15 @@ public class UserModel implements UserDetails {
   private Date dateOfBirth;
   private Integer currentGoal;
 
-  @Builder.Default
-  private List<String> exercisesToDo = new ArrayList<>();
+  @Builder.Default private List<String> exercisesToDo = new ArrayList<>();
 
-  @Builder.Default
-  private List<String> exercisesDone = new ArrayList<>();
+  @Builder.Default private List<String> exercisesDone = new ArrayList<>();
 
   private Boolean enabled;
 
-  @Builder.Default
-  private ArrayList<String> favoriteTeacherIds = new ArrayList<>();
+  @Builder.Default private ArrayList<String> favoriteTeacherIds = new ArrayList<>();
 
   /**
-   * 
    * @param exerciseToAddId
    * @return
    */
@@ -72,7 +64,6 @@ public class UserModel implements UserDetails {
   }
 
   /**
-   * 
    * @param exerciseToRemoveId
    * @return
    */
@@ -81,7 +72,6 @@ public class UserModel implements UserDetails {
   }
 
   /**
-   * 
    * @param exerciseToAddId
    * @return
    */
@@ -92,42 +82,27 @@ public class UserModel implements UserDetails {
     return exercisesDone.add(exerciseToAddId);
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getId() {
     return id;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getFirstName() {
     return firstName;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getLastName() {
     return lastName;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public List<String> getExercisesToDo() {
     return exercisesToDo;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public List<String> getExercisesDone() {
     return exercisesDone;
   }
@@ -137,42 +112,27 @@ public class UserModel implements UserDetails {
     return password;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getRole() {
     return role;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getLanguage() {
     return language;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public Date getDateOfBirth() {
     return dateOfBirth;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public Integer getCurrentGoal() {
     return currentGoal;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public ArrayList<String> getFavoriteTeacherIds() {
     return favoriteTeacherIds;
   }

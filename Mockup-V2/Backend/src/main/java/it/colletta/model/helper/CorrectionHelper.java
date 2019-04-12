@@ -5,18 +5,12 @@ public class CorrectionHelper {
   private String solutionFromStudent;
   private String exerciseId;
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getSolutionFromStudent() {
     return solutionFromStudent;
   }
 
-  /**
-   * 
-   * @return
-   */
+  /** @return */
   public String getExerciseId() {
     return exerciseId;
   }

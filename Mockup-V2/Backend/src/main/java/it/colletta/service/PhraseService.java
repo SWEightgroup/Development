@@ -3,21 +3,17 @@ package it.colletta.service;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
 
-  @Autowired
-  private PhraseRepository phraseRepository;
+  @Autowired private PhraseRepository phraseRepository;
 
   /**
    * returns all the phrased written by a userId
@@ -30,7 +26,6 @@ public class PhraseService {
   }
 
   /**
-   * 
    * @param phraseModel
    * @return
    */
@@ -48,7 +43,6 @@ public class PhraseService {
   }
 
   /**
-   * 
    * @param authorId
    * @return
    */
@@ -57,7 +51,6 @@ public class PhraseService {
   }
 
   /**
-   * 
    * @param phraseIds
    * @return
    */
@@ -67,7 +60,6 @@ public class PhraseService {
   }
 
   /**
-   * 
    * @param phraseId
    * @return
    */
@@ -75,16 +67,12 @@ public class PhraseService {
     return phraseRepository.findById(phraseId);
   }
 
-  /**
-   * 
-   * @param mainSolution
-   */
+  /** @param mainSolution */
   public void increaseReliability(SolutionModel mainSolution) {
     phraseRepository.increaseReliability(mainSolution);
   }
 
   /**
-   * 
    * @param phraseId
    * @param solutionId
    * @return

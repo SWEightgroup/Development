@@ -1,6 +1,8 @@
 package it.colletta.repository.user;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import it.colletta.model.UserModel;
 import it.colletta.repository.config.MongoConfig;
@@ -15,10 +17,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

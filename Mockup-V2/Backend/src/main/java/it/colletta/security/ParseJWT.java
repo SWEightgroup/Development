@@ -24,7 +24,6 @@ public class ParseJWT {
   }
 
   /**
-   * 
    * @param jwt
    * @return
    */
