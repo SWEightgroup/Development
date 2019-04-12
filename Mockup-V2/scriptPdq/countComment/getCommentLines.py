@@ -24,7 +24,7 @@ for file in FILES:
     with open(file, 'r', encoding="utf-8") as ofile:
         multiline = False
         SINGLEFILELINE = 0
-        SINGLEFILECOMMENT
+        SINGLEFILECOMMENT = 0
         for num, line in enumerate(ofile, 1):
             SINGLEFILELINE += 1
             line = line.strip()
@@ -50,6 +50,7 @@ for file in FILES:
         allResult.write("{}\n".format(file))
         allResult.write("{} line of comment \n\n".format(SINGLEFILECOMMENT))
         TOTCOUNTLINE += SINGLEFILELINE
+        TOTCOUNTCOMMENT += SINGLEFILECOMMENT
 
 allResult.close()
 
