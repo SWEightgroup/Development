@@ -147,7 +147,7 @@ class InsertExercise extends Component {
 
         {response && studentList && studentList.length > 0 && (
           <div className="row">
-            <div className="col-md-12 ">
+            <div className="col-sm-12 col-md-6 ">
               <div className="mb-3 card">
                 <div className="card-header-tab card-header-tab-animation card-header">
                   <div className="card-header-title">
@@ -165,7 +165,10 @@ class InsertExercise extends Component {
                         <div className="scrollbar-container">
                           <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
                             {studentList.map(student => (
-                              <li className="list-group-item">
+                              <li
+                                key={`li-${  student.username}`}
+                                className="list-group-item"
+                              >
                                 <div className="widget-content p-0">
                                   <div className="widget-content-wrapper">
                                     <div className="widget-content-left mr-3">
@@ -188,7 +191,7 @@ class InsertExercise extends Component {
                                       </label>
                                     </div>
 
-                                    <div className="widget-content-right">
+                                    {/* <div className="widget-content-right">
                                       <div className="font-size-xlg text-muted">
                                         <small className="opacity-5 pr-1">
                                           $
@@ -198,7 +201,7 @@ class InsertExercise extends Component {
                                           <i className="fa fa-angle-down" />
                                         </small>
                                       </div>
-                                    </div>
+                            </div> */}
                                   </div>
                                 </div>
                               </li>

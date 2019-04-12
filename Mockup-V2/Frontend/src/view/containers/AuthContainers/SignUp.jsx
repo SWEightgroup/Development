@@ -130,9 +130,9 @@ class SignUp extends Component {
                     <option value="ROLE_STUDENT">
                       {_translator('gen_student')}
                     </option>
-                    <option value="ROLE_ADMIN">
+                    {/* <option value="ROLE_ADMIN">
                       {_translator('gen_admin')}
-                    </option>
+                    </option> */}
                     <option value="ROLE_TEACHER">
                       {_translator('gen_teacher')}
                     </option>

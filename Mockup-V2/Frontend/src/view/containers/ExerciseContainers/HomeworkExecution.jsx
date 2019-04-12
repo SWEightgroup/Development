@@ -19,7 +19,6 @@ class HomeworkExercise extends Component {
 
   componentWillUnmount() {
     const { initializeNewExerciseDispatch } = this.props;
-    console.log('inizializzo stato newExercise');
     initializeNewExerciseDispatch();
   }
 
@@ -35,12 +34,19 @@ class HomeworkExercise extends Component {
     } = this.props;
 
     const codeSolution = newExercise.userSolution.map((word, index) => {
-      if (
-        word.languageIterator.getSolution().length === 0 &&
-        newExercise.response[index].tag.charAt(0) === 'F'
-      )
-        return newExercise.response[index].tag;
-      return word.languageIterator.getCodeSolution();
+      console.log(
+        ': HomeworkExercise -> checkSolution -> newExercise.response',
+        newExercise
+      );
+      if (newExercise.response !== null) {
+        if (
+          word.languageIterator.getSolution() &&
+          word.languageIterator.getSolution().length === 0 &&
+          newExercise.response[index].tag.charAt(0) === 'F'
+        )
+          return newExercise.response[index].tag;
+        return word.languageIterator.getCodeSolution();
+      } return '';
     }); // questo è un array di codici che invio al backend
 
     updateNewExerciseStateDispatch({
@@ -58,6 +64,7 @@ class HomeworkExercise extends Component {
     const { user } = auth;
 
     const { response, showSolution, createAt, mark } = newExercise;
+    console.log(': HomeworkExercise -> render -> newExercise', newExercise);
 
     const { language } = user;
 
@@ -75,7 +82,12 @@ class HomeworkExercise extends Component {
                 <div className="col-12">
                   <h5 className="card-title">Esercizio da svolgere</h5>
                   <p className="card-text">{newExercise.sentenceString}</p>
-                  {mark && <h1 className="pull-right">{mark}</h1>}
+                  {mark && mark.length > 0 && (
+                    <h1 className="pull-right">
+                      {_translator('executionExercise_mark', language)}
+                      {mark}
+                    </h1>
+                  )}
                 </div>
               </div>
             </div>

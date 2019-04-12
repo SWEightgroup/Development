@@ -66,7 +66,7 @@ class Word extends Component {
         languageIterator
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

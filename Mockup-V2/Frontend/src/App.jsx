@@ -83,7 +83,7 @@ class App extends Component {
             </div>
             <div className="app-main__outer">
               <div className="app-main__inner relative full-height-mobile">
-                {innerLoader && <div className="loading" />}
+                {innerLoader && <div className="loading loading_inner" />}
                 <Switch>
                   <ProtectedRoute
                     exact
