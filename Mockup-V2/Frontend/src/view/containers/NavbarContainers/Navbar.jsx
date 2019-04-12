@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SignedInLinks from './../../components/SignedInLinks';
-import SignedOutLinks from './../../components/SignedOutLinks';
+import SignedInLinks from "../../components/SignedInLinks";
+import SignedOutLinks from "../../components/SignedOutLinks";
 
 class Navbar extends Component {
+  state = {};
+
   render() {
     const { auth } = this.props;
     const links = auth.user ? (
