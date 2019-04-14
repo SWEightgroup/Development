@@ -40,21 +40,31 @@ public class ExerciseController {
   @Autowired ExerciseService exerciseService;
   @Autowired @Lazy SolutionService solutionService;
 
-
   @Autowired private EntityLinks links;
 
   @GetMapping(value = "/exercises-alt/done", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity < PagedResources < ExerciseModel >> AllExercisesDone(@RequestHeader("Authorization") String token, Pageable pageable, PagedResourcesAssembler assembler) {
+  public ResponseEntity<PagedResources<ExerciseModel>> AllExercisesDone(
+      @RequestHeader("Authorization") String token,
+      Pageable pageable,
+      PagedResourcesAssembler assembler) {
     String id = ParseJwt.getIdFromJwt(token);
-    Page< ExerciseModel > exercisesDone = exerciseService.getAllDoneByAuthorId(pageable, "5cad030e9d41b706e057761c");
+    Page<ExerciseModel> exercisesDone =
+        exerciseService.getAllDoneByAuthorId(pageable, "5cad030e9d41b706e057761c");
     PagedResources<ExerciseModel> pr;
-    pr = assembler.toResource(exercisesDone, linkTo(ExerciseController.class).slash("/exercises-alt/done").withSelfRel());
+    pr =
+        assembler.toResource(
+            exercisesDone,
+            linkTo(ExerciseController.class).slash("/exercises-alt/done").withSelfRel());
     HttpHeaders responseHeaders = new HttpHeaders();
     PagingTool<ExerciseModel> pagingTool = new PagingTool<>();
     responseHeaders.add("Link", pagingTool.createLinkHeader(pr));
-    return new ResponseEntity < > (assembler.toResource(exercisesDone, linkTo(ExerciseController.class).slash("/exercises-alt/done").withSelfRel()), responseHeaders, HttpStatus.OK);
+    return new ResponseEntity<>(
+        assembler.toResource(
+            exercisesDone,
+            linkTo(ExerciseController.class).slash("/exercises-alt/done").withSelfRel()),
+        responseHeaders,
+        HttpStatus.OK);
   }
-
 
   /**
    * @param exercise the exercise which needs to be inserted in the database

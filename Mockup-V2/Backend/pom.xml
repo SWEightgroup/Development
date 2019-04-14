@@ -159,6 +159,7 @@
     </configuration>
     <executions>
         <execution>
+          <phase>deploy</phase>
             <id>install node and npm</id>
             <goals>
                 <goal>install-node-and-npm</goal>
@@ -169,6 +170,7 @@
             </configuration>
         </execution>
         <execution>
+          <phase>deploy</phase>
             <id>npm install</id>
             <goals>
                 <goal>npm</goal>
@@ -178,6 +180,7 @@
             </configuration>
         </execution>
         <execution>
+          <phase>deploy</phase>
             <id>npm run build</id>
             <goals>
                 <goal>npm</goal>

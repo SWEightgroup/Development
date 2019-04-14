@@ -14,6 +14,5 @@ public interface ExerciseCustomQueryInterface {
    */
   UpdateResult modifyAuthorName(String newAuthorName, String authorId);
 
-
   Page<ExerciseModel> findAllByPaged(Pageable page, Iterable<String> ids);
 }

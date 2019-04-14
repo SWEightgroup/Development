@@ -22,14 +22,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExerciseService {
 
-  @Autowired
-  private ExerciseRepository exerciseRepository;
+  @Autowired private ExerciseRepository exerciseRepository;
 
-  @Autowired
-  private PhraseService phraseService;
+  @Autowired private PhraseService phraseService;
 
-  @Autowired
-  private UserService userService;
+  @Autowired private UserService userService;
 
   /**
    * Find by id.
