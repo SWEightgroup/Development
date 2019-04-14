@@ -15,6 +15,8 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -287,8 +289,18 @@ public class ExerciseService {
    * @param id Student id
    * @return List of exericse
    */
-  public Iterable<ExerciseModel> getAllByIds(String id) {
+  public Iterable<ExerciseModel> getAllDoneByAuthorId(String id) {
+    List<String> exercisesDoneId = userService.getAllExerciseDone(id);
+    return exerciseRepository.findAllById(exercisesDoneId);
+  }
+
+  public Iterable<ExerciseModel> getAllToDoByAuthorId(String id) {
+    List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
+    return exerciseRepository.findAllById(exercisesToDoId);
+  }
+
+  public Page<ExerciseModel> getAllDoneByAuthorId(Pageable page, String id) {
     List<String> exercisesDoneid = userService.getAllExerciseDone(id);
-    return exerciseRepository.findAllById(exercisesDoneid);
+    return exerciseRepository.findAllByPaged(page, exercisesDoneid);
   }
 }
