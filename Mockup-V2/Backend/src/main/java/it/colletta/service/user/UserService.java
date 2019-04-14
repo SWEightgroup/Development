@@ -168,7 +168,7 @@ public class UserService {
    * @param userId User id
    * @return list of exercise id
    */
-  public List<String> findAllExerciseToDo(String userId) {
+  public List<String> getAllExerciseToDo(String userId) {
     Optional<UserModel> userModel = applicationUserRepository.findById(userId);
     if (userModel.isPresent()) {
       return userModel.get().getExercisesToDo();
@@ -222,6 +222,21 @@ public class UserService {
     Optional<UserModel> userModel = applicationUserRepository.findById(userid);
     if (userModel.isPresent()) {
       return userModel.get().getExercisesDone();
+    } else {
+      throw new UsernameNotFoundException("User not found in the system");
+    }
+  }
+
+  /**
+   * Return all done exercise.
+   *
+   * @param userid Student id
+   * @return List of exericses
+   */
+  public List<String> getAllToDoByAuthorId(String userid) {
+    Optional<UserModel> userModel = applicationUserRepository.findById(userid);
+    if (userModel.isPresent()) {
+      return userModel.get().getExercisesToDo();
     } else {
       throw new UsernameNotFoundException("User not found in the system");
     }
