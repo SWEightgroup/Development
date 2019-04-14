@@ -13,7 +13,8 @@ import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
-
+import java.io.IOException;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.Map;
 
 @RestController
 public class ExerciseController {

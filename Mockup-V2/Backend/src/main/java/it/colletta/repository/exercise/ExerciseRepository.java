@@ -1,12 +1,9 @@
 package it.colletta.repository.exercise;
 
 import com.mongodb.client.result.UpdateResult;
-
 import it.colletta.model.ExerciseModel;
-
-import org.springframework.data.mongodb.repository.MongoRepository;
-
 import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ExerciseRepository extends MongoRepository<ExerciseModel, String> {
 

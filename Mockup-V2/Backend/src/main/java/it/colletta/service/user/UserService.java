@@ -7,18 +7,15 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -29,9 +26,9 @@ public class UserService {
 
   /**
    * Constructor.
-   * 
+   *
    * @param usersRepository UserReposytory
-   * @param passwordEncoder  bCryptPasswordEncoder
+   * @param passwordEncoder bCryptPasswordEncoder
    */
   UserService(UsersRepository usersRepository, BCryptPasswordEncoder passwordEncoder) {
     this.applicationUserRepository = usersRepository;
@@ -40,7 +37,7 @@ public class UserService {
 
   /**
    * Add new user.
-   * 
+   *
    * @param user User
    * @return added user
    */
@@ -66,7 +63,7 @@ public class UserService {
 
   /**
    * Return user information.
-   * 
+   *
    * @param id User id
    * @return User
    */
@@ -81,6 +78,7 @@ public class UserService {
 
   /**
    * Active an user.
+   *
    * @param id User id
    */
   public void activateUser(String id) {
@@ -89,7 +87,7 @@ public class UserService {
 
   /**
    * Delete user.
-   * 
+   *
    * @param userId User id
    * @return user deleted
    */
@@ -105,7 +103,7 @@ public class UserService {
 
   /**
    * Return user by Email.
-   * 
+   *
    * @param email User email
    * @return User
    */
@@ -115,7 +113,7 @@ public class UserService {
 
   /**
    * Update user info.
-   * 
+   *
    * @param newUserData User info
    * @param token User token
    * @return User
@@ -123,7 +121,7 @@ public class UserService {
   public UserModel updateUser(UserModel newUserData, String token) {
 
     String email = ParseJwt.getEmailFromJwt(token);
-    //String newEmail = newUserData.getUsername();
+    // String newEmail = newUserData.getUsername();
     /*if (!email.equals(newEmail)
         && applicationUserRepository.findByEmail(newEmail) != null) { // ho modificato la mia mail
       throw new NotOwnerException();
@@ -151,7 +149,7 @@ public class UserService {
 
   /**
    * adds the exercise to the todo list of students.
-   * 
+   *
    * @param assignedUsersIds List of users
    * @param exerciseModel Exericse
    */
@@ -166,7 +164,7 @@ public class UserService {
 
   /**
    * Return all todo id of exericses.
-   * 
+   *
    * @param userId User id
    * @return list of exercise id
    */
@@ -181,7 +179,7 @@ public class UserService {
 
   /**
    * Return all student user.
-   * 
+   *
    * @return list of students
    */
   public List<UserModel> getAllStudents() {
@@ -190,7 +188,7 @@ public class UserService {
 
   /**
    * Return all user.
-   * 
+   *
    * @return List of students
    */
   public List<UserModel> getAllUsers() {
@@ -199,8 +197,8 @@ public class UserService {
 
   /**
    * Delete an exercise.
-   * 
-   * @param exerciseId Exercise id 
+   *
+   * @param exerciseId Exercise id
    * @param userId User id
    * @return UserModel
    */
@@ -216,7 +214,7 @@ public class UserService {
 
   /**
    * Return all done exercise.
-   * 
+   *
    * @param userid Student id
    * @return List of exericses
    */
@@ -231,7 +229,7 @@ public class UserService {
 
   /**
    * Shift an exercise from todo in done list.
-   * 
+   *
    * @param studentId Student Id
    * @param exerciseToCorrect Exercise
    */
@@ -248,7 +246,7 @@ public class UserService {
   // TODO e' developer....
   /**
    * Return all developer user.
-   * 
+   *
    * @param userId Id of the applicant
    * @return User List
    */
@@ -256,7 +254,7 @@ public class UserService {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
     List<UserModel> mydevelopment = null;
     if (user.isPresent()) {
-      //if (user.get().getRole().equals(Role.ADMIN)) {}
+      // if (user.get().getRole().equals(Role.ADMIN)) {}
       mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
     }
     return mydevelopment;

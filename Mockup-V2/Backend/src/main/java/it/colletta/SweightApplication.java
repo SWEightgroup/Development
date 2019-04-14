@@ -26,8 +26,8 @@ public class SweightApplication extends SpringBootServletInitializer {
   }
 }
 /*
- 
- 
+
+
  <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
@@ -176,7 +176,7 @@ public class SweightApplication extends SpringBootServletInitializer {
           </execution>
         </executions>
       </plugin>
-    
+
 <plugin>
     <groupId>com.github.eirslett</groupId>
     <artifactId>frontend-maven-plugin</artifactId>
@@ -196,8 +196,8 @@ public class SweightApplication extends SpringBootServletInitializer {
                 <npmVersion>6.4.1</npmVersion>
             </configuration>
         </execution>
-        
-        
+
+
         <execution>
             <id>npm run build</id>
             <goals>
@@ -207,7 +207,7 @@ public class SweightApplication extends SpringBootServletInitializer {
                 <arguments>run build</arguments>
             </configuration>
         </execution>
- 
+
     </executions>
 </plugin>
 <plugin>

@@ -132,13 +132,13 @@
             <id>validate</id>
             <phase>validate</phase>
             <configuration>
-              <configLocation>google_checks.xml</configLocation>
               <encoding>UTF-8</encoding>
               <consoleOutput>true</consoleOutput>
               <failsOnError>false</failsOnError>
               <failOnViolation>false</failOnViolation>
               <violationSeverity>warning</violationSeverity>
             </configuration>
+
             <goals>
               <goal>check</goal>
             </goals>

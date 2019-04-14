@@ -26,9 +26,9 @@ public class ParseJwt {
 
   /**
    * Return id from token.
-   * 
+   *
    * @param jwt Token
-   * @return Id 
+   * @return Id
    */
   public static String getIdFromJwt(String jwt) {
     jwt = jwt.replace("Bearer", "");

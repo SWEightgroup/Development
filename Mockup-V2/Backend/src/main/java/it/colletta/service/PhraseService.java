@@ -3,14 +3,11 @@ package it.colletta.service;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
-
-import lombok.NonNull;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
@@ -29,7 +26,7 @@ public class PhraseService {
 
   /**
    * Insert a new phrase in the system.
-   * 
+   *
    * @param phraseModel Phrase
    * @return Phrase
    */
@@ -47,7 +44,7 @@ public class PhraseService {
 
   /**
    * Find all solution by Author id.
-   * 
+   *
    * @param authorId Author id
    * @return List of Solution
    */
@@ -57,7 +54,7 @@ public class PhraseService {
 
   /**
    * Get all phrase by id.
-   * 
+   *
    * @param phraseIds List of phrases id
    * @return LIst of Phrases
    */
@@ -68,7 +65,7 @@ public class PhraseService {
 
   /**
    * Get phrase by id.
-   * 
+   *
    * @param phraseId Phrase id
    * @return Phrase
    */
@@ -78,6 +75,7 @@ public class PhraseService {
 
   /**
    * Increase Realibility of the phrase.
+   *
    * @param mainSolution main solution
    */
   public void increaseReliability(SolutionModel mainSolution) {
@@ -86,7 +84,7 @@ public class PhraseService {
 
   /**
    * Get solution of the phrase by id.
-   * 
+   *
    * @param phraseId Phrase id
    * @param solutionId Solution id
    * @return Solution

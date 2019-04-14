@@ -3,10 +3,8 @@ package it.colletta.service;
 import it.colletta.library.FreelingAdapterInterface;
 import it.colletta.library.FreelingAdapterSocket;
 import it.colletta.model.SolutionModel;
-
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SolutionService {
@@ -22,7 +20,7 @@ public class SolutionService {
 
   /**
    * Return an automatic correction.
-   * 
+   *
    * @param correctionText Phrase text
    * @return Solution
    * @throws IOException Exception

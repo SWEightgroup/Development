@@ -3,10 +3,8 @@ package it.colletta.security;
 import static it.colletta.security.SecurityConstants.SIGN_UP_URL;
 
 import com.google.common.collect.ImmutableList;
-
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.user.UserDetailsServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -29,7 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
   /**
    * Constructor.
-   * 
+   *
    * @param userDetailsService User details
    * @param passwordEncoder Encoder
    */
@@ -63,17 +61,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .anyRequest()
         .authenticated()
         .and()
-        .addFilter(new JWTAuthenticationFilter(authenticationManager(), usersRepository))
-        .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+        .addFilter(new JwtAuthenticationFilter(authenticationManager(), usersRepository))
+        .addFilter(new JwtAuthorizationFilter(authenticationManager()))
         // this disables session creation on Spring Security
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
-  /** 
-   * @param auth the authentication manager for login.
-   * 
-   */
+  /** @param auth the authentication manager for login. */
   @Override
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
@@ -86,9 +81,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers("/resources/**", "/static/**", "/assets/**", "/resources/static/static/**");
   }
 
-  /** 
-   * Define the registerCorsConfiguration.
-   */
+  /** Define the registerCorsConfiguration. */
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     final CorsConfiguration configuration = new CorsConfiguration();

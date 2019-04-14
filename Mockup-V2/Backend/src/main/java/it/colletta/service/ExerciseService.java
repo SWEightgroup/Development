@@ -8,16 +8,14 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
-
-import org.bson.types.ObjectId;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ExerciseService {
@@ -30,6 +28,7 @@ public class ExerciseService {
 
   /**
    * Find by id.
+   *
    * @param id Exercise id
    * @returnc Exericse
    */
@@ -40,7 +39,7 @@ public class ExerciseService {
 
   /**
    * Modify exercise author name.
-   * 
+   *
    * @param newUserData User info
    * @param token User token
    */
@@ -57,6 +56,7 @@ public class ExerciseService {
 
   /**
    * Insert new exercise in the system.
+   *
    * @param exercise New Exercise
    * @return Exercise
    */
@@ -180,9 +180,8 @@ public class ExerciseService {
   }
 
   /**
-   * Add solution in the system and returns
-   * it with the mark.
-   * 
+   * Add solution in the system and returns it with the mark.
+   *
    * @param correctionHelper New solution
    * @param studentId Student id
    * @return Solution Solution with mark
@@ -245,7 +244,7 @@ public class ExerciseService {
 
   /**
    * Return the mark.
-   * 
+   *
    * @param studentSolutionMap List of student solutions
    * @param systemSolution Main of alternative solution
    * @return Mark
@@ -267,12 +266,12 @@ public class ExerciseService {
     }
     return (points * 10 / ((double) systemSolution.size()));
   }
-  
+
   /**
    * Delete exercise by id.
+   *
    * @param exerciseId Exercise id
    */
-
   public void deleteExercise(String exerciseId) {
     Optional<ExerciseModel> exerciseModelOptional = exerciseRepository.findById(exerciseId);
     if (exerciseModelOptional.isPresent()) {
@@ -284,7 +283,7 @@ public class ExerciseService {
 
   /**
    * getAllByIds.
-   * 
+   *
    * @param id Student id
    * @return List of exericse
    */

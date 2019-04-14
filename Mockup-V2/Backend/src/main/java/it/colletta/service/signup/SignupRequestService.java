@@ -2,9 +2,7 @@ package it.colletta.service.signup;
 
 import it.colletta.model.SignupRequestModel;
 import it.colletta.repository.administration.SingupRequestRepository;
-
 import lombok.NonNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SignupRequestService {
@@ -13,7 +11,7 @@ public class SignupRequestService {
 
   /**
    * Add signup request.
-   * 
+   *
    * @param requestModel Request
    * @return Signup request
    */
