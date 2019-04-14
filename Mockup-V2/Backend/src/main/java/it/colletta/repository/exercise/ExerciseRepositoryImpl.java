@@ -1,8 +1,9 @@
 package it.colletta.repository.exercise;
 
 import com.mongodb.client.result.UpdateResult;
+
 import it.colletta.model.ExerciseModel;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -11,6 +12,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.List;
 
 public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
@@ -23,7 +26,7 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
   }
 
   @Override
-  public UpdateResult modifyAuthorName(String newAuthorName, String authorId) {
+  public UpdateResult modifyAuthorName(final String newAuthorName, String authorId) {
     Query exerciseToUpdate = new Query(Criteria.where("authorId").is(authorId));
     Update modify = new Update();
     modify.set("authorName", newAuthorName);

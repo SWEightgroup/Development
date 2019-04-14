@@ -10,7 +10,7 @@ public interface FreelingAdapterInterface {
    * @param sentence String.
    * @return String correction.
    */
-  String getCorrection(String sentence);
+  String getCorrection(final String sentence);
 
   /**
    * Close the connection.

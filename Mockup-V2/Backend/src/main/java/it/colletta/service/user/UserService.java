@@ -7,22 +7,27 @@ import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 import it.colletta.security.Role;
 import it.colletta.service.signup.SignupRequestService;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.NotNull;
+
 @Service
 public class UserService {
 
-  @Autowired private UsersRepository applicationUserRepository;
+  @Autowired
+  private UsersRepository applicationUserRepository;
 
-  @Autowired private BCryptPasswordEncoder passwordEncoder;
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
 
   /**
    * Constructor.
@@ -30,7 +35,7 @@ public class UserService {
    * @param usersRepository UserReposytory
    * @param passwordEncoder bCryptPasswordEncoder
    */
-  UserService(UsersRepository usersRepository, BCryptPasswordEncoder passwordEncoder) {
+  UserService(final UsersRepository usersRepository, final BCryptPasswordEncoder passwordEncoder) {
     this.applicationUserRepository = usersRepository;
     this.passwordEncoder = passwordEncoder;
   }
@@ -47,17 +52,14 @@ public class UserService {
     user.setPassword(encode);
     user.setEnabled(false);
     user = applicationUserRepository.save(user);
-    SignupRequestModel signupRequestModel =
-        SignupRequestModel.builder()
-            .userReference(user.getId())
-            .requestDate(Calendar.getInstance().getTime())
-            .build();
+    SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
+        .requestDate(Calendar.getInstance().getTime()).build();
     // signupRequestService.addSignUpRequest(signupRequestModel);
     user.setPassword(null);
     return user;
   }
 
-  public Optional<UserModel> findById(String userId) {
+  public Optional<UserModel> findById(final String userId) {
     return applicationUserRepository.findById(userId);
   }
 
@@ -67,7 +69,7 @@ public class UserService {
    * @param id User id
    * @return User
    */
-  public UserModel getUserInfo(String id) {
+  public UserModel getUserInfo(final String id) {
     Optional<UserModel> userModelOptional = applicationUserRepository.findById(id);
     if (userModelOptional.isPresent()) {
       return userModelOptional.get();
@@ -81,7 +83,7 @@ public class UserService {
    *
    * @param id User id
    */
-  public void activateUser(String id) {
+  public void activateUser(final String id) {
     applicationUserRepository.updateActivateFlagOnly(id);
   }
 
@@ -91,7 +93,7 @@ public class UserService {
    * @param userId User id
    * @return user deleted
    */
-  public UserModel deleteUser(String userId) {
+  public UserModel deleteUser(final String userId) {
     Optional<UserModel> userToDelete = applicationUserRepository.findById(userId);
     if (userToDelete.isPresent()) {
       applicationUserRepository.delete(userToDelete.get());
@@ -107,7 +109,7 @@ public class UserService {
    * @param email User email
    * @return User
    */
-  public UserModel findByEmail(String email) {
+  public UserModel findByEmail(final String email) {
     return applicationUserRepository.findByEmail(email);
   }
 
@@ -118,14 +120,14 @@ public class UserService {
    * @param token User token
    * @return User
    */
-  public UserModel updateUser(UserModel newUserData, String token) {
+  public UserModel updateUser(final UserModel newUserData, final String token) {
 
     String email = ParseJwt.getEmailFromJwt(token);
     // String newEmail = newUserData.getUsername();
-    /*if (!email.equals(newEmail)
-        && applicationUserRepository.findByEmail(newEmail) != null) { // ho modificato la mia mail
-      throw new NotOwnerException();
-    }*/
+    /*
+     * if (!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null) { //
+     * ho modificato la mia mail throw new NotOwnerException(); }
+     */
     UserModel user = applicationUserRepository.findByEmail(email);
 
     Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
@@ -153,11 +155,12 @@ public class UserService {
    * @param assignedUsersIds List of users
    * @param exerciseModel Exericse
    */
-  public void addExerciseItem(List<String> assignedUsersIds, ExerciseModel exerciseModel) {
+  public void addExerciseItem(final List<String> assignedUsersIds,
+      final ExerciseModel exerciseModel) {
     Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
     for (UserModel user : users) {
-      user.addExerciseToDo(
-          exerciseModel.getId()); // TODO se un esercizio ritorna false lancio eccezione
+      user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
+                                                   // eccezione
     }
     applicationUserRepository.saveAll(users);
   }
@@ -168,7 +171,7 @@ public class UserService {
    * @param userId User id
    * @return list of exercise id
    */
-  public List<String> getAllExerciseToDo(String userId) {
+  public List<String> getAllExerciseToDo(final String userId) {
     Optional<UserModel> userModel = applicationUserRepository.findById(userId);
     if (userModel.isPresent()) {
       return userModel.get().getExercisesToDo();
@@ -202,7 +205,7 @@ public class UserService {
    * @param userId User id
    * @return UserModel
    */
-  public Optional<UserModel> deleteExerciseAssigned(String exerciseId, String userId) {
+  public Optional<UserModel> deleteExerciseAssigned(final String exerciseId, final String userId) {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
     if (user.isPresent()) {
       if (exerciseId.equals(user.get().getId()) && user.get().getRole().equals(Role.TEACHER)) {
@@ -218,7 +221,7 @@ public class UserService {
    * @param userid Student id
    * @return List of exericses
    */
-  public List<String> getAllExerciseDone(String userid) {
+  public List<String> getAllExerciseDone(final String userid) {
     Optional<UserModel> userModel = applicationUserRepository.findById(userid);
     if (userModel.isPresent()) {
       return userModel.get().getExercisesDone();
@@ -233,7 +236,7 @@ public class UserService {
    * @param userid Student id
    * @return List of exericses
    */
-  public List<String> getAllToDoByAuthorId(String userid) {
+  public List<String> getAllToDoByAuthorId(final String userid) {
     Optional<UserModel> userModel = applicationUserRepository.findById(userid);
     if (userModel.isPresent()) {
       return userModel.get().getExercisesToDo();
@@ -248,7 +251,7 @@ public class UserService {
    * @param studentId Student Id
    * @param exerciseToCorrect Exercise
    */
-  public void exerciseCompleted(String studentId, ExerciseModel exerciseToCorrect) {
+  public void exerciseCompleted(final String studentId, final ExerciseModel exerciseToCorrect) {
     Optional<UserModel> userOptional = applicationUserRepository.findById(studentId);
     if (userOptional.isPresent()) {
       UserModel user = userOptional.get();
@@ -265,7 +268,7 @@ public class UserService {
    * @param userId Id of the applicant
    * @return User List
    */
-  public List<UserModel> getAllDevelopmentToEnable(String userId) {
+  public List<UserModel> getAllDevelopmentToEnable(final String userId) {
     Optional<UserModel> user = applicationUserRepository.findById(userId);
     List<UserModel> mydevelopment = null;
     if (user.isPresent()) {

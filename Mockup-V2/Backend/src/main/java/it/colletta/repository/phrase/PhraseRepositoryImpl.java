@@ -4,9 +4,10 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.matc
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
 import com.mongodb.client.result.UpdateResult;
+
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
-import java.util.List;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.List;
 
 public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
@@ -28,7 +31,7 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
   }
 
   @Override
-  public List<PhraseModel> findAllByAuthor(String authorId) {
+  public List<PhraseModel> findAllByAuthor(final String authorId) {
     Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
     final List<PhraseModel> phraseModels = mongoTemplate.find(query, PhraseModel.class);
     // TODO eliminare informazioni aggiuntive
@@ -36,7 +39,7 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
   }
 
   @Override
-  public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
+  public List<SolutionModel> findAllSolutionsByAuthor(final String authorId) {
     Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
     query.fields().include("solutions");
     return mongoTemplate.find(query, SolutionModel.class);
@@ -56,21 +59,16 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
   // { "solutions": 1, "_id": 0 }}
 
   @Override
-  public SolutionModel getSolution(String phraseId, String solutionId) {
-    Aggregation aggregation =
-        Aggregation.newAggregation(
-            match(Criteria.where("_id").is(new ObjectId(phraseId))),
-            unwind("$solutions"),
-            match(Criteria.where("solutions._id").is(new ObjectId(solutionId))));
+  public SolutionModel getSolution(final String phraseId, String solutionId) {
+    Aggregation aggregation = Aggregation.newAggregation(
+        match(Criteria.where("_id").is(new ObjectId(phraseId))), unwind("$solutions"),
+        match(Criteria.where("solutions._id").is(new ObjectId(solutionId))));
     AggregationResults<Document> doc =
         mongoTemplate.aggregate(aggregation, "phrases", Document.class);
     Document obj = doc.getUniqueMappedResult().get("solutions", Document.class);
-    return SolutionModel.builder()
-        .id(obj.getObjectId("_id").toHexString())
-        .solutionText(obj.getString("solutionText"))
-        .authorId(obj.getString("authorId"))
-        .reliability(obj.getInteger("reliability"))
-        .dateSolution(obj.getLong("dateSolution"))
+    return SolutionModel.builder().id(obj.getObjectId("_id").toHexString())
+        .solutionText(obj.getString("solutionText")).authorId(obj.getString("authorId"))
+        .reliability(obj.getInteger("reliability")).dateSolution(obj.getLong("dateSolution"))
         .build();
   }
 }

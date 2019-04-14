@@ -3,16 +3,20 @@ package it.colletta.service;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
-import java.util.List;
-import java.util.Optional;
+
 import lombok.NonNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhraseService {
 
-  @Autowired private PhraseRepository phraseRepository;
+  @Autowired
+  private PhraseRepository phraseRepository;
 
   /**
    * returns all the phrased written by a userId.
@@ -48,7 +52,7 @@ public class PhraseService {
    * @param authorId Author id
    * @return List of Solution
    */
-  public List<SolutionModel> findAllSolutionsByAuthor(String authorId) {
+  public List<SolutionModel> findAllSolutionsByAuthor(final String authorId) {
     return phraseRepository.findAllSolutionsByAuthor(authorId);
   }
 
@@ -69,7 +73,7 @@ public class PhraseService {
    * @param phraseId Phrase id
    * @return Phrase
    */
-  public Optional<PhraseModel> getPhraseById(String phraseId) {
+  public Optional<PhraseModel> getPhraseById(final String phraseId) {
     return phraseRepository.findById(phraseId);
   }
 
@@ -89,7 +93,7 @@ public class PhraseService {
    * @param solutionId Solution id
    * @return Solution
    */
-  public SolutionModel getSolutionInPhrase(String phraseId, String solutionId) {
+  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId) {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 }

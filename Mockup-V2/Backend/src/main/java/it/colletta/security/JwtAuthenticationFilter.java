@@ -8,21 +8,25 @@ import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -37,8 +41,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    * @param usersRepository repository which performs query on User collection in MongoDB
    * @period 2019-03-19
    */
-  public JwtAuthenticationFilter(
-      AuthenticationManager authenticationManager, UsersRepository usersRepository) {
+  public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+      UsersRepository usersRepository) {
     this.authenticationManager = authenticationManager;
     this.usersRepository = usersRepository;
   }
@@ -51,13 +55,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    * @return Authentication the authentication manager
    */
   @Override
-  public Authentication attemptAuthentication(
-      HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+  public Authentication attemptAuthentication(HttpServletRequest request,
+      HttpServletResponse response) throws AuthenticationException {
     try {
       UserModel creds = new ObjectMapper().readValue(request.getInputStream(), UserModel.class);
-      return authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(
-              creds.getUsername(), creds.getPassword(), new ArrayList<>()));
+      return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+          creds.getUsername(), creds.getPassword(), new ArrayList<>()));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -73,21 +76,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    * @throws ServletException
    */
   @Override
-  protected void successfulAuthentication(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      FilterChain chain,
-      Authentication auth)
-      throws IOException, ServletException {
+  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+      FilterChain chain, Authentication auth) throws IOException, ServletException {
     String email = ((User) auth.getPrincipal()).getUsername();
     UserModel userModel = usersRepository.findByEmail(email);
     userModel.setPassword(null);
-    String token =
-        JWT.create()
-            .withJWTId(userModel.getId())
-            .withSubject(email)
-            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .sign(HMAC512(SECRET.getBytes()));
+    String token = JWT.create().withJWTId(userModel.getId()).withSubject(email)
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+        .sign(HMAC512(SECRET.getBytes()));
     response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     response.setHeader("Access-Control-Expose-Headers", "Authorization");
     response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
