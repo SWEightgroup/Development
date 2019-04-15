@@ -65,8 +65,8 @@ public class PhraseRepositoryImplTest {
   public void findAllSolutionsByAuthor() {
 
     List<SolutionModel> solutionsBy1 = phraseRepository.findAllSolutionsByAuthor("1");
-
-    // assertEquals(solutionsBy1.size(),3);
+    //la query non funziona?
+    //assertEquals(solutionsBy1.size(),3);
 
   }
 
@@ -81,6 +81,17 @@ public class PhraseRepositoryImplTest {
     assertEquals(updateResult.getModifiedCount(), 1);
   }
 
+
+  @Test
+  public void getSolution() {
+
+    SolutionModel solution = phraseRepository.getSolution("3","12");
+    assertEquals(solution.getSolutionText(),"second solution");
+
+    //solution = phraseRepository.getSolution("1","wrongId");
+    //assertNull(solution);
+  }
+
   @After
   public void tearDown() {
     mongoTemplate.dropCollection("phrases");
@@ -90,25 +101,26 @@ public class PhraseRepositoryImplTest {
 
     ArrayList<SolutionModel> oneSolutionList = new ArrayList<>();
     oneSolutionList.add(
-        SolutionModel.builder().solutionText("first solution").authorId("1").build());
+        SolutionModel.builder().id("11").solutionText("first solution").authorId("1").build());
 
     ArrayList<SolutionModel> multipleSolutionsList = new ArrayList<>();
     multipleSolutionsList.add(
-        SolutionModel.builder().solutionText("second solution").authorId("1").build());
+        SolutionModel.builder().id("12").solutionText("second solution").authorId("1").build());
 
     multipleSolutionsList.add(
-        SolutionModel.builder().solutionText("third solution").authorId("2").build());
+        SolutionModel.builder().id("13").solutionText("third solution").authorId("2").build());
 
     multipleSolutionsList.add(
-        SolutionModel.builder().solutionText("fourth solution").authorId("1").build());
+        SolutionModel.builder().id("14").solutionText("fourth solution").authorId("1").build());
 
-    noSolutionPhrase = PhraseModel.builder().phraseText("no solution phrase").build();
+    noSolutionPhrase = PhraseModel.builder().id("1").phraseText("no solution phrase").build();
 
     oneSolutionPhrase =
-        PhraseModel.builder().phraseText("one solution phrase").solutions(oneSolutionList).build();
+        PhraseModel.builder().id("2").phraseText("one solution phrase").solutions(oneSolutionList).build();
 
     multipleSolutionsPhrase =
         PhraseModel.builder()
+            .id("3")
             .phraseText("multiple solutions phrase")
             .solutions(multipleSolutionsList)
             .build();
@@ -117,4 +129,5 @@ public class PhraseRepositoryImplTest {
     oneSolutionPhrase = mongoTemplate.save(oneSolutionPhrase);
     multipleSolutionsPhrase = mongoTemplate.save(multipleSolutionsPhrase);
   }
+
 }
