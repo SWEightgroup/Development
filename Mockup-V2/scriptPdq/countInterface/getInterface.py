@@ -1,14 +1,14 @@
 '''
-get parameters 
+get numbers of interfaces for each packages
 '''
 
 import os
-import re as re
+import re
 
 # all comments must be opened in a new line, otherwise they will not be counted
-path =''
+path = ''
 FILES = []
-with open('paths.txt','r') as paths:
+with open('paths.txt', 'r') as paths:
     for path in paths:
         path = path.strip('\n')
         for root, dirs, files in os.walk(path):
@@ -16,13 +16,16 @@ with open('paths.txt','r') as paths:
                 if (file.endswith(".js") or file.endswith(".java") or file.endswith(".jsx")):
                     FILES.append(os.path.join(root, file))
 
-sumAllMethodCount = 0
 countFiles = 0
+countInterface = 0
+packageName = ''
+packageList = []
+packageDictionarie = {}
 for file in FILES:
     countFiles += 1
     with open(file, 'r', encoding="utf-8") as ofile:
         data = ofile.read()
-        
+
         # trim
         data = data.replace(".", "")
         data = data.replace("<", "")
@@ -32,21 +35,30 @@ for file in FILES:
         data = data.replace(" ", "")
         data = data.replace("\n", "")
 
-        # regular expression for count method with more than 4 parameters.
+        packageList = re.split(r"package(\w+)\;", data)
+        countInterface = re.findall(
+            r"(public|private|protected)interface", data)
+        print(len(countInterface))
 
-        methodCount = re.findall(r"interface",data)
-        
+        # maybe this check is worthless
+        if(len(packageList) > 0):
+            packageName = packageList[1]
 
-        print(file)
-        print(len(methodCount))
+        if((packageName not in packageDictionarie)):
+            packageDictionarie[packageName] = len(countInterface)
+        else:
+            packageDictionarie[packageName] += len(countInterface)
 
-        # 
-        #   FOR DEBUGGING
 
-# with open('results.txt', 'w') as result:
-#     result.write("analyzed files: {}\n".format(countFiles))
+for string, occurrence in packageDictionarie.items():
+    print("il package " + string + " contiene " +
+          str(occurrence) + " interfaces")
 
-#     result.write("analyzed method: {}\n".format(sumAllMethodCount))
-#     result.write("methods with five or more parameters: {}\n".format(len(fiveOrMoreParameter)))
-#     result.write("methods with eigth or more parameters: {}\n".format(len(eigthOrMoreParameter)))
+with open('results.txt', 'w') as result:
+    result.write("analyzed files: {}\n".format(countFiles))
 
+    for string, occurrence in packageDictionarie.items():
+        result.write("there are {} interfaces ".format(str(occurrence)))
+        result.write("in package: {}\n".format(string))
+
+#  MANCA DA FARE LA PERCENTUALE
