@@ -1,8 +1,10 @@
 package it.colletta.repository.phrase;
 
 import com.mongodb.client.result.UpdateResult;
+
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
+
 import java.util.List;
 
 // interface for custom query on phrases collections
@@ -13,13 +15,13 @@ public interface PhraseCustomQueryInterface {
    * @param authorId
    * @return
    */
-  List<PhraseModel> findAllByAuthor(String authorId);
+  List<PhraseModel> findAllByAuthor(final String authorId);
 
   /**
    * @param authorId
    * @return
    */
-  List<SolutionModel> findAllSolutionsByAuthor(String authorId);
+  List<SolutionModel> findAllSolutionsByAuthor(final String authorId);
 
   /**
    * @param solutionModels
@@ -32,5 +34,5 @@ public interface PhraseCustomQueryInterface {
    * @param solutionId
    * @return
    */
-  SolutionModel getSolution(String phraseId, String solutionId);
+  SolutionModel getSolution(final String phraseId, String solutionId);
 }

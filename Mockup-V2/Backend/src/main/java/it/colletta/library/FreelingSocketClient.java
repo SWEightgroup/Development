@@ -18,13 +18,14 @@ public class FreelingSocketClient {
   DataInputStream bufferEntrada;
   DataOutputStream bufferSalida;
 
+
   /**
    * Creates a socket.
    *
    * @param host address.
    * @param port address.
    */
-  public FreelingSocketClient(String host, long port) {
+  public FreelingSocketClient(final String host, long port) {
     try {
 
       socket = new Socket(host, 50005);
@@ -93,7 +94,7 @@ public class FreelingSocketClient {
    * @return String String.
    * @throws IOException Exception.
    */
-  public String processSegment(String text) throws IOException {
+  public String processSegment(final String text) throws IOException {
     writeMessage(bufferSalida, text, encoding);
     StringBuffer sb = readMessage(bufferEntrada);
     writeMessage(bufferSalida, flush_buffer_msg, encoding);

@@ -2,11 +2,13 @@ package it.colletta.repository.user;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
-import java.util.List;
-import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsersRepository
@@ -18,13 +20,13 @@ public interface UsersRepository
    * @param email the email of the user
    * @return UserModel of the user with that email
    */
-  UserModel findByEmail(String email);
+  UserModel findByEmail(final String email);
 
   /**
    * @param userId the unique id of the user.
    * @return Optional<UserModel> return the user pojo
    */
-  Optional<UserModel> findById(String userId);
+  Optional<UserModel> findById(final String userId);
 
   /**
    * @param users TODO
@@ -39,7 +41,7 @@ public interface UsersRepository
    * @param id the user id
    */
   @Override
-  void deleteById(String id);
+  void deleteById(final String id);
 
   /**
    * Insert a new user into the database.
@@ -67,7 +69,7 @@ public interface UsersRepository
    * @param exerciseId the exercise document id
    */
   @Query("{ $pull: { exercisesToDo: ?0 }}")
-  void deleteFromExerciseToDo(String exerciseId);
+  void deleteFromExerciseToDo(final String exerciseId);
 
   /** @return List of Disabled users developer. */
   @Query("{$and : [{role : '" + Role.DEVELOPER + "'}, {enabled : false}]}")

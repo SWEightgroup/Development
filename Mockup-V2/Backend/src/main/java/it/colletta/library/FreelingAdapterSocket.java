@@ -6,8 +6,10 @@
  */
 package it.colletta.library;
 
-import java.io.IOException;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+
 
 public class FreelingAdapterSocket implements FreelingAdapterInterface {
 
@@ -19,9 +21,9 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
    * @param host address
    * @param port address
    */
-  public FreelingAdapterSocket(String host, int port) {
+  public FreelingAdapterSocket(final String host, int port) {
     if (StringUtils.countOccurrencesOf(host, ".") != 3) {
-      throw new IllegalArgumentException("L'host inserito non e' nel formato corretto");
+      throw new IllegalArgumentException("L'host " + "inserito non e' nel formato corretto");
     } else {
       socketClient = new FreelingSocketClient(host, port);
     }
