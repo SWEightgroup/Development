@@ -34,10 +34,14 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-  @Autowired
+
   private UserService userService;
 
-  // TODO: mettere @PreAuthorize e controllare ruolo admin
+  @Autowired
+  public void setUserService(UserService userService){
+    this.userService = userService;
+  }
+
   /**
    * @param userId the user unique id
    * @return the user deleted by the admin.
@@ -53,7 +57,7 @@ public class UserController {
     }
   }
 
-  // TODO: mettere @PreAuthorize e controllare ruolo admin
+
   /**
    * @param jwtToken the token of the user
    * @return all the developers that are disabled.

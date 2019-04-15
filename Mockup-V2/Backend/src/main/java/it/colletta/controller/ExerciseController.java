@@ -39,14 +39,22 @@ import java.util.Map;
 
 @RestController
 public class ExerciseController {
-  @Autowired
-  ExerciseService exerciseService;
-  @Autowired
-  @Lazy
-  SolutionService solutionService;
+
+
+  private ExerciseService exerciseService;
+  private SolutionService solutionService;
+  private EntityLinks links;
 
   @Autowired
-  private EntityLinks links;
+  public void setExerciseService(ExerciseService exerciseService){
+    this.exerciseService = exerciseService;
+  }
+
+  @Autowired
+  public void setSolutionService(SolutionService solutionService) {this.solutionService = solutionService;}
+
+  @Autowired
+  public void setEntityLink(EntityLinks entityLinks){this.links = entityLinks;}
 
   @GetMapping(value = "/exercises-alt/done", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<PagedResources<ExerciseModel>> AllExercisesDone(
