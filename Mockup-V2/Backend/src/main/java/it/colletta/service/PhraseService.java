@@ -1,22 +1,33 @@
 package it.colletta.service;
 
+import com.mongodb.client.FindIterable;
+
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
 
 import lombok.NonNull;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PhraseService {
 
-  @Autowired
   private PhraseRepository phraseRepository;
+
+  @Autowired
+  public PhraseService(final PhraseRepository phraseRepository) {
+    this.phraseRepository = phraseRepository;
+  }
 
   /**
    * returns all the phrased written by a userId.
@@ -95,5 +106,18 @@ public class PhraseService {
    */
   public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId) {
     return phraseRepository.getSolution(phraseId, solutionId);
+  }
+
+
+  public File downloadAllPhrases() throws IOException {
+    File file = File.createTempFile("allphrases",".json");
+    FindIterable<Document> documents = phraseRepository.findAllPhrasesAsIterable();
+    PrintStream fileStream = new PrintStream(file);
+        for(Document document : documents) {
+          document.remove("_class");
+          document.remove("_id");
+          fileStream.println(document.toJson());
+        }
+     return file;
   }
 }
