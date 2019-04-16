@@ -55,6 +55,8 @@ public class ExerciseControllerTest {
     mvc = MockMvcBuilders.standaloneSetup(exerciseController)
             .alwaysExpect(status().isOk())
             .build();
+
+
   }
 
   @Test

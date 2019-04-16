@@ -1,5 +1,7 @@
 package it.colletta.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -24,10 +26,10 @@ import java.util.List;
 
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @ToString
 @Document(collection = "users")
+@JsonInclude(Include.NON_NULL)
 public class UserModel implements UserDetails {
 
   private static final long serialVersionUID = 1L;
@@ -49,25 +51,28 @@ public class UserModel implements UserDetails {
   private Date dateOfBirth;
   private Integer currentGoal;
 
-  @Builder.Default
-  private List<String> exercisesToDo = new ArrayList<>();
+  private List<String> exercisesToDo;
 
-  @Builder.Default
-  private List<String> exercisesDone = new ArrayList<>();
+  private List<String> exercisesDone;
 
   private Boolean enabled;
 
-  @Builder.Default
-  private ArrayList<String> favoriteTeacherIds = new ArrayList<>();
+  private ArrayList<String> favoriteTeacherIds;
 
+  private List<String> teacherExercise;
+
+  public UserModel() {
+    this.favoriteTeacherIds = null;
+    this.exercisesDone = null;
+    this.exercisesToDo = null;
+    this.currentGoal = null;
+    this.teacherExercise = null;
+  }
   /**
    * @param exerciseToAddId
    * @return
    */
   public Boolean addExerciseToDo(final String exerciseToAddId) {
-    if (exercisesToDo == null) {
-      exercisesToDo = new ArrayList<>();
-    }
     return exercisesToDo.add(exerciseToAddId);
   }
 
@@ -84,12 +89,16 @@ public class UserModel implements UserDetails {
    * @return
    */
   public Boolean addExerciseDone(final String exerciseToAddId) {
-    if (exercisesDone == null) {
-      exercisesDone = new ArrayList<>();
-    }
     return exercisesDone.add(exerciseToAddId);
   }
 
+  /**
+   * @param exerciseToRemoveId
+   * @return
+   */
+  public Boolean removeDone(final String exerciseToRemoveId) {
+      return exercisesDone.remove(exerciseToRemoveId);
+  }
   /** @return */
   public String getId() {
     return id;
