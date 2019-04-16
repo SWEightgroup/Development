@@ -12,38 +12,37 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource(
         properties =
                 "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class ExerciseServiceTest {
 
-    @Mock
+    @MockBean
     private ExerciseRepository exerciseRepository;
 
-    @Mock
-    private UsersRepository usersRepository;
-
-    @Mock
-    private PhraseRepository phraseRepository;
-
-
+    @MockBean
     private PhraseService phraseService;
 
+    @MockBean
     private UserService userService;
 
     private ExerciseService exerciseService;
@@ -59,13 +58,10 @@ public class ExerciseServiceTest {
 
     @Before
     public void setUp() throws Exception {
-
-       exerciseService = new ExerciseService(exerciseRepository,phraseService,userService);
-       userService = new UserService(usersRepository);
-       phraseService = new PhraseService(phraseRepository);
+        exerciseService = new ExerciseService(exerciseRepository, phraseService, userService);
 
 
-            testExercise = ExerciseModel.builder()
+        testExercise = ExerciseModel.builder()
                 .id("1")
                 .phraseId("12")
                 .phraseText("questa è una prova")
@@ -77,21 +73,22 @@ public class ExerciseServiceTest {
                 .visibility(true)
                 .build();
 
-        List<String> assignedUsersIds = new ArrayList<>();;
+        List<String> assignedUsersIds = new ArrayList<>();
+        ;
         assignedUsersIds.add("104");
 
 
-         exercise = ExerciseHelper.builder()
-                 .id("15")
-                 .assignedUsersIds(assignedUsersIds)
-                 .phraseText("questa è una prova")
-                 .mainSolution("22")
-                 .alternativeSolution("22")
-                 .visibility(true)
-                 .author("100")
-                 .date(1554574902653L)
-                 .language("it")
-                 .build();
+        exercise = ExerciseHelper.builder()
+                .id("15")
+                .assignedUsersIds(assignedUsersIds)
+                .phraseText("questa è una prova")
+                .mainSolution("22")
+                .alternativeSolution("22")
+                .visibility(true)
+                .author("100")
+                .date(1554574902653L)
+                .language("it")
+                .build();
 
         phrase = PhraseModel.builder()
                 .id("12")
@@ -112,9 +109,10 @@ public class ExerciseServiceTest {
 
     @Test
     public void insertExercise() {
+
         /*
-        Mockito.when(phraseService.insertPhrase(phrase)).thenReturn(phrase);
-        Mockito.when(exerciseRepository.save(testExercise)).thenReturn(testExercise);
+        Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(exerciseRepository.save(any(ExerciseModel.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         phraseService.increaseReliability(mainSolution);
         userService.addExerciseItem(exercise.getAssignedUsersIds(), testExercise);
 
@@ -130,12 +128,11 @@ public class ExerciseServiceTest {
         assertEquals(addedExercise.getPhraseId(), "12");
         assertEquals(addedExercise.getVisibility(), true);
 
-         */
-
+*/
     }
 
     @Test
-    public void findById(){
+    public void findById() {
         Mockito.when(exerciseRepository.findById("1")).thenReturn(Optional.of(testExercise));
 
         Optional<ExerciseModel> findExercise = exerciseRepository.findById("1");

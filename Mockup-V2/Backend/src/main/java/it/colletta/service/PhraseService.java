@@ -46,22 +46,36 @@ public class PhraseService {
     return phraseRepository.findAllByAuthor(userId);
   }
 
+
   /**
    * Insert a new phrase in the system.
    *
-   * @param phraseModel Phrase
+   * @param newPhrase Phrase
    * @return Phrase
    */
-  public PhraseModel insertPhrase(PhraseModel phraseModel) {
+  public PhraseModel insertPhrase(PhraseModel newPhrase) {
+
+    PhraseModel returnPhrase;
     Optional<PhraseModel> phraseOptional =
-        phraseRepository.getPhraseWithText(phraseModel.getPhraseText());
+        phraseRepository.getPhraseWithText(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
-      phrase.setSolutions(phraseModel.getSolutions());
-      return phraseRepository.save(phrase);
+
+      for (SolutionModel solution : newPhrase.getSolutions()) {
+        phrase.addSolution(solution);
+      }
+
+      returnPhrase = phraseRepository.save(phrase);
     } else {
-      return phraseRepository.save(phraseModel);
+      returnPhrase = phraseRepository.save(newPhrase);
     }
+
+    for (SolutionModel solution : newPhrase.getSolutions()) {
+      increaseReliability(solution);
+    }
+
+    return returnPhrase;
+
   }
 
   /**
@@ -101,6 +115,7 @@ public class PhraseService {
    * @param mainSolution main solution
    */
   public void increaseReliability(SolutionModel mainSolution) {
+
     phraseRepository.increaseReliability(mainSolution);
   }
 
@@ -126,5 +141,11 @@ public class PhraseService {
           fileStream.println(document.toJson());
         }
      return file;
+  }
+
+  public PhraseModel createPhrase(String phraseText, String language) {
+    return PhraseModel.builder().language(language)
+            .datePhrase(System.currentTimeMillis()).phraseText(phraseText).build();
+
   }
 }

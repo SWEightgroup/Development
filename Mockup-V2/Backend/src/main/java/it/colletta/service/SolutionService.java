@@ -3,7 +3,6 @@ package it.colletta.service;
 import it.colletta.library.FreelingAdapterInterface;
 import it.colletta.library.FreelingAdapterSocket;
 import it.colletta.model.SolutionModel;
-
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -11,28 +10,37 @@ import java.io.IOException;
 @Component
 public class SolutionService {
 
-  // TODO Move to a static class
-  private final String host = "18.197.54.200";
-  private final int port = 50005;
+    // TODO Move to a static class
+    private final String host = "18.197.54.200";
+    private final int port = 50005;
 
-  // TODO
-  /*
-   * public SolutionModel findSolution(final String id) { return new SolutionModel(); }
-   */
+    // TODO
+    /*
+     * public SolutionModel findSolution(final String id) { return new SolutionModel(); }
+     */
 
-  /**
-   * Return an automatic correction.
-   *
-   * @param correctionText Phrase text
-   * @return Solution
-   * @throws IOException Exception
-   */
-  public SolutionModel getAutomaticCorrection(final String correctionText) throws IOException {
-    FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
-    SolutionModel solutionModel =
-        SolutionModel.builder().solutionText(freelingLibrary.getCorrection(correctionText).trim())
-            .reliability(0).dateSolution(System.currentTimeMillis()).build();
-    freelingLibrary.closeConnection();
-    return solutionModel;
-  }
+    /**
+     * Return an automatic correction.
+     *
+     * @param correctionText Phrase text
+     * @return Solution
+     * @throws IOException Exception
+     */
+    public SolutionModel getAutomaticCorrection(final String correctionText) throws IOException {
+        FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
+        SolutionModel solutionModel =
+                SolutionModel.builder().solutionText(freelingLibrary.getCorrection(correctionText).trim())
+                        .reliability(0).dateSolution(System.currentTimeMillis()).build();
+        freelingLibrary.closeConnection();
+        return solutionModel;
+    }
+
+    public SolutionModel createSolution(String mainSolution, String author) {
+        if (mainSolution == null || mainSolution.equals("")) {
+            return null;
+        } else {
+            return SolutionModel.builder().reliability(0)
+                    .authorId(author).solutionText(mainSolution).build();
+        }
+    }
 }

@@ -92,8 +92,8 @@ public class UserServiceTest {
   public void addExerciseItem() {
 
     ArrayList<UserModel> users = new ArrayList<>();
-    users.add(UserModel.builder().id("2").build());
-    users.add(UserModel.builder().id("3").build());
+    users.add(UserModel.builder().id("2").exercisesToDo(new ArrayList<>()).build());
+    users.add(UserModel.builder().id("3").exercisesToDo(new ArrayList<>()).build());
 
     ArrayList<String> userIds = new ArrayList<>();
     userIds.add("2");

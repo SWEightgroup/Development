@@ -47,8 +47,8 @@ public class ExerciseControllerTest {
             .sign(HMAC512(SECRET.getBytes()));
 
     mapper = new ObjectMapper();
-    /*final ExerciseController exerciseController = new ExerciseController();
-    exerciseController.setEntityLink(links);
+    final ExerciseController exerciseController = new ExerciseController();
+    //exerciseController.setEntityLink(links);
     exerciseController.setExerciseService(exerciseService);
     exerciseController.setSolutionService(solutionService);
 
@@ -56,7 +56,7 @@ public class ExerciseControllerTest {
             .alwaysExpect(status().isOk())
             .build();
 
-     */
+
   }
 
   @Test
