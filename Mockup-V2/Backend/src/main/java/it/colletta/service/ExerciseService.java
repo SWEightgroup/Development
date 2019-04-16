@@ -38,8 +38,10 @@ public class ExerciseService {
    *
    * @param exerciseRepository exerciseRepository
    */
-  ExerciseService(final ExerciseRepository exerciseRepository ) {
+  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService , UserService userService) {
     this.exerciseRepository = exerciseRepository;
+    this.userService = userService;
+    this.phraseService = phraseService;
   }
 
   /**
