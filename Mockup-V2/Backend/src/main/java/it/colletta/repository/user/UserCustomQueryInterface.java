@@ -8,11 +8,13 @@ import java.util.List;
 public interface UserCustomQueryInterface {
 
   /**
-   * @param id TODO
-   * @return nothing
+   * @param id user to set enabled = true
    */
   void updateActivateFlagOnly(final String id);
 
-  /** @return all the user who are successfully register and activated in the system */
+  /**
+   * @return
+   * all the user who are successfully register and activated in the system
+   */
   List<UserModel> getAllUsers();
 }

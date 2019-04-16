@@ -30,6 +30,16 @@ public class PhraseService {
   }
 
   /**
+   * Constructor.
+   *
+   * @param phraseRepository phraseRepository
+   */
+  public PhraseService(final PhraseRepository phraseRepository) {
+    this.phraseRepository = phraseRepository;
+  }
+
+
+  /**
    * returns all the phrased written by a userId.
    *
    * @param userId the id of the user

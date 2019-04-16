@@ -34,6 +34,17 @@ public class ExerciseService {
   private UserService userService;
 
   /**
+   * Constructor.
+   *
+   * @param exerciseRepository exerciseRepository
+   */
+  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService , UserService userService) {
+    this.exerciseRepository = exerciseRepository;
+    this.userService = userService;
+    this.phraseService = phraseService;
+  }
+
+  /**
    * Find by id.
    *
    * @param id Exercise id
