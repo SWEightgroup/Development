@@ -24,16 +24,13 @@ public class PhraseService {
 
   private PhraseRepository phraseRepository;
 
-  @Autowired
-  public PhraseService(final PhraseRepository phraseRepository) {
-    this.phraseRepository = phraseRepository;
-  }
-
   /**
    * Constructor.
    *
    * @param phraseRepository phraseRepository
    */
+  @Autowired
+
   public PhraseService(final PhraseRepository phraseRepository) {
     this.phraseRepository = phraseRepository;
   }
