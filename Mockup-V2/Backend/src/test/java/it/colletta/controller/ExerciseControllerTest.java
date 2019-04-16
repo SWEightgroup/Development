@@ -47,7 +47,7 @@ public class ExerciseControllerTest {
             .sign(HMAC512(SECRET.getBytes()));
 
     mapper = new ObjectMapper();
-    final ExerciseController exerciseController = new ExerciseController();
+    /*final ExerciseController exerciseController = new ExerciseController();
     exerciseController.setEntityLink(links);
     exerciseController.setExerciseService(exerciseService);
     exerciseController.setSolutionService(solutionService);
@@ -55,6 +55,8 @@ public class ExerciseControllerTest {
     mvc = MockMvcBuilders.standaloneSetup(exerciseController)
             .alwaysExpect(status().isOk())
             .build();
+
+     */
   }
 
   @Test

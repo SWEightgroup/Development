@@ -61,7 +61,7 @@ public class ExerciseServiceTest {
     public void setUp() throws Exception {
 
        exerciseService = new ExerciseService(exerciseRepository,phraseService,userService);
-       userService = new UserService(usersRepository, new BCryptPasswordEncoder());
+       userService = new UserService(usersRepository);
        phraseService = new PhraseService(phraseRepository);
 
 

@@ -6,11 +6,10 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 import it.colletta.security.Role;
-import it.colletta.service.signup.SignupRequestService;
 
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -23,40 +22,11 @@ import javax.validation.constraints.NotNull;
 @Service
 public class UserService {
 
-  @Autowired
   private UsersRepository applicationUserRepository;
 
   @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
-
-  /**
-   * Constructor.
-   *
-   * @param usersRepository UserReposytory
-   * @param passwordEncoder bCryptPasswordEncoder
-   */
-  public UserService(final UsersRepository usersRepository, final BCryptPasswordEncoder passwordEncoder) {
+  public UserService(UsersRepository usersRepository) {
     this.applicationUserRepository = usersRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
-
-  /**
-   * Add new user.
-   *
-   * @param user User
-   * @return added user
-   */
-  public UserModel addUser(@NotNull UserModel user) {
-    SignupRequestService signupRequestService = new SignupRequestService();
-    final String encode = passwordEncoder.encode(user.getPassword());
-    user.setPassword(encode);
-    user.setEnabled(false);
-    user = applicationUserRepository.save(user);
-    SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
-        .requestDate(Calendar.getInstance().getTime()).build();
-    // signupRequestService.addSignUpRequest(signupRequestModel);
-    user.setPassword(null);
-    return user;
   }
 
   public Optional<UserModel> findById(final String userId) {
@@ -121,31 +91,16 @@ public class UserService {
    * @return User
    */
   public UserModel updateUser(final UserModel newUserData, final String token) {
-
     String email = ParseJwt.getEmailFromJwt(token);
-    // String newEmail = newUserData.getUsername();
-    /*
-     * if (!email.equals(newEmail) && applicationUserRepository.findByEmail(newEmail) != null) { //
-     * ho modificato la mia mail throw new NotOwnerException(); }
-     */
     UserModel user = applicationUserRepository.findByEmail(email);
-
     Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
-    if (newFirstName.isPresent()) {
-      user.setFirstName(newFirstName.get());
-    }
+    newFirstName.ifPresent(user::setFirstName);
     Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());
-    if (newLastName.isPresent()) {
-      user.setLastName(newLastName.get());
-    }
+    newLastName.ifPresent(user::setLastName);
     Optional<String> newLanguageName = Optional.ofNullable(newUserData.getLanguage());
-    if (newLanguageName.isPresent()) {
-      user.setLanguage(newLanguageName.get());
-    }
+    newLanguageName.ifPresent(user::setLanguage);
     Optional<Date> newDateOfBirth = Optional.ofNullable(newUserData.getDateOfBirth());
-    if (newDateOfBirth.isPresent()) {
-      user.setDateOfBirth(newDateOfBirth.get());
-    }
+    newDateOfBirth.ifPresent(user::setDateOfBirth);
     return applicationUserRepository.save(user);
   }
 
@@ -159,8 +114,9 @@ public class UserService {
       final ExerciseModel exerciseModel) {
     Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
     for (UserModel user : users) {
-      user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
-                                                   // eccezione
+      if(user.getExercisesToDo() != null) {
+        user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
+      }
     }
     applicationUserRepository.saveAll(users);
   }

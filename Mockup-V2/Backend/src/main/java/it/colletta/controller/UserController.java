@@ -1,17 +1,18 @@
 /*
  * @path it.colletta.controller.UserController
- * 
+ *
  * @author Francesco Magarotto, Francesco Corti
- * 
+ *
  * @date 2019-03-25
- * 
+ *
  * @description Menage the HTTP user request regarding the user
- * 
+ *
  */
 package it.colletta.controller;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJwt;
+import it.colletta.service.SingupService;
 import it.colletta.service.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,15 @@ public class UserController {
 
 
   private UserService userService;
-
+  private SingupService singupService;
   @Autowired
-  public void setUserService(UserService userService){
+  public void setUserService(UserService userService) {
     this.userService = userService;
   }
+
+  @Autowired
+  public void setSingupService(SingupService singupService) {this.singupService = singupService;}
+
 
   /**
    * @param userId the user unique id
@@ -62,7 +67,7 @@ public class UserController {
    * @param jwtToken the token of the user
    * @return all the developers that are disabled.
    */
-  @RequestMapping(value = "/users/developer/get-all-disabled", method = RequestMethod.GET,
+  @RequestMapping(value = "/users/admin/get-all-disabled", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(
       @RequestHeader("Authorization") String jwtToken) {
@@ -89,7 +94,7 @@ public class UserController {
   @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> signUp(@RequestBody UserModel user) {
-    if (userService.addUser(user).getId() != null) {
+    if (singupService.addUser(user)!= null) {
       return new ResponseEntity<>(user, HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -99,7 +104,7 @@ public class UserController {
   /**
    * @param token the JWT token from the header of the request
    * @return An Usermodel if the operation completed correctly otherwise return an unavailable
-   *         response.
+   * response.
    */
   @RequestMapping(value = "/users/get-info", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -142,14 +147,16 @@ public class UserController {
    * @param id the unique id of the user
    * @return true if the user has been activated, else return false.
    */
-  @RequestMapping(value = "/users/activate-user/{id}", method = RequestMethod.PUT,
+  @RequestMapping(value = "/users/admin/activate-user/{id}", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> activateUser(@PathVariable("id") String id) {
     userService.activateUser(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  /** @return all the students that are present in the system. */
+  /**
+   * @return all the students that are present in the system.
+   */
   @RequestMapping(value = "/users/get-students", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getStudentsList() {
