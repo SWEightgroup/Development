@@ -8,6 +8,7 @@ package it.colletta.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+import it.colletta.controller.assembler.ExerciseResourceAssembler;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.helper.CorrectionHelper;
@@ -38,42 +39,38 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/exercises")
 public class ExerciseController {
 
 
   private ExerciseService exerciseService;
   private SolutionService solutionService;
-  private EntityLinks links;
 
   @Autowired
-  public void setExerciseService(ExerciseService exerciseService){
+  public void setExerciseService(ExerciseService exerciseService) {
     this.exerciseService = exerciseService;
   }
 
   @Autowired
-  public void setSolutionService(SolutionService solutionService) {this.solutionService = solutionService;}
-
-  @Autowired
-  public void setEntityLink(EntityLinks entityLinks){this.links = entityLinks;}
-
-  @GetMapping(value = "/exercises-alt/done", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<PagedResources<ExerciseModel>> AllExercisesDone(
-      @RequestHeader("Authorization") String token, Pageable pageable,
-      PagedResourcesAssembler assembler) {
-    String id = ParseJwt.getIdFromJwt(token);
-    Page<ExerciseModel> exercisesDone =
-        exerciseService.getAllDoneByAuthorId(pageable, "5cad030e9d41b706e057761c");
-    PagedResources<ExerciseModel> pr;
-    pr = assembler.toResource(exercisesDone,
-        linkTo(ExerciseController.class).slash("/exercises-alt/done").withSelfRel());
-    HttpHeaders responseHeaders = new HttpHeaders();
-    PagingTool<ExerciseModel> pagingTool = new PagingTool<>();
-    responseHeaders.add("Link", pagingTool.createLinkHeader(pr));
-    return new ResponseEntity<>(
-        assembler.toResource(exercisesDone,
-            linkTo(ExerciseController.class).slash("/exercises-alt/done").withSelfRel()),
-        responseHeaders, HttpStatus.OK);
+  public void setSolutionService(SolutionService solutionService) {
+    this.solutionService = solutionService;
   }
+
+  @RequestMapping(value = "/alternative/done", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> AllExercisesDone(
+      @RequestHeader("Authorization") String token, Pageable pageable,
+      PagedResourcesAssembler<ExerciseModel> assembler) {
+    String id = ParseJwt.getIdFromJwt(token);
+
+    Page<ExerciseModel> exercisesDone =
+        exerciseService.getAllDoneByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler
+        .toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
+    return new ResponseEntity<>(resources, HttpStatus.OK);
+  }
+	
+
 
   /**
    * @param exercise the exercise which needs to be inserted in the database
@@ -93,7 +90,6 @@ public class ExerciseController {
   }
 
   /**
-   * 
    * @param token User's token
    * @param exercise exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase.
@@ -115,7 +111,7 @@ public class ExerciseController {
   /**
    * @param token the unique token of the user, in this case a student
    * @param correctionHelper contains the unique id of the exercise and the solution that was
-   *        written by the student
+   * written by the student
    * @return the teacher solution of the exercise.
    */
   @RequestMapping(value = "/exercises/student/do", method = RequestMethod.POST,
