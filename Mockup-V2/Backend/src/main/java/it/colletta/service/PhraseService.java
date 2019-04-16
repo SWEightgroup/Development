@@ -24,10 +24,17 @@ public class PhraseService {
 
   private PhraseRepository phraseRepository;
 
+  /**
+   * Constructor.
+   *
+   * @param phraseRepository phraseRepository
+   */
   @Autowired
+
   public PhraseService(final PhraseRepository phraseRepository) {
     this.phraseRepository = phraseRepository;
   }
+
 
   /**
    * returns all the phrased written by a userId.

@@ -35,7 +35,7 @@ public class UserService {
    * @param usersRepository UserReposytory
    * @param passwordEncoder bCryptPasswordEncoder
    */
-  UserService(final UsersRepository usersRepository, final BCryptPasswordEncoder passwordEncoder) {
+  public UserService(final UsersRepository usersRepository, final BCryptPasswordEncoder passwordEncoder) {
     this.applicationUserRepository = usersRepository;
     this.passwordEncoder = passwordEncoder;
   }

@@ -19,17 +19,14 @@ import java.util.Date;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static it.colletta.security.SecurityConstants.EXPIRATION_TIME;
 import static it.colletta.security.SecurityConstants.SECRET;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseControllerTest {
 
   private MockMvc mvc;
-  private String jwt;
+  private String userToken;
   private ObjectMapper mapper;
-  private String userToken =
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmcmFuY2VzY29vQGdtYWlsLmNvbSIsImV4cCI6MTU1NjIyNTQ2MiwianRpIjoiNWNiNDc1MzEwNjQ2YjMxMDVmOGY5YjA0In0.GI3yFJgTB7eccrBed3LEHpQqb8kx0iNgvxPMzaDPP-FWddBUbl4-8JYVoy7H0ZCk6XhHXJY4PvKCcvMxMbua8A";
 
   @Mock
   private ExerciseService exerciseService;
@@ -43,13 +40,11 @@ public class ExerciseControllerTest {
 
   @Before
   public void setup() {
-    /*jwt = ("Bearer") + JWT.create()
-                    .withJWTId("test@test.it")
-                    .withSubject("test")
-                    .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                    .sign(HMAC512(SECRET.getBytes()));
-
-     */
+    userToken = ("Bearer") + JWT.create()
+            .withJWTId("test@test.it")
+            .withSubject("test")
+            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+            .sign(HMAC512(SECRET.getBytes()));
 
     mapper = new ObjectMapper();
     final ExerciseController exerciseController = new ExerciseController();
@@ -61,7 +56,6 @@ public class ExerciseControllerTest {
             .alwaysExpect(status().isOk())
             .build();
   }
-
 
   @Test
   public void ExerciseUserDone() {
