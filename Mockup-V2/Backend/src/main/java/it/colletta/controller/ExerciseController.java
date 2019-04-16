@@ -14,7 +14,8 @@ import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
-
+import java.io.IOException;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +29,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/exercises")
@@ -63,9 +61,20 @@ public class ExerciseController {
         .toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
-	
 
 
+  @RequestMapping(value = "/alternative/todo", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> AllExercisesToDo(
+      @RequestHeader("Authorization") String token, Pageable pageable,
+      PagedResourcesAssembler<ExerciseModel> assembler) {
+    String id = ParseJwt.getIdFromJwt(token);
+    Page<ExerciseModel> exercisesToDo =
+        exerciseService.getAllToDoByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler
+        .toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
+    return new ResponseEntity<>(resources, HttpStatus.OK);
+  }
   /**
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase.

@@ -12,7 +12,7 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
   @Override
   Iterable<ExerciseModel> findAllById(Iterable<String> ids);
 
-  Page<ExerciseModel> findAllByPaged(Pageable page, Iterable<String> ids);
+  Page<ExerciseModel> findAllByIdPaged(Pageable page, Iterable<String> ids);
 
   @Override
   Optional<ExerciseModel> findById(final String id);
