@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -59,7 +60,7 @@ public class UserControllerTest {
 
 
 
-  @Test
+  /*@Test
   public void signUpTest() {
     try {
       UserModel fakeTestUser =
@@ -122,17 +123,16 @@ public class UserControllerTest {
     }
 
   }
-
+ */
 
   @Test
   public void getAllDeveloperDisabled() {
-      /* TODO Corti fixa pls
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/users/developer/get-all-disabled").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/users/admin/get-all-disabled").header("Authorization", userToken));
     } catch (Exception e) {
       e.printStackTrace();
     }
-    */
+
   }
 
   @Test
