@@ -6,8 +6,6 @@
  */
 package it.colletta.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 import it.colletta.controller.assembler.ExerciseResourceAssembler;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.SolutionModel;
@@ -18,17 +16,13 @@ import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +70,7 @@ public class ExerciseController {
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase.
    */
-  @RequestMapping(value = "/exercises/insert-exercise", method = RequestMethod.PUT,
+  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
@@ -94,7 +88,7 @@ public class ExerciseController {
    * @param exercise exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase.
    */
-  @RequestMapping(value = "/exercises/student/insert-free-exercise", method = RequestMethod.POST,
+  @RequestMapping(value = "/student/insert-free-exercise", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(
       @RequestHeader("Authorization") String token, @RequestBody ExerciseHelper exercise) {
@@ -114,7 +108,7 @@ public class ExerciseController {
    * written by the student
    * @return the teacher solution of the exercise.
    */
-  @RequestMapping(value = "/exercises/student/do", method = RequestMethod.POST,
+  @RequestMapping(value = "/student/do", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,
       @RequestBody CorrectionHelper correctionHelper) {
@@ -133,7 +127,7 @@ public class ExerciseController {
    * @param studentToken the unique token of the user
    * @return A SolutionModel with the analyzed sentence or empty if the service is unavailable.
    */
-  @RequestMapping(value = "/exercises/automatic-solution", method = RequestMethod.POST,
+  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj,
       @RequestHeader("Authorization") String studentToken) {
@@ -150,7 +144,7 @@ public class ExerciseController {
    * @param token the unique of the student
    * @return all the exercises that the student has to do.
    */
-  @RequestMapping(value = "/exercises/user-todo", method = RequestMethod.GET,
+  @RequestMapping(value = "/user-todo", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(
       @RequestHeader("Authorization") String token) {
@@ -168,7 +162,7 @@ public class ExerciseController {
    * @param token the token authorization
    * @return the list of the exercise done by the student.
    */
-  @RequestMapping(value = "/exercises/done", method = RequestMethod.GET,
+  @RequestMapping(value = "/done", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
     String id = ParseJwt.getIdFromJwt(token);

@@ -147,7 +147,7 @@ export const saveExerciseSolution = newExercise => {
     // prelevo dal response la soluzione della punteggiatuera
 
     axios
-      .put(
+      .post(
         'http://localhost:8081/exercises/insert-exercise',
         {
           assignedUsersIds: store
@@ -212,7 +212,7 @@ export const getAutomaticSolution = sentenceString => {
   return dispatch => {
     axios
       .post(
-        `http://localhost:8081/exercises/automatic-solution`,
+        'http://localhost:8081/exercises/automatic-solution',
         {
           text: sentenceString.trim()
         },
