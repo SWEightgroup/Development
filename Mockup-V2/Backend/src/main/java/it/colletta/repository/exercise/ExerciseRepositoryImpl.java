@@ -34,7 +34,7 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
   }
 
   @Override
-  public Page<ExerciseModel> findAllByPaged(Pageable page, Iterable<String> ids) {
+  public Page<ExerciseModel> findAllByIdPaged(Pageable page, Iterable<String> ids) {
     Query query = new Query(Criteria.where("_id").in(ids)).with(page);
     List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
     long total = mongoTemplate.count(query, ExerciseModel.class);

@@ -63,6 +63,18 @@ public class ExerciseController {
   }
 
 
+  @RequestMapping(value = "/alternative/todo", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> AllExercisesToDo(
+      @RequestHeader("Authorization") String token, Pageable pageable,
+      PagedResourcesAssembler<ExerciseModel> assembler) {
+    String id = ParseJwt.getIdFromJwt(token);
+    Page<ExerciseModel> exercisesToDo =
+        exerciseService.getAllToDoByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler
+        .toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
+    return new ResponseEntity<>(resources, HttpStatus.OK);
+  }
   /**
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase.

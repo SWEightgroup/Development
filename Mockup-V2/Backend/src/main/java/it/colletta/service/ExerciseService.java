@@ -266,8 +266,14 @@ public class ExerciseService {
     return exerciseRepository.findAllById(exercisesToDoId);
   }
 
-  public Page<ExerciseModel> getAllDoneByAuthorId(Pageable page, String id) {
+  public Page<ExerciseModel> getAllDoneByAuthorId(final Pageable page, final String id) {
     List<String> exercisesDoneid = userService.getAllExerciseDone(id);
-    return exerciseRepository.findAllByPaged(page, exercisesDoneid);
+    return exerciseRepository.findAllByIdPaged(page, exercisesDoneid);
   }
+
+  public Page<ExerciseModel> getAllToDoByAuthorId(final Pageable page, final String id) {
+    List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
+    return exerciseRepository.findAllByIdPaged(page, exercisesToDoId);
+  }
+
 }
