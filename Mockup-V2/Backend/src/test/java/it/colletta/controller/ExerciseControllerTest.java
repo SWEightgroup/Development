@@ -48,7 +48,7 @@ public class ExerciseControllerTest {
 
     mapper = new ObjectMapper();
     final ExerciseController exerciseController = new ExerciseController();
-    exerciseController.setEntityLink(links);
+    //exerciseController.setEntityLink(links);
     exerciseController.setExerciseService(exerciseService);
     exerciseController.setSolutionService(solutionService);
 
