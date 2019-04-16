@@ -21,7 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 @SpringBootTest
 @TestPropertySource(
     properties =
@@ -105,16 +105,18 @@ public class ExerciseServiceTest {
     assertEquals(testExercise.getPhraseId(), "12");
     assertEquals(testExercise.getVisibility(), true);
   }
-
+/*
   @Test
   public void findById() {
-      /*Optional<ExerciseModel> model = null;
+      Optional<ExerciseModel> model = null;
       Mockito.when(exerciseService.findById("5ca9327583406d30249f9121")).thenReturn(model);
       if(model.isPresent()) {
         assertEquals(model.get().getId(), "5ca9327583406d30249f9121");
       }
       else {
         assert false;
-      }*/
+      }
   }
+
+ */
 }
