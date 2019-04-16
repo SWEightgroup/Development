@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/signup")
+@RestController
 public class SingnupController {
   private SingupService singupService;
 
@@ -25,17 +26,22 @@ public class SingnupController {
    * @param user the user obj with username and password
    * @return ResponseEntity if the operation completed correctly otherwise return an error response.
    */
-  @RequestMapping(value = "/", method = RequestMethod.POST,
+  @RequestMapping(value = "/sign-up", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserModel> signUp(@RequestBody UserModel user) {
-    if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
-      return new ResponseEntity<>(user, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+  public ResponseEntity<?> signUp(@RequestBody UserModel user) {
+    try {
+      if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+      }
+    }
+    catch(org.springframework.dao.DuplicateKeyException e) {
+      return new ResponseEntity<>("User already exsist", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
-  @RequestMapping(value = "/activate/{id}", method = RequestMethod.GET,
+  @RequestMapping(value = "/sign-up/activate/{id}", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> activateUser(@RequestParam("id") String requestId) {
     try {

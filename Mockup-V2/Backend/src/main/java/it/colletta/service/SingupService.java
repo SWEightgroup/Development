@@ -50,7 +50,8 @@ public class SingupService {
    * @param user User
    * @return added user
    */
-  public UserModel addUser(@NotNull UserModel user, ControllerLinkBuilder link) {
+  public UserModel addUser(@NotNull UserModel user, ControllerLinkBuilder link)
+      throws org.springframework.dao.DuplicateKeyException{
     final String encode = passwordEncoder.encode(user.getPassword());
     user.setPassword(encode);
     user.setEnabled(false);
@@ -66,7 +67,7 @@ public class SingupService {
     SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
         .requestDate(Calendar.getInstance().getTime()).build();
     SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
-    emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
+    //emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
     user.setPassword(null);
     return user;
   }
