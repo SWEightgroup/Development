@@ -30,7 +30,7 @@ public class SingnupController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> signUp(@RequestBody UserModel user) {
     try {
-      if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
+      if(singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
         return new ResponseEntity<>(user, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
