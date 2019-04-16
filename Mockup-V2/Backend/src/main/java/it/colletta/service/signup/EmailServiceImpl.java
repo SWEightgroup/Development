@@ -14,6 +14,7 @@ public class EmailServiceImpl {
 
   private SimpleMailMessage message;
 
+
   /**
    * Set mail sender.
    *
@@ -37,17 +38,24 @@ public class EmailServiceImpl {
    *
    * @param user User user to be activated
    */
-  public void activateUserMail(UserModel user) {
+  public void activateUserMail(UserModel user, String link) {
     SimpleMailMessage email = new SimpleMailMessage(this.message);
     email.setTo(user.getUsername());
     StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName()
         + "\n" + "We are pleased that you want to subscribe in our system. \n");
-    email.setTo();
     if (user.getRole().equals(Role.DEVELOPER)) {
       body = body.append("You asked to subscribe as developer "
-          + "so you need to wait the approval from an admin.");
+          + "so you need to wait the approval from an admin. \n");
     } else {
-      body = body.append("Please follow the link to activate your account: ");
+      body = body.append("Please follow the link to activate your account: " + link + "\n");
     }
+
+    body.append("Thank you so much."
+        + "\nRegards, Colletta team");
+
+    email.setSubject("Activate your account in Colletta");
+    email.setText(body.toString());
+    mailSender.send(email);
   }
+
 }

@@ -5,10 +5,15 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.administration.SingupRequestRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.Role;
+import it.colletta.service.signup.EmailServiceImpl;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,9 @@ public class SingupService {
   private SingupRequestRepository singupRequestRepository;
   @Autowired
   private UsersRepository usersRepository;
+  @Autowired
+  private EmailServiceImpl emailService;
+
   /**
    * Constructor.
    *
@@ -42,7 +50,7 @@ public class SingupService {
    * @param user User
    * @return added user
    */
-  public UserModel addUser(@NotNull UserModel user) {
+  public UserModel addUser(@NotNull UserModel user, ControllerLinkBuilder link) {
     final String encode = passwordEncoder.encode(user.getPassword());
     user.setPassword(encode);
     user.setEnabled(false);
@@ -57,9 +65,24 @@ public class SingupService {
     user = usersRepository.save(user);
     SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
         .requestDate(Calendar.getInstance().getTime()).build();
-    singupRequestRepository.save(signupRequestModel);
+    SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
+    emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
     user.setPassword(null);
     return user;
   }
 
+  public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
+    Optional<SignupRequestModel> requestModel = singupRequestRepository.findById(requestId);
+    if(requestModel.isPresent()) {
+      Date requestTimestamp = requestModel.get().getRequestDate();
+      if(requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
+        UserModel userToEnable = usersRepository.findById(requestModel.get().getUserReference()).get();
+        userToEnable.setEnabled(true);
+      }
+      singupRequestRepository.delete(requestModel.get());
+    }
+    else {
+      throw new ResourceNotFoundException("Signup request not found");
+    }
+  }
 }

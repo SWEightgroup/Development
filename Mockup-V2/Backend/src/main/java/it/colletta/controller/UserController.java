@@ -26,26 +26,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 public class UserController {
 
 
   private UserService userService;
-  private SingupService singupService;
   @Autowired
   public void setUserService(UserService userService) {
     this.userService = userService;
   }
-
-  @Autowired
-  public void setSingupService(SingupService singupService) {this.singupService = singupService;}
-
 
   /**
    * @param userId the user unique id
@@ -85,20 +82,6 @@ public class UserController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getAllUser(@RequestHeader("Authorization") String token) {
     return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-  }
-
-  /**
-   * @param user the user obj with username and password
-   * @return ResponseEntity if the operation completed correctly otherwise return an error response.
-   */
-  @RequestMapping(value = "/users/sign-up", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserModel> signUp(@RequestBody UserModel user) {
-    if (singupService.addUser(user)!= null) {
-      return new ResponseEntity<>(user, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-    }
   }
 
   /**
@@ -149,7 +132,7 @@ public class UserController {
    */
   @RequestMapping(value = "/users/admin/activate-user/{id}", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Boolean> activateUser(@PathVariable("id") String id) {
+  public ResponseEntity<Boolean> activateDeveloper(@PathVariable("id") String id) {
     userService.activateUser(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
