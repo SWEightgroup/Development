@@ -32,11 +32,16 @@ public class PhraseServiceTest {
 
     @Test
     public void sentenceTest() {
+        /*
         final FindIterable<Document> allPhrasesAsIterable = phraseRepository.findAllPhrasesAsIterable();
 
         for (Document phrase :
              allPhrasesAsIterable) {
             System.out.println(phrase);
         }
+
+         */
     }
+
+
 }
