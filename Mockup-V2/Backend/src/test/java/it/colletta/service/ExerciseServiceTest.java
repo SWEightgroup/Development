@@ -2,6 +2,8 @@ package it.colletta.service;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
@@ -26,7 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 // con MockitoJUnitRunner.class : ExerciseServiceTest.unnecessary Mockito stubbings » UnnecessaryStubbing
 @SpringBootTest
 @TestPropertySource(
@@ -124,7 +126,6 @@ public class ExerciseServiceTest {
     Mockito.when(phraseService.createPhrase(exercise.getPhraseText(),exercise.getLanguage())).thenReturn(phrase);
     Mockito.when(solutionService.createSolution(exercise.getMainSolution(),exercise.getAuthor())).thenReturn(mainSolution);
     Mockito.when(phraseService.insertPhrase(phrase)).thenReturn(phrase);
-    Mockito.when(exerciseRepository.save(exerciseModel)).thenReturn(exerciseModel);
     Mockito.when(userService.findById(exercise.getAuthor())).thenReturn(Optional.of(userModel));
 
     ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
@@ -136,12 +137,11 @@ public class ExerciseServiceTest {
 
   @Test
   public void findById() {
-    Mockito.when(exerciseRepository.findById("100")).thenReturn(Optional.of(exerciseModel));
+    Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
+    Optional<ExerciseModel> myidfound = exerciseService.findById(exerciseModel.getId());
 
-    Optional<ExerciseModel> myidfoud = exerciseService.findById(exerciseModel.getId());
-
-    Assert.assertNotNull(myidfoud);
-    Mockito.verify(exerciseRepository, Mockito.times(1)).findById(Mockito.anyString());
+    Assert.assertNotNull(myidfound);
+    Mockito.verify(exerciseRepository, Mockito.times(1)).findById(anyString());
     Mockito.verifyNoMoreInteractions(exerciseRepository);
 
   }
