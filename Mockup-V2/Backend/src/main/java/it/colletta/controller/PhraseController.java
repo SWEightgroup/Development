@@ -20,7 +20,7 @@ public class PhraseController {
 
   @Autowired private PhraseService phraseService;
 
-  @RequestMapping(method = RequestMethod.GET, value = "/downloadall")
+  @RequestMapping(method = RequestMethod.GET, value = "/downloadAll")
   public void downloadAllPhrases(HttpServletResponse response)  {
     try
     {

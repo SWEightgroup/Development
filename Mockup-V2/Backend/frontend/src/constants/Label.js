@@ -69,6 +69,7 @@ export const _label = {
     adminDashBoard_update: 'Aggiorna',
     developerToAccept_allow: 'Accetta',
     developerToAccept_deny: 'Rifiuta',
+    developer_downloadind: 'Download in corso',
     adminDevDashBoard_subtitle:
       'Accetta o rifiuta le richieste di iscrizione degli sviluppatori',
     adminDevDashBoard_noDevApprove: 'Nessun developer da approvare',
@@ -147,6 +148,7 @@ export const _label = {
     adminDashBoard_update: 'Update',
     developerToAccept_allow: 'Allow',
     developerToAccept_deny: 'Deny',
+    developer_downloadind: 'Downloading',
     adminDevDashBoard_subtitle:
       "Approve or deny developers' subscription requests",
     adminDevDashBoard_noDevApprove: 'No developer needs to be approved',

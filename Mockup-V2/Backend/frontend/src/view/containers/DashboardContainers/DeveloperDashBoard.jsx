@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
+import { downlaodAll } from '../../../actions/AdminActions';
 
 class DeveloperDashboard extends Component {
-  downloadData = () => {
-    console.log('Qui chiameremo la funzione di scaricamento');
-  };
+  state = {};
 
   render() {
-    const { user } = this.props;
+    const { user, downlaodAllDispatch } = this.props;
     const { language } = user;
     return (
       <React.Fragment>
@@ -30,7 +29,7 @@ class DeveloperDashboard extends Component {
                 <p>{_translator('developerDashBoard_devDownText', language)}</p>
                 <button
                   type="button"
-                  onClick={this.downloadData}
+                  onClick={() => downlaodAllDispatch()}
                   className="btn btn-primary"
                 >
                   {_translator('developerDashBoard_devDown', language)}
@@ -50,4 +49,13 @@ const mapStateToProps = store => {
   };
 };
 
-export default connect(mapStateToProps)(DeveloperDashboard);
+const mapDispatchToProps = dispatch => {
+  return {
+    downlaodAllDispatch: () => dispatch(downlaodAll())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DeveloperDashboard);

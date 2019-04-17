@@ -110,7 +110,6 @@ public class ExerciseControllerTest {
   @Test
   public void InsertExerciseTest() {
     try {
-
       String jsonFakeExerciseHelper = mapper.writeValueAsString(fakeExerciseHelper);
       mvc.perform(MockMvcRequestBuilders.post("/exercises/insert-exercise").header("Authorization", userToken)
           .content(jsonFakeExerciseHelper).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());

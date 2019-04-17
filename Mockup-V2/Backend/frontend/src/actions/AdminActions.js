@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { store } from '../index';
+import _translator from '../helpers/Translator';
+import { _toastSuccess, _toastError } from '../helpers/Utils';
 
 export const fetchDeveloperList = () => {
   return dispatch => {
@@ -66,5 +68,36 @@ export const activateUser = ({ usernameOrId }) => {
         dispatch({ type: 'DEV_APPROVE_SUCCES', payload: { usernameOrId } });
       })
       .catch(error => console.error(error));
+  };
+};
+
+export const downlaodAll = () => {
+  return dispatch => {
+    axios
+      .get(`http://localhost:8081/phrases/downloadAll`, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        _toastSuccess(
+          _translator(
+            'developer_downloadind',
+            store.getState().auth.user.language
+          )
+        );
+        const dataStr = `data:text/json;charset=utf-8,${JSON.stringify(res)}`;
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute('href', dataStr);
+        downloadAnchorNode.setAttribute('download', `PhraseList.json`);
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      })
+      .catch(error =>
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        )
+      );
   };
 };
