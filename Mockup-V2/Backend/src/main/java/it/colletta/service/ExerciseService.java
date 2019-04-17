@@ -317,4 +317,7 @@ public class ExerciseService {
     return allByIdPaged;
   }
 
+  public Page<ExerciseModel> getAllAddedByAuthorId(final Pageable page, final String userId) {
+    return exerciseRepository.findAllByAuthorIdPaged(page, userId);
+  }
 }
