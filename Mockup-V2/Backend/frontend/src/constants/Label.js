@@ -75,7 +75,7 @@ export const _label = {
     developerDashBoard_action: 'Azioni',
     pagination_first: 'Primo',
     pagination_last: 'Ultimo',
-    pagination_previous: 'Successivo',
+    pagination_prev: 'Successivo',
     pagination_next: 'Precedente'
   },
   en: {
@@ -147,7 +147,7 @@ export const _label = {
     developerDashBoard_action: 'Actions',
     pagination_first: 'First',
     pagination_last: 'Last',
-    pagination_previous: 'Previous',
+    pagination_prev: 'Previous',
     pagination_next: 'Next'
   }
 };

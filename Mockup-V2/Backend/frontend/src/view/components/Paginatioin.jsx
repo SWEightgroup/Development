@@ -31,12 +31,32 @@ const Pagination = props => {
             <button
               className="page-link"
               type="button"
-              onClick={() => onClick(first)}
+              onClick={() => onClick(prev)}
               disabled={number === 0}
             >
-              {_translator('pagination_first', language)}
+              {_translator('pagination_prev', language)}
             </button>
           </li>
+
+          {number > 1 && (
+            <li className={cssClassFirst}>
+              <button
+                className="page-link"
+                type="button"
+                onClick={() => onClick(first)}
+                disabled={number === 0}
+              >
+                1
+              </button>
+            </li>
+          )}
+          {number > 1 && totalPages > 3 && (
+            <li className="page-item disabled">
+              <button className="page-link" type="button" disabled>
+                ...
+              </button>
+            </li>
+          )}
           {number > 0 && (
             <li className="page-item ">
               <button
@@ -53,7 +73,7 @@ const Pagination = props => {
               {number + 1}
             </button>
           </li>
-          {number < totalPages - 1 && (
+          {number < totalPages - 2 && (
             <li className="page-item ">
               <button
                 className="page-link"
@@ -64,14 +84,34 @@ const Pagination = props => {
               </button>
             </li>
           )}
+          {totalPages > 3 && number + 3 < totalPages && (
+            <li className="page-item disabled">
+              <button className="page-link" type="button" disabled>
+                ...
+              </button>
+            </li>
+          )}
+          {number < totalPages - 1 && (
+            <li className={cssClassLast}>
+              <button
+                className="page-link"
+                type="button"
+                onClick={() => onClick(last)}
+                disabled={number === totalPages - 1}
+              >
+                {totalPages}
+              </button>
+            </li>
+          )}
+
           <li className={cssClassLast}>
             <button
               className="page-link"
               type="button"
-              onClick={() => onClick(last)}
-              disabled={number === totalPages - 1}
+              onClick={() => onClick(next)}
+              disabled={number >= totalPages}
             >
-              {_translator('pagination_last', language)}
+              {_translator('pagination_next', language)}
             </button>
           </li>
         </ul>
