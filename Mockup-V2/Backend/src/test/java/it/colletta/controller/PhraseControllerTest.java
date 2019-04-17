@@ -32,25 +32,20 @@ public class PhraseControllerTest {
   private PhraseController phraseController;
 
   @Before
-  public void setUp(){
-    userToken = ("Bearer") + JWT.create()
-            .withJWTId("test@test.it")
-            .withSubject("test")
-            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .sign(HMAC512(SECRET.getBytes()));
+  public void setUp() {
+    userToken = ("Bearer") + JWT.create().withJWTId("test@test.it").withSubject("test")
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).sign(HMAC512(SECRET.getBytes()));
 
-    mvc = MockMvcBuilders.standaloneSetup(phraseController)
-            .build();
+    mvc = MockMvcBuilders.standaloneSetup(phraseController).build();
 
   }
 
   @Test
-  public void downloadAllPhrasesTest(){
-    try{
-      mvc.perform(MockMvcRequestBuilders.get("/phrases/downloadall")
-              .header("Authorization", userToken))
-              .andExpect(status().isOk());
-    }catch (Exception e){
+  public void downloadAllPhrasesTest() {
+    try {
+      mvc.perform(MockMvcRequestBuilders.get("/phrases/downloadAll").header("Authorization", userToken))
+          .andExpect(status().isOk());
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
