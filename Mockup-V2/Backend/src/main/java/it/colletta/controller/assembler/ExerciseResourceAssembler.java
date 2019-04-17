@@ -22,6 +22,12 @@ public class ExerciseResourceAssembler extends
     this.linkString = linkString;
   }
 
+  /**
+   * Create a new resource for links
+   * @param exercise the exercise we want link
+   * @return the resource for pagination
+   */
+
   public ExerciseResource createResource(ExerciseModel exercise) {
     ExerciseResource personResource = new ExerciseResource(exercise);
     Link link = linkTo(ExerciseController.class).slash(linkString).withSelfRel();
