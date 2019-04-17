@@ -49,11 +49,29 @@ public class ExerciseController {
   }
 
   @RequestMapping(value = "/alternative/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> AllExercisesDone(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 2) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
+  public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,
+      @PageableDefault(value = 3) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
     Page<ExerciseModel> exercisesDone = exerciseService.getAllDoneByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler.toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
+    return new ResponseEntity<>(resources, HttpStatus.OK);
+  }
+
+  /**
+   * Returns all the exercises added by the requesting teacher.
+   * 
+   * @param token     User token
+   * @param pageable  pageable
+   * @param assembler assembler
+   * @return List of exercises
+   */
+  @RequestMapping(value = "/alternative/added", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> allAddedExercises(@RequestHeader("Authorization") String token,
+      @PageableDefault(value = 3) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
+    String id = ParseJwt.getIdFromJwt(token);
+
+    Page<ExerciseModel> exercisesDone = exerciseService.getAllAddedByAuthorId(pageable, id);
     PagedResources<?> resources = assembler.toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }

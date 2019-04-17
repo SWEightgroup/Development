@@ -185,10 +185,13 @@ export const loadTodoExercises = _link => {
 };
 
 export const loadDoneExercises = _link => {
+  let path = '';
+  if (store.getState().auth.user.role === 'ROLE_TEACHER') path = 'added';
+  else path = 'done';
   const link =
     _link !== null && _link !== undefined
       ? _link.href
-      : 'http://localhost:8081/exercises/alternative/done';
+      : `http://localhost:8081/exercises/alternative/${path}`;
   return dispatch => {
     dispatch(innerLoaderOn());
     axios

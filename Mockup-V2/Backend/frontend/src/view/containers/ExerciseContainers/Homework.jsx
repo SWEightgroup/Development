@@ -31,6 +31,7 @@ class Homework extends Component {
 
   render() {
     const { todoExercises, auth, loadTodoExercisesDispatch } = this.props;
+    console.log(': Homework -> render -> auth', auth);
     const { exercises, page, links } = todoExercises;
     const areThereExerciseToDo =
       todoExercises && exercises && exercises.length > 0;
@@ -44,7 +45,7 @@ class Homework extends Component {
                 <ExercisePreview
                   key={`ex${exercise.id}${index}`}
                   id={exercise.id}
-                  author={exercise.teacherName}
+                  author={exercise.authorName}
                   creationDate={exercise.dateExercise}
                   executionDate={null}
                   phrase={exercise.phraseText}
@@ -52,6 +53,7 @@ class Homework extends Component {
                   mark={null}
                   isMark={false}
                   selectExercise={this.selectExercise}
+                  language={auth.user.language}
                 />
               ))}
           </div>
@@ -64,7 +66,7 @@ class Homework extends Component {
             prev={links.prev}
             number={page.number}
             totalPages={page.totalPages}
-            language={auth.language}
+            language={auth.user.language}
             onClick={loadTodoExercisesDispatch}
           />
         )}
