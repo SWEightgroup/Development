@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.user.UserService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -130,6 +131,18 @@ public class ExerciseServiceTest {
 
     assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
+
+  }
+
+  @Test
+  public void findById() {
+    Mockito.when(exerciseRepository.findById("100")).thenReturn(Optional.of(exerciseModel));
+
+    Optional<ExerciseModel> myidfoud = exerciseService.findById(exerciseModel.getId());
+
+    Assert.assertNotNull(myidfoud);
+    Mockito.verify(exerciseRepository, Mockito.times(1)).findById(Mockito.anyString());
+    Mockito.verifyNoMoreInteractions(exerciseRepository);
 
   }
 
