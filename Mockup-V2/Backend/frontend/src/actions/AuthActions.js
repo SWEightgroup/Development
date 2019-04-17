@@ -44,7 +44,7 @@ export const signIn = credentials => {
         dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
       .catch(e => {
-        _toastError('Autenticazione fallita');
+        _toastError(_translator('login_error', 'it'));
         dispatch({ type: 'LOGIN_ERROR' });
       });
   };
@@ -68,7 +68,10 @@ export const signUp = newUser => {
           signIn({ username: newUser.username, password: newUser.password })
         );
       })
-      .catch(() => dispatch({ type: 'SIGNUP_ERROR' }));
+      .catch(e => {
+        _toastError(_translator('signUp_error', 'it'));
+        dispatch({ type: 'SIGNUP_ERROR' });
+      });
   };
 };
 

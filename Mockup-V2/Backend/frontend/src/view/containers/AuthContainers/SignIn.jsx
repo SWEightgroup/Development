@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { signIn, loaderOn, changeSignIn } from '../../../actions/AuthActions';
+import { initStateExercise } from '../../../actions/ExerciseActions';
 import _translator from '../../../helpers/Translator';
 
 class SignIn extends Component {
+  constructor(props) {
+    super(props);
+    props.initStateExerciseDispatch();
+  }
+
   handleChange = e => {
     changeSignIn({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = e => {
-    const { signIn, loaderOn, signInData } = this.props;
-    loaderOn();
+    const { props } = this;
     e.preventDefault();
-    signIn(signInData);
+    props.loaderOn();
+    props.signIn(props.signInData);
   };
 
   render() {
@@ -84,7 +90,8 @@ const mapDispatchToProps = dispatch => {
   return {
     signIn: credentials => dispatch(signIn(credentials)),
     loaderOn: () => dispatch(loaderOn()),
-    changeSignIn: data => dispatch(changeSignIn(data))
+    changeSignIn: data => dispatch(changeSignIn(data)),
+    initStateExerciseDispatch: () => dispatch(initStateExercise())
   };
 };
 

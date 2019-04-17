@@ -48,9 +48,9 @@ public class ExerciseController {
     this.solutionService = solutionService;
   }
 
-  @RequestMapping(value = "/alternative/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 3) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
+      @PageableDefault(value = 4) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
     Page<ExerciseModel> exercisesDone = exerciseService.getAllDoneByAuthorId(pageable, id);
@@ -66,19 +66,19 @@ public class ExerciseController {
    * @param assembler assembler
    * @return List of exercises
    */
-  @RequestMapping(value = "/alternative/added", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/added", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allAddedExercises(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 3) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
+      @PageableDefault(value = 4) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
     Page<ExerciseModel> exercisesDone = exerciseService.getAllAddedByAuthorId(pageable, id);
-    PagedResources<?> resources = assembler.toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
+    PagedResources<?> resources = assembler.toResource(exercisesDone, new ExerciseResourceAssembler("/added-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/alternative/todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> AllExercisesToDo(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 2) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
+      @PageableDefault(value = 4) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
     Page<ExerciseModel> exercisesToDo = exerciseService.getAllToDoByAuthorId(pageable, id);
     PagedResources<?> resources = assembler.toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
@@ -153,33 +153,6 @@ public class ExerciseController {
       error.printStackTrace();
       return new ResponseEntity<SolutionModel>(new SolutionModel(), HttpStatus.SERVICE_UNAVAILABLE);
     }
-  }
-
-  /**
-   * @param token the unique of the student
-   * @return all the exercises that the student has to do.
-   */
-  @RequestMapping(value = "/user-todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@RequestHeader("Authorization") String token) {
-    try {
-      String id = ParseJwt.getIdFromJwt(token);
-      Iterable<ExerciseModel> exerciseToDo = exerciseService.getAllToDoByAuthorId(id);
-      return new ResponseEntity<>(exerciseToDo, HttpStatus.OK);
-    } catch (Exception error) {
-      error.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  /**
-   * @param token the token authorization
-   * @return the list of the exercise done by the student.
-   */
-  @RequestMapping(value = "/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
-    String id = ParseJwt.getIdFromJwt(token);
-    Iterable<ExerciseModel> exercisesDone = exerciseService.getAllDoneByAuthorId(id);
-    return new ResponseEntity<>(exercisesDone, HttpStatus.OK);
   }
 
   /**

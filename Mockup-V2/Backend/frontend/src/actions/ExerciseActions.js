@@ -1,6 +1,14 @@
 // import axios from 'axios';
 import axios from 'axios';
 import { store } from '../index';
+import _translator from '../helpers/Translator';
+import { _toastSuccess, _toastError } from '../helpers/Utils';
+
+export const initStateExercise = () => {
+  return dispatch => {
+    dispatch({ type: 'INIT_STATE' });
+  };
+};
 
 export const innerLoaderOn = () => {
   return dispatch => {
@@ -88,7 +96,12 @@ export const saveFreeExercise = newExercise => {
       .then(res => {
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
       })
-      .catch(() => dispatch({ type: '' }));
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 
@@ -124,7 +137,12 @@ export const saveSolution = newExercise => {
           }
         });
       })
-      .catch(() => dispatch({ type: '' }));
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 
@@ -158,9 +176,18 @@ export const saveExerciseSolution = newExercise => {
         }
       )
       .then(res => {
+        _toastSuccess(
+          _translator('gen_insertDone', store.getState().auth.user.language)
+        );
+
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
       })
-      .catch(() => dispatch({ type: '' }));
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 
@@ -168,7 +195,7 @@ export const loadTodoExercises = _link => {
   const link =
     _link !== null && _link !== undefined
       ? _link.href
-      : 'http://localhost:8081/exercises/alternative/todo';
+      : 'http://localhost:8081/exercises/todo';
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
@@ -180,7 +207,12 @@ export const loadTodoExercises = _link => {
       .then(res => {
         dispatch({ type: 'LOAD_TODO_SUCCESS', todo: res.data });
       })
-      .catch(() => dispatch({ type: '' }));
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 
@@ -191,7 +223,7 @@ export const loadDoneExercises = _link => {
   const link =
     _link !== null && _link !== undefined
       ? _link.href
-      : `http://localhost:8081/exercises/alternative/${path}`;
+      : `http://localhost:8081/exercises/${path}`;
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
@@ -203,7 +235,12 @@ export const loadDoneExercises = _link => {
       .then(res => {
         dispatch({ type: 'LOAD_DONE_SUCCESS', todo: res.data });
       })
-      .catch(() => dispatch({ type: '' }));
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 
@@ -229,7 +266,12 @@ export const getAutomaticSolution = sentenceString => {
         );
         dispatch(innerLoaderOff());
       })
-      .catch(e => console.error(e));
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 
@@ -244,8 +286,11 @@ export const getAllStudents = () => {
       .then(resGetStudent => {
         dispatch(updateStudentList(resGetStudent.data));
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
       });
   };
 };

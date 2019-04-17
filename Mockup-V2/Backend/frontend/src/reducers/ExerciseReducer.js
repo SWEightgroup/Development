@@ -17,6 +17,10 @@ const initState = {
 
 const ExerciseReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'INIT_STATE':
+      return {
+        ...initState
+      };
     case 'INNER_LOADER_ON':
       return {
         ...state,
@@ -65,12 +69,13 @@ const ExerciseReducer = (state = initState, action) => {
       };
     case 'SAVE_EXERCISE_SUCCESS':
       return {
-        // ...state,
+        ...initState,
         newExercise: {
           ...state.newExercise,
           ...action.newExercise,
           showSolution: true
         },
+        studentList: state.studentList,
         innerLoader: false
         // newExercise: initState.newExercise
       };

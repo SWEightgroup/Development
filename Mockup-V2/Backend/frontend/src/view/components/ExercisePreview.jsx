@@ -13,6 +13,10 @@ class ExercisePreview extends Component {
 
   goToExecution = () => {
     const { /* solution, */ phrase, selectExercise, id } = this.props;
+    console.log(
+      ': ExercisePreview -> goToExecution ->  this.props',
+      this.props
+    );
     selectExercise(phrase, id);
 
     // DA SISTEMARE
@@ -20,15 +24,36 @@ class ExercisePreview extends Component {
 
   render() {
     const { author, creationDate, phrase, mark, isMark, language } = this.props;
-    console.log(': ExercisePreview -> render -> language', language);
+    let markClass = 'alert-danger';
+    if (mark && mark > 8) markClass = 'alert-success';
+    if (mark && mark <= 8 && mark > 5) markClass = 'alert-warning';
     return (
       <div className="main-card mb-3 card">
         <div className="card-body">
-          <h5 className="card-title">
-            <small>{_translator('gen_author', language)}: </small> {author}
-          </h5>
-          <h6 className="card-subtitle">{phrase}</h6>
-          <p>Aggiunta il: {this.getDate(creationDate)}</p>
+          <div className="row">
+            <div className="col">
+              <h5 className="card-title">
+                <small>{_translator('gen_phrase', language)}: </small>
+                {phrase}
+              </h5>
+              <h6 className="card-subtitle">
+                <small>{_translator('gen_author', language)}: </small> {author}
+              </h6>
+              <h6 className="card-subtitle">
+                <small>
+                  {_translator('exercisePreview_addedOn', language)}:
+                </small>
+                {this.getDate(creationDate)}
+              </h6>
+            </div>
+            {isMark && mark && (
+              <div className="col-md-auto">
+                <div className={`alert pull-right ${markClass}`} role="alert">
+                  {mark}/10
+                </div>
+              </div>
+            )}
+          </div>
           {!isMark && (
             <button
               type="button"
@@ -38,8 +63,6 @@ class ExercisePreview extends Component {
               {_translator('exercisePreview_execute', language)}
             </button>
           )}
-          {isMark && <p className=" ">{mark}</p>}
-          <small>{}</small>
         </div>
       </div>
     );

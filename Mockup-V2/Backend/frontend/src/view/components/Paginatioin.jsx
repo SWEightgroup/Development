@@ -12,7 +12,6 @@ const Pagination = props => {
     language,
     onClick
   } = props;
-  console.log(': props', props);
   const cssClassFirst = `page-item${number === 0 ? ' disabled' : ''}`;
   const cssClassLast = `page-item${
     number === totalPages - 1 ? ' disabled' : ''
@@ -50,7 +49,7 @@ const Pagination = props => {
               </button>
             </li>
           )}
-          {number > 1 && totalPages > 3 && (
+          {number > 2 && totalPages > 3 && (
             <li className="page-item disabled">
               <button className="page-link" type="button" disabled>
                 ...

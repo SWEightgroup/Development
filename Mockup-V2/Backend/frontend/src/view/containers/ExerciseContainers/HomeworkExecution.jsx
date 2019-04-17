@@ -34,19 +34,15 @@ class HomeworkExercise extends Component {
     } = this.props;
 
     const codeSolution = newExercise.userSolution.map((word, index) => {
-      console.log(
-        ': HomeworkExercise -> checkSolution -> newExercise.response',
-        newExercise
-      );
-      if (newExercise.response !== null) {
-        if (
-          word.languageIterator.getSolution() &&
-          word.languageIterator.getSolution().length === 0 &&
-          newExercise.response[index].tag.charAt(0) === 'F'
-        )
-          return newExercise.response[index].tag;
-        return word.languageIterator.getCodeSolution();
-      } return '';
+      if (
+        newExercise.response !== null &&
+        word.languageIterator.getSolution() &&
+        word.languageIterator.getSolution().length === 0 &&
+        newExercise.response[index].tag.charAt(0) === 'F'
+      ) {
+        return newExercise.response[index].tag;
+      }
+      return word.languageIterator.getCodeSolution();
     }); // questo è un array di codici che invio al backend
 
     updateNewExerciseStateDispatch({
@@ -73,22 +69,31 @@ class HomeworkExercise extends Component {
       sentenceString !== ''
         ? sentenceString.split(' ').filter(item => item.charAt(0) !== 'F')
         : [];
+    let markClass = 'alert-danger';
+    if (mark && mark > 8) markClass = 'alert-success';
+    if (mark && mark <= 8 && mark > 5) markClass = 'alert-warning';
     return (
       <div className="row justify-content-center">
         <div className="col-12 col-md-10">
           <div className="main-card mb-3 card">
             <div className="card-body">
               <div className="row">
-                <div className="col-12">
-                  <h5 className="card-title">Esercizio da svolgere</h5>
-                  <p className="card-text">{newExercise.sentenceString}</p>
-                  {mark && mark.length > 0 && (
-                    <h1 className="pull-right">
-                      {_translator('executionExercise_mark', language)}
-                      {mark}
-                    </h1>
-                  )}
+                <div className="col">
+                  <h4 className="card-title">
+                    <small>{_translator('gen_phrase', language)}: </small>
+                    {newExercise.sentenceString}
+                  </h4>
                 </div>
+                {mark !== undefined && mark !== null && (
+                  <div className="col-md-auto">
+                    <div
+                      className={`alert pull-right ${markClass}`}
+                      role="alert"
+                    >
+                      {mark}/10
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

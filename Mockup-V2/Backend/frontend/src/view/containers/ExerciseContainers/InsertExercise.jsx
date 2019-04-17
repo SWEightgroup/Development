@@ -63,8 +63,9 @@ class InsertExercise extends Component {
     } = this.props;
 
     const codeSolution = newExercise.userSolution.map((word, index) => {
-      if (word.languageIterator.getSolution().length === 0)
+      if (word.languageIterator.getSolution().length === 0) {
         return newExercise.response[index].tag;
+      }
       return word.languageIterator.getCodeSolution();
     }); // questo è un array di codici che invio al backend
     updateNewExerciseStateDispatch({
@@ -145,7 +146,7 @@ class InsertExercise extends Component {
           />
         )}
 
-        {response && studentList && studentList.length > 0 && (
+        {response && studentList && !showSolution && studentList.length > 0 && (
           <div className="row">
             <div className="col-sm-12 col-md-6 ">
               <div className="mb-3 card">
@@ -158,7 +159,10 @@ class InsertExercise extends Component {
                 <div className="card-body">
                   <div className="tab-content">
                     <div className="tab-pane fade show active">
-                      <h6 className="text-muted text-uppercase font-size-md opacity-5 font-weight-normal">
+                      <h6
+                        className="text-muted text-uppercase 
+                      font-size-md opacity-5 font-weight-normal"
+                      >
                         Studenti disponibili
                       </h6>
                       <div className="scroll-area-sm">
@@ -166,7 +170,7 @@ class InsertExercise extends Component {
                           <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
                             {studentList.map(student => (
                               <li
-                                key={`li-${  student.username}`}
+                                key={`li-${student.username}`}
                                 className="list-group-item"
                               >
                                 <div className="widget-content p-0">

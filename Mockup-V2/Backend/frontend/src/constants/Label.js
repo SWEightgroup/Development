@@ -38,12 +38,17 @@ export const _label = {
     gen_en: 'Inglese',
     gen_welcome: 'Bentornato',
     gen_userDashboard: 'Pannello Utente',
+    gen_phrase: 'Frase',
+    gen_insertDone: 'Esercizio agiunto con successo',
+    gen_error: 'Errore interno',
     inputSentence_executeExercise: "Svolgi l'esercizio",
     inputSentence_insertSentence: 'Inserisci la frase',
     signup_errorPassword: 'Le due passowrd non coincidono',
     signup_selectOption: "Seleziona un'opzione",
     signup_hint:
       'La password deve essere lunga dai 6 ai 20 caratteri e non deve contenere caratteri speciali',
+    signUp_error: 'Registrazione fallita',
+    login_error: 'Autenticazione fallita',
     sidebarElementStudent_exercise: 'Esercizi',
     sidebarElementStudent_freeExercise: 'Esercitazione Libera',
     sidebarElementStudent_exercises: 'Compiti per casa',
@@ -76,7 +81,8 @@ export const _label = {
     pagination_first: 'Primo',
     pagination_last: 'Ultimo',
     pagination_prev: 'Successivo',
-    pagination_next: 'Precedente'
+    pagination_next: 'Precedente',
+    exercisePreview_addedOn: 'Aggiunto il'
   },
   en: {
     account_yourData: 'Your data',
@@ -109,6 +115,9 @@ export const _label = {
     gen_en: 'English',
     gen_author: 'Author',
     gen_welcome: 'Welcome',
+    gen_phrase: 'Phrase',
+    gen_insertDone: 'Successfully added exercise',
+    gen_error: 'Internal error',
     exercisePreview_execute: 'Execute exercise',
     inputSentence_executeExercise: 'Get to work!',
     inputSentence_insertSentence: 'Enter phrase',
@@ -116,6 +125,8 @@ export const _label = {
     signup_selectOption: 'Select an option',
     signup_hint:
       'Your password must be 6-20 characters long, contain letters and numbers, and must not contain spaces, special characters or emojis',
+    signUp_error: 'SignUp error',
+    login_error: 'Failed authentication',
     sidebarElementStudent_exercise: 'Your Exercises',
     sidebarElementStudent_freeExercise: 'Free training',
     sidebarElementStudent_exercises: 'Homeworks',
@@ -148,6 +159,7 @@ export const _label = {
     pagination_first: 'First',
     pagination_last: 'Last',
     pagination_prev: 'Previous',
-    pagination_next: 'Next'
+    pagination_next: 'Next',
+    exercisePreview_addedOn: 'Added on'
   }
 };
