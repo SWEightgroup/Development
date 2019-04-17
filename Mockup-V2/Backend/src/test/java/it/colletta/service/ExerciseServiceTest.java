@@ -1,8 +1,7 @@
 package it.colletta.service;
 
+import static com.mongodb.client.model.Filters.eq;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Answers.CALLS_REAL_METHODS;
 import static org.mockito.ArgumentMatchers.any;
 
 import it.colletta.model.ExerciseModel;
@@ -23,41 +22,35 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 @TestPropertySource(
     properties =
         "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class ExerciseServiceTest {
 
-  @Autowired
-  private ExerciseService exerciseService;
-
-  @Autowired
-  private PhraseService phraseService;
-
-  @Autowired
-  private UserService userService;
-
-  @Autowired
-  private SolutionService solutionService;
-
-
-  @MockBean
+  @Mock
   private ExerciseRepository exerciseRepository;
 
-  @MockBean
+  @Mock
   private UsersRepository usersRepository;
 
+  @InjectMocks
+  private ExerciseService exerciseService;
+
+  @Mock
+  private PhraseService phraseService;
+
+  @Mock
+  private SolutionService solutionService;
+
+  @Mock
+  private UserService userService;
 
   private ExerciseModel exerciseModel;
 
@@ -72,43 +65,44 @@ public class ExerciseServiceTest {
 
   @Before
   public void setUp() throws Exception {
-    exerciseService = new ExerciseService(exerciseRepository,phraseService,userService,solutionService);
+
+    MockitoAnnotations.initMocks(this);
 
     exerciseModel = ExerciseModel.builder()
-        .id("1")
-        .phraseId("12")
+        .id(any(String.class))
+        .phraseId(any(String.class))
         .phraseText("questa è una prova")
         .dateExercise(any(Long.class))
-        .mainSolutionId("22")
-        .alternativeSolutionId("22")
+        .mainSolutionId(any(String.class))
+        .alternativeSolutionId(any(String.class))
         .authorName("Insegnante Insegnante")
-        .authorId("100")
+        .authorId(any(String.class))
         .visibility(true)
         .build();
 
     List<String> assignedUsersIds = new ArrayList<>();
-    assignedUsersIds.add("104");
+    assignedUsersIds.add(any(String.class));
     exercise = ExerciseHelper.builder()
-        .id("15")
+        .id(any(String.class))
         .assignedUsersIds(assignedUsersIds)
         .phraseText("questa è una prova")
-        .mainSolution("22")
-        .alternativeSolution("22")
+        .mainSolution("main solution")
+        .alternativeSolution("alternative solution")
         .visibility(true)
-        .author("100")
-        .date(1554574902653L)
+        .author(any(String.class))
+        .date(any(Long.class))
         .language("it")
         .build();
 
     phrase = PhraseModel.builder()
-        .id("12")
+        .id(any(String.class))
         .language(exercise.getLanguage())
         .datePhrase(exercise.getDate())
         .phraseText(exercise.getPhraseText())
         .build();
 
     mainSolution = SolutionModel.builder()
-        .id("22")
+        .id(any(String.class))
         .reliability(0)
         .authorId(exercise.getAuthor())
         .solutionText(exercise.getMainSolution())
@@ -116,7 +110,7 @@ public class ExerciseServiceTest {
 
     userModel =
             UserModel.builder()
-                    .id("100")
+                    .id(any(String.class))
                     .firstName("Insegnante")
                     .lastName("Insegnante")
                     .build();
@@ -126,9 +120,18 @@ public class ExerciseServiceTest {
 
   @Test
   public void insertExercise() {
+
+    Mockito.when(phraseService.createPhrase(exercise.getPhraseText(),exercise.getLanguage())).thenReturn(phrase);
+    Mockito.when(solutionService.createSolution(exercise.getMainSolution(),exercise.getAuthor())).thenReturn(mainSolution);
+    Mockito.when(phraseService.insertPhrase(phrase)).thenReturn(phrase);
     Mockito.when(exerciseRepository.save(exerciseModel)).thenReturn(exerciseModel);
-    Mockito.when(usersRepository.findById("100")).thenReturn(Optional.of(userModel));
-    assertThat(exerciseService.insertExercise(exercise)).isEqualTo(exerciseModel);
+    Mockito.when(userService.findById(exercise.getAuthor())).thenReturn(Optional.of(userModel));
+
+    ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
+
+    assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
+    assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
+
   }
 /*
   @Test
