@@ -1,5 +1,8 @@
 package it.colletta.model.helper;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class CorrectionHelper {
 
   private String solutionFromStudent;
