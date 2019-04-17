@@ -1,9 +1,7 @@
 package it.colletta.service;
 
-import static com.mongodb.client.model.Filters.eq;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 
+import static org.junit.Assert.assertEquals;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
@@ -27,7 +25,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
+// con MockitoJUnitRunner.class : ExerciseServiceTest.unnecessary Mockito stubbings » UnnecessaryStubbing
 @SpringBootTest
 @TestPropertySource(
     properties =
@@ -69,40 +68,40 @@ public class ExerciseServiceTest {
     MockitoAnnotations.initMocks(this);
 
     exerciseModel = ExerciseModel.builder()
-        .id(any(String.class))
-        .phraseId(any(String.class))
+        .id("1")
+        .phraseId("10")
         .phraseText("questa è una prova")
-        .dateExercise(any(Long.class))
-        .mainSolutionId(any(String.class))
-        .alternativeSolutionId(any(String.class))
+        .dateExercise(378136781L)
+        .mainSolutionId("22")
+        .alternativeSolutionId("22")
         .authorName("Insegnante Insegnante")
-        .authorId(any(String.class))
+        .authorId("100")
         .visibility(true)
         .build();
 
     List<String> assignedUsersIds = new ArrayList<>();
-    assignedUsersIds.add(any(String.class));
+    assignedUsersIds.add("104");
     exercise = ExerciseHelper.builder()
-        .id(any(String.class))
+        .id("123")
         .assignedUsersIds(assignedUsersIds)
         .phraseText("questa è una prova")
         .mainSolution("main solution")
         .alternativeSolution("alternative solution")
         .visibility(true)
-        .author(any(String.class))
-        .date(any(Long.class))
+        .author("100")
+        .date(378136781L)
         .language("it")
         .build();
 
     phrase = PhraseModel.builder()
-        .id(any(String.class))
+        .id("321")
         .language(exercise.getLanguage())
         .datePhrase(exercise.getDate())
         .phraseText(exercise.getPhraseText())
         .build();
 
     mainSolution = SolutionModel.builder()
-        .id(any(String.class))
+        .id("1246")
         .reliability(0)
         .authorId(exercise.getAuthor())
         .solutionText(exercise.getMainSolution())
@@ -110,7 +109,7 @@ public class ExerciseServiceTest {
 
     userModel =
             UserModel.builder()
-                    .id(any(String.class))
+                    .id("100")
                     .firstName("Insegnante")
                     .lastName("Insegnante")
                     .build();
@@ -133,18 +132,5 @@ public class ExerciseServiceTest {
     assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
 
   }
-/*
-  @Test
-  public void findById() {
-      Optional<ExerciseModel> model = null;
-      Mockito.when(exerciseService.findById("5ca9327583406d30249f9121")).thenReturn(model);
-      if(model.isPresent()) {
-        assertEquals(model.get().getId(), "5ca9327583406d30249f9121");
-      }
-      else {
-        assert false;
-      }
-  }
 
- */
 }
