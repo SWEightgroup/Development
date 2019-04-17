@@ -1,23 +1,19 @@
 package it.colletta.service.user;
 
 import it.colletta.model.ExerciseModel;
-import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 import it.colletta.security.Role;
 
-import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class UserService {
@@ -114,7 +110,7 @@ public class UserService {
       final ExerciseModel exerciseModel) {
     Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
     for (UserModel user : users) {
-      if(user.getExercisesToDo() != null) {
+      if (user.getExercisesToDo() != null) {
         user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
       }
     }

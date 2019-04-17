@@ -1,5 +1,7 @@
 package it.colletta.service;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
@@ -14,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bson.types.ObjectId;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +41,8 @@ public class ExerciseService {
    *
    * @param exerciseRepository exerciseRepository
    */
-  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService
-                 ,final UserService userService, final SolutionService solutionService) {
+  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService,
+      final UserService userService, final SolutionService solutionService) {
 
     this.exerciseRepository = exerciseRepository;
     this.phraseService = phraseService;
@@ -101,7 +102,7 @@ public class ExerciseService {
     phrase = phraseService.insertPhrase(phrase);
 
     Optional<UserModel> userOpt = userService.findById(exercise.getAuthor());
-    UserModel user = userOpt.get();
+    UserModel user = userOpt.orElseThrow();
     String authorName = user.getFirstName() + " " + user.getLastName();
 
     ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
@@ -131,7 +132,7 @@ public class ExerciseService {
         .authorId(exercise.getAuthor()).solutionText(exercise.getMainSolution()).build();
 
     SolutionModel alternativeSolution = null;
-    if (exercise != null && !exercise.getAlternativeSolution().isEmpty()) {
+    if (!exercise.getAlternativeSolution().isEmpty()) {
       alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
           .solutionText(exercise.getAlternativeSolution()).build();
     }
@@ -148,7 +149,8 @@ public class ExerciseService {
 
     Optional<UserModel> user = userService.findById(userId);
     String authorName =
-        user.isPresent() ? user.get().getFirstName() + " " + user.get().getLastName() : null;
+        user.map(userModel -> userModel.getFirstName() + " " + userModel.getLastName())
+            .orElse(null);
     ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
         .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
         // .alternativeSolutionId(alternativeSolution.getId())
@@ -166,7 +168,7 @@ public class ExerciseService {
    *
    * @param correctionHelper New solution
    * @param studentId Student id
-   * @return Solution Solution with mark
+   * @return the solution of the exercise
    * @throws Exception Exception
    */
   public SolutionModel doExercise(CorrectionHelper correctionHelper, String studentId)
@@ -183,15 +185,18 @@ public class ExerciseService {
         alternativeSolutionModel = phraseService.getSolutionInPhrase(
             exerciseToCorrect.getPhraseId(), exerciseToCorrect.getAlternativeSolutionId());
       }
+      ObjectMapper objectMapper = new ObjectMapper();
+      JavaType type = objectMapper.getTypeFactory()
+          .constructCollectionType(ArrayList.class, String.class);
       ArrayList<String> studentSolutionMap =
-          new ObjectMapper().readValue(correctionHelper.getSolutionFromStudent(), ArrayList.class);
+          objectMapper.readValue(correctionHelper.getSolutionFromStudent(), type);
       ArrayList<String> mainSolution =
-          new ObjectMapper().readValue(mainSolutionModel.getSolutionText(), ArrayList.class);
+          objectMapper.readValue(mainSolutionModel.getSolutionText(), type);
 
       Double mark = correct(studentSolutionMap, mainSolution);
       if (mark < 10.00 && alternativeSolutionModel != null) {
-        ArrayList<String> alternativeSolutionMap = new ObjectMapper()
-            .readValue(alternativeSolutionModel.getSolutionText(), ArrayList.class);
+        ArrayList<String> alternativeSolutionMap = objectMapper
+            .readValue(alternativeSolutionModel.getSolutionText(), type);
         if (alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
           Double alternativeMark = correct(studentSolutionMap, alternativeSolutionMap);
           if (mark < alternativeMark) {
@@ -221,7 +226,7 @@ public class ExerciseService {
    *
    * @param studentSolutionMap List of student solutions
    * @param systemSolution Main of alternative solution
-   * @return Mark
+   * @return mark expressed in a decimal format
    */
   private Double correct(ArrayList<String> studentSolutionMap, ArrayList<String> systemSolution) {
     Integer points = 0;
@@ -266,10 +271,13 @@ public class ExerciseService {
     return exerciseRepository.findAllById(exercisesDoneId);
   }
 
-  public Iterable<ExerciseModel> getAllToDoByAuthorId(final String id) {
-    List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
-    return exerciseRepository.findAllById(exercisesToDoId);
-  }
+  /**
+   * Return all exercises done by a student.
+   *
+   * @param page {@link Pageable}
+   * @param id the user unique id
+   * @return All exercise done by the user as pages
+   */
 
   public Page<ExerciseModel> getAllDoneByAuthorId(final Pageable page, final String id) {
     List<String> exercisesDoneid = userService.getAllExerciseDone(id);
@@ -278,6 +286,18 @@ public class ExerciseService {
             Collectors.toList()));
   }
 
+  public Iterable<ExerciseModel> getAllToDoByAuthorId(final String id) {
+    List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
+    return exerciseRepository.findAllById(exercisesToDoId);
+  }
+
+  /**
+   * Return all exercises that the user has to do.
+   *
+   * @param page {@link Pageable}
+   * @param id the user unique id
+   * @return All exercise to do by the user as pages
+   */
   public Page<ExerciseModel> getAllToDoByAuthorId(final Pageable page, final String id) {
     List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
     List<ObjectId> ids = exercisesToDoId.stream().map(ObjectId::new).collect(
