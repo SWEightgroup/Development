@@ -70,7 +70,11 @@ export const _label = {
     gen_adminUsers: 'Utenti',
     adminUserDashBoard_desc: 'Visualizza e elimina gli utenti',
     adminUserDashBoard_delete: 'Elimina',
-    developerDashBoard_action: 'Azioni'
+    developerDashBoard_action: 'Azioni',
+    pagination_first: 'Primo',
+    pagination_last: 'Ultimo',
+    pagination_previous: 'Successivo',
+    pagination_next: 'Precedente'
   },
   en: {
     account_yourData: 'Your data',
@@ -136,6 +140,10 @@ export const _label = {
     adminUserDashBoard_desc: 'View and delete users',
     adminDevDashBoard_noUser: 'No user found',
     adminUserDashBoard_delete: 'Delete',
-    developerDashBoard_action: 'Actions'
+    developerDashBoard_action: 'Actions',
+    pagination_first: 'First',
+    pagination_last: 'Last',
+    pagination_previous: 'Previous',
+    pagination_next: 'Next'
   }
 };

@@ -21,7 +21,9 @@
   background-color: transparent;
   box-shadow: none;
 }
-
+.m0-a {
+  margin: 0 auto !important;
+}
 /*-----------------------------spinner -------------------------------*/
 /* Absolute Center Spinner */
 .loading {
