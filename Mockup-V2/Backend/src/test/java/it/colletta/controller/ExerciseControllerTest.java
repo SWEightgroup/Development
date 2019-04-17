@@ -88,23 +88,10 @@ public class ExerciseControllerTest {
 
   @Test
   public void ExerciseUserDone() {
-    try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/done").header("Authorization", userToken))
-          .andExpect(status().isOk());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   @Test
   public void ExerciseToDo() {
-    try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/todo").header("Authorization", userToken))
-          .andExpect(status().isOk());
-      ;
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   @Test
