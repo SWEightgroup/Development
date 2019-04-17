@@ -9,11 +9,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class SingnupController {
@@ -43,7 +39,7 @@ public class SingnupController {
 
   @RequestMapping(value = "/sign-up/activate/{id}", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> activateUser(@RequestParam("id") String requestId) {
+  public ResponseEntity<?> activateUser(@PathVariable("id") String requestId) {
     try {
       singupService.setEnabledToTrue(requestId);
       return new ResponseEntity<>(HttpStatus.OK);
