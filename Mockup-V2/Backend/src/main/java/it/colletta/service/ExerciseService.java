@@ -8,18 +8,17 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExerciseService {
@@ -41,7 +40,8 @@ public class ExerciseService {
    *
    * @param exerciseRepository exerciseRepository
    */
-  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService , UserService userService) {
+  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService,
+      UserService userService) {
     this.exerciseRepository = exerciseRepository;
     this.userService = userService;
     this.phraseService = phraseService;
@@ -83,10 +83,13 @@ public class ExerciseService {
    */
   public ExerciseModel insertExercise(ExerciseHelper exercise) {
 
-    PhraseModel phrase = phraseService.createPhrase(exercise.getPhraseText(),exercise.getLanguage());
+    PhraseModel phrase = phraseService
+        .createPhrase(exercise.getPhraseText(), exercise.getLanguage());
 
-    SolutionModel mainSolution = solutionService.createSolution(exercise.getMainSolution(),exercise.getAuthor());
-    SolutionModel alternativeSolution = solutionService.createSolution(exercise.getAlternativeSolution(),exercise.getAuthor());
+    SolutionModel mainSolution = solutionService
+        .createSolution(exercise.getMainSolution(), exercise.getAuthor());
+    SolutionModel alternativeSolution = solutionService
+        .createSolution(exercise.getAlternativeSolution(), exercise.getAuthor());
 
     phrase.addSolution(mainSolution);
     if (alternativeSolution != null) {
@@ -268,12 +271,17 @@ public class ExerciseService {
 
   public Page<ExerciseModel> getAllDoneByAuthorId(final Pageable page, final String id) {
     List<String> exercisesDoneid = userService.getAllExerciseDone(id);
-    return exerciseRepository.findAllByIdPaged(page, exercisesDoneid);
+    return exerciseRepository
+        .findAllByIdPaged(page, exercisesDoneid.stream().map(ObjectId::new).collect(
+            Collectors.toList()));
   }
 
   public Page<ExerciseModel> getAllToDoByAuthorId(final Pageable page, final String id) {
     List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
-    return exerciseRepository.findAllByIdPaged(page, exercisesToDoId);
+    List<ObjectId> ids = exercisesToDoId.stream().map(ObjectId::new).collect(
+        Collectors.toList());
+    final Page<ExerciseModel> allByIdPaged = exerciseRepository.findAllByIdPaged(page, ids);
+    return allByIdPaged;
   }
 
 }

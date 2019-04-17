@@ -19,6 +19,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
@@ -66,7 +67,7 @@ public class ExerciseController {
   @RequestMapping(value = "/alternative/todo", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> AllExercisesToDo(
-      @RequestHeader("Authorization") String token, Pageable pageable,
+      @RequestHeader("Authorization") String token, @PageableDefault(value = 1) Pageable pageable,
       PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
     Page<ExerciseModel> exercisesToDo =
