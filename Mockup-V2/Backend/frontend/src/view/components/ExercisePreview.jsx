@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import _translator from '../../helpers/Translator';
+
 // import PropTypes from 'prop-types';
 
 class ExercisePreview extends Component {
@@ -17,11 +19,14 @@ class ExercisePreview extends Component {
   };
 
   render() {
-    const { author, creationDate, phrase, mark, isMark } = this.props;
+    const { author, creationDate, phrase, mark, isMark, language } = this.props;
+    console.log(': ExercisePreview -> render -> language', language);
     return (
       <div className="main-card mb-3 card">
         <div className="card-body">
-          <h5 className="card-title"> {author}</h5>
+          <h5 className="card-title">
+            <small>{_translator('gen_author', language)}: </small> {author}
+          </h5>
           <h6 className="card-subtitle">{phrase}</h6>
           <p>Aggiunta il: {this.getDate(creationDate)}</p>
           {!isMark && (
@@ -30,7 +35,7 @@ class ExercisePreview extends Component {
               onClick={this.goToExecution}
               className="mb-2 mr-2 btn btn-primary btn-sm btn-block "
             >
-              Svolgi l'esercizio
+              {_translator('exercisePreview_execute', language)}
             </button>
           )}
           {isMark && <p className=" ">{mark}</p>}

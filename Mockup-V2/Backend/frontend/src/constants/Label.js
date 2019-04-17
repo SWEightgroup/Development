@@ -32,6 +32,8 @@ export const _label = {
     gen_developer: 'Sviluppatore',
     gen_student: 'Studente',
     gen_teacher: 'Insegnante',
+    gen_author: 'Autore',
+    exercisePreview_execute: "Svolgi l'esercizio",
     gen_it: 'Italiano',
     gen_en: 'Inglese',
     gen_welcome: 'Bentornato',
@@ -70,7 +72,11 @@ export const _label = {
     gen_adminUsers: 'Utenti',
     adminUserDashBoard_desc: 'Visualizza e elimina gli utenti',
     adminUserDashBoard_delete: 'Elimina',
-    developerDashBoard_action: 'Azioni'
+    developerDashBoard_action: 'Azioni',
+    pagination_first: 'Primo',
+    pagination_last: 'Ultimo',
+    pagination_previous: 'Successivo',
+    pagination_next: 'Precedente'
   },
   en: {
     account_yourData: 'Your data',
@@ -101,7 +107,9 @@ export const _label = {
     gen_teacher: 'Teacher',
     gen_it: 'Italian',
     gen_en: 'English',
+    gen_author: 'Author',
     gen_welcome: 'Welcome',
+    exercisePreview_execute: 'Execute exercise',
     inputSentence_executeExercise: 'Get to work!',
     inputSentence_insertSentence: 'Enter phrase',
     signup_errorPassword: 'The two passwords do not match',
@@ -136,6 +144,10 @@ export const _label = {
     adminUserDashBoard_desc: 'View and delete users',
     adminDevDashBoard_noUser: 'No user found',
     adminUserDashBoard_delete: 'Delete',
-    developerDashBoard_action: 'Actions'
+    developerDashBoard_action: 'Actions',
+    pagination_first: 'First',
+    pagination_last: 'Last',
+    pagination_previous: 'Previous',
+    pagination_next: 'Next'
   }
 };

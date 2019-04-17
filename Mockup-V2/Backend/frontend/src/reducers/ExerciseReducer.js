@@ -10,8 +10,8 @@ const initState = {
     complete: false
   },
   studentList: [],
-  todoExercises: null,
-  doneExercises: null,
+  todoExercises: { exercises: null, page: null, links: null },
+  doneExercises: { exercises: null, page: null, links: null },
   innerLoader: false
 };
 
@@ -78,13 +78,21 @@ const ExerciseReducer = (state = initState, action) => {
     case 'LOAD_TODO_SUCCESS':
       return {
         ...state,
-        todoExercises: action.todo,
+        todoExercises: {
+          exercises: action.todo._embedded.exerciseModels,
+          page: action.todo.page,
+          links: action.todo._links
+        },
         innerLoader: false
       };
     case 'LOAD_DONE_SUCCESS':
       return {
         ...state,
-        doneExercises: action.todo,
+        doneExercises: {
+          exercises: action.todo._embedded.exerciseModels,
+          page: action.todo.page,
+          links: action.todo._links
+        },
         innerLoader: false
       };
     default:

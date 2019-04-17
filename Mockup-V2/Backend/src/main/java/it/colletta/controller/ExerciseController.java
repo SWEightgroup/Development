@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/exercises")
 public class ExerciseController {
 
-
   private ExerciseService exerciseService;
   private SolutionService solutionService;
 
@@ -49,39 +48,48 @@ public class ExerciseController {
     this.solutionService = solutionService;
   }
 
-  @RequestMapping(value = "/alternative/done", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> AllExercisesDone(
-      @RequestHeader("Authorization") String token, Pageable pageable,
-      PagedResourcesAssembler<ExerciseModel> assembler) {
+  @RequestMapping(value = "/alternative/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,
+      @PageableDefault(value = 3) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
-    Page<ExerciseModel> exercisesDone =
-        exerciseService.getAllDoneByAuthorId(pageable, id);
-    PagedResources<?> resources = assembler
-        .toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
+    Page<ExerciseModel> exercisesDone = exerciseService.getAllDoneByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler.toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
 
-
-  @RequestMapping(value = "/alternative/todo", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> AllExercisesToDo(
-      @RequestHeader("Authorization") String token, @PageableDefault(value = 1) Pageable pageable,
-      PagedResourcesAssembler<ExerciseModel> assembler) {
+  /**
+   * Returns all the exercises added by the requesting teacher.
+   * 
+   * @param token     User token
+   * @param pageable  pageable
+   * @param assembler assembler
+   * @return List of exercises
+   */
+  @RequestMapping(value = "/alternative/added", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> allAddedExercises(@RequestHeader("Authorization") String token,
+      @PageableDefault(value = 3) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
-    Page<ExerciseModel> exercisesToDo =
-        exerciseService.getAllToDoByAuthorId(pageable, id);
-    PagedResources<?> resources = assembler
-        .toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
+
+    Page<ExerciseModel> exercisesDone = exerciseService.getAllAddedByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler.toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
+
+  @RequestMapping(value = "/alternative/todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> AllExercisesToDo(@RequestHeader("Authorization") String token,
+      @PageableDefault(value = 2) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler) {
+    String id = ParseJwt.getIdFromJwt(token);
+    Page<ExerciseModel> exercisesToDo = exerciseService.getAllToDoByAuthorId(pageable, id);
+    PagedResources<?> resources = assembler.toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
+    return new ResponseEntity<>(resources, HttpStatus.OK);
+  }
+
   /**
    * @param exercise the exercise which needs to be inserted in the database
    * @return A new ResponseEntity that contains the phrase.
    */
-  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
@@ -94,17 +102,16 @@ public class ExerciseController {
   }
 
   /**
-   * @param token User's token
-   * @param exercise exercise the exercise which needs to be inserted in the database
+   * @param token    User's token
+   * @param exercise exercise the exercise which needs to be inserted in the
+   *                 database
    * @return A new ResponseEntity that contains the phrase.
    */
-  @RequestMapping(value = "/student/insert-free-exercise", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExerciseModel> insertFreeExercise(
-      @RequestHeader("Authorization") String token, @RequestBody ExerciseHelper exercise) {
+  @RequestMapping(value = "/student/insert-free-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ExerciseModel> insertFreeExercise(@RequestHeader("Authorization") String token,
+      @RequestBody ExerciseHelper exercise) {
     try {
-      ExerciseModel exerciseModel =
-          exerciseService.insertFreeExercise(exercise, ParseJwt.getIdFromJwt(token));
+      ExerciseModel exerciseModel = exerciseService.insertFreeExercise(exercise, ParseJwt.getIdFromJwt(token));
       return new ResponseEntity<ExerciseModel>(exerciseModel, HttpStatus.OK);
     } catch (Exception error) {
       error.printStackTrace();
@@ -113,18 +120,16 @@ public class ExerciseController {
   }
 
   /**
-   * @param token the unique token of the user, in this case a student
-   * @param correctionHelper contains the unique id of the exercise and the solution that was
-   * written by the student
+   * @param token            the unique token of the user, in this case a student
+   * @param correctionHelper contains the unique id of the exercise and the
+   *                         solution that was written by the student
    * @return the teacher solution of the exercise.
    */
-  @RequestMapping(value = "/student/do", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/student/do", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,
       @RequestBody CorrectionHelper correctionHelper) {
     try {
-      SolutionModel insertedSolution =
-          exerciseService.doExercise(correctionHelper, ParseJwt.getIdFromJwt(token));
+      SolutionModel insertedSolution = exerciseService.doExercise(correctionHelper, ParseJwt.getIdFromJwt(token));
       return new ResponseEntity<>(insertedSolution, HttpStatus.OK);
     } catch (Exception error) {
       error.printStackTrace();
@@ -133,12 +138,12 @@ public class ExerciseController {
   }
 
   /**
-   * @param stringObj the text which has to be analyzed by freeling as map
+   * @param stringObj    the text which has to be analyzed by freeling as map
    * @param studentToken the unique token of the user
-   * @return A SolutionModel with the analyzed sentence or empty if the service is unavailable.
+   * @return A SolutionModel with the analyzed sentence or empty if the service is
+   *         unavailable.
    */
-  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj,
       @RequestHeader("Authorization") String studentToken) {
     try {
@@ -154,10 +159,8 @@ public class ExerciseController {
    * @param token the unique of the student
    * @return all the exercises that the student has to do.
    */
-  @RequestMapping(value = "/user-todo", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(
-      @RequestHeader("Authorization") String token) {
+  @RequestMapping(value = "/user-todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Iterable<ExerciseModel>> getUserExercise(@RequestHeader("Authorization") String token) {
     try {
       String id = ParseJwt.getIdFromJwt(token);
       Iterable<ExerciseModel> exerciseToDo = exerciseService.getAllToDoByAuthorId(id);
@@ -172,8 +175,7 @@ public class ExerciseController {
    * @param token the token authorization
    * @return the list of the exercise done by the student.
    */
-  @RequestMapping(value = "/done", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getExerciseDone(@RequestHeader("Authorization") String token) {
     String id = ParseJwt.getIdFromJwt(token);
     Iterable<ExerciseModel> exercisesDone = exerciseService.getAllDoneByAuthorId(id);
@@ -182,13 +184,15 @@ public class ExerciseController {
 
   /**
    * @param exerciseId the unique id of the exercise
-   * @param jwtToken the token of the theacher who is going to delete a exercise
-   * @return ccc. @RequestMapping( value = "/exercises/delete/{exerciseid}", method =
-   *         RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE) public
-   *         ResponseEntity<Object> deleteExercise( @RequestParam("exerciseid") String
-   *         exerciseId, @RequestHeader("Authorization") String jwtToken) { String userId =
-   *         ParseJWT.getIdFromJwt(jwtToken); userService.deleteExerciseAssigned(exerciseId,
-   *         userId); exerciseService.deleteExercise(exerciseId); return new
+   * @param jwtToken   the token of the theacher who is going to delete a exercise
+   * @return ccc. @RequestMapping( value = "/exercises/delete/{exerciseid}",
+   *         method = RequestMethod.DELETE, produces =
+   *         MediaType.APPLICATION_JSON_VALUE) public ResponseEntity<Object>
+   *         deleteExercise( @RequestParam("exerciseid") String
+   *         exerciseId, @RequestHeader("Authorization") String jwtToken) { String
+   *         userId = ParseJWT.getIdFromJwt(jwtToken);
+   *         userService.deleteExerciseAssigned(exerciseId, userId);
+   *         exerciseService.deleteExercise(exerciseId); return new
    *         ResponseEntity<>(HttpStatus.OK); }
    */
 }

@@ -8,11 +8,13 @@
         "extensions": [".js", ".jsx"]
       }
     ],
+    "curly": "error",
     "linebreak-style": 0,
     "react/prop-types": 0,
     "no-underscore-dangle": 0,
     "import/imports-first": ["error", "absolute-first"],
-    "import/newline-after-import": "error"
+    "import/newline-after-import": "error",
+    "import/no-cycle": [2, { "maxDepth": 1 }]
   },
   "globals": {
     "window": true,

@@ -110,21 +110,9 @@ export const saveSolution = newExercise => {
         }
       )
       .then(res => {
-        const { exercise } = store.getState();
-        const { doneExercises, todoExercises } = exercise;
         const { solutionText, mark, reliability } = res.data;
         const objSolution = JSON.parse(solutionText);
 
-        const indexNewExercise = todoExercises.findIndex(
-          element => element.id === newExercise.id
-        );
-
-        /* if (indexNewExercise > -1) {
-          todoExercises.splice(indexNewExercise, 1);
-          doneExercises.push(res.data);
-
-          // dispatch({ type: 'LOAD_TODO_SUCCESS', todo: todoExercises });
-        } */
         dispatch({
           type: 'SAVE_EXERCISE_SUCCESS',
           newExercise: {
@@ -176,11 +164,15 @@ export const saveExerciseSolution = newExercise => {
   };
 };
 
-export const loadTodoExercises = () => {
+export const loadTodoExercises = _link => {
+  const link =
+    _link !== null && _link !== undefined
+      ? _link.href
+      : 'http://localhost:8081/exercises/alternative/todo';
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
-      .get('http://localhost:8081/exercises/user-todo', {
+      .get(link, {
         headers: {
           Authorization: store.getState().auth.token
         }
@@ -192,11 +184,18 @@ export const loadTodoExercises = () => {
   };
 };
 
-export const loadDoneExercises = () => {
+export const loadDoneExercises = _link => {
+  let path = '';
+  if (store.getState().auth.user.role === 'ROLE_TEACHER') path = 'added';
+  else path = 'done';
+  const link =
+    _link !== null && _link !== undefined
+      ? _link.href
+      : `http://localhost:8081/exercises/alternative/${path}`;
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
-      .get('http://localhost:8081/exercises/done', {
+      .get(link, {
         headers: {
           Authorization: store.getState().auth.token
         }

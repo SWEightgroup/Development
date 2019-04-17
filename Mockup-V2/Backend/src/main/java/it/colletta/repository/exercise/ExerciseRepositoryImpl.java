@@ -4,7 +4,6 @@ import com.mongodb.client.result.UpdateResult;
 
 import it.colletta.model.ExerciseModel;
 
-import java.util.ArrayList;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +37,15 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
   @Override
   public Page<ExerciseModel> findAllByIdPaged(Pageable page, List<ObjectId> ids) {
     Query query = new Query(Criteria.where("id").in(ids)).with(page);
+    List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
+    long total = mongoTemplate.count(query, ExerciseModel.class);
+    Page<ExerciseModel> newPage = new PageImpl<ExerciseModel>(exerciseModelList, page, total);
+    return newPage;
+  }
+
+  @Override
+  public Page<ExerciseModel> findAllByAuthorIdPaged(Pageable page, String id) {
+    Query query = new Query(Criteria.where("authorId").is(id)).with(page);
     List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
     long total = mongoTemplate.count(query, ExerciseModel.class);
     Page<ExerciseModel> newPage = new PageImpl<ExerciseModel>(exerciseModelList, page, total);
