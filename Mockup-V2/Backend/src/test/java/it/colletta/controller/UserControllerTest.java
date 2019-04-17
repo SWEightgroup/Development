@@ -2,6 +2,7 @@ package it.colletta.controller;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.colletta.model.UserModel;
 import it.colletta.service.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,6 +33,8 @@ public class UserControllerTest {
   @InjectMocks
   UserController userController;
 
+  private UserModel fakeTestUser;
+
   @Before
   public void setup() {
     userToken = ("Bearer") + JWT.create()
@@ -38,56 +42,84 @@ public class UserControllerTest {
                     .withSubject("test")
                     .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                     .sign(HMAC512(SECRET.getBytes()));
+
+    fakeTestUser = UserModel.builder()
+                    .firstName("fransisco")
+                    .lastName("corti")
+                    .language("it")
+                    .role("ROLE_TEACHER")
+                    .build();
+
     mapper = new ObjectMapper();
     mvc = MockMvcBuilders.standaloneSetup(userController)
-            .alwaysExpect(status().isOk())
+            //.alwaysExpect(status().isOk())
             .build();
   }
 
-
-
-
-  /*
-  @Test
+  /*@Test
   public void userTryToModify(){
     try{
-      UserModel fakeTestUser =
-              UserModel.builder()
-                      .firstName("fransisco")
-                      .lastName("corti")
-                      .language("it")
-                      .build();
-      String jsonUser = mapper.writeValueAsString(fakeTestUser);
+      String jsonFakeTestUser = mapper.writeValueAsString(fakeTestUser);
       mvc.perform(MockMvcRequestBuilders.put("/users/modify")
               .header("Authorization", userToken)
-              .param("username","prova@prova.it")
-              .param("firstName","gianni")
-              .param("lastName","pinotto")
-              .param("password", "Provaprova")
-              .param("language","it")
-              .param("role","ROLE_STUDENT")
-              .param("dateOfBirth","2018-01-01"));
+              .content(jsonFakeTestUser)
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .accept(MediaType.APPLICATION_JSON)
+              .characterEncoding("UTF-8"));
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+  } */
+
+  @Test
+  public void checkTokenUserControllerTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.put("/users/get-info")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isMethodNotAllowed());
     }catch (Exception e){
       e.printStackTrace();
     }
   }
+
   @Test
-  public void testLogin(){
-    try{
-      mvc.perform(MockMvcRequestBuilders.post("localhost:8081/login")
-          .param("username","francesco@gmail.com")
-          .param("password","Provaprova"));
-    }catch(Exception e){
+  public void checkAdminCallWithoutToken() {
+    try {
+      mvc.perform(MockMvcRequestBuilders.get("/users/admin/get-all-disabled"))
+              .andExpect(status().isBadRequest());
+    } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
- */
+
+  @Test
+  public void activateDeveloperTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.put("/users/admin/activate-user/developerId")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void deleteUserTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.delete("/admin/delete-user/userToDeleteId")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+  }
 
   @Test
   public void getAllDeveloperDisabled() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/users/admin/get-all-disabled").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/users/admin/get-all-disabled")
+              .header("Authorization", userToken))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -96,7 +128,9 @@ public class UserControllerTest {
   @Test
   public void getAllUsers() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/users/admin/get-all-user").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/users/admin/get-all-user")
+              .header("Authorization", userToken))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -105,7 +139,9 @@ public class UserControllerTest {
   @Test
   public void userGetInfo() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/users/get-info").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/users/get-info")
+              .header("Authorization", userToken))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -114,10 +150,11 @@ public class UserControllerTest {
   @Test
   public void getAllUser() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/users/get-students").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/users/get-students")
+              .header("Authorization", userToken))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
-
 }

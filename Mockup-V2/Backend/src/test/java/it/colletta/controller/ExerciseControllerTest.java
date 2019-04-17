@@ -3,8 +3,10 @@ package it.colletta.controller;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.colletta.model.ExerciseModel;
+import it.colletta.model.SolutionModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
+import it.colletta.security.ParseJwt;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
 import org.junit.Before;
@@ -26,6 +28,7 @@ import java.util.Date;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static it.colletta.security.SecurityConstants.EXPIRATION_TIME;
 import static it.colletta.security.SecurityConstants.SECRET;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,6 +37,10 @@ public class ExerciseControllerTest {
   private MockMvc mvc;
   private String userToken;
   private ObjectMapper mapper;
+  private ExerciseHelper fakeExerciseHelper;
+  private CorrectionHelper fakeCorrectionHelper;
+  private ExerciseModel fakeExerciseModel;
+  private SolutionModel fakeSolutionModel;
 
   @Mock
   private ExerciseService exerciseService;
@@ -47,12 +54,6 @@ public class ExerciseControllerTest {
   @InjectMocks
   ExerciseController exerciseController;
 
-  ExerciseHelper fakeExerciseHelper;
-
-  CorrectionHelper fakeCorrectionHelper;
-
-  ExerciseModel fakeExerciseModel;
-
   @Before
   public void setup() {
     userToken = ("Bearer") + JWT.create()
@@ -63,7 +64,7 @@ public class ExerciseControllerTest {
 
     mapper = new ObjectMapper();
     mvc = MockMvcBuilders.standaloneSetup(exerciseController)
-            .alwaysExpect(status().isOk())
+            //.alwaysExpect(status().isOk())
             .build();
 
     fakeExerciseHelper = ExerciseHelper.builder()
@@ -86,14 +87,32 @@ public class ExerciseControllerTest {
             .visibility(true)
             .build();
 
-    fakeCorrectionHelper = new CorrectionHelper("", "test");
+    fakeCorrectionHelper = new CorrectionHelper("prova","11");
+
+    fakeSolutionModel = SolutionModel.builder()
+            .solutionText("test")
+            .reliability(2)
+            .authorId("provaInsegnante")
+            .mark(0.0)
+            .build();
   }
 
+  @Test
+  public void checkAuthorityExerciseControllerTest(){
+    try {
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/done"))
+              .andExpect(status().isBadRequest());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   @Test
   public void ExerciseUserDone() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/done").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/done")
+              .header("Authorization", userToken))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -102,7 +121,9 @@ public class ExerciseControllerTest {
   @Test
   public void ExerciseToDo() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/user-todo").header("Authorization", userToken));
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/user-todo")
+              .header("Authorization", userToken))
+              .andExpect(status().isOk());;
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -117,7 +138,8 @@ public class ExerciseControllerTest {
               .post("/exercises/insert-exercise")
               .header("Authorization", userToken)
               .content(jsonFakeExerciseHelper)
-              .contentType(MediaType.APPLICATION_JSON_VALUE));
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -131,24 +153,36 @@ public class ExerciseControllerTest {
               .post("/exercises/student/insert-free-exercise")
               .header("Authorization", userToken)
               .content(jsonFakeExerciseHelper)
-              .contentType(MediaType.APPLICATION_JSON_VALUE));
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
     } catch(Exception e){
       e.printStackTrace();
     }
   }
 
-  /*@Test
+  @Test
   public void doExerciseTest(){
     try{
       String jsonFakeCorrectionHelper = mapper.writeValueAsString(fakeCorrectionHelper);
       mvc.perform(MockMvcRequestBuilders
-              .post("/exercises//student/do")
+              .post("/exercises/student/do")
               .header("Authorization", userToken)
               .content(jsonFakeCorrectionHelper)
-              .contentType(MediaType.APPLICATION_JSON_VALUE));
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
     } catch(Exception e){
       e.printStackTrace();
     }
-  } */
+  }
 
+
+  //TODO
+  @Test
+  public void automaticSolutionTest(){
+    try{
+
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+  }
 }
