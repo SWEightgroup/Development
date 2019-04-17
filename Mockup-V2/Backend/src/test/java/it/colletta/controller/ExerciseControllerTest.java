@@ -56,52 +56,31 @@ public class ExerciseControllerTest {
 
   @Before
   public void setup() {
-    userToken = ("Bearer") + JWT.create()
-            .withJWTId("test@test.it")
-            .withSubject("test")
-            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .sign(HMAC512(SECRET.getBytes()));
+    userToken = ("Bearer") + JWT.create().withJWTId("test@test.it").withSubject("test")
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).sign(HMAC512(SECRET.getBytes()));
 
     mapper = new ObjectMapper();
     mvc = MockMvcBuilders.standaloneSetup(exerciseController)
-            //.alwaysExpect(status().isOk())
-            .build();
+        // .alwaysExpect(status().isOk())
+        .build();
 
-    fakeExerciseHelper = ExerciseHelper.builder()
-            .assignedUsersIds(Arrays.asList("1","2"))
-            .phraseText("test")
-            .mainSolution("solutionTest")
-            .alternativeSolution("alternativeSolutionTest")
-            .visibility(true)
-            .author("authorTest")
-            .language("it")
-            .build();
+    fakeExerciseHelper = ExerciseHelper.builder().assignedUsersIds(Arrays.asList("1", "2")).phraseText("test")
+        .mainSolution("solutionTest").alternativeSolution("alternativeSolutionTest").visibility(true)
+        .author("authorTest").language("it").build();
 
-    fakeExerciseModel = ExerciseModel.builder()
-            .dateExercise(new Long(1234))
-            .phraseId("1")
-            .phraseText("test")
-            .mainSolutionId("solutionTest")
-            .authorName("authorTest")
-            .authorId("authorIdTest")
-            .visibility(true)
-            .build();
+    fakeExerciseModel = ExerciseModel.builder().dateExercise(new Long(1234)).phraseId("1").phraseText("test")
+        .mainSolutionId("solutionTest").authorName("authorTest").authorId("authorIdTest").visibility(true).build();
 
-    fakeCorrectionHelper = new CorrectionHelper("prova","11");
+    fakeCorrectionHelper = new CorrectionHelper("prova", "11");
 
-    fakeSolutionModel = SolutionModel.builder()
-            .solutionText("test")
-            .reliability(2)
-            .authorId("provaInsegnante")
-            .mark(0.0)
-            .build();
+    fakeSolutionModel = SolutionModel.builder().solutionText("test").reliability(2).authorId("provaInsegnante")
+        .mark(0.0).build();
   }
 
   @Test
-  public void checkAuthorityExerciseControllerTest(){
+  public void checkAuthorityExerciseControllerTest() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/done"))
-              .andExpect(status().isBadRequest());
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/done")).andExpect(status().isBadRequest());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -110,9 +89,8 @@ public class ExerciseControllerTest {
   @Test
   public void ExerciseUserDone() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/done")
-              .header("Authorization", userToken))
-              .andExpect(status().isOk());
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/done").header("Authorization", userToken))
+          .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -121,67 +99,56 @@ public class ExerciseControllerTest {
   @Test
   public void ExerciseToDo() {
     try {
-      mvc.perform(MockMvcRequestBuilders.get("/exercises/user-todo")
-              .header("Authorization", userToken))
-              .andExpect(status().isOk());;
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/todo").header("Authorization", userToken))
+          .andExpect(status().isOk());
+      ;
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Test
-  public void InsertExerciseTest(){
-    try{
+  public void InsertExerciseTest() {
+    try {
 
       String jsonFakeExerciseHelper = mapper.writeValueAsString(fakeExerciseHelper);
-      mvc.perform(MockMvcRequestBuilders
-              .post("/exercises/insert-exercise")
-              .header("Authorization", userToken)
-              .content(jsonFakeExerciseHelper)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
+      mvc.perform(MockMvcRequestBuilders.post("/exercises/insert-exercise").header("Authorization", userToken)
+          .content(jsonFakeExerciseHelper).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Test
-  public void insertFreeExerciseTest(){
-    try{
+  public void insertFreeExerciseTest() {
+    try {
       String jsonFakeExerciseHelper = mapper.writeValueAsString(fakeExerciseHelper);
-      mvc.perform(MockMvcRequestBuilders
-              .post("/exercises/student/insert-free-exercise")
-              .header("Authorization", userToken)
-              .content(jsonFakeExerciseHelper)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
-    } catch(Exception e){
+      mvc.perform(
+          MockMvcRequestBuilders.post("/exercises/student/insert-free-exercise").header("Authorization", userToken)
+              .content(jsonFakeExerciseHelper).contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isOk());
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Test
-  public void doExerciseTest(){
-    try{
+  public void doExerciseTest() {
+    try {
       String jsonFakeCorrectionHelper = mapper.writeValueAsString(fakeCorrectionHelper);
-      mvc.perform(MockMvcRequestBuilders
-              .post("/exercises/student/do")
-              .header("Authorization", userToken)
-              .content(jsonFakeCorrectionHelper)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
-    } catch(Exception e){
+      mvc.perform(MockMvcRequestBuilders.post("/exercises/student/do").header("Authorization", userToken)
+          .content(jsonFakeCorrectionHelper).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-
-  //TODO
+  // TODO
   @Test
-  public void automaticSolutionTest(){
-    try{
+  public void automaticSolutionTest() {
+    try {
 
-    } catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
