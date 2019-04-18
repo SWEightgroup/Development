@@ -65,7 +65,7 @@ public class UserController {
    * @return all the developers that are disabled.
    */
   @RequestMapping(value = "/users/admin/get-all-disabled", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(
       @RequestHeader("Authorization") String jwtToken) {
     String userId = ParseJwt.getIdFromJwt(jwtToken);

@@ -39,7 +39,7 @@ export const _label = {
     gen_welcome: 'Bentornato',
     gen_userDashboard: 'Pannello Utente',
     gen_phrase: 'Frase',
-    gen_insertDone: 'Esercizio agiunto con successo',
+    gen_insertDone: 'Esercizio aggiunto con successo',
     gen_error: 'Errore interno',
     inputSentence_executeExercise: "Svolgi l'esercizio",
     inputSentence_insertSentence: 'Inserisci la frase',

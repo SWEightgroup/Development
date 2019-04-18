@@ -84,7 +84,9 @@ const ExerciseReducer = (state = initState, action) => {
       return {
         ...state,
         todoExercises: {
-          exercises: action.todo._embedded.exerciseModels,
+          exercises: action.todo._embedded
+            ? action.todo._embedded.exerciseModels
+            : [],
           page: action.todo.page,
           links: action.todo._links
         },
@@ -94,7 +96,9 @@ const ExerciseReducer = (state = initState, action) => {
       return {
         ...state,
         doneExercises: {
-          exercises: action.todo._embedded.exerciseModels,
+          exercises: action.todo._embedded
+            ? action.todo._embedded.exerciseModels
+            : [],
           page: action.todo.page,
           links: action.todo._links
         },

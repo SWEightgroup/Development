@@ -31,7 +31,6 @@ class Homework extends Component {
 
   render() {
     const { todoExercises, auth, loadTodoExercisesDispatch } = this.props;
-    console.log(': Homework -> render -> auth', auth);
     const { exercises, page, links } = todoExercises;
     const areThereExerciseToDo =
       todoExercises && exercises && exercises.length > 0;

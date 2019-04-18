@@ -47,7 +47,7 @@
 			<groupId>org.springframework.restdocs</groupId>
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -100,11 +100,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-webmvc</artifactId>
-			<version>3.1.6.RELEASE</version>
-		</dependency>-->
+		<!--<dependency> <groupId>org.springframework.data</groupId> <artifactId>spring-data-rest-webmvc</artifactId> 
+			<version>3.1.6.RELEASE</version> </dependency> -->
 
 	</dependencies>
 
@@ -115,7 +112,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			 <!-- <plugin> <groupId>com.coveo</groupId> <artifactId>fmt-maven-plugin</artifactId> 
+			<!-- <plugin> <groupId>com.coveo</groupId> <artifactId>fmt-maven-plugin</artifactId> 
 				<version>2.8</version> <configuration> <sourceDirectory>src/main/java/it/colletta</sourceDirectory> 
 				<testSourceDirectory>src/test/it/colletta</testSourceDirectory> <verbose>true</verbose> 
 				<filesNamePattern>.*\.java</filesNamePattern> <skip>false</skip> <skipSortingImports>false</skipSortingImports> 
@@ -143,20 +140,64 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>com.github.eirslett</groupId> <artifactId>frontend-maven-plugin</artifactId> 
-				<version>1.6</version> <configuration> <workingDirectory>frontend</workingDirectory> 
-				<installDirectory>target</installDirectory> </configuration> <executions> 
-				<execution> <phase>deploy</phase> <id>install node and npm</id> <goals> <goal>install-node-and-npm</goal> 
-				</goals> <configuration> <nodeVersion>v10.15.3</nodeVersion> <npmVersion>6.4.1</npmVersion> 
-				</configuration> </execution> <execution> <phase>deploy</phase> <id>npm install</id> 
-				<goals> <goal>npm</goal> </goals> <configuration> <arguments>install</arguments> 
-				</configuration> </execution> <execution> <phase>deploy</phase> <id>npm run 
-				build</id> <goals> <goal>npm</goal> </goals> <configuration> <arguments>run 
-				build</arguments> </configuration> </execution> </executions> </plugin> <plugin> 
-				<artifactId>maven-antrun-plugin</artifactId> <executions> <execution> <phase>generate-resources</phase> 
-				<configuration> <target> <copy todir="${project.build.directory}/classes/public"> 
-				<fileset dir="${project.basedir}/frontend/build" /> </copy> </target> </configuration> 
-				<goals> <goal>run</goal> </goals> </execution> </executions> </plugin> -->
+		<plugin>
+    <groupId>com.github.eirslett</groupId>
+    <artifactId>frontend-maven-plugin</artifactId>
+    <version>1.6</version>
+    <configuration>
+        <workingDirectory>../frontend</workingDirectory>
+        <installDirectory>target</installDirectory>
+    </configuration>
+    <executions>
+        <execution>
+            <id>install node and npm</id>
+            <goals>
+                <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+                <nodeVersion>v10.15.3</nodeVersion>
+                <npmVersion>6.4.1</npmVersion>
+            </configuration>
+        </execution>
+        <execution>
+            <id>npm install</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <arguments>install</arguments>
+            </configuration>
+        </execution>
+        <execution>
+            <id>npm run build</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <arguments>run build</arguments>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+ <plugin>
+    <artifactId>maven-antrun-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <configuration>
+                <target>
+                    <copy todir="${project.build.directory}/classes/public">
+                        <fileset dir="${project.basedir}/../frontend/build"/>
+                    </copy>
+                </target>
+            </configuration>
+            <goals>
+                <goal>run</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+
 
 		</plugins>
 	</build>
