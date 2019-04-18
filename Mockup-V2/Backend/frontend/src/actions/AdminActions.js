@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 import { store } from '../index';
 import _translator from '../helpers/Translator';
 import { _toastSuccess, _toastError } from '../helpers/Utils';
@@ -86,13 +87,10 @@ export const downlaodAll = () => {
             store.getState().auth.user.language
           )
         );
-        const dataStr = `data:text/json;charset=utf-8,${JSON.stringify(res)}`;
-        const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute('href', dataStr);
-        downloadAnchorNode.setAttribute('download', `PhraseList.json`);
-        document.body.appendChild(downloadAnchorNode); // required for firefox
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        const blob = new Blob([JSON.stringify(res.data)], {
+          type: 'text/plain;charset=utf-8'
+        });
+        saveAs(blob, 'PhrasesList.json');
       })
       .catch(error =>
         _toastError(

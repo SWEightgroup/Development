@@ -35,7 +35,6 @@ public class PhraseService {
     this.phraseRepository = phraseRepository;
   }
 
-
   /**
    * returns all the phrased written by a userId.
    *
@@ -46,7 +45,6 @@ public class PhraseService {
     return phraseRepository.findAllByAuthor(userId);
   }
 
-
   /**
    * Insert a new phrase in the system.
    *
@@ -56,8 +54,7 @@ public class PhraseService {
   public PhraseModel insertPhrase(PhraseModel newPhrase) {
 
     PhraseModel returnPhrase;
-    Optional<PhraseModel> phraseOptional =
-        phraseRepository.getPhraseWithText(newPhrase.getPhraseText());
+    Optional<PhraseModel> phraseOptional = phraseRepository.getPhraseWithText(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
 
@@ -122,7 +119,7 @@ public class PhraseService {
   /**
    * Get solution of the phrase by id.
    *
-   * @param phraseId Phrase id
+   * @param phraseId   Phrase id
    * @param solutionId Solution id
    * @return Solution
    */
@@ -130,22 +127,23 @@ public class PhraseService {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 
-
   public File downloadAllPhrases() throws IOException {
-    File file = File.createTempFile("allphrases",".json");
+    File file = File.createTempFile("allphrases", ".json");
     FindIterable<Document> documents = phraseRepository.findAllPhrasesAsIterable();
     PrintStream fileStream = new PrintStream(file);
-        for(Document document : documents) {
-          document.remove("_class");
-          document.remove("_id");
-          fileStream.println(document.toJson());
-        }
-     return file;
+
+    for (Document document : documents) {
+      document.remove("_class");
+      document.remove("_id");
+      fileStream.println(document.toJson());
+    }
+
+    return file;
   }
 
   public PhraseModel createPhrase(String phraseText, String language) {
-    return PhraseModel.builder().language(language)
-            .datePhrase(System.currentTimeMillis()).phraseText(phraseText).build();
+    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis()).phraseText(phraseText)
+        .build();
 
   }
 }
