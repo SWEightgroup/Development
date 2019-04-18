@@ -2,6 +2,7 @@ package it.colletta.service;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
 import it.colletta.model.ExerciseModel;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import it.colletta.repository.phrase.PhraseRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.user.UserService;
 import org.junit.Assert;
@@ -23,17 +25,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+
+
 
 @RunWith(MockitoJUnitRunner.class)
-// con MockitoJUnitRunner.class : ExerciseServiceTest.unnecessary Mockito stubbings » UnnecessaryStubbing
-@SpringBootTest
-@TestPropertySource(
-    properties =
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class ExerciseServiceTest {
 
   @Mock
@@ -41,6 +38,9 @@ public class ExerciseServiceTest {
 
   @Mock
   private UsersRepository usersRepository;
+
+  @Mock
+  private PhraseRepository phraseRepository;
 
   @InjectMocks
   private ExerciseService exerciseService;
@@ -68,7 +68,7 @@ public class ExerciseServiceTest {
   @Before
   public void setUp() throws Exception {
 
-    MockitoAnnotations.initMocks(this);
+    //MockitoAnnotations.initMocks(this);
 
     exerciseModel = ExerciseModel.builder()
         .id("1")
@@ -120,6 +120,11 @@ public class ExerciseServiceTest {
 
   }
 
+  /**
+   * Test insertExercise method.
+   *
+   */
+
   @Test
   public void insertExercise() {
 
@@ -132,8 +137,29 @@ public class ExerciseServiceTest {
 
     assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
-
   }
+
+  /**
+   * Test insertExercise method.
+   *
+   */
+
+  @Test
+  public void insertFreeExercise() {
+    Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
+    Mockito.when(userService.findById(userModel.getId())).thenReturn(Optional.of(userModel));
+
+    ExerciseModel myAddedExercise = exerciseService.insertFreeExercise(exercise,exercise.getAuthor());
+
+    assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
+    assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
+  }
+
+
+  /**
+   * Test findById method.
+   *
+   */
 
   @Test
   public void findById() {
@@ -145,5 +171,9 @@ public class ExerciseServiceTest {
     Mockito.verifyNoMoreInteractions(exerciseRepository);
 
   }
+
+
+
+
 
 }
