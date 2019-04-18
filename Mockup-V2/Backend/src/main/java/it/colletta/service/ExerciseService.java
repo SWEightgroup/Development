@@ -40,7 +40,7 @@ public class ExerciseService {
   /**
    * Constructor.
    *
-   * @param exerciseRepository exerciseRepository
+   * @param exerciseRepository exerciseRepository.
    */
   ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService,
       final UserService userService, final SolutionService solutionService) {
@@ -54,8 +54,8 @@ public class ExerciseService {
   /**
    * Find by id.
    *
-   * @param id Exercise id
-   * @returnc Exericse
+   * @param id Exercise id.
+   * @returnc Exericse.
    */
   public Optional<ExerciseModel> findById(final String id) {
     return exerciseRepository.findById(id);
@@ -65,8 +65,8 @@ public class ExerciseService {
   /**
    * Modify exercise author name.
    *
-   * @param newUserData User info
-   * @param token User token
+   * @param newUserData User info.
+   * @param token User token.
    */
   public void modifyExerciseAuthorName(UserModel newUserData, String token) {
     UserModel oldUser = userService.findByEmail(newUserData.getUsername());
@@ -82,8 +82,8 @@ public class ExerciseService {
   /**
    * Insert new exercise in the system.
    *
-   * @param exercise New Exercise
-   * @return Exercise
+   * @param exercise New Exercise.
+   * @return Exercise.
    */
   public ExerciseModel insertExercise(ExerciseHelper exercise) {
 
