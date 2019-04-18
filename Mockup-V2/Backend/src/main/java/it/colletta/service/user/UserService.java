@@ -5,228 +5,235 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 import it.colletta.security.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
 
 @Service
 public class UserService {
 
-  private UsersRepository applicationUserRepository;
+    private UsersRepository applicationUserRepository;
 
-  @Autowired
-  public UserService(UsersRepository usersRepository) {
-    this.applicationUserRepository = usersRepository;
-  }
-
-  public Optional<UserModel> findById(final String userId) {
-    return applicationUserRepository.findById(userId);
-  }
-
-  /**
-   * Return user information.
-   *
-   * @param id User id
-   * @return User
-   */
-  public UserModel getUserInfo(final String id) {
-    Optional<UserModel> userModelOptional = applicationUserRepository.findById(id);
-    if (userModelOptional.isPresent()) {
-      return userModelOptional.get();
-    } else {
-      throw new UsernameNotFoundException("Id not refer to a user of the system");
+    @Autowired
+    public UserService(UsersRepository usersRepository) {
+        this.applicationUserRepository = usersRepository;
     }
-  }
 
-  /**
-   * Active an user.
-   *
-   * @param id User id
-   */
-  public void activateUser(final String id) {
-    applicationUserRepository.updateActivateFlagOnly(id);
-  }
-
-  /**
-   * Delete user.
-   *
-   * @param userId User id
-   * @return user deleted
-   */
-  public UserModel deleteUser(final String userId) {
-    Optional<UserModel> userToDelete = applicationUserRepository.findById(userId);
-    if (userToDelete.isPresent()) {
-      applicationUserRepository.delete(userToDelete.get());
-      return userToDelete.get();
-    } else {
-      throw new UsernameNotFoundException("Id not found");
+    public Optional<UserModel> findById(final String userId) {
+        return applicationUserRepository.findById(userId);
     }
-  }
 
-  /**
-   * Return user by Email.
-   *
-   * @param email User email
-   * @return User
-   */
-  public UserModel findByEmail(final String email) {
-    return applicationUserRepository.findByEmail(email);
-  }
-
-  /**
-   * Update user info.
-   *
-   * @param newUserData User info
-   * @param token User token
-   * @return User
-   */
-  public UserModel updateUser(final UserModel newUserData, final String token) {
-    String email = ParseJwt.getEmailFromJwt(token);
-    UserModel user = applicationUserRepository.findByEmail(email);
-    Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
-    newFirstName.ifPresent(user::setFirstName);
-    Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());
-    newLastName.ifPresent(user::setLastName);
-    Optional<String> newLanguageName = Optional.ofNullable(newUserData.getLanguage());
-    newLanguageName.ifPresent(user::setLanguage);
-    Optional<Date> newDateOfBirth = Optional.ofNullable(newUserData.getDateOfBirth());
-    newDateOfBirth.ifPresent(user::setDateOfBirth);
-    return applicationUserRepository.save(user);
-  }
-
-  /**
-   * adds the exercise to the todo list of students.
-   *
-   * @param assignedUsersIds List of users
-   * @param exerciseModel Exericse
-   */
-  public void addExerciseItem(final List<String> assignedUsersIds,
-      final ExerciseModel exerciseModel) {
-    Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
-    for (UserModel user : users) {
-      if (user.getExercisesToDo() != null) {
-        user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
-      }
+    /**
+     * Return user information.
+     *
+     * @param id User id
+     * @return User
+     */
+    public UserModel getUserInfo(final String id) {
+        Optional<UserModel> userModelOptional = applicationUserRepository.findById(id);
+        if (userModelOptional.isPresent()) {
+            return userModelOptional.get();
+        } else {
+            throw new UsernameNotFoundException("Id not refer to a user of the system");
+        }
     }
-    applicationUserRepository.saveAll(users);
-  }
 
-  /**
-   * Return all todo id of exericses.
-   *
-   * @param userId User id
-   * @return list of exercise id
-   */
-  public List<String> getAllExerciseToDo(final String userId) {
-    Optional<UserModel> userModel = applicationUserRepository.findById(userId);
-    if (userModel.isPresent()) {
-      return userModel.get().getExercisesToDo();
-    } else {
-      throw new UsernameNotFoundException("User not found in the system");
+    /**
+     * Active an user.
+     *
+     * @param id User id
+     */
+    public void activateUser(final String id) {
+        applicationUserRepository.updateActivateFlagOnly(id);
     }
-  }
 
-  /**
-   * Return all student user.
-   *
-   * @return list of students
-   */
-  public List<UserModel> getAllStudents() {
-    return applicationUserRepository.findAllStudents();
-  }
-
-  /**
-   * Return all user.
-   *
-   * @return List of students
-   */
-  public List<UserModel> getAllUsers() {
-    return applicationUserRepository.getAllUsers();
-  }
-
-  /**
-   * Delete an exercise.
-   *
-   * @param exerciseId Exercise id
-   * @param userId User id
-   * @return UserModel
-   */
-  public Optional<UserModel> deleteExerciseAssigned(final String exerciseId, final String userId) {
-    Optional<UserModel> user = applicationUserRepository.findById(userId);
-    if (user.isPresent()) {
-      if (exerciseId.equals(user.get().getId()) && user.get().getRole().equals(Role.TEACHER)) {
-        applicationUserRepository.deleteFromExerciseToDo(exerciseId);
-      }
+    /**
+     * Delete user.
+     *
+     * @param userId User id
+     * @return user deleted
+     */
+    public UserModel deleteUser(final String userId) {
+        Optional<UserModel> userToDelete = applicationUserRepository.findById(userId);
+        if (userToDelete.isPresent()) {
+            applicationUserRepository.delete(userToDelete.get());
+            return userToDelete.get();
+        } else {
+            throw new UsernameNotFoundException("Id not found");
+        }
     }
-    return Optional.empty();
-  }
 
-  /**
-   * Return all done exercise.
-   *
-   * @param userid Student id
-   * @return List of exericses
-   */
-  public List<String> getAllExerciseDone(final String userid) {
-    Optional<UserModel> userModel = applicationUserRepository.findById(userid);
-    if (userModel.isPresent()) {
-      return userModel.get().getExercisesDone();
-    } else {
-      throw new UsernameNotFoundException("User not found in the system");
+    /**
+     * Return user by Email.
+     *
+     * @param email User email
+     * @return User
+     */
+    public UserModel findByEmail(final String email) {
+        return applicationUserRepository.findByEmail(email);
     }
-  }
 
-  /**
-   * Return all done exercise.
-   *
-   * @param userid Student id
-   * @return List of exericses
-   */
-  public List<String> getAllToDoByAuthorId(final String userid) {
-    Optional<UserModel> userModel = applicationUserRepository.findById(userid);
-    if (userModel.isPresent()) {
-      return userModel.get().getExercisesToDo();
-    } else {
-      throw new UsernameNotFoundException("User not found in the system");
+    /**
+     * Update user info.
+     *
+     * @param newUserData User info
+     * @param token       User token
+     * @return User
+     */
+    public UserModel updateUser(final UserModel newUserData, final String token) {
+        String email = ParseJwt.getEmailFromJwt(token);
+        UserModel user = applicationUserRepository.findByEmail(email);
+        Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
+        newFirstName.ifPresent(user::setFirstName);
+        Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());
+        newLastName.ifPresent(user::setLastName);
+        Optional<String> newLanguageName = Optional.ofNullable(newUserData.getLanguage());
+        newLanguageName.ifPresent(user::setLanguage);
+        Optional<Date> newDateOfBirth = Optional.ofNullable(newUserData.getDateOfBirth());
+        newDateOfBirth.ifPresent(user::setDateOfBirth);
+        return applicationUserRepository.save(user);
     }
-  }
 
-  /**
-   * Shift an exercise from todo in done list.
-   *
-   * @param studentId Student Id
-   * @param exerciseToCorrect Exercise
-   */
-  public void exerciseCompleted(final String studentId, final ExerciseModel exerciseToCorrect) {
-    Optional<UserModel> userOptional = applicationUserRepository.findById(studentId);
-    if (userOptional.isPresent()) {
-      UserModel user = userOptional.get();
-      user.removeExerciseToDo(exerciseToCorrect.getId());
-      user.addExerciseDone(exerciseToCorrect.getId());
-      applicationUserRepository.save(user);
+    /**
+     * adds the exercise to the todo list of students.
+     *
+     * @param assignedUsersIds List of users
+     * @param exerciseModel    Exericse
+     */
+    public void addExerciseItem(final List<String> assignedUsersIds,
+                                final ExerciseModel exerciseModel) {
+        Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
+        for (UserModel user : users) {
+            if (user.getExercisesToDo() != null) {
+                user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
+            }
+        }
+        applicationUserRepository.saveAll(users);
     }
-  }
 
-  // TODO e' developer....
-  /**
-   * Return all developer user.
-   *
-   * @param userId Id of the applicant
-   * @return User List
-   */
-  public List<UserModel> getAllDevelopmentToEnable(final String userId) {
-    Optional<UserModel> user = applicationUserRepository.findById(userId);
-    List<UserModel> mydevelopment = null;
-    if (user.isPresent()) {
-      // if (user.get().getRole().equals(Role.ADMIN)) {}
-      mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
+    /**
+     * Return all todo id of exercises.
+     *
+     * @param userId User id
+     * @return list of exercise id
+     */
+    public List<String> getAllExerciseToDo(final String userId) {
+        Optional<UserModel> userModel = applicationUserRepository.findById(userId);
+        if (userModel.isPresent()) {
+            return userModel.get().getExercisesToDo();
+        } else {
+            throw new UsernameNotFoundException("User not found in the system");
+        }
     }
-    return mydevelopment;
-  }
+
+    /**
+     * Return all student user.
+     *
+     * @return list of students
+     */
+    public List<UserModel> getAllStudents() {
+        return applicationUserRepository.findAllStudents();
+    }
+
+    /**
+     * Return all user.
+     *
+     * @return List of students
+     */
+    public List<UserModel> getAllUsers() {
+        return applicationUserRepository.getAllUsers();
+    }
+
+
+    /**
+     * Delete an exercise.
+     * <p>
+     * TODO ritorna sempre optional vuoto..
+     *
+     * @param exerciseId Exercise id
+     * @param userId     User id
+     * @return UserModel
+     */
+    public Optional<UserModel> deleteExerciseAssigned(final String exerciseId, final String userId) {
+        Optional<UserModel> user = applicationUserRepository.findById(userId);
+        if (user.isPresent()) {
+            if (user.get().getRole().equals(Role.TEACHER)) {
+                applicationUserRepository.deleteFromExerciseToDo(exerciseId);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Return all done exercise.
+     *
+     * @param userid Student id
+     * @return List of exericses
+     */
+    public List<String> getAllExerciseDone(final String userid) {
+        Optional<UserModel> userModel = applicationUserRepository.findById(userid);
+        if (userModel.isPresent()) {
+            return userModel.get().getExercisesDone();
+        } else {
+            throw new UsernameNotFoundException("User not found in the system");
+        }
+    }
+
+    /**
+     * Return all done exercise.
+     * <p>
+     * TODO FIXME: metodo duplicato di getAllExerciseToDo
+     *
+     * @param userid Student id
+     * @return List of exericses
+     */
+    public List<String> getAllToDoByAuthorId(final String userid) {
+        Optional<UserModel> userModel = applicationUserRepository.findById(userid);
+        if (userModel.isPresent()) {
+            return userModel.get().getExercisesToDo();
+        } else {
+            throw new UsernameNotFoundException("User not found in the system");
+        }
+    }
+
+    /**
+     * Shift an exercise from todo in done list.
+     * <p>
+     * TODO FIXME: viene passato un intero ExerciseModel, ma basta solo l'id dell'esercizio
+     *
+     * @param studentId         Student Id
+     * @param exerciseToCorrect Exercise
+     */
+    public void exerciseCompleted(final String studentId, final ExerciseModel exerciseToCorrect) {
+        Optional<UserModel> userOptional = applicationUserRepository.findById(studentId);
+        if (userOptional.isPresent()) {
+            UserModel user = userOptional.get();
+            user.removeExerciseToDo(exerciseToCorrect.getId());
+            user.addExerciseDone(exerciseToCorrect.getId());
+            applicationUserRepository.save(user);
+        }
+    }
+
+    // TODO e' developer....
+
+    /**
+     * Return all developer user.
+     *
+     * @param userId Id of the applicant
+     * @return User List
+     */
+    public List<UserModel> getAllDevelopmentToEnable(final String userId) {
+        Optional<UserModel> user = applicationUserRepository.findById(userId);
+        List<UserModel> mydevelopment = null;
+        if (user.isPresent()) {
+            // if (user.get().getRole().equals(Role.ADMIN)) {}
+            mydevelopment = applicationUserRepository.findAllDeveloperDisabled();
+        }
+        return mydevelopment;
+    }
 }

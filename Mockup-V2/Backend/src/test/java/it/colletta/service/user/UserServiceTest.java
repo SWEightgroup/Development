@@ -1,52 +1,90 @@
 package it.colletta.service.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
-import java.util.ArrayList;
-import java.util.Optional;
-import org.junit.Assert;
+import it.colletta.security.Role;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
+
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 @TestPropertySource(
-    properties =
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
+        properties =
+                "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class UserServiceTest {
 
-  @MockBean private UsersRepository usersRepository;
+    @Mock
+    private UsersRepository usersRepository;
 
-  private UserService userService;
+    @InjectMocks
+    private UserService userService;
 
-  private UserModel testUser;
+    private UserModel testUser;
+    private UserModel testTeacher;
+    private UserModel testAdmin;
+    private ExerciseModel testExercise;
 
-  @Before
-  public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 
-    userService = new UserService(usersRepository);
+        ArrayList<String> exercisesToDo = new ArrayList<>();
+        exercisesToDo.add("333");
+        exercisesToDo.add("334");
+        exercisesToDo.add("335");
 
-    testUser =
-        UserModel.builder()
-            .id("1")
-            .email("test@test.it")
-            .password("12345")
-            .firstName("Tom")
-            .build();
-  }
+        ArrayList<String> exercisesDone = new ArrayList<>();
+        exercisesDone.add("336");
+        exercisesDone.add("337");
+
+        testUser =
+                UserModel.builder()
+                        .id("1")
+                        .email("test@test.it")
+                        .firstName("Tom")
+                        .exercisesToDo(exercisesToDo)
+                        .exercisesDone(exercisesDone)
+                        .role(Role.STUDENT)
+                        .build();
+
+        testTeacher =
+                UserModel.builder()
+                        .id("2")
+                        .email("test@teacher.it")
+                        .role(Role.TEACHER)
+                        .build();
+
+        testAdmin =
+                UserModel.builder()
+                        .id("3")
+                        .email("test@admin.it")
+                        .role(Role.ADMIN)
+                        .build();
+
+        testExercise =
+                ExerciseModel.builder()
+                        .id("335")
+                        .build();
+
+        Mockito.when(usersRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
+        Mockito.when(usersRepository.findById(testTeacher.getId())).thenReturn(Optional.of(testTeacher));
+        Mockito.when(usersRepository.findById(testAdmin.getId())).thenReturn(Optional.of(testAdmin));
+    }
 
   /*@Test
   public void addUser() {
@@ -58,64 +96,146 @@ public class UserServiceTest {
     assertNull(addedUser.getPassword());
   }*/
 
-  @Test
-  public void findById() {
+    @Test
+    public void findById() {
 
-    Mockito.when(usersRepository.findById("1")).thenReturn(Optional.of(testUser));
+        userService.findById("1");
 
-    Optional<UserModel> userOptional = userService.findById("1");
-    if (userOptional.isPresent()) assertEquals(userOptional.get().getId(), "1");
-    else Assert.fail();
-  }
+        Mockito.verify(usersRepository).findById("1");
+    }
 
-  @Test
-  public void getUserInfo() {
+    @Test
+    public void getUserInfo() {
 
-    Mockito.when(usersRepository.findById("1")).thenReturn(Optional.of(testUser));
+        UserModel addedUser = userService.getUserInfo(testUser.getId());
 
-    UserModel addedUser = userService.getUserInfo("1");
+        assertEquals(addedUser.getId(), testUser.getId());
+    }
 
-    assertEquals(addedUser.getId(), "1");
-  }
+    @Test(expected = UsernameNotFoundException.class)
+    public void getUserInfoWithWrongId() {
 
-  @Test(expected = UsernameNotFoundException.class)
-  public void getUserInfoWithWrongId() {
-    Mockito.when(usersRepository.findById("2")).thenReturn(Optional.empty());
+        Mockito.when(usersRepository.findById(testTeacher.getId())).thenReturn(Optional.empty());
 
-    userService.getUserInfo("2");
-  }
+        userService.getUserInfo(testTeacher.getId());
+    }
 
-  @Test
-  public void updateUser() {}
+    @Test
+    public void updateUser() {
 
-  @Test
-  public void addExerciseItem() {
+    }
 
-    ArrayList<UserModel> users = new ArrayList<>();
-    users.add(UserModel.builder().id("2").exercisesToDo(new ArrayList<>()).build());
-    users.add(UserModel.builder().id("3").exercisesToDo(new ArrayList<>()).build());
+    @Test
+    public void addExerciseItem() {
 
-    ArrayList<String> userIds = new ArrayList<>();
-    userIds.add("2");
-    userIds.add("3");
+        ArrayList<UserModel> users = new ArrayList<>();
+        users.add(UserModel.builder().id("2").exercisesToDo(new ArrayList<>()).build());
+        users.add(UserModel.builder().id("3").exercisesToDo(new ArrayList<>()).build());
 
-    ExerciseModel exercise = ExerciseModel.builder().id("11").build();
+        ArrayList<String> userIds = new ArrayList<>();
+        userIds.add("2");
+        userIds.add("3");
 
-    Mockito.when(usersRepository.findAllById(userIds)).thenReturn(users);
+        ExerciseModel exercise = ExerciseModel.builder().id("11").build();
 
-    userService.addExerciseItem(userIds, exercise);
+        Mockito.when(usersRepository.findAllById(userIds)).thenReturn(users);
 
-    // Capture the users that are passed to saveAll
-    ArgumentCaptor<ArrayList> argumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
-    Mockito.verify(usersRepository).saveAll(argumentCaptor.capture());
-    ArrayList<UserModel> insertedUsers = argumentCaptor.getValue();
+        userService.addExerciseItem(userIds, exercise);
 
-    // Check that the first user has the inserted exercise in exercisesToDo
-    assertEquals(insertedUsers.get(0).getExercisesToDo().size(), 1);
-    assertEquals(insertedUsers.get(0).getExercisesToDo().get(0), "11");
+        // Capture the users that are passed to saveAll
+        ArgumentCaptor<ArrayList> argumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
+        Mockito.verify(usersRepository).saveAll(argumentCaptor.capture());
+        ArrayList<UserModel> insertedUsers = argumentCaptor.getValue();
 
-    // Check that the second user has the inserted exercise in exercisesToDo
-    assertEquals(insertedUsers.get(1).getExercisesToDo().size(), 1);
-    assertEquals(insertedUsers.get(1).getExercisesToDo().get(0), "11");
-  }
+        // Check that the first user has the inserted exercise in exercisesToDo
+        assertEquals(insertedUsers.get(0).getExercisesToDo().size(), 1);
+        assertEquals(insertedUsers.get(0).getExercisesToDo().get(0), "11");
+
+        // Check that the second user has the inserted exercise in exercisesToDo
+        assertEquals(insertedUsers.get(1).getExercisesToDo().size(), 1);
+        assertEquals(insertedUsers.get(1).getExercisesToDo().get(0), "11");
+    }
+
+    @Test
+    public void activateUser() {
+
+        userService.activateUser(testUser.getId());
+
+        Mockito.verify(usersRepository).updateActivateFlagOnly(testUser.getId());
+    }
+
+    @Test
+    public void deleteUser() {
+
+        userService.deleteUser(testUser.getId());
+
+        Mockito.verify(usersRepository).delete(testUser);
+    }
+
+    @Test
+    public void findByEmail() {
+
+        userService.findByEmail("test@test.it");
+
+        Mockito.verify(usersRepository).findByEmail("test@test.it");
+    }
+
+    @Test
+    public void getAllExerciseToDo() {
+
+        List<String> exercisesToDo = userService.getAllExerciseToDo(testUser.getId());
+
+        assertEquals(exercisesToDo.size(), 3);
+    }
+
+    @Test
+    public void getAllStudents() {
+
+        userService.getAllStudents();
+        Mockito.verify(usersRepository).findAllStudents();
+    }
+
+    @Test
+    public void getAllUsers() {
+
+        userService.getAllUsers();
+        Mockito.verify(usersRepository).getAllUsers();
+    }
+
+    @Test
+    public void deleteExerciseAssigned() {
+
+        userService.deleteExerciseAssigned("333", testTeacher.getId());
+        Mockito.verify(usersRepository).deleteFromExerciseToDo("333");
+    }
+
+    @Test
+    public void getAllExerciseDone() {
+
+        List<String> exercisesDone = userService.getAllExerciseDone(testUser.getId());
+
+        assertEquals(exercisesDone.size(), 2);
+    }
+
+    @Test
+    public void exerciseCompleted() {
+
+        userService.exerciseCompleted(testUser.getId(), testExercise);
+
+        // Capture the user that is saved to the repository
+        ArgumentCaptor<UserModel> argumentCaptor = ArgumentCaptor.forClass(UserModel.class);
+        Mockito.verify(usersRepository).save(argumentCaptor.capture());
+        UserModel savedUser = argumentCaptor.getValue();
+
+        assertFalse(savedUser.getExercisesToDo().contains("335"));
+        assertTrue(savedUser.getExercisesDone().contains("335"));
+    }
+
+    @Test
+    public void getAllDevelopersToEnable() {
+
+        userService.getAllDevelopmentToEnable(testAdmin.getId());
+
+        Mockito.verify(usersRepository).findAllDeveloperDisabled();
+    }
 }
