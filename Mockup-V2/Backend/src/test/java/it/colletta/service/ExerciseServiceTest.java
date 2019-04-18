@@ -9,6 +9,7 @@ import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class ExerciseServiceTest {
 
   private ExerciseHelper exercise;
 
+  private CorrectionHelper correctionHelper;
+
   private UserModel userModel;
 
   private PhraseModel phrase;
@@ -66,7 +69,7 @@ public class ExerciseServiceTest {
 
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp(){
 
     //MockitoAnnotations.initMocks(this);
 
@@ -88,13 +91,18 @@ public class ExerciseServiceTest {
         .id("123")
         .assignedUsersIds(assignedUsersIds)
         .phraseText("questa è una prova")
-        .mainSolution("main solution")
-        .alternativeSolution("alternative solution")
+        .mainSolution("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
+        .alternativeSolution("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
         .visibility(true)
         .author("100")
         .date(378136781L)
         .language("it")
         .build();
+
+    correctionHelper = CorrectionHelper.builder()
+            .exerciseId(exercise.getId())
+            .solutionFromStudent("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
+            .build();
 
     phrase = PhraseModel.builder()
         .id("321")
@@ -155,6 +163,29 @@ public class ExerciseServiceTest {
     assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
   }
 
+  /**
+   * Test doExercise method.
+   *
+   */
+  @Test
+  public void doExercise(){
+
+    Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
+    Mockito.when(phraseService.getSolutionInPhrase(anyString(),anyString())).thenReturn(mainSolution);
+    Mockito.when(phraseService.getPhraseById(anyString())).thenReturn(Optional.of(phrase));
+    Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
+
+    try {
+    SolutionModel mySolution = exerciseService.doExercise(correctionHelper, anyString());
+
+      assertEquals(mySolution.getSolutionText(),"[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]");
+
+    } catch (Exception error) {
+      error.printStackTrace();
+    }
+
+  }
+
 
   /**
    * Test findById method.
@@ -171,9 +202,6 @@ public class ExerciseServiceTest {
     Mockito.verifyNoMoreInteractions(exerciseRepository);
 
   }
-
-
-
 
 
 }
