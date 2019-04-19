@@ -60,17 +60,6 @@ public interface UsersRepository
   @Override
   List<UserModel> findAll();
 
-  @Query(" {$and : [{role : '" + Role.STUDENT + "'}, {enabled : true}] }, " + "{ password:0}")
-  List<UserModel> findAllStudents();
-
-  /**
-   * Remove the exercise from the student.
-   *
-   * @param exerciseId the exercise document id
-   */
-  @Query("{ $pull: { exercisesToDo: ?0 }}")
-  void deleteFromExerciseToDo(final String exerciseId);
-
   /** @return List of Disabled users developer. */
   @Query("{$and : [{role : '" + Role.DEVELOPER + "'}, {enabled : false}]}")
   List<UserModel> findAllDeveloperDisabled();

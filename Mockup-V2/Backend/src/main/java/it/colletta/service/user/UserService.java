@@ -99,124 +99,13 @@ public class UserService {
         return applicationUserRepository.save(user);
     }
 
-    /**
-     * adds the exercise to the todo list of students.
-     *
-     * @param assignedUsersIds List of users
-     * @param exerciseModel    Exericse
-     */
-    public void addExerciseItem(final List<String> assignedUsersIds,
-                                final ExerciseModel exerciseModel) {
-        Iterable<UserModel> users = applicationUserRepository.findAllById(assignedUsersIds);
-        for (UserModel user : users) {
-            if (user.getExercisesToDo() != null) {
-                user.addExerciseToDo(exerciseModel.getId()); // TODO se un esercizio ritorna false lancio
-            }
-        }
-        applicationUserRepository.saveAll(users);
-    }
-
-    /**
-     * Return all todo id of exercises.
-     *
-     * @param userId User id
-     * @return list of exercise id
-     */
-    public List<String> getAllExerciseToDo(final String userId) {
-        Optional<UserModel> userModel = applicationUserRepository.findById(userId);
-        if (userModel.isPresent()) {
-            return userModel.get().getExercisesToDo();
-        } else {
-            throw new UsernameNotFoundException("User not found in the system");
-        }
-    }
-
-    /**
-     * Return all student user.
-     *
-     * @return list of students
-     */
-    public List<UserModel> getAllStudents() {
-        return applicationUserRepository.findAllStudents();
-    }
-
-    /**
+        /**
      * Return all user.
      *
      * @return List of students
      */
     public List<UserModel> getAllUsers() {
         return applicationUserRepository.getAllUsers();
-    }
-
-
-    /**
-     * Delete an exercise.
-     * <p>
-     * TODO ritorna sempre optional vuoto..
-     *
-     * @param exerciseId Exercise id
-     * @param userId     User id
-     * @return UserModel
-     */
-    public Optional<UserModel> deleteExerciseAssigned(final String exerciseId, final String userId) {
-        Optional<UserModel> user = applicationUserRepository.findById(userId);
-        if (user.isPresent()) {
-            if (user.get().getRole().equals(Role.TEACHER)) {
-                applicationUserRepository.deleteFromExerciseToDo(exerciseId);
-            }
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Return all done exercise.
-     *
-     * @param userid Student id
-     * @return List of exericses
-     */
-    public List<String> getAllExerciseDone(final String userid) {
-        Optional<UserModel> userModel = applicationUserRepository.findById(userid);
-        if (userModel.isPresent()) {
-            return userModel.get().getExercisesDone();
-        } else {
-            throw new UsernameNotFoundException("User not found in the system");
-        }
-    }
-
-    /**
-     * Return all done exercise.
-     * <p>
-     * TODO FIXME: metodo duplicato di getAllExerciseToDo
-     *
-     * @param userid Student id
-     * @return List of exericses
-     */
-    public List<String> getAllToDoByAuthorId(final String userid) {
-        Optional<UserModel> userModel = applicationUserRepository.findById(userid);
-        if (userModel.isPresent()) {
-            return userModel.get().getExercisesToDo();
-        } else {
-            throw new UsernameNotFoundException("User not found in the system");
-        }
-    }
-
-    /**
-     * Shift an exercise from todo in done list.
-     * <p>
-     * TODO FIXME: viene passato un intero ExerciseModel, ma basta solo l'id dell'esercizio
-     *
-     * @param studentId         Student Id
-     * @param exerciseToCorrect Exercise
-     */
-    public void exerciseCompleted(final String studentId, final ExerciseModel exerciseToCorrect) {
-        Optional<UserModel> userOptional = applicationUserRepository.findById(studentId);
-        if (userOptional.isPresent()) {
-            UserModel user = userOptional.get();
-            user.removeExerciseToDo(exerciseToCorrect.getId());
-            user.addExerciseDone(exerciseToCorrect.getId());
-            applicationUserRepository.save(user);
-        }
     }
 
     // TODO e' developer....

@@ -34,71 +34,24 @@ public class UserModel implements UserDetails {
 
   private static final long serialVersionUID = 1L;
   @Id
-  private String id;
+  protected String id;
 
   @JsonProperty("username")
   @Indexed(unique = true)
-  private String email;
+  protected String email;
 
-  private String firstName;
-  private String lastName;
+  protected String firstName;
+  protected String lastName;
 
   @JsonProperty(access = Access.WRITE_ONLY)
-  private String password;
+  protected String password;
 
-  private String role;
-  private String language;
-  private Date dateOfBirth;
-  private Integer currentGoal;
+  protected String role;
+  protected String language;
+  protected Date dateOfBirth;
 
-  private List<String> exercisesToDo;
+  protected Boolean enabled;
 
-  private List<String> exercisesDone;
-
-  private Boolean enabled;
-
-  private ArrayList<String> favoriteTeacherIds;
-
-  private List<String> teacherExercise;
-
-  public UserModel() {
-    this.favoriteTeacherIds = null;
-    this.exercisesDone = null;
-    this.exercisesToDo = null;
-    this.currentGoal = null;
-    this.teacherExercise = null;
-  }
-  /**
-   * @param exerciseToAddId
-   * @return
-   */
-  public Boolean addExerciseToDo(final String exerciseToAddId) {
-    return exercisesToDo.add(exerciseToAddId);
-  }
-
-  /**
-   * @param exerciseToRemoveId
-   * @return
-   */
-  public Boolean removeExerciseToDo(final String exerciseToRemoveId) {
-    return exercisesToDo.remove(exerciseToRemoveId);
-  }
-
-  /**
-   * @param exerciseToAddId
-   * @return
-   */
-  public Boolean addExerciseDone(final String exerciseToAddId) {
-    return exercisesDone.add(exerciseToAddId);
-  }
-
-  /**
-   * @param exerciseToRemoveId
-   * @return
-   */
-  public Boolean removeDone(final String exerciseToRemoveId) {
-      return exercisesDone.remove(exerciseToRemoveId);
-  }
   /** @return */
   public String getId() {
     return id;
@@ -112,16 +65,6 @@ public class UserModel implements UserDetails {
   /** @return */
   public String getLastName() {
     return lastName;
-  }
-
-  /** @return */
-  public List<String> getExercisesToDo() {
-    return exercisesToDo;
-  }
-
-  /** @return */
-  public List<String> getExercisesDone() {
-    return exercisesDone;
   }
 
   @Override
@@ -142,16 +85,6 @@ public class UserModel implements UserDetails {
   /** @return */
   public Date getDateOfBirth() {
     return dateOfBirth;
-  }
-
-  /** @return */
-  public Integer getCurrentGoal() {
-    return currentGoal;
-  }
-
-  /** @return */
-  public ArrayList<String> getFavoriteTeacherIds() {
-    return favoriteTeacherIds;
   }
 
   @Override

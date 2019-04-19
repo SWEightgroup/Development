@@ -1,8 +1,10 @@
 package it.colletta.service;
 
 import it.colletta.model.SignupRequestModel;
+import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.administration.SingupRequestRepository;
+import it.colletta.repository.user.StudentRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.Role;
 import it.colletta.service.signup.EmailServiceImpl;
@@ -57,14 +59,15 @@ public class SingupService {
     user.setPassword(encode);
     user.setEnabled(false);
     if(user.getRole().equals(Role.STUDENT)) {
-      user.setExercisesToDo(new ArrayList<String>());
-      user.setExercisesDone(new ArrayList<String>());
-      user.setFavoriteTeacherIds(new ArrayList<String>());
+      StudentModel studentModel = new StudentModel(user);
+      usersRepository.save(studentModel);
     }
     else if(user.getRole().equals(Role.TEACHER)) {
-      user.setTeacherExercise(new ArrayList<String>());
+      //TODO sistemare
     }
-    user = usersRepository.save(user);
+    else {
+      user = usersRepository.save(user);
+    }
     SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
         .requestDate(Calendar.getInstance().getTime()).build();
     SignupRequestModel model = singupRequestRepository.save(signupRequestModel);

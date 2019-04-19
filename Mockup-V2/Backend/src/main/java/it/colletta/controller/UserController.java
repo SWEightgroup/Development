@@ -10,9 +10,11 @@
  */
 package it.colletta.controller;
 
+import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.SingupService;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +41,16 @@ public class UserController {
 
 
   private UserService userService;
+  private StudentService studentService;
+
   @Autowired
   public void setUserService(UserService userService) {
     this.userService = userService;
+  }
+
+  @Autowired
+  public void setStudentService(StudentService studentService) {
+    this.studentService = studentService;
   }
 
   /**
@@ -142,7 +151,7 @@ public class UserController {
    */
   @RequestMapping(value = "/users/get-students", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserModel>> getStudentsList() {
-    return new ResponseEntity<List<UserModel>>(userService.getAllStudents(), HttpStatus.OK);
+  public ResponseEntity<Iterable<StudentModel>> getStudentsList() {
+    return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
   }
 }
