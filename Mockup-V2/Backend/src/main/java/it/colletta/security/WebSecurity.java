@@ -59,7 +59,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
-  /** @param auth the authentication manager for login. */
+  /**
+   *  
+   */
   @Override
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);

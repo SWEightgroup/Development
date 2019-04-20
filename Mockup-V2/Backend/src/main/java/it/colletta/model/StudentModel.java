@@ -7,7 +7,7 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-@TypeAlias("student")
+//@TypeAlias("student")
 public class StudentModel extends UserModel {
   private Integer currentGoal;
 
@@ -16,6 +16,14 @@ public class StudentModel extends UserModel {
   private List<String> exercisesDone;
 
   private ArrayList<String> favoriteTeacherIds;
+
+  public StudentModel() {
+    super();
+    this.favoriteTeacherIds = new ArrayList<>();
+    this.exercisesDone = new ArrayList<>();
+    this.exercisesToDo = new ArrayList<>();
+    this.currentGoal = 0;
+  }
 
   public StudentModel(String id, String email, String firstName, String lastName,
       String password, String role, String language, Date dateOfBirth,

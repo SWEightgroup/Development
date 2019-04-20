@@ -26,6 +26,7 @@ import java.util.List;
 
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 @Document(collection = "users")

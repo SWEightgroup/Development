@@ -1,36 +1,30 @@
 package it.colletta.service;
 
+import it.colletta.controller.UserConverter;
 import it.colletta.model.SignupRequestModel;
-import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.UserDataTransferObject;
 import it.colletta.repository.administration.SingupRequestRepository;
-import it.colletta.repository.user.StudentRepository;
 import it.colletta.repository.user.UsersRepository;
-import it.colletta.security.Role;
 import it.colletta.service.signup.EmailServiceImpl;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class SingupService {
 
-  @Autowired
-  PasswordEncoder passwordEncoder;
-  @Autowired
+  BCryptPasswordEncoder passwordEncoder;
   private SingupRequestRepository singupRequestRepository;
-  @Autowired
   private UsersRepository usersRepository;
-  @Autowired
   private EmailServiceImpl emailService;
 
   /**
@@ -39,55 +33,48 @@ public class SingupService {
    * @param usersRepository UserReposytory
    * @param passwordEncoder bCryptPasswordEncoder
    */
-  public SingupService(final UsersRepository usersRepository,
-      final SingupRequestRepository singupRequestRepository,
-      final BCryptPasswordEncoder passwordEncoder) {
-    this.usersRepository = usersRepository;
-    this.singupRequestRepository = singupRequestRepository;
+  @Autowired
+  public SingupService(BCryptPasswordEncoder passwordEncoder,
+      SingupRequestRepository singupRequestRepository,
+      UsersRepository usersRepository, EmailServiceImpl emailService) {
     this.passwordEncoder = passwordEncoder;
+    this.singupRequestRepository = singupRequestRepository;
+    this.usersRepository = usersRepository;
+    this.emailService = emailService;
   }
 
   /**
    * Add new user.
    *
-   * @param user User
-   * @return added user
+   * @param userDataTransferObject User data transfer object
+   * @return the new user
    */
-  public UserModel addUser(@NotNull UserModel user, ControllerLinkBuilder link)
-      throws org.springframework.dao.DuplicateKeyException{
-    final String encode = passwordEncoder.encode(user.getPassword());
-    user.setPassword(encode);
-    user.setEnabled(false);
-    if(user.getRole().equals(Role.STUDENT)) {
-      StudentModel studentModel = new StudentModel(user);
-      usersRepository.save(studentModel);
+  public UserModel addUser(@NotNull UserDataTransferObject userDataTransferObject, ControllerLinkBuilder link)
+      throws org.springframework.dao.DuplicateKeyException {
+    UserModel user = (new UserConverter()).convert(userDataTransferObject);
+    if (Objects.nonNull(user)) {
+      final String encode = passwordEncoder.encode(user.getPassword());
+      user.setPassword(encode);
+      user.setEnabled(false);
+      SignupRequestModel signupRequestModel = SignupRequestModel.builder()
+          .userReference(user.getId())
+          .requestDate(Calendar.getInstance().getTime()).build();
+      usersRepository.save(user);
+      SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
+      //emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
+      user.setPassword(null);
     }
-    else if(user.getRole().equals(Role.TEACHER)) {
-      //TODO sistemare
-    }
-    else {
-      user = usersRepository.save(user);
-    }
-    SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
-        .requestDate(Calendar.getInstance().getTime()).build();
-    SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
-    //emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
-    user.setPassword(null);
     return user;
   }
 
   public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
-    Optional<SignupRequestModel> requestModel = singupRequestRepository.findById(requestId);
-    if(requestModel.isPresent()) {
-      Date requestTimestamp = requestModel.get().getRequestDate();
-      if(requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
-        UserModel userToEnable = usersRepository.findById(requestModel.get().getUserReference()).get();
+    SignupRequestModel requestModel = singupRequestRepository.findById(requestId)
+        .orElseThrow(() -> new ResourceNotFoundException("Signup request not found"));
+      Date requestTimestamp = requestModel.getRequestDate();
+      if (requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
+        UserModel userToEnable = usersRepository.findById(requestModel.getUserReference()).orElseThrow(ResourceNotFoundException::new);
         userToEnable.setEnabled(true);
       }
-      singupRequestRepository.delete(requestModel.get());
-    }
-    else {
-      throw new ResourceNotFoundException("Signup request not found");
-    }
+      singupRequestRepository.delete(requestModel);
   }
 }
