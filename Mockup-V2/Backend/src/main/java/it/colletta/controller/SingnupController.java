@@ -2,15 +2,10 @@ package it.colletta.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-import it.colletta.model.StudentModel;
-import it.colletta.model.TeacherModel;
 import it.colletta.model.UserModel;
-import it.colletta.model.helper.UserDataTransferObject;
-import it.colletta.security.Role;
+import it.colletta.model.helper.UserHelper;
 import it.colletta.service.SingupService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +32,7 @@ public class SingnupController {
    */
   @RequestMapping(value = "/sign-up", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> signUp(@RequestBody UserDataTransferObject userDataTransferObject) {
+  public ResponseEntity<?> signUp(@RequestBody UserHelper userDataTransferObject) {
     UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
       if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {

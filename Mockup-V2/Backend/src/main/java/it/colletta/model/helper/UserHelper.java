@@ -7,7 +7,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UserDataTransferObject {
+public class UserHelper {
+
   @JsonProperty("username")
   private String email;
   private String firstName;

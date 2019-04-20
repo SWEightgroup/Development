@@ -1,23 +1,18 @@
 package it.colletta.service;
 
 import com.mongodb.client.FindIterable;
-
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
-
-import lombok.NonNull;
-
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
+import lombok.NonNull;
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
@@ -54,7 +49,8 @@ public class PhraseService {
   public PhraseModel insertPhrase(PhraseModel newPhrase) {
 
     PhraseModel returnPhrase;
-    Optional<PhraseModel> phraseOptional = phraseRepository.getPhraseWithText(newPhrase.getPhraseText());
+    Optional<PhraseModel> phraseOptional = phraseRepository
+        .getPhraseWithText(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
 
@@ -119,7 +115,7 @@ public class PhraseService {
   /**
    * Get solution of the phrase by id.
    *
-   * @param phraseId   Phrase id
+   * @param phraseId Phrase id
    * @param solutionId Solution id
    * @return Solution
    */
@@ -141,7 +137,8 @@ public class PhraseService {
   }
 
   public PhraseModel createPhrase(String phraseText, String language) {
-    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis()).phraseText(phraseText)
+    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis())
+        .phraseText(phraseText)
         .build();
 
   }

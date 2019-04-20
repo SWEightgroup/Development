@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import lombok.Builder;
-import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 //@TypeAlias("student")
 public class StudentModel extends UserModel {
+
   private Integer currentGoal;
 
   private List<String> exercisesToDo;
@@ -45,54 +45,59 @@ public class StudentModel extends UserModel {
     this.exercisesToDo = new ArrayList<>();
     this.currentGoal = 0;
   }
+
   /**
-   * @param exerciseToAddId
-   * @return
+   *
    */
   public Boolean addExerciseToDo(final String exerciseToAddId) {
     return exercisesToDo.add(exerciseToAddId);
   }
 
   /**
-   * @param exerciseToRemoveId
-   * @return
+   *
    */
   public Boolean removeExerciseToDo(final String exerciseToRemoveId) {
     return exercisesToDo.remove(exerciseToRemoveId);
   }
 
   /**
-   * @param exerciseToAddId
-   * @return
+   *
    */
   public Boolean addExerciseDone(final String exerciseToAddId) {
     return exercisesDone.add(exerciseToAddId);
   }
 
   /**
-   * @param exerciseToRemoveId
-   * @return
+   *
    */
   public Boolean removeDone(final String exerciseToRemoveId) {
     return exercisesDone.remove(exerciseToRemoveId);
   }
 
-  /** @return */
+  /**
+   *
+   */
   public List<String> getExercisesToDo() {
     return exercisesToDo;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public List<String> getExercisesDone() {
     return exercisesDone;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public Integer getCurrentGoal() {
     return currentGoal;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public ArrayList<String> getFavoriteTeacherIds() {
     return favoriteTeacherIds;
   }

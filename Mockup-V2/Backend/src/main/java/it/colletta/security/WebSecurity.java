@@ -3,10 +3,8 @@ package it.colletta.security;
 import static it.colletta.security.SecurityConstants.SIGN_UP_URL;
 
 import com.google.common.collect.ImmutableList;
-
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.user.UserDetailsServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -60,7 +58,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   *  
+   *
    */
   @Override
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -74,7 +72,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         "/resources/static/static/**");
   }
 
-  /** Define the registerCorsConfiguration. */
+  /**
+   * Define the registerCorsConfiguration.
+   */
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     final CorsConfiguration configuration = new CorsConfiguration();

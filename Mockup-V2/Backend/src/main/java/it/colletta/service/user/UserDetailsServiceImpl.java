@@ -4,7 +4,6 @@ import static java.util.Collections.emptyList;
 
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

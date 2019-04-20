@@ -1,14 +1,11 @@
 package it.colletta.repository.exercise;
 
 import com.mongodb.client.result.UpdateResult;
-
 import it.colletta.model.ExerciseModel;
-
+import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface ExerciseCustomQueryInterface {
 

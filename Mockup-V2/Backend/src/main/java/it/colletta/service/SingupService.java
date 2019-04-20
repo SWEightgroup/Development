@@ -1,16 +1,13 @@
 package it.colletta.service;
 
-import it.colletta.controller.UserConverter;
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
-import it.colletta.model.helper.UserDataTransferObject;
 import it.colletta.repository.administration.SingupRequestRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.EmailServiceImpl;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -70,11 +67,12 @@ public class SingupService {
   public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)
         .orElseThrow(() -> new ResourceNotFoundException("Signup request not found"));
-      Date requestTimestamp = requestModel.getRequestDate();
-      if (requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
-        UserModel userToEnable = usersRepository.findById(requestModel.getUserReference()).orElseThrow(ResourceNotFoundException::new);
-        userToEnable.setEnabled(true);
-      }
-      singupRequestRepository.delete(requestModel);
+    Date requestTimestamp = requestModel.getRequestDate();
+    if (requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
+      UserModel userToEnable = usersRepository.findById(requestModel.getUserReference())
+          .orElseThrow(ResourceNotFoundException::new);
+      userToEnable.setEnabled(true);
+    }
+    singupRequestRepository.delete(requestModel);
   }
 }

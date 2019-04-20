@@ -2,7 +2,6 @@ package it.colletta.service.signup;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
-
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;

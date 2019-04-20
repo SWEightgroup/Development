@@ -22,10 +22,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   }
 
   // API 400
+
   /**
-   * @param ex
-   * @param request
-   * @return
+   *
    */
   @ExceptionHandler({DataIntegrityViolationException.class})
   public ResponseEntity<Object> handleBadRequest(
@@ -58,10 +57,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   }
 
   // 403
+
   /**
-   * @param ex
-   * @param request
-   * @return
+   *
    */
   @ExceptionHandler({AccessDeniedException.class})
   public ResponseEntity<Object> handleAccessDeniedException(
@@ -74,9 +72,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   // 409
 
   /**
-   * @param ex
-   * @param request
-   * @return
+   *
    */
   @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
   protected ResponseEntity<Object> handleConflict(
@@ -91,14 +87,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   // 500
 
   /**
-   * @param ex
-   * @param request
-   * @return
+   *
    */
   @ExceptionHandler({
-    NullPointerException.class,
-    IllegalArgumentException.class,
-    IllegalStateException.class
+      NullPointerException.class,
+      IllegalArgumentException.class,
+      IllegalStateException.class
   })
   /*500*/ public ResponseEntity<Object> handleInternal(
       final RuntimeException ex, final WebRequest request) {

@@ -1,9 +1,8 @@
 package it.colletta.repository.exercise;
 
 import com.mongodb.client.result.UpdateResult;
-
 import it.colletta.model.ExerciseModel;
-
+import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,13 +13,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.util.List;
-
 public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   private MongoTemplate mongoTemplate;
 
-  /** @param mongoTemplate */
+  /**
+   *
+   */
   @Autowired
   public ExerciseRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -32,7 +31,9 @@ public class ExerciseModel {
   private String authorId;
   private Boolean visibility;
 
-  /** Constructor. */
+  /**
+   * Constructor.
+   */
   public ExerciseModel() {
     this.id = new ObjectId().toHexString();
     this.dateExercise = System.currentTimeMillis();

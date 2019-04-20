@@ -8,25 +8,21 @@ import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -36,10 +32,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   /**
    * Costructor to filter security class
    *
-   * @since 1.0
    * @param authenticationManager the authentication custom manager
    * @param usersRepository repository which performs query on User collection in MongoDB
    * @period 2019-03-19
+   * @since 1.0
    */
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
       UsersRepository usersRepository) {
@@ -72,8 +68,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    * @param request the HTTP request from the client
    * @param response the HTTP reponse with token generated
    * @param auth the auth provider from Spring
-   * @throws IOException
-   * @throws ServletException
    */
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,

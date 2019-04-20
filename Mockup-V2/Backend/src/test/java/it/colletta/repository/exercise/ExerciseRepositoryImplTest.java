@@ -1,6 +1,5 @@
 package it.colletta.repository.exercise;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import com.mongodb.client.result.UpdateResult;
@@ -22,7 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration(classes = {MongoConfig.class})
 public class ExerciseRepositoryImplTest {
 
-  @Autowired private MongoTemplate mongoTemplate;
+  @Autowired
+  private MongoTemplate mongoTemplate;
 
   private ExerciseRepositoryImpl exerciseRepository;
 

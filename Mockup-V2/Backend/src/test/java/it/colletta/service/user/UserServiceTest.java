@@ -1,13 +1,15 @@
 package it.colletta.service.user;
 
+import static org.junit.Assert.assertEquals;
+
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.Role;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -16,36 +18,30 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
-
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 @TestPropertySource(
-        properties =
-                "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
+    properties =
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class UserServiceTest {
 
-    @Mock
-    private UsersRepository usersRepository;
+  @Mock
+  private UsersRepository usersRepository;
 
-    @InjectMocks
-    private UserService userService;
-    private UserModel user;
-    private ExerciseModel testExercise;
+  @InjectMocks
+  private UserService userService;
+  private UserModel user;
+  private ExerciseModel testExercise;
 
-    @Before
-    public void setUp() throws Exception {
-                user = new UserModel();
-                user.setId("3");
-                user.setEmail("test@admin.it");
-                user.setRole(Role.ADMIN);
+  @Before
+  public void setUp() throws Exception {
+    user = new UserModel();
+    user.setId("3");
+    user.setEmail("test@admin.it");
+    user.setRole(Role.ADMIN);
 
-        Mockito.when(usersRepository.findById(user.getId())).thenReturn(Optional.of(user));
-    }
+    Mockito.when(usersRepository.findById(user.getId())).thenReturn(Optional.of(user));
+  }
 
   /*@Test
   public void addUser() {
@@ -57,31 +53,31 @@ public class UserServiceTest {
     assertNull(addedUser.getPassword());
   }*/
 
-    @Test
-    public void findById() {
-        userService.findById("1");
-        Mockito.verify(usersRepository).findById("1");
-    }
+  @Test
+  public void findById() {
+    userService.findById("1");
+    Mockito.verify(usersRepository).findById("1");
+  }
 
-    @Test
-    public void getUserInfo() {
+  @Test
+  public void getUserInfo() {
 
-        UserModel addedUser = userService.getUserInfo(user.getId());
-        assertEquals(addedUser.getId(), user.getId());
-    }
+    UserModel addedUser = userService.getUserInfo(user.getId());
+    assertEquals(addedUser.getId(), user.getId());
+  }
 
-    @Test(expected = UsernameNotFoundException.class)
-    public void getUserInfoWithWrongId() {
+  @Test(expected = UsernameNotFoundException.class)
+  public void getUserInfoWithWrongId() {
 
-        Mockito.when(usersRepository.findById(user.getId())).thenReturn(Optional.empty());
+    Mockito.when(usersRepository.findById(user.getId())).thenReturn(Optional.empty());
 
-        userService.getUserInfo(user.getId());
-    }
+    userService.getUserInfo(user.getId());
+  }
 
-    @Test
-    public void updateUser() {
+  @Test
+  public void updateUser() {
 
-    }
+  }
 
     /*@Test
     public void addExerciseItem() {
@@ -114,29 +110,29 @@ public class UserServiceTest {
         assertEquals(insertedUsers.get(1).getExercisesToDo().get(0), "11");
     }*/
 
-    @Test
-    public void activateUser() {
+  @Test
+  public void activateUser() {
 
-        userService.activateUser(user.getId());
+    userService.activateUser(user.getId());
 
-        Mockito.verify(usersRepository).updateActivateFlagOnly(user.getId());
-    }
+    Mockito.verify(usersRepository).updateActivateFlagOnly(user.getId());
+  }
 
-    @Test
-    public void deleteUser() {
+  @Test
+  public void deleteUser() {
 
-        userService.deleteUser(user.getId());
+    userService.deleteUser(user.getId());
 
-        Mockito.verify(usersRepository).delete(user);
-    }
+    Mockito.verify(usersRepository).delete(user);
+  }
 
-    @Test
-    public void findByEmail() {
+  @Test
+  public void findByEmail() {
 
-        userService.findByEmail("test@test.it");
+    userService.findByEmail("test@test.it");
 
-        Mockito.verify(usersRepository).findByEmail("test@test.it");
-    }
+    Mockito.verify(usersRepository).findByEmail("test@test.it");
+  }
 
     /*@Test
     public void getAllExerciseToDo() {
@@ -153,12 +149,12 @@ public class UserServiceTest {
         Mockito.verify(usersRepository).findAllStudents();
     }*/
 
-    @Test
-    public void getAllUsers() {
+  @Test
+  public void getAllUsers() {
 
-        userService.getAllUsers();
-        Mockito.verify(usersRepository).getAllUsers();
-    }
+    userService.getAllUsers();
+    Mockito.verify(usersRepository).getAllUsers();
+  }
 
     /*@Test
     public void deleteExerciseAssigned() {
@@ -191,11 +187,11 @@ public class UserServiceTest {
 
      */
 
-    @Test
-    public void getAllDevelopersToEnable() {
+  @Test
+  public void getAllDevelopersToEnable() {
 
-        userService.getAllDevelopmentToEnable(user.getId());
+    userService.getAllDevelopmentToEnable(user.getId());
 
-        Mockito.verify(usersRepository).findAllDeveloperDisabled();
-    }
+    Mockito.verify(usersRepository).findAllDeveloperDisabled();
+  }
 }

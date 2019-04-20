@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StudentService {
+
   @Autowired
   StudentRepository studentRepository;
 
@@ -20,7 +21,7 @@ public class StudentService {
    * adds the exercise to the todo list of students.
    *
    * @param assignedUsersIds List of users
-   * @param exerciseModel    Exericse
+   * @param exerciseModel Exericse
    */
   public void addExerciseItem(final List<String> assignedUsersIds,
       final ExerciseModel exerciseModel) {
@@ -60,10 +61,10 @@ public class StudentService {
 
 
   /**
-   * Shift an exercise from to do in done list.
-   * TODO FIXME: viene passato un intero ExerciseModel, ma basta solo l'id dell'esercizio
+   * Shift an exercise from to do in done list. TODO FIXME: viene passato un intero ExerciseModel,
+   * ma basta solo l'id dell'esercizio
    *
-   * @param studentId         Student Id
+   * @param studentId Student Id
    * @param exerciseToCorrect Exercise
    */
   public void exerciseCompleted(final String studentId, final ExerciseModel exerciseToCorrect) {
@@ -114,10 +115,11 @@ public class StudentService {
    * TODO ritorna sempre optional vuoto..
    *
    * @param exerciseId Exercise id
-   * @param userId     User id
+   * @param userId User id
    * @return StudentModel
    */
-  public Optional<StudentModel> deleteExerciseAssigned(final String exerciseId, final String userId) {
+  public Optional<StudentModel> deleteExerciseAssigned(final String exerciseId,
+      final String userId) {
     Optional<StudentModel> user = studentRepository.findById(userId);
     if (user.isPresent()) {
       if (user.get().getRole().equals(Role.TEACHER)) {

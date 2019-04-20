@@ -1,18 +1,13 @@
 package it.colletta.repository.phrase;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.config.MongoConfig;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration(classes = {MongoConfig.class})
 public class PhraseRepositoryImplTest {
 
-  @Autowired private MongoTemplate mongoTemplate;
+  @Autowired
+  private MongoTemplate mongoTemplate;
 
   private PhraseRepositoryImpl phraseRepository;
 
@@ -121,7 +117,8 @@ public class PhraseRepositoryImplTest {
     noSolutionPhrase = PhraseModel.builder().id("1").phraseText("no solution phrase").build();
 
     oneSolutionPhrase =
-        PhraseModel.builder().id("2").phraseText("one solution phrase").solutions(oneSolutionList).build();
+        PhraseModel.builder().id("2").phraseText("one solution phrase").solutions(oneSolutionList)
+            .build();
 
     multipleSolutionsPhrase =
         PhraseModel.builder()

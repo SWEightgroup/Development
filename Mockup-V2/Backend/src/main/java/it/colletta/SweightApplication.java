@@ -15,7 +15,9 @@ public class SweightApplication extends SpringBootServletInitializer {
 
   private static final Logger logger = LogManager.getLogger(SweightApplication.class);
 
-  /** @param args */
+  /**
+   *
+   */
   public static void main(final String[] args) {
     SpringApplication.run(SweightApplication.class, args);
   }

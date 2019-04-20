@@ -24,6 +24,7 @@ public class ExerciseResourceAssembler extends
 
   /**
    * Create a new resource for links
+   *
    * @param exercise the exercise we want link
    * @return the resource for pagination
    */
