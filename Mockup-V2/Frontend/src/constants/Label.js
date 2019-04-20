@@ -47,6 +47,8 @@ export const _label = {
     signup_selectOption: "Seleziona un'opzione",
     signup_hint:
       'La password deve essere lunga dai 6 ai 20 caratteri e non deve contenere caratteri speciali',
+    signUp_completed:
+      'Registrazione completata, a breve riceverai per email per confermare il tuo account.',
     signUp_error: 'Registrazione fallita',
     login_error: 'Autenticazione fallita',
     sidebarElementStudent_exercise: 'Esercizi',

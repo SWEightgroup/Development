@@ -5,7 +5,8 @@ import {
   signUp,
   loaderOn,
   changeSignUp,
-  displayError
+  displayError,
+  initAuthStore
 } from '../../../actions/AuthActions';
 import _translator from '../../../helpers/Translator';
 import Validator from '../../../helpers/Validator';
@@ -13,23 +14,63 @@ import { ExLang } from '../../../constants/Languages';
 import RegExpression from '../../../constants/RegExpression';
 
 class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    props.initAuthStoreDispatch();
+    this.errorEmail = React.createRef();
+    this.errorPassword = React.createRef();
+    this.errorDate = React.createRef();
+  }
+
   handleChange = e => {
     changeSignUp({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = e => {
-    const { signUpDispatch, loaderOn, auth, displayErrorDispatch } = this.props;
+    const { props } = this;
+    const { signUpDispatch, auth, displayErrorDispatch } = props;
     e.preventDefault();
     const signUpData = auth.signUp;
-    console.log(signUpData.username);
-    console.log(': SignUp -> signUpData', signUpData);
+    let isValid = true;
+
+    //Email validation
     if (
-      Validator.validEmail(signUpData.username, RegExpression.getRegEmail()) &&
-      Validator.validDate(signUpData.dateOfBirth) &&
+      Validator.validEmail(signUpData.username, RegExpression.getRegEmail())
+    ) {
+      this.errorEmail.current.innerHTML = '';
+      isValid = !isValid ? isValid : true;
+    } else {
+      this.errorEmail.current.innerHTML = 'Email non valida';
+      isValid = false;
+    }
+
+    //Date validation
+    if (Validator.validDate(signUpData.dateOfBirth)) {
+      this.errorDate.current.innerHTML = '';
+      isValid = !isValid ? isValid : true;
+    } else {
+      this.errorDate.current.innerHTML = 'Data non valida';
+      isValid = false;
+    }
+
+    //Password validation
+    if (
       Validator.validPassword(
         signUpData.password,
         RegExpression.getRegPassword()
-      ) &&
+      )
+    ) {
+      this.errorPassword.current.innerHTML = '';
+      isValid = !isValid ? isValid : true;
+    } else {
+      this.errorPassword.current.innerHTML =
+        'La password non rispetta i requisiti minimi di sicurezza';
+      isValid = false;
+    }
+
+    //Validation
+    if (
+      isValid &&
       Validator.validSelect(signUpData.role, [
         'ROLE_STUDENT',
         'ROLE_ADMIN',
@@ -39,10 +80,11 @@ class SignUp extends Component {
       Validator.validSelect(signUpData.language, ExLang)
     ) {
       if (!signUpData.password.localeCompare(signUpData.password_confirm)) {
-        loaderOn();
+        this.errorPassword.current.innerHTML = '';
+        props.loaderOn();
         signUpDispatch(auth.signUp);
       } else {
-        displayErrorDispatch(_translator('signup_errorPassword'));
+        this.errorPassword.current.innerHTML = 'Le due password non coincidono';
       }
       // }
     }
@@ -52,6 +94,17 @@ class SignUp extends Component {
     const { auth } = this.props;
     const signUpData = auth.signUp;
 
+    if (auth.signUpCompleted) {
+      return (
+        <div className="row justify-content-md-center">
+          <div className="col-sm-12 col-md-8 col-lg-8">
+            <div className="main-card mb-3 card">
+              <div className="card-body">{_translator('signUp_completed')}</div>
+            </div>
+          </div>
+        </div>
+      );
+    }
     if (auth.user) return <Redirect to="/" />;
     return (
       <div className="row justify-content-md-center">
@@ -101,6 +154,7 @@ class SignUp extends Component {
                     value={signUpData.email}
                     autoComplete="username"
                   />
+                  <small className="text-danger" ref={this.errorEmail} />
                 </div>
                 <div className="position-relative form-group">
                   <label htmlFor="dateOfBirth">
@@ -113,8 +167,8 @@ class SignUp extends Component {
                     type="date"
                     className="form-control"
                     onChange={this.handleChange}
-                    value={signUpData.dateOfBirth}
                   />
+                  <small className="text-danger" ref={this.errorDate} />
                 </div>
                 <div className="position-relative form-group">
                   <label htmlFor="role">{_translator('gen_role')}</label>
@@ -176,6 +230,7 @@ class SignUp extends Component {
                     autoComplete="new-password"
                     pattern="(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9*].{6,16}"
                   />
+                  <small className="text-danger" ref={this.errorPassword} />
                   <small
                     id="passwordHelpBlock"
                     className="form-text text-muted"
@@ -223,7 +278,8 @@ const mapDispatchToProps = dispatch => {
     signUpDispatch: newUser => dispatch(signUp(newUser)),
     loaderOn: () => dispatch(loaderOn()),
     changeSignUp: () => dispatch(changeSignUp()),
-    displayErrorDispatch: error => dispatch(displayError(error))
+    displayErrorDispatch: error => dispatch(displayError(error)),
+    initAuthStoreDispatch: () => dispatch(initAuthStore())
   };
 };
 

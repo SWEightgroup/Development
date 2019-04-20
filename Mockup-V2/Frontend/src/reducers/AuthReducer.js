@@ -1,4 +1,5 @@
 const initState = {
+  signUpCompleted: false,
   signinError: null,
   signupError: null,
   isReady: false,
@@ -31,6 +32,8 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'INIT_AUTH_STORE':
+      return { ...initState, isReady: true };
     case 'CHANGE_SIGNIN_DATA':
       return {
         ...state,
@@ -70,19 +73,12 @@ const authReducer = (state = initState, action) => {
         signIn: initState.signIn,
         loader: false,
         signUp: initState.signUp,
-        isReady: true
+        isReady: true,
+        signUpCompleted: false
       };
 
     case 'SIGNOUT_SUCCESS':
-      return {
-        ...state,
-        signinError: null,
-        signupError: null,
-        user: null,
-        token: null,
-        loader: false,
-        isReady: true
-      };
+      return { ...initState, isReady: true };
 
     case 'SIGNUP_ERROR':
       return {
@@ -90,6 +86,13 @@ const authReducer = (state = initState, action) => {
         signupError: 'SignUp failed',
         user: null,
         loader: false,
+        isReady: true,
+        signUpCompleted: false
+      };
+    case 'SIGNUP_SUCCESS':
+      return {
+        ...initState,
+        signUpCompleted: true,
         isReady: true
       };
 

@@ -28,11 +28,13 @@ public class SingnupController {
 
   /**
    * @param user the user obj with username and password
-   * @return ResponseEntity if the operation completed correctly otherwise return an error response.
+   * @return ResponseEntity if the operation completed correctly otherwise return
+   *         an error response.
    */
-  @RequestMapping(value = "/sign-up", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> signUp(@RequestBody UserHelper userDataTransferObject) {
+    if (userDataTransferObject.getEmail() != null)
+      userDataTransferObject.setEmail(userDataTransferObject.getEmail().toLowerCase());
     UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
       if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
@@ -45,8 +47,7 @@ public class SingnupController {
     }
   }
 
-  @RequestMapping(value = "/sign-up/activate/{id}", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/sign-up/activate/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> activateUser(@PathVariable("id") String requestId) {
     try {
       singupService.setEnabledToTrue(requestId);

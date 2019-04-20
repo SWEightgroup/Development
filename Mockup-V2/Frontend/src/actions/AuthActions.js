@@ -3,6 +3,12 @@ import { store } from '../index';
 import _translator from '../helpers/Translator';
 import { _toastSuccess, _toastError } from '../helpers/Utils';
 
+export const initAuthStore = () => {
+  return dispatch => {
+    dispatch({ type: 'INIT_AUTH_STORE' });
+  };
+};
+
 export const loaderOn = () => {
   return dispatch => {
     dispatch({ type: 'LOADER_ON' });
@@ -64,11 +70,10 @@ export const signUp = newUser => {
     axios
       .post('http://localhost:8081/sign-up', newUser)
       .then(res => {
-        dispatch(
-          signIn({ username: newUser.username, password: newUser.password })
-        );
+        dispatch({ type: 'SIGNUP_SUCCESS' });
       })
       .catch(e => {
+        console.error(e);
         _toastError(_translator('signUp_error', 'it'));
         dispatch({ type: 'SIGNUP_ERROR' });
       });
