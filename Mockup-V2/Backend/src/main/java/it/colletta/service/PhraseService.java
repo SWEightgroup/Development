@@ -137,7 +137,6 @@ public class PhraseService {
       document.remove("_id");
       fileStream.println(document.toJson());
     }
-
     return file;
   }
 

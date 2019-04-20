@@ -2,21 +2,34 @@ package it.colletta.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+import it.colletta.model.StudentModel;
+import it.colletta.model.TeacherModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.UserDataTransferObject;
+import it.colletta.security.Role;
 import it.colletta.service.SingupService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SingnupController {
+
   private SingupService singupService;
 
   @Autowired
-  public void setSingupService(SingupService singupService) {this.singupService = singupService;}
+  public void setSingupService(SingupService singupService) {
+    this.singupService = singupService;
+  }
 
   /**
    * @param user the user obj with username and password
@@ -24,16 +37,16 @@ public class SingnupController {
    */
   @RequestMapping(value = "/sign-up", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> signUp(@RequestBody UserModel user) {
+  public ResponseEntity<?> signUp(@RequestBody UserDataTransferObject userDataTransferObject) {
+    UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
-      if(singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
+      if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
         return new ResponseEntity<>(user, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
       }
-    }
-    catch(org.springframework.dao.DuplicateKeyException e) {
-      return new ResponseEntity<>("User already exsist", HttpStatus.UNPROCESSABLE_ENTITY);
+    } catch (org.springframework.dao.DuplicateKeyException e) {
+      return new ResponseEntity<>("User already exist", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
@@ -43,8 +56,7 @@ public class SingnupController {
     try {
       singupService.setEnabledToTrue(requestId);
       return new ResponseEntity<>(HttpStatus.OK);
-    }
-    catch(ResourceNotFoundException exception) {
+    } catch (ResourceNotFoundException exception) {
       return new ResponseEntity<String>("Signup request not found", HttpStatus.BAD_REQUEST);
     }
   }

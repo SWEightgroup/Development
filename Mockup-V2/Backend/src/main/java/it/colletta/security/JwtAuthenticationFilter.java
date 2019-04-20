@@ -88,8 +88,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     response.setHeader("Access-Control-Expose-Headers", "Authorization");
     response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
     response.setStatus(HttpServletResponse.SC_OK);
-    userModel.setExercisesDone(null);
-    userModel.setExercisesToDo(null);
     response.getWriter().write((new ObjectMapper()).writeValueAsString(userModel));
     response.getWriter().flush();
     response.getWriter().close();

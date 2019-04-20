@@ -9,6 +9,7 @@ import it.colletta.model.UserModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,31 +26,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExerciseService {
 
-  @Autowired
   private ExerciseRepository exerciseRepository;
-
-  @Autowired
   private PhraseService phraseService;
-
-  @Autowired
+  private StudentService studentService;
   private UserService userService;
-
-  @Autowired
   private SolutionService solutionService;
 
-  /**
-   * Constructor.
-   *
-   * @param exerciseRepository exerciseRepository.
-   */
-  ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService,
-      final UserService userService, final SolutionService solutionService) {
-
+  @Autowired
+  public ExerciseService(ExerciseRepository exerciseRepository,
+      PhraseService phraseService, StudentService studentService,
+      UserService userService, SolutionService solutionService) {
     this.exerciseRepository = exerciseRepository;
     this.phraseService = phraseService;
+    this.studentService = studentService;
     this.userService = userService;
     this.solutionService = solutionService;
   }
+
 
   /**
    * Find by id.
@@ -115,7 +108,7 @@ public class ExerciseService {
         .authorId(exercise.getAuthor()).authorName(authorName).build();
 
     exerciseRepository.save(exerciseModel);
-    userService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
+    studentService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
 
     return exerciseModel;
   }
@@ -220,7 +213,7 @@ public class ExerciseService {
         phraseModel.get().addSolution(studentSolution);
         phraseService.insertPhrase(phraseModel.get());
         phraseService.increaseReliability(studentSolution);
-        userService.exerciseCompleted(studentId, exerciseToCorrect);
+        studentService.exerciseCompleted(studentId, exerciseToCorrect);
       }
 
       return studentSolution;
@@ -275,7 +268,7 @@ public class ExerciseService {
    * @return List of exericse
    */
   public Iterable<ExerciseModel> getAllDoneByAuthorId(final String id) {
-    List<String> exercisesDoneId = userService.getAllExerciseDone(id);
+    List<String> exercisesDoneId = studentService.getAllExerciseDone(id);
     return exerciseRepository.findAllById(exercisesDoneId);
   }
 
@@ -292,14 +285,14 @@ public class ExerciseService {
    */
   public Page<ExerciseModel> getAllDoneByAuthorId(final Pageable page, final String userId) {
 
-    List<String> exercisesDoneid = userService.getAllExerciseDone(userId);
+    List<String> exercisesDoneid = studentService.getAllExerciseDone(userId);
     return exerciseRepository.findAllByIdPaged(page,
         exercisesDoneid.stream().map(ObjectId::new).collect(Collectors.toList()));
 
   }
 
   public Iterable<ExerciseModel> getAllToDoByAuthorId(final String id) {
-    List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
+    List<String> exercisesToDoId = studentService.getAllExerciseToDo(id);
     return exerciseRepository.findAllById(exercisesToDoId);
   }
 
@@ -311,7 +304,7 @@ public class ExerciseService {
    * @return All exercise to do by the user as pages
    */
   public Page<ExerciseModel> getAllToDoByAuthorId(final Pageable page, final String id) {
-    List<String> exercisesToDoId = userService.getAllExerciseToDo(id);
+    List<String> exercisesToDoId = studentService.getAllExerciseToDo(id);
     List<ObjectId> ids = exercisesToDoId.stream().map(ObjectId::new).collect(Collectors.toList());
     final Page<ExerciseModel> allByIdPaged = exerciseRepository.findAllByIdPaged(page, ids);
     return allByIdPaged;

@@ -10,9 +10,11 @@
  */
 package it.colletta.controller;
 
+import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.SingupService;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,6 +35,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import sun.util.resources.cldr.gv.LocaleNames_gv;
 
 
 @RestController
@@ -39,9 +43,16 @@ public class UserController {
 
 
   private UserService userService;
+  private StudentService studentService;
+
   @Autowired
   public void setUserService(UserService userService) {
     this.userService = userService;
+  }
+
+  @Autowired
+  public void setStudentService(StudentService studentService) {
+    this.studentService = studentService;
   }
 
   /**
@@ -137,12 +148,17 @@ public class UserController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+   @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<Long> count() {
+     return new ResponseEntity<>(userService.count(), HttpStatus.OK);
+   }
+
   /**
    * @return all the students that are present in the system.
    */
   @RequestMapping(value = "/users/get-students", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserModel>> getStudentsList() {
-    return new ResponseEntity<List<UserModel>>(userService.getAllStudents(), HttpStatus.OK);
+  public ResponseEntity<Iterable<StudentModel>> getStudentsList() {
+    return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
   }
 }
