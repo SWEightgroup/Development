@@ -12,28 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository
-    extends MongoRepository<UserModel, String>, UserCustomQueryInterface {
-
-  /**
-   * Find the user by his email.
-   *
-   * @param email the email of the user
-   * @return UserModel of the user with that email
-   */
-  UserModel findByEmail(final String email);
-
-  /**
-   * @param userId the unique id of the user.
-   * @return Optional<UserModel> return the user pojo
-   */
-  Optional<UserModel> findById(final String userId);
-
-  /**
-   * @param users TODO
-   * @return nothing
-   */
-  @Override
-  void delete(UserModel users);
+    extends IUserRepository<UserModel, String>, UserCustomQueryInterface {
 
   /**
    * Delete user from the system.
@@ -43,26 +22,7 @@ public interface UsersRepository
   @Override
   void deleteById(final String id);
 
-  /**
-   * Insert a new user into the database.
-   *
-   * @param user the pojo of the user
-   * @return the inserted user model
-   */
-  @Override
-  UserModel save(UserModel user);
-
-  long count();
-
-  /**
-   * Return the list of all users inserted.
-   *
-   * @return List<UserModel> return all the user
-   */
-  @Override
-  List<UserModel> findAll();
-
-  /** @return List of Disabled users developer. */
+/** @return List of Disabled users developer. */
   @Query("{$and : [{role : '" + Role.DEVELOPER + "'}, {enabled : false}]}")
   List<UserModel> findAllDeveloperDisabled();
 }

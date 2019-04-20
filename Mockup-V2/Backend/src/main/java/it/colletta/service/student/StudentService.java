@@ -55,7 +55,7 @@ public class StudentService {
    * @return list of students
    */
   public Iterable<StudentModel> getAllStudents() {
-    return studentRepository.findAll();
+    return studentRepository.findAllByRole(Role.STUDENT);
   }
 
 
