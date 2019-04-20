@@ -182,7 +182,8 @@ export const saveExerciseSolution = newExercise => {
 
         dispatch({ type: 'SAVE_EXERCISE_SUCCESS', newExercise });
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );
@@ -207,7 +208,8 @@ export const loadTodoExercises = _link => {
       .then(res => {
         dispatch({ type: 'LOAD_TODO_SUCCESS', todo: res.data });
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );
@@ -235,7 +237,8 @@ export const loadDoneExercises = _link => {
       .then(res => {
         dispatch({ type: 'LOAD_DONE_SUCCESS', todo: res.data });
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );
@@ -266,7 +269,8 @@ export const getAutomaticSolution = sentenceString => {
         );
         dispatch(innerLoaderOff());
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );
@@ -286,7 +290,8 @@ export const getAllStudents = () => {
       .then(resGetStudent => {
         dispatch(updateStudentList(resGetStudent.data));
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );

@@ -7,7 +7,7 @@ import { _toastSuccess, _toastError } from '../helpers/Utils';
 export const fetchDeveloperList = () => {
   return dispatch => {
     axios
-      .get('http://localhost:8081/users/developer/get-all-disabled', {
+      .get('http://localhost:8081/users/admin/get-all-disabled', {
         headers: {
           Authorization: store.getState().auth.token
         }

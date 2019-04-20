@@ -1,6 +1,7 @@
 const initState = {
   signinError: null,
   signupError: null,
+  isReady: false,
   user: null,
   loader: false,
   signIn: {
@@ -49,7 +50,8 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: action.user,
-        loader: false
+        loader: false,
+        isReady: true
       };
     case 'LOGIN_ERROR':
       return {
@@ -57,7 +59,8 @@ const authReducer = (state = initState, action) => {
         signinError: 'Login failed',
         signupError: null,
         user: null,
-        loader: false
+        loader: false,
+        isReady: true
       };
     case 'LOGIN_SUCCESS':
       return {
@@ -66,7 +69,8 @@ const authReducer = (state = initState, action) => {
         token: action.userInfo.token,
         signIn: initState.signIn,
         loader: false,
-        signUp: initState.signUp
+        signUp: initState.signUp,
+        isReady: true
       };
 
     case 'SIGNOUT_SUCCESS':
@@ -76,7 +80,8 @@ const authReducer = (state = initState, action) => {
         signupError: null,
         user: null,
         token: null,
-        loader: false
+        loader: false,
+        isReady: true
       };
 
     case 'SIGNUP_ERROR':
@@ -84,7 +89,8 @@ const authReducer = (state = initState, action) => {
         ...state,
         signupError: 'SignUp failed',
         user: null,
-        loader: false
+        loader: false,
+        isReady: true
       };
 
     case 'DISPLAY_ERROR':
