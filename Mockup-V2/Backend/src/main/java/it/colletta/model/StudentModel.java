@@ -3,6 +3,7 @@ package it.colletta.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import lombok.Builder;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,6 +26,7 @@ public class StudentModel extends UserModel {
     this.currentGoal = 0;
   }
 
+  @Builder(builderMethodName = "studentBuilder")
   public StudentModel(String id, String email, String firstName, String lastName,
       String password, String role, String language, Date dateOfBirth,
       Boolean enabled) {

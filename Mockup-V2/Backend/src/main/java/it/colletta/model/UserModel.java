@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
+import java.util.Collection;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,19 +18,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
+@Builder
 @Document(collection = "users")
-@JsonInclude(Include.NON_NULL)
 public class UserModel implements UserDetails {
 
   private static final long serialVersionUID = 1L;
@@ -53,17 +47,23 @@ public class UserModel implements UserDetails {
 
   protected Boolean enabled;
 
-  /** @return */
+  /**
+   *
+   */
   public String getId() {
     return id;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public String getFirstName() {
     return firstName;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public String getLastName() {
     return lastName;
   }
@@ -73,17 +73,23 @@ public class UserModel implements UserDetails {
     return password;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public String getRole() {
     return role;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public String getLanguage() {
     return language;
   }
 
-  /** @return */
+  /**
+   *
+   */
   public Date getDateOfBirth() {
     return dateOfBirth;
   }

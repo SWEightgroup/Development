@@ -46,12 +46,12 @@ public class SingupService {
   /**
    * Add new user.
    *
-   * @param userDataTransferObject User data transfer object
+   * @param user User object
    * @return the new user
    */
-  public UserModel addUser(@NotNull UserDataTransferObject userDataTransferObject, ControllerLinkBuilder link)
+  public UserModel addUser(@NotNull UserModel user, ControllerLinkBuilder link)
       throws org.springframework.dao.DuplicateKeyException {
-    UserModel user = (new UserConverter()).convert(userDataTransferObject);
+    //TD() <= TS()
     if (Objects.nonNull(user)) {
       final String encode = passwordEncoder.encode(user.getPassword());
       user.setPassword(encode);

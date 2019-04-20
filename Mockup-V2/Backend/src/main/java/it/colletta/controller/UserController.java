@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -34,6 +35,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import sun.util.resources.cldr.gv.LocaleNames_gv;
 
 
 @RestController
@@ -145,6 +147,11 @@ public class UserController {
     userService.activateUser(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+   @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<Long> count() {
+     return new ResponseEntity<>(userService.count(), HttpStatus.OK);
+   }
 
   /**
    * @return all the students that are present in the system.

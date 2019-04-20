@@ -1,10 +1,8 @@
 package it.colletta.service.user;
 
-import it.colletta.model.ExerciseModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
-import it.colletta.security.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -110,6 +108,9 @@ public class UserService {
 
     // TODO e' developer....
 
+    public long count() {
+        return applicationUserRepository.count();
+    }
     /**
      * Return all developer user.
      *

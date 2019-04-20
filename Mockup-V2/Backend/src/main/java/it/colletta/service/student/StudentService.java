@@ -41,9 +41,9 @@ public class StudentService {
    * @return list of exercise id
    */
   public List<String> getAllExerciseToDo(final String userId) {
-    Optional<StudentModel> StudentModel = studentRepository.findById(userId);
-    if (StudentModel.isPresent()) {
-      return StudentModel.get().getExercisesToDo();
+    Optional<StudentModel> studentModel = studentRepository.findById(userId);
+    if (studentModel.isPresent()) {
+      return studentModel.get().getExercisesToDo();
     } else {
       throw new UsernameNotFoundException("User not found in the system");
     }
@@ -60,8 +60,7 @@ public class StudentService {
 
 
   /**
-   * Shift an exercise from todo in done list.
-   * <p>
+   * Shift an exercise from to do in done list.
    * TODO FIXME: viene passato un intero ExerciseModel, ma basta solo l'id dell'esercizio
    *
    * @param studentId         Student Id

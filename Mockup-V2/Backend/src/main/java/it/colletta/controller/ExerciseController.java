@@ -35,10 +35,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/exercises")
 public class ExerciseController {
 
-  @Autowired
   private ExerciseService exerciseService;
-  @Autowired
   private SolutionService solutionService;
+
+  @Autowired
+  public ExerciseController(ExerciseService exerciseService,
+      SolutionService solutionService) {
+    this.exerciseService = exerciseService;
+    this.solutionService = solutionService;
+  }
 
   @RequestMapping(value = "/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,

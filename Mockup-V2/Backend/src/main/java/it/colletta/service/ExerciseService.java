@@ -26,34 +26,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExerciseService {
 
-  @Autowired
   private ExerciseRepository exerciseRepository;
-
-  @Autowired
   private PhraseService phraseService;
-
-  @Autowired
   private StudentService studentService;
-
-  @Autowired
   private UserService userService;
-
-  @Autowired
   private SolutionService solutionService;
 
-  /**
-   * Constructor.
-   *
-   * @param exerciseRepository exerciseRepository.
-   */
-  /*ExerciseService(final ExerciseRepository exerciseRepository, final PhraseService phraseService,
-      final UserService userService, final SolutionService solutionService) {
-
+  @Autowired
+  public ExerciseService(ExerciseRepository exerciseRepository,
+      PhraseService phraseService, StudentService studentService,
+      UserService userService, SolutionService solutionService) {
     this.exerciseRepository = exerciseRepository;
     this.phraseService = phraseService;
+    this.studentService = studentService;
     this.userService = userService;
     this.solutionService = solutionService;
-  }*/
+  }
+
 
   /**
    * Find by id.

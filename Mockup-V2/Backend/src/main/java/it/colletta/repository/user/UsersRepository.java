@@ -52,6 +52,8 @@ public interface UsersRepository
   @Override
   UserModel save(UserModel user);
 
+  long count();
+
   /**
    * Return the list of all users inserted.
    *
