@@ -1,20 +1,17 @@
-package it.colletta.service.user;
+package it.colletta.service;
 
 import it.colletta.repository.phrase.PhraseRepository;
 import it.colletta.service.PhraseService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@TestPropertySource(
-    properties =
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
+@RunWith(MockitoJUnitRunner.class)
 public class PhraseServiceTest {
 
   @MockBean
