@@ -28,7 +28,7 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     const { props } = this;
-    const { signUpDispatch, auth, displayErrorDispatch } = props;
+    const { signUpDispatch, auth /*displayErrorDispatch*/ } = props;
     e.preventDefault();
     const signUpData = auth.signUp;
     let isValid = true;
