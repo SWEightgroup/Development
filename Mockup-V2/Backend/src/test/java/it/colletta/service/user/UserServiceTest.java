@@ -19,10 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.TestPropertySource;
 
 @RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
-@TestPropertySource(
-    properties =
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration")
 public class UserServiceTest {
 
   @Mock

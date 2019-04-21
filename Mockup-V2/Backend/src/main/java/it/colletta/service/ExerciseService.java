@@ -24,23 +24,19 @@ import java.util.stream.Collectors;
 @Service
 public class ExerciseService {
 
+    @Autowired
     private ExerciseRepository exerciseRepository;
+    @Autowired
     private PhraseService phraseService;
+    @Autowired
     private StudentService studentService;
+    @Autowired
     private TeacherService teacherService;
+    @Autowired
     private UserService userService;
+    @Autowired
     private SolutionService solutionService;
 
-    @Autowired
-    public ExerciseService(ExerciseRepository exerciseRepository,
-                           PhraseService phraseService, StudentService studentService,
-                           UserService userService, SolutionService solutionService) {
-        this.exerciseRepository = exerciseRepository;
-        this.phraseService = phraseService;
-        this.studentService = studentService;
-        this.userService = userService;
-        this.solutionService = solutionService;
-    }
 
 
     /**

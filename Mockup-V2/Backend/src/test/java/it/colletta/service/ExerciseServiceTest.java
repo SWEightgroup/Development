@@ -16,6 +16,7 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.student.StudentService;
+import it.colletta.service.teacher.TeacherService;
 import it.colletta.service.user.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,9 @@ public class ExerciseServiceTest {
 
   @Mock
   private StudentService studentService;
+
+  @Mock
+  private TeacherService teacherService;
 
   private ExerciseModel exerciseModel;
 
@@ -144,6 +148,7 @@ public class ExerciseServiceTest {
 
     ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
 
+    Mockito.verify(teacherService).addTeacherExercise(exercise.getAuthor(),exercise.getId());
     assertEquals(myAddedExercise.getAuthorName(), "Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
   }
