@@ -32,4 +32,12 @@ public class TeacherModel extends UserModel {
   public void setTeacherExercise(List<String> teacherExercise) {
     this.teacherExercise = teacherExercise;
   }
+
+  public void addTeacherExercise(String exerciseId) {
+    teacherExercise.add(exerciseId);
+  }
+
+  public void removeTeacherExercise(String exerciseId) {
+    teacherExercise.remove(exerciseId);
+  }
 }
