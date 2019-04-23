@@ -1,6 +1,7 @@
 package it.colletta.service;
 
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -209,6 +211,21 @@ public class ExerciseServiceTest {
     Mockito.verify(exerciseRepository, Mockito.times(1)).findById(anyString());
     Mockito.verifyNoMoreInteractions(exerciseRepository);
 
+  }
+
+  @Test
+  public void correct(){
+    ArrayList<String> studentSolutionMap = new ArrayList<>();
+    ArrayList<String> systemSolution = new ArrayList<>();
+
+    studentSolutionMap.add(exercise.getMainSolution());
+    systemSolution.add(exercise.getMainSolution());
+
+    ExerciseService exerciseService2 = new ExerciseService();
+
+    String myMark = ReflectionTestUtils.
+            invokeMethod(exerciseService2,"correct",studentSolutionMap,systemSolution).toString();
+    assertEquals(myMark,"10.0");
   }
 
 
