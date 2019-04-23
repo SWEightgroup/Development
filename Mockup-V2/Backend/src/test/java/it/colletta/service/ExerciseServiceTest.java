@@ -1,7 +1,5 @@
 package it.colletta.service;
 
-
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,9 +17,11 @@ import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.student.StudentService;
 import it.colletta.service.teacher.TeacherService;
 import it.colletta.service.user.UserService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,8 +74,6 @@ public class ExerciseServiceTest {
 
   @Before
   public void setUp() {
-
-    //MockitoAnnotations.initMocks(this);
 
     exerciseModel = ExerciseModel.builder()
         .id("1")
@@ -150,7 +148,6 @@ public class ExerciseServiceTest {
 
     ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
 
-    Mockito.verify(teacherService).addTeacherExercise(exercise.getAuthor(),exercise.getId());
     assertEquals(myAddedExercise.getAuthorName(), "Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
   }
@@ -221,10 +218,8 @@ public class ExerciseServiceTest {
     studentSolutionMap.add(exercise.getMainSolution());
     systemSolution.add(exercise.getMainSolution());
 
-    ExerciseService exerciseService2 = new ExerciseService();
-
     String myMark = ReflectionTestUtils.
-            invokeMethod(exerciseService2,"correct",studentSolutionMap,systemSolution).toString();
+            invokeMethod(exerciseService,"correct",studentSolutionMap,systemSolution).toString();
     assertEquals(myMark,"10.0");
   }
 
