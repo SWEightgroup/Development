@@ -1,11 +1,9 @@
-import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import User from '../../view/components/User';
 
-Enzyme.configure({ adapter: new Adapter() });
+
+
 
 describe('Testing User component', () => {
   it('render all user info', () => {
