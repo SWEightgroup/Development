@@ -27,7 +27,7 @@ public class SingnupController {
   }
 
   /**
-   * @param user the user obj with username and password
+   * @param userDataTransferObject the user obj with username and password
    * @return ResponseEntity if the operation completed correctly otherwise return
    *         an error response.
    */

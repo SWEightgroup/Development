@@ -14,14 +14,12 @@ public interface PhraseRepository
 
   /**
    * @param phraseToDelete TODO
-   * @return nothing
    */
   @Override
   void delete(PhraseModel phraseToDelete);
 
   /**
    * @param phraseId TODO
-   * @return nothing
    */
   @Override
   void deleteById(final String phraseId);

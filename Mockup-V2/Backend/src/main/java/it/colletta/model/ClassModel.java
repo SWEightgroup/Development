@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -22,7 +23,7 @@ public class ClassModel {
   private String name;
   private List<String> studentsId;
   private String teacher;
-
+  private String teacherId;
   /**
    * @param name TODO
    * @return TODO
@@ -33,7 +34,7 @@ public class ClassModel {
   /*
    * public void addStudent(@NonNull UserModel student) { studentList.add(student); }
    */
-
+  public void setTeacherId(final String teacherId){this.teacherId = teacherId;}
   /**
    * @param student TODO
    * @return TODO
