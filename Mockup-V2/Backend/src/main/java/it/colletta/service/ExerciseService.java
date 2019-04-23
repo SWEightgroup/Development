@@ -24,20 +24,26 @@ import java.util.stream.Collectors;
 @Service
 public class ExerciseService {
 
-    @Autowired
     private ExerciseRepository exerciseRepository;
-    @Autowired
     private PhraseService phraseService;
-    @Autowired
     private StudentService studentService;
-    @Autowired
-    private TeacherService teacherService;
-    @Autowired
+    //private TeacherService teacherService;
     private UserService userService;
-    @Autowired
     private SolutionService solutionService;
 
 
+    @Autowired
+    public ExerciseService(ExerciseRepository exerciseRepository,
+        PhraseService phraseService, StudentService studentService,
+        /*TeacherService teacherService*/ UserService userService,
+        SolutionService solutionService) {
+        this.exerciseRepository = exerciseRepository;
+        this.phraseService = phraseService;
+        this.studentService = studentService;
+        //this.teacherService = teacherService;
+        this.userService = userService;
+        this.solutionService = solutionService;
+    }
 
     /**
      * Find by id.
@@ -104,7 +110,7 @@ public class ExerciseService {
 
         exerciseRepository.save(exerciseModel);
         studentService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
-        teacherService.addTeacherExercise(exercise.getAuthor(), exercise.getId());
+        //teacherService.addTeacherExercise(exercise.getAuthor(), exercise.getId());
         return exerciseModel;
     }
 
@@ -114,7 +120,6 @@ public class ExerciseService {
      * @param exercise Exercise/Solution
      * @param userId   Author Id
      * @return This Exercise
-     * @author Gionata Legrottaglie
      */
     public ExerciseModel insertFreeExercise(ExerciseHelper exercise, String userId) {
 
@@ -225,12 +230,10 @@ public class ExerciseService {
      * @return mark expressed in a decimal format
      */
     private Double correct(ArrayList<String> studentSolutionMap, ArrayList<String> systemSolution) {
-        Integer points = 0;
+        int points = 0;
         if (studentSolutionMap.size() == systemSolution.size()) {
             Iterator<String> studentSolutionIterator = studentSolutionMap.iterator();
-            Iterator<String> mainSolutionIterator = systemSolution.iterator();
-            while (mainSolutionIterator.hasNext()) {
-                String word = mainSolutionIterator.next();
+            for (String word : systemSolution) {
                 String studentWord = studentSolutionIterator.next();
                 if (word.equals(studentWord)) {
                     ++points;
@@ -256,16 +259,6 @@ public class ExerciseService {
         // else exception
     }
 
-    /**
-     * getAllByIds.
-     *
-     * @param id Student id
-     * @return List of exericse
-     */
-    public Iterable<ExerciseModel> getAllDoneByAuthorId(final String id) {
-        List<String> exercisesDoneId = studentService.getAllExerciseDone(id);
-        return exerciseRepository.findAllById(exercisesDoneId);
-    }
 
     /**
      * Return all exercises done by a student.
@@ -281,14 +274,9 @@ public class ExerciseService {
     public Page<ExerciseModel> getAllDoneByAuthorId(final Pageable page, final String userId) {
 
         List<String> exercisesDoneid = studentService.getAllExerciseDone(userId);
-        return exerciseRepository.findAllByIdPaged(page,
+        return exerciseRepository.findByIdPaged(page,
                 exercisesDoneid.stream().map(ObjectId::new).collect(Collectors.toList()));
 
-    }
-
-    public Iterable<ExerciseModel> getAllToDoByAuthorId(final String id) {
-        List<String> exercisesToDoId = studentService.getAllExerciseToDo(id);
-        return exerciseRepository.findAllById(exercisesToDoId);
     }
 
     /**
@@ -301,11 +289,15 @@ public class ExerciseService {
     public Page<ExerciseModel> getAllToDoByAuthorId(final Pageable page, final String id) {
         List<String> exercisesToDoId = studentService.getAllExerciseToDo(id);
         List<ObjectId> ids = exercisesToDoId.stream().map(ObjectId::new).collect(Collectors.toList());
-        final Page<ExerciseModel> allByIdPaged = exerciseRepository.findAllByIdPaged(page, ids);
-        return allByIdPaged;
+        return exerciseRepository.findByIdPaged(page, ids);
     }
 
     public Page<ExerciseModel> getAllAddedByAuthorId(final Pageable page, final String userId) {
-        return exerciseRepository.findAllByAuthorIdPaged(page, userId);
+        return exerciseRepository.findByAuthorIdPaged(page, userId);
+    }
+
+    public Page<ExerciseModel> getAllPublicExercises(final Pageable page, final String userId) {
+        List<ObjectId> exercises = studentService.getAllExercises(userId);
+        return exerciseRepository.findPublicByIdPaged(page, exercises);
     }
 }

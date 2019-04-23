@@ -6,7 +6,10 @@ import it.colletta.repository.user.StudentRepository;
 import it.colletta.security.Role;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -127,5 +130,12 @@ public class StudentService {
       }
     }
     return Optional.empty();
+  }
+
+  public List<ObjectId> getAllExercises(String userId) {
+    StudentModel student = studentRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    List<String> exercises = student.getExercisesDone();
+    exercises.addAll(student.getExercisesToDo());
+    return exercises.stream().map(ObjectId::new).collect(Collectors.toList());
   }
 }
