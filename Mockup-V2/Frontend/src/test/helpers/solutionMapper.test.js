@@ -1,6 +1,4 @@
 // 3 PASSED : test if the methods in solutionMapper is not null
-import React from 'react';
-import { shallow } from 'enzyme';
 import SolutionMapper from '../../helpers/SolutionMapper';
 import gerarchy from '../../constants/gerarchia';
 
