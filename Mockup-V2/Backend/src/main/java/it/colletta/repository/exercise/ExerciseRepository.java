@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ExerciseRepository extends MongoRepository<ExerciseModel, String>,
     ExerciseCustomQueryInterface {
 
-  @Override
-  Iterable<ExerciseModel> findAllById(Iterable<String> ids);
-
   UpdateResult modifyAuthorName(final String newAuthorName, String teacherId);
+
 }

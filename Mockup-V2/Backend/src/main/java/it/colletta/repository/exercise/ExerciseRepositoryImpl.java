@@ -34,20 +34,26 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
   }
 
   @Override
-  public Page<ExerciseModel> findAllByIdPaged(Pageable page, List<ObjectId> ids) {
+  public Page<ExerciseModel> findByIdPaged(Pageable page, List<ObjectId> ids) {
     Query query = new Query(Criteria.where("id").in(ids)).with(page);
     List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
     long total = mongoTemplate.count(query, ExerciseModel.class);
-    Page<ExerciseModel> newPage = new PageImpl<ExerciseModel>(exerciseModelList, page, total);
-    return newPage;
+    return new PageImpl<>(exerciseModelList, page, total);
   }
 
   @Override
-  public Page<ExerciseModel> findAllByAuthorIdPaged(Pageable page, String id) {
-    Query query = new Query(Criteria.where("authorId").is(id)).with(page);
+  public Page<ExerciseModel> findPublicByIdPaged(Pageable page, List<ObjectId> ids) {
+    Query query = new Query(Criteria.where("authorId").nin(ids)).with(page);
     List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
     long total = mongoTemplate.count(query, ExerciseModel.class);
-    Page<ExerciseModel> newPage = new PageImpl<ExerciseModel>(exerciseModelList, page, total);
-    return newPage;
+    return new PageImpl<>(exerciseModelList, page, total);
+  }
+
+  @Override
+  public Page<ExerciseModel> findByAuthorIdPaged(Pageable page, String id) {
+    Query query = new Query(Criteria.where("authorId").is(id).and("visibility").is(true)).with(page);
+    List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
+    long total = mongoTemplate.count(query, ExerciseModel.class);
+    return new PageImpl<>(exerciseModelList, page, total);
   }
 }
