@@ -139,7 +139,8 @@ export const saveSolution = newExercise => {
       })
       .catch(() => {
         _toastError(
-          _translator('gen_error', store.getState().auth.user.language)
+          _translator('gen_error', store.getState().auth.user.language),
+          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         );
         return dispatch({ type: '' });
       });
@@ -236,6 +237,32 @@ export const loadDoneExercises = _link => {
       })
       .then(res => {
         dispatch({ type: 'LOAD_DONE_SUCCESS', todo: res.data });
+      })
+      .catch(err => {
+        console.error(err);
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
+  };
+};
+
+export const loadPublicExercises = _link => {
+  const link =
+    _link !== null && _link !== undefined
+      ? _link.href
+      : `http://localhost:8081/exercises/public`;
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    axios
+      .get(link, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch({ type: 'LOAD_PUBLIC_SUCCESS', public: res.data });
       })
       .catch(err => {
         console.error(err);

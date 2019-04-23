@@ -56,6 +56,7 @@ export const _label = {
     sidebarElementStudent_exercises: 'Compiti per casa',
     sidebarElementStudent_marks: 'I tuoi voti',
     sidebarElementStudent_doneExercises: 'Esercizi Svolti',
+    sidebarElementStudent_publicExercises: 'Esercizi Pubblici',
     sidebarElementTeacher_exercise: 'Esercizi',
     sidebarElementTeacher_insertExercise: 'Inserisci esercizio',
     sidebarElementTeacher_exercises: 'Esercizi inseriti',
@@ -83,8 +84,8 @@ export const _label = {
     developerDashBoard_action: 'Azioni',
     pagination_first: 'Primo',
     pagination_last: 'Ultimo',
-    pagination_prev: 'Successivo',
-    pagination_next: 'Precedente',
+    pagination_prev: 'Precedente',
+    pagination_next: 'Successivo',
     exercisePreview_addedOn: 'Aggiunto il'
   },
   en: {
@@ -135,6 +136,7 @@ export const _label = {
     sidebarElementStudent_exercises: 'Homeworks',
     sidebarElementStudent_marks: 'Your marks',
     sidebarElementStudent_doneExercises: 'Completed Exercises',
+    sidebarElementStudent_publicExercises: 'Public Exercises',
     sidebarElementTeacher_exercise: 'Esercise',
     sidebarElementTeacher_insertExercise: 'Insert exercise',
     sidebarElementTeacher_exercises: 'Exercise history',

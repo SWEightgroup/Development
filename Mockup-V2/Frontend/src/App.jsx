@@ -23,6 +23,7 @@ import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperD
 import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
 import AdminUserDashBoard from './view/containers/DashboardContainers/AdminUserDashBoard';
 import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
+import PublicExercises from './view/containers/ExerciseContainers/PublicExercises';
 
 class App extends Component {
   state = {};
@@ -135,6 +136,11 @@ class App extends Component {
                       path="/doneHomework"
                       isAllowed={auth.user}
                       component={DoneHomework}
+                    />
+                    <ProtectedRoute
+                      path="/publicExercises"
+                      isAllowed={auth.user}
+                      component={PublicExercises}
                     />
                     <ProtectedRoute
                       path="/homework-execution"

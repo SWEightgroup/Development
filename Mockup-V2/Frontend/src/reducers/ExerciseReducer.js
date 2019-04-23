@@ -12,6 +12,7 @@ const initState = {
   studentList: [],
   todoExercises: { exercises: null, page: null, links: null },
   doneExercises: { exercises: null, page: null, links: null },
+  publicExercises: { exercises: null, page: null, links: null },
   innerLoader: false
 };
 
@@ -101,6 +102,18 @@ const ExerciseReducer = (state = initState, action) => {
             : [],
           page: action.todo.page,
           links: action.todo._links
+        },
+        innerLoader: false
+      };
+    case 'LOAD_PUBLIC_SUCCESS':
+      return {
+        ...state,
+        publicExercises: {
+          exercises: action.public._embedded
+            ? action.public._embedded.exerciseModels
+            : [],
+          page: action.public.page,
+          links: action.public._links
         },
         innerLoader: false
       };
