@@ -24,20 +24,26 @@ import java.util.stream.Collectors;
 @Service
 public class ExerciseService {
 
-    @Autowired
     private ExerciseRepository exerciseRepository;
-    @Autowired
     private PhraseService phraseService;
-    @Autowired
     private StudentService studentService;
-    @Autowired
-    private TeacherService teacherService;
-    @Autowired
+    //private TeacherService teacherService;
     private UserService userService;
-    @Autowired
     private SolutionService solutionService;
 
 
+    @Autowired
+    public ExerciseService(ExerciseRepository exerciseRepository,
+                           PhraseService phraseService, StudentService studentService,
+            /*TeacherService teacherService*/ UserService userService,
+                           SolutionService solutionService) {
+        this.exerciseRepository = exerciseRepository;
+        this.phraseService = phraseService;
+        this.studentService = studentService;
+        //this.teacherService = teacherService;
+        this.userService = userService;
+        this.solutionService = solutionService;
+    }
 
     /**
      * Find by id.
@@ -104,7 +110,7 @@ public class ExerciseService {
 
         exerciseRepository.save(exerciseModel);
         studentService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
-        teacherService.addTeacherExercise(exercise.getAuthor(), exercise.getId());
+        //teacherService.addTeacherExercise(exercise.getAuthor(), exercise.getId());
         return exerciseModel;
     }
 

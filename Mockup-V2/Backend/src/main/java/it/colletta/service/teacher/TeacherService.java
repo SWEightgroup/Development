@@ -45,6 +45,7 @@ public class TeacherService {
         if (teacherModel.isPresent()) {
             return teacherModel.get().getTeacherExercise();
 
+
         } else {
             throw new UsernameNotFoundException("User not found in the system");
         }

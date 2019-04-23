@@ -8,7 +8,7 @@
 package it.colletta.controller;
 
 import it.colletta.model.ClassModel;
-import it.colletta.model.StudentModel;
+import it.colletta.security.ParseJwt;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.classes.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +16,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/class")
 public class ClassController {
 
-  private ClassService classService;
-  private ExerciseService exerciseService;
-
   @Autowired
-  public ClassController(ClassService classService,
-                         ExerciseService exerciseService) {
-    this.exerciseService = exerciseService;
-    this.classService = classService;
-  }
+  private ClassService classService;
+
 
   /**
    * @param newClass the new class which needs to be inserted in the database
@@ -42,7 +37,7 @@ public class ClassController {
   public ResponseEntity<HttpStatus> createClass(@RequestHeader("Authorization") String token,
                                                 @RequestBody ClassModel newClass) {
     try{
-        String newClassName = classService.createNewClass(newClass);
+        String newClassName = classService.createNewClass(newClass, ParseJwt.getIdFromJwt(token));
         return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e){
         e.printStackTrace();
@@ -59,12 +54,12 @@ public class ClassController {
   @RequestMapping(value = "/add-student-class",
           method = RequestMethod.POST,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<StudentModel> addStudentClass(@RequestHeader("Authorization") String token,
+  public ResponseEntity<HttpStatus> addStudentClass(@RequestHeader("Authorization") String token,
                                                       @RequestParam("student-id") String studentId,
                                                       @RequestParam("class-id") String classId) {
     try{
-        StudentModel studentAdded = classService.addNewStudent(studentId);
-        return new ResponseEntity<StudentModel>(studentAdded, HttpStatus.OK);
+        classService.addNewStudent(studentId, classId);
+        return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e){
         e.printStackTrace();
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -99,15 +94,16 @@ public class ClassController {
           method = RequestMethod.DELETE,
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> deleteStudentClass(@RequestHeader("Authorization") String token,
-                                                       @RequestParam("student-id") String studentId) {
-    try{
-      classService.removeExistingStudent(studentId);
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e){
-      e.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                                                       @RequestParam("student-id") String studentId,
+                                                       @RequestParam("class-id") String classId) {
+      try {
+        classService.removeExistingStudent(studentId, classId);
+        return new ResponseEntity<>(HttpStatus.OK);
+      } catch (Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
     }
-  }
 
   /**
    * @param classId the unique Id of the class
@@ -118,10 +114,28 @@ public class ClassController {
           method = RequestMethod.DELETE,
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> deleteClass(@RequestHeader("Authorization") String token,
-                                                       @RequestParam("student-id") String classId) {
+                                                @RequestParam("class-id") String classId) {
     try{
       classService.deleteExistingClass(classId);
       return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * @param teacherId the unique Id of the teacher
+   * @param token the authorization token of the teacher
+   * @return A new ResponseEntity that contains the list of teacher classes
+   */
+  @RequestMapping(value = "/get-all-classes",
+          method = RequestMethod.GET,
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<ClassModel>> getAllClasses(@RequestHeader("Authorization") String token,
+                                                        @RequestParam("teacher-id") String teacherId) {
+    try{
+      return new ResponseEntity<>(classService.getAllClasses(teacherId), HttpStatus.OK);
     } catch (Exception e){
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

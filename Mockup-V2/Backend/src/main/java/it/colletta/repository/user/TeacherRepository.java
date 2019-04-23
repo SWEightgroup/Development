@@ -5,5 +5,5 @@ import it.colletta.model.TeacherModel;
 public interface TeacherRepository extends IUserRepository<TeacherModel, String> {
 
     //TODO query apposita
-    void removeFromTeacherExercise(String exerciseId);
+    //void removeFromTeacherExercise(String exerciseId);
 }

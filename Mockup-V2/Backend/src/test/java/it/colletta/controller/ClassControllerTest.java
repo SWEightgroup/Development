@@ -26,7 +26,7 @@ import static it.colletta.security.SecurityConstants.SECRET;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
-public class classControllerTest {
+public class ClassControllerTest {
 
 
   private MockMvc mvc;
@@ -65,7 +65,7 @@ public class classControllerTest {
 
 
   @Test
-  public void checkCreateNewClassControllerTest() {
+  public void checkCreateNewClassTest() {
     try {
       String jsonClassModelTest = mapper.writeValueAsString(classModelTest);
       mvc.perform(MockMvcRequestBuilders.post("/class/create-class")
@@ -77,4 +77,73 @@ public class classControllerTest {
       e.printStackTrace();
     }
   }
+
+  @Test
+  public void insertClassStudentTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.post("/class/add-student-class")
+              .header("Authorization", userToken)
+              .param("student-id","123")
+              .param("class-id","123")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void renameClassTest(){
+    try{
+      String jsonClassModelTest = mapper.writeValueAsString(classModelTest);
+      mvc.perform(MockMvcRequestBuilders.put("/class/rename-class")
+              .header("Authorization", userToken)
+              .content(jsonClassModelTest)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void removeStudentTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.delete("/class/remove-student-class")
+              .header("Authorization", userToken)
+              .param("student-id","123")
+              .param("class-id", "123")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void deleteClassTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.delete("/class/delete-class")
+              .header("Authorization", userToken)
+              .param("class-id","123")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void getAllTeacherClassesTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.get("/class/get-all-classes")
+              .header("Authorization", userToken)
+              .param("teacher-id","123")
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
 }
