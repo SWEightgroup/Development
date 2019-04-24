@@ -123,6 +123,7 @@ public class PhraseService {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 
+
   public File downloadAllPhrases() throws IOException {
     File file = File.createTempFile("allphrases", ".json");
     FindIterable<Document> documents = phraseRepository.findAllPhrasesAsIterable();
