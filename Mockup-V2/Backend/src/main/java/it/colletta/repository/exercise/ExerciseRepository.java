@@ -16,11 +16,7 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
   Page<ExerciseModel> findExerciseModelsByStudentIdDoneIsIn(Pageable page, String id);
   Page<ExerciseModel> findExerciseModelsByStudentIdToDoIsIn(Pageable page, String id);
 
-  @Query("{ $pull: { studentIdToDo : ?0} }")
-  void pullStudentToDoList(String studentId);
 
-  @Query("{ $push: { studentIdDone : ?0} }")
-  void pushStudentDoneList(String studentId);
 
   @Query(value = "{ $and: [{visibility: true}, {$studentIdToDo : {$nin: ?0} }, {$studentIdDone : {$nin: ?0}}]}")
   Page<ExerciseModel> findPublicExercise(String studentId, Pageable page);

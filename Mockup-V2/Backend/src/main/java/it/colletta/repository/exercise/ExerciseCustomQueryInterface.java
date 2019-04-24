@@ -20,4 +20,7 @@ public interface ExerciseCustomQueryInterface {
 
   Page<ExerciseModel> findByAuthorIdPaged(Pageable page, String id);
 
+  void pullStudentToDoList(String exerciseId, String studentId);
+
+  void pushStudentDoneList(String exerciseId, String studentId);
 }

@@ -201,8 +201,8 @@ public class ExerciseService {
                 phraseModel.get().addSolution(studentSolution);
                 phraseService.insertPhrase(phraseModel.get());
                 phraseService.increaseReliability(studentSolution);
-                exerciseRepository.pullStudentToDoList(studentId);
-                exerciseRepository.pushStudentDoneList(studentId);
+                exerciseRepository.pullStudentToDoList(exerciseOptional.get().getId(), studentId);
+                exerciseRepository.pushStudentDoneList(exerciseOptional.get().getId(), studentId);
             }
 
             return studentSolution;
