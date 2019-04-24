@@ -15,9 +15,4 @@ public interface ExerciseRepository extends MongoRepository<ExerciseModel, Strin
   UpdateResult modifyAuthorName(final String newAuthorName, String teacherId);
   Page<ExerciseModel> findExerciseModelsByStudentIdDoneIsIn(Pageable page, String id);
   Page<ExerciseModel> findExerciseModelsByStudentIdToDoIsIn(Pageable page, String id);
-
-
-
-  @Query(value = "{ $and: [{visibility: true}, {$studentIdToDo : {$nin: ?0} }, {$studentIdDone : {$nin: ?0}}]}")
-  Page<ExerciseModel> findPublicExercise(String studentId, Pageable page);
 }

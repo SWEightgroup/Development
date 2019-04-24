@@ -23,4 +23,6 @@ public interface ExerciseCustomQueryInterface {
   void pullStudentToDoList(String exerciseId, String studentId);
 
   void pushStudentDoneList(String exerciseId, String studentId);
+
+  Page<ExerciseModel> findAllPublicExercises(Pageable page, String studentId);
 }

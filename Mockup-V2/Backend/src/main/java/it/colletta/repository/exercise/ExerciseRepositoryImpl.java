@@ -70,4 +70,19 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
     mongoTemplate.updateMulti(query, update, ExerciseModel.class);
   }
 
+  @Override
+  public Page<ExerciseModel> findAllPublicExercises(Pageable page, String studentId) {
+    Query query =
+        new Query(
+            Criteria.where("studentIdDone").nin(studentId)
+                .and("studentIdToDo").nin(studentId)
+                .and("visibility").is(true)
+        );
+    return new PageImpl<>(
+        mongoTemplate.find(query, ExerciseModel.class),
+        page,
+        mongoTemplate.count(query, ExerciseModel.class)
+    );
+  }
+
 }

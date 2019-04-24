@@ -280,6 +280,6 @@ public class ExerciseService {
     }
 
     public Page<ExerciseModel> getAllPublicExercises(final Pageable page, final String userId) {
-        return exerciseRepository.findPublicExercise(userId, page);
+        return exerciseRepository.findAllPublicExercises(page, userId);
     }
 }
