@@ -10,6 +10,8 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.user.UserService;
+import it.colletta.strategy.CorrectionStrategy;
+import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import java.security.acl.NotOwnerException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -186,13 +188,13 @@ public class ExerciseService {
           objectMapper.readValue(correctionHelper.getSolutionFromStudent(), type);
       ArrayList< String > mainSolution =
           objectMapper.readValue(mainSolutionModel.getSolutionText(), type);
-
-      Double mark = correct(studentSolutionMap, mainSolution);
+      CorrectionStrategy<Double, String> correctionStrategy = new DecimalCorrectionStrategyImpl<>();
+      Double mark = correctionStrategy.correction(studentSolutionMap, mainSolution);
       if (mark < 10.00 && alternativeSolutionModel != null) {
         ArrayList< String > alternativeSolutionMap = objectMapper
             .readValue(alternativeSolutionModel.getSolutionText(), type);
         if (alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
-          Double alternativeMark = correct(studentSolutionMap, alternativeSolutionMap);
+          Double alternativeMark = correctionStrategy.correction(studentSolutionMap, alternativeSolutionMap);
           if (mark < alternativeMark) {
             mark = alternativeMark;
           }
@@ -215,30 +217,6 @@ public class ExerciseService {
     } else {
       throw new IllegalArgumentException("Exercise not defined in the system");
     }
-  }
-
-  /**
-   * Return the mark.
-   *
-   * @param studentSolutionMap List of student solutions
-   * @param systemSolution Main of alternative solution
-   * @return mark expressed in a decimal format
-   */
-  private Double correct(ArrayList< String > studentSolutionMap,
-      ArrayList< String > systemSolution) {
-    int points = 0;
-    if (studentSolutionMap.size() == systemSolution.size()) {
-      Iterator< String > studentSolutionIterator = studentSolutionMap.iterator();
-      for (String word : systemSolution) {
-        String studentWord = studentSolutionIterator.next();
-        if (word.equals(studentWord)) {
-          ++points;
-        }
-      }
-    } else {
-      throw new IllegalArgumentException("Solutions have different length");
-    }
-    return (points * 10 / ((double) systemSolution.size()));
   }
 
   /**
