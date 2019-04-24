@@ -23,6 +23,10 @@ import java.util.List;
 public class ClassController {
 
   @Autowired
+  public ClassController(ClassService classService) {
+    this.classService = classService;
+  }
+
   private ClassService classService;
 
 
