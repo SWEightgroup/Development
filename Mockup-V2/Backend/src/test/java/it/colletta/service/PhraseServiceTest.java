@@ -83,8 +83,16 @@ public class PhraseServiceTest {
 
     }
 
+    @Test
+    public void getSolutionInPhrase(){
+      Mockito.when(phraseRepository.getSolution(anyString(), anyString())).thenReturn(mainSolution);
+      SolutionModel mysolution = phraseService.getSolutionInPhrase(phrase.getId(),mainSolution.getId());
+
+      assertEquals(mysolution.getSolutionText(), "[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]");
+    }
 
 }
+
 
 
 
