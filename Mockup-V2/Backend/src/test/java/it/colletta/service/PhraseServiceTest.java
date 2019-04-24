@@ -1,6 +1,7 @@
 package it.colletta.service;
 
 import it.colletta.model.PhraseModel;
+import it.colletta.model.SolutionModel;
 import it.colletta.repository.phrase.PhraseRepository;
 
 import org.junit.Before;
@@ -29,6 +30,8 @@ public class PhraseServiceTest {
 
   private PhraseModel phrase;
 
+  private SolutionModel mainSolution;
+
   @Before
   public void setUp(){
 
@@ -37,6 +40,13 @@ public class PhraseServiceTest {
             .language("it")
             .datePhrase(378136781L)
             .phraseText("questa è una prova")
+            .build();
+
+    mainSolution = SolutionModel.builder()
+            .id("1246")
+            .reliability(0)
+            .authorId("100")
+            .solutionText("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
             .build();
   }
 
@@ -56,18 +66,25 @@ public class PhraseServiceTest {
   }
 
   @Test
-  public void getPhraseById(){
+  public void getPhraseById() {
     Mockito.when(phraseRepository.findById(anyString())).thenReturn(Optional.of(phrase));
     Optional<PhraseModel> phraseReturn = phraseService.getPhraseById(phrase.getId());
-    if(phraseReturn.isPresent()) {
+    if (phraseReturn.isPresent()) {
       assertEquals(phraseReturn.get().getPhraseText(), "questa è una prova");
       assertEquals(phraseReturn.get().getLanguage(), "it");
     }
-
   }
 
+    @Test
+    public void increaseReliability(){
 
+      phraseService.increaseReliability(mainSolution);
+      Mockito.verify(phraseRepository).increaseReliability(mainSolution);
 
+    }
 
 
 }
+
+
+
