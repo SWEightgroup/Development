@@ -51,9 +51,23 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   @Override
   public Page<ExerciseModel> findByAuthorIdPaged(Pageable page, String id) {
-    Query query = new Query(Criteria.where("authorId").is(id).and("visibility").is(true)).with(page);
+    Query query = new Query(Criteria.where("authorId").is(id).and("visibility").is(true))
+        .with(page);
     List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
     long total = mongoTemplate.count(query, ExerciseModel.class);
     return new PageImpl<>(exerciseModelList, page, total);
   }
+
+  public void pullStudentToDoList(String exerciseId, String studentId) {
+    Query query = new Query(Criteria.where("_id").is(new ObjectId(exerciseId)));
+    Update update = new Update().pull("studentIdToDo", studentId);
+    mongoTemplate.updateMulti(query, update, ExerciseModel.class);
+  }
+
+  public void pushStudentDoneList(String exerciseId, String studentId) {
+    Query query = new Query(Criteria.where("_id").is(new ObjectId(exerciseId)));
+    Update update = new Update().push("studentIdDone", studentId);
+    mongoTemplate.updateMulti(query, update, ExerciseModel.class);
+  }
+
 }

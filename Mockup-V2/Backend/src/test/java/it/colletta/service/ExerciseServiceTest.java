@@ -9,13 +9,11 @@ import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.StudentModel;
-import it.colletta.model.TeacherModel;
 import it.colletta.model.UserModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.student.StudentService;
-import it.colletta.service.teacher.TeacherService;
 import it.colletta.service.user.UserService;
 
 import java.util.ArrayList;
@@ -45,17 +43,6 @@ public class ExerciseServiceTest {
   @Mock
   private PhraseService phraseService;
 
-  @Mock
-  private SolutionService solutionService;
-
-  @Mock
-  private UserService userService;
-
-  @Mock
-  private StudentService studentService;
-
-  @Mock
-  private TeacherService teacherService;
 
   private ExerciseModel exerciseModel;
 
@@ -119,13 +106,6 @@ public class ExerciseServiceTest {
         .authorId(exercise.getAuthor())
         .solutionText(exercise.getMainSolution())
         .build();
-
-    userModel =
-        TeacherModel.teacherBuilder()
-            .id("100")
-            .firstName("Insegnante")
-            .lastName("Insegnante")
-            .build();
 
     studentModel = StudentModel.studentBuilder().id("101").firstName("Studente")
         .lastName("Studente").build();

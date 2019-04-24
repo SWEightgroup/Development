@@ -9,8 +9,6 @@ import it.colletta.model.UserModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
-import it.colletta.service.student.StudentService;
-import it.colletta.service.teacher.TeacherService;
 import it.colletta.service.user.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,31 +17,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ExerciseService {
 
-    private ExerciseRepository exerciseRepository;
+  private ExerciseRepository exerciseRepository;
     private PhraseService phraseService;
-    private StudentService studentService;
-    //private TeacherService teacherService;
     private UserService userService;
-    private SolutionService solutionService;
 
+  @Autowired
+  public ExerciseService(ExerciseRepository exerciseRepository,
+      PhraseService phraseService, UserService userService) {
+    this.exerciseRepository = exerciseRepository;
+    this.phraseService = phraseService;
+    this.userService = userService;
+  }
 
-    @Autowired
-    public ExerciseService(ExerciseRepository exerciseRepository,
-        PhraseService phraseService, StudentService studentService,
-        /*TeacherService teacherService*/ UserService userService,
-        SolutionService solutionService) {
-        this.exerciseRepository = exerciseRepository;
-        this.phraseService = phraseService;
-        this.studentService = studentService;
-        //this.teacherService = teacherService;
-        this.userService = userService;
-        this.solutionService = solutionService;
-    }
 
     /**
      * Find by id.
@@ -84,12 +73,17 @@ public class ExerciseService {
         PhraseModel phrase = phraseService
                 .createPhrase(exercise.getPhraseText(), exercise.getLanguage());
 
-        SolutionModel mainSolution = solutionService
-                .createSolution(exercise.getMainSolution(), exercise.getAuthor());
-        SolutionModel alternativeSolution = solutionService
-                .createSolution(exercise.getAlternativeSolution(),
-                        exercise.getAuthor());
+        SolutionModel mainSolution =
+            SolutionModel.builder()
+                .solutionText(exercise.getMainSolution())
+                .authorId(exercise.getAuthor())
+                .build();
 
+        SolutionModel alternativeSolution = null;
+        if (exercise.getAlternativeSolution().length() > 0 && !exercise.getAlternativeSolution().equals("")) {
+          alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
+            .solutionText(exercise.getAlternativeSolution()).build();
+        }
         phrase.addSolution(mainSolution);
         if (alternativeSolution != null) {
             phrase.addSolution(alternativeSolution);
@@ -107,10 +101,8 @@ public class ExerciseService {
                 .phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
                 .visibility(exercise.getVisibility())
                 .authorId(exercise.getAuthor()).authorName(authorName).build();
-
-        exerciseRepository.save(exerciseModel);
-        studentService.addExerciseItem(exercise.getAssignedUsersIds(), exerciseModel);
-        //teacherService.addTeacherExercise(exercise.getAuthor(), exercise.getId());
+        exerciseModel.addStudentToDoIds(exercise.getAssignedUsersIds());
+        exerciseModel = exerciseRepository.save(exerciseModel);
         return exerciseModel;
     }
 
@@ -128,7 +120,7 @@ public class ExerciseService {
                 .solutionText(exercise.getMainSolution()).build();
 
         SolutionModel alternativeSolution = null;
-        if (!exercise.getAlternativeSolution().isEmpty()) {
+        if (exercise.getAlternativeSolution().length() > 0 && !exercise.getAlternativeSolution().equals("")) {
             alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
                     .solutionText(exercise.getAlternativeSolution()).build();
         }
@@ -138,7 +130,7 @@ public class ExerciseService {
                 .phraseText(exercise.getPhraseText()).build();
 
         phrase.addSolution(mainSolution);
-        if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
+        if (alternativeSolution != null) {
             phrase.addSolution(alternativeSolution);
         }
 
@@ -150,14 +142,10 @@ public class ExerciseService {
                         .orElse(null);
         ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
                 .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
-                // .alternativeSolutionId(alternativeSolution.getId())
                 .phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
                 .visibility(exercise.getVisibility())
                 .authorId(userId).authorName(authorName).build();
         phraseService.increaseReliability(mainSolution);
-        if (alternativeSolution != null && !alternativeSolution.getSolutionText().isEmpty()) {
-            phraseService.increaseReliability(alternativeSolution);
-        }
         return exerciseModel;
     }
 
@@ -191,7 +179,7 @@ public class ExerciseService {
             ArrayList<String> studentSolutionMap =
                     objectMapper.readValue(correctionHelper.getSolutionFromStudent(), type);
             ArrayList<String> mainSolution =
-                    objectMapper.readValue(mainSolutionModel.getSolutionText(), type);
+                objectMapper.readValue(mainSolutionModel.getSolutionText(), type);
 
             Double mark = correct(studentSolutionMap, mainSolution);
             if (mark < 10.00 && alternativeSolutionModel != null) {
@@ -213,7 +201,8 @@ public class ExerciseService {
                 phraseModel.get().addSolution(studentSolution);
                 phraseService.insertPhrase(phraseModel.get());
                 phraseService.increaseReliability(studentSolution);
-                studentService.exerciseCompleted(studentId, exerciseToCorrect);
+                exerciseRepository.pullStudentToDoList(exerciseOptional.get().getId(), studentId);
+                exerciseRepository.pushStudentDoneList(exerciseOptional.get().getId(), studentId);
             }
 
             return studentSolution;
@@ -271,12 +260,8 @@ public class ExerciseService {
     /**
      *
      */
-    public Page<ExerciseModel> getAllDoneByAuthorId(final Pageable page, final String userId) {
-
-        List<String> exercisesDoneid = studentService.getAllExerciseDone(userId);
-        return exerciseRepository.findByIdPaged(page,
-                exercisesDoneid.stream().map(ObjectId::new).collect(Collectors.toList()));
-
+    public Page<ExerciseModel> getAllDoneBySudentId(final Pageable page, final String userId) {
+        return exerciseRepository.findExerciseModelsByStudentIdDoneIsIn(page, userId);
     }
 
     /**
@@ -286,18 +271,15 @@ public class ExerciseService {
      * @param id   the user unique id
      * @return All exercise to do by the user as pages
      */
-    public Page<ExerciseModel> getAllToDoByAuthorId(final Pageable page, final String id) {
-        List<String> exercisesToDoId = studentService.getAllExerciseToDo(id);
-        List<ObjectId> ids = exercisesToDoId.stream().map(ObjectId::new).collect(Collectors.toList());
-        return exerciseRepository.findByIdPaged(page, ids);
+    public Page<ExerciseModel> getAllToDoByStudentId(final Pageable page, final String id) {
+        return exerciseRepository.findExerciseModelsByStudentIdToDoIsIn(page, id);
     }
 
-    public Page<ExerciseModel> getAllAddedByAuthorId(final Pageable page, final String userId) {
+    public Page<ExerciseModel> getAllAddedByTeacherId(final Pageable page, final String userId) {
         return exerciseRepository.findByAuthorIdPaged(page, userId);
     }
 
     public Page<ExerciseModel> getAllPublicExercises(final Pageable page, final String userId) {
-        List<ObjectId> exercises = studentService.getAllExercises(userId);
-        return exerciseRepository.findPublicByIdPaged(page, exercises);
+        return exerciseRepository.findPublicExercise(userId, page);
     }
 }

@@ -34,12 +34,4 @@ public class SolutionService {
     return solutionModel;
   }
 
-  public SolutionModel createSolution(String mainSolution, String author) {
-    if (mainSolution == null || mainSolution.equals("")) {
-      return null;
-    } else {
-      return SolutionModel.builder().reliability(0)
-          .authorId(author).solutionText(mainSolution).build();
-    }
-  }
 }

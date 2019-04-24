@@ -52,7 +52,7 @@ public class ExerciseController {
       PagedResourcesAssembler< ExerciseModel > assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
-    Page< ExerciseModel > exercisesDone = exerciseService.getAllDoneByAuthorId(pageable, id);
+    Page< ExerciseModel > exercisesDone = exerciseService.getAllDoneBySudentId(pageable, id);
     PagedResources< ? > resources = assembler
         .toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
@@ -72,7 +72,7 @@ public class ExerciseController {
       PagedResourcesAssembler< ExerciseModel > assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
-    Page< ExerciseModel > exercisesDone = exerciseService.getAllAddedByAuthorId(pageable, id);
+    Page< ExerciseModel > exercisesDone = exerciseService.getAllAddedByTeacherId(pageable, id);
     PagedResources< ? > resources = assembler
         .toResource(exercisesDone, new ExerciseResourceAssembler("/added-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
@@ -83,7 +83,7 @@ public class ExerciseController {
       @PageableDefault(value = 4) Pageable pageable,
       PagedResourcesAssembler< ExerciseModel > assembler) {
     String id = ParseJwt.getIdFromJwt(token);
-    Page< ExerciseModel > exercisesToDo = exerciseService.getAllToDoByAuthorId(pageable, id);
+    Page< ExerciseModel > exercisesToDo = exerciseService.getAllToDoByStudentId(pageable, id);
     PagedResources< ? > resources = assembler
         .toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
