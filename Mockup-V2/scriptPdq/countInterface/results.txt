@@ -1,0 +1,18 @@
+analyzed files: 44
+there are 0 interfaces in package: itcolletta
+there are 0 interfaces in package: itcollettacontroller
+there are 0 interfaces in package: itcollettaerror
+there are 0 interfaces in package: itcollettaexceptions
+there are 1 interfaces in package: itcollettalibrary
+there are 0 interfaces in package: itcollettamodel
+there are 0 interfaces in package: itcollettamodelhelper
+there are 1 interfaces in package: itcollettarepositoryadministration
+there are 2 interfaces in package: itcollettarepositoryclasses
+there are 2 interfaces in package: itcollettarepositoryexercise
+there are 2 interfaces in package: itcollettarepositoryphrase
+there are 2 interfaces in package: itcollettarepositoryuser
+there are 0 interfaces in package: itcollettasecurity
+there are 0 interfaces in package: itcollettaservice
+there are 0 interfaces in package: itcollettaserviceclasses
+there are 0 interfaces in package: itcollettaservicesignup
+there are 0 interfaces in package: itcollettaserviceuser

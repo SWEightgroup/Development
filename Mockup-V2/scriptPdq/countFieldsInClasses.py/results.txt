@@ -1,0 +1,6 @@
+COUNT FIELDS FOR CLASS 
+analyzed files: 44
+analyzed classes: 34
+(<=10) classes with optimal range fields: 43
+(10<x<=15) classes with acceptable range fields: 1
+(>15) not passed: 0

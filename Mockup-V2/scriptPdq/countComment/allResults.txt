@@ -1,0 +1,276 @@
+30 line in file:  ../../Backend/src/main/java/it\colletta\SweightApplication.java
+4 line of comment 
+
+274 line in file:  ../../Backend/src/main/java/it\colletta\controller\Controller.java
+85 line of comment 
+
+25 line in file:  ../../Backend/src/main/java/it\colletta\error\CustomAccessDeniedHandler.java
+0 line of comment 
+
+114 line in file:  ../../Backend/src/main/java/it\colletta\error\RestResponseEntityExceptionHandler.java
+32 line of comment 
+
+99 line in file:  ../../Backend/src/main/java/it\colletta\exceptions\ApiError.java
+40 line of comment 
+
+237 line in file:  ../../Backend/src/main/java/it\colletta\exceptions\CustomRestExceptionHandler.java
+25 line of comment 
+
+21 line in file:  ../../Backend/src/main/java/it\colletta\library\FreelingAdapterInterface.java
+11 line of comment 
+
+58 line in file:  ../../Backend/src/main/java/it\colletta\library\FreelingAdapterSocket.java
+17 line of comment 
+
+123 line in file:  ../../Backend/src/main/java/it\colletta\library\FreelingSocketClient.java
+42 line of comment 
+
+55 line in file:  ../../Backend/src/main/java/it\colletta\model\ClassModel.java
+23 line of comment 
+
+40 line in file:  ../../Backend/src/main/java/it\colletta\model\ExerciseModel.java
+3 line of comment 
+
+55 line in file:  ../../Backend/src/main/java/it\colletta\model\PhraseModel.java
+12 line of comment 
+
+25 line in file:  ../../Backend/src/main/java/it\colletta\model\SignupRequestModel.java
+3 line of comment 
+
+30 line in file:  ../../Backend/src/main/java/it\colletta\model\SolutionModel.java
+0 line of comment 
+
+210 line in file:  ../../Backend/src/main/java/it\colletta\model\UserModel.java
+56 line of comment 
+
+23 line in file:  ../../Backend/src/main/java/it\colletta\model\helper\CorrectionHelper.java
+8 line of comment 
+
+28 line in file:  ../../Backend/src/main/java/it\colletta\model\helper\ExerciseHelper.java
+3 line of comment 
+
+11 line in file:  ../../Backend/src/main/java/it\colletta\repository\administration\SingupRequestRepository.java
+0 line of comment 
+
+5 line in file:  ../../Backend/src/main/java/it\colletta\repository\classes\ClassCustomQueryInterface.java
+0 line of comment 
+
+12 line in file:  ../../Backend/src/main/java/it\colletta\repository\classes\ClassRepository.java
+0 line of comment 
+
+18 line in file:  ../../Backend/src/main/java/it\colletta\repository\classes\ClassRepositoryImpl.java
+4 line of comment 
+
+14 line in file:  ../../Backend/src/main/java/it\colletta\repository\exercise\ExerciseCustomQueryInterface.java
+6 line of comment 
+
+26 line in file:  ../../Backend/src/main/java/it\colletta\repository\exercise\ExerciseRepository.java
+6 line of comment 
+
+33 line in file:  ../../Backend/src/main/java/it\colletta\repository\exercise\ExerciseRepositoryImpl.java
+4 line of comment 
+
+42 line in file:  ../../Backend/src/main/java/it\colletta\repository\phrase\PhraseCustomQueryInterface.java
+22 line of comment 
+
+77 line in file:  ../../Backend/src/main/java/it\colletta\repository\phrase\PhraseRepository.java
+36 line of comment 
+
+82 line in file:  ../../Backend/src/main/java/it\colletta\repository\phrase\PhraseRepositoryImpl.java
+8 line of comment 
+
+20 line in file:  ../../Backend/src/main/java/it\colletta\repository\user\UserCustomQueryInterface.java
+8 line of comment 
+
+80 line in file:  ../../Backend/src/main/java/it\colletta\repository\user\UsersRepository.java
+39 line of comment 
+
+41 line in file:  ../../Backend/src/main/java/it\colletta\repository\user\UsersRepositoryImpl.java
+3 line of comment 
+
+96 line in file:  ../../Backend/src/main/java/it\colletta\security\JWTAuthenticationFilter.java
+18 line of comment 
+
+80 line in file:  ../../Backend/src/main/java/it\colletta\security\JWTAuthorizationFilter.java
+18 line of comment 
+
+41 line in file:  ../../Backend/src/main/java/it\colletta\security\ParseJWT.java
+11 line of comment 
+
+9 line in file:  ../../Backend/src/main/java/it\colletta\security\Role.java
+0 line of comment 
+
+10 line in file:  ../../Backend/src/main/java/it\colletta\security\SecurityConstants.java
+0 line of comment 
+
+100 line in file:  ../../Backend/src/main/java/it\colletta\security\WebSecurity.java
+21 line of comment 
+
+213 line in file:  ../../Backend/src/main/java/it\colletta\service\ExerciseService.java
+21 line of comment 
+
+95 line in file:  ../../Backend/src/main/java/it\colletta\service\PhraseService.java
+37 line of comment 
+
+37 line in file:  ../../Backend/src/main/java/it\colletta\service\SolutionService.java
+5 line of comment 
+
+8 line in file:  ../../Backend/src/main/java/it\colletta\service\classes\ClassService.java
+0 line of comment 
+
+57 line in file:  ../../Backend/src/main/java/it\colletta\service\signup\EmailServiceImpl.java
+12 line of comment 
+
+23 line in file:  ../../Backend/src/main/java/it\colletta\service\signup\SignupRequestService.java
+5 line of comment 
+
+35 line in file:  ../../Backend/src/main/java/it\colletta\service\user\UserDetailsServiceImpl.java
+4 line of comment 
+
+182 line in file:  ../../Backend/src/main/java/it\colletta\service\user\UserService.java
+2 line of comment 
+
+199 line in file:  ../../Frontend/src\App.jsx
+0 line of comment 
+
+28 line in file:  ../../Frontend/src\index.js
+3 line of comment 
+
+135 line in file:  ../../Frontend/src\serviceWorker.js
+31 line of comment 
+
+75 line in file:  ../../Frontend/src\actions\AdminActions.js
+0 line of comment 
+
+122 line in file:  ../../Frontend/src\actions\AuthActions.js
+0 line of comment 
+
+271 line in file:  ../../Frontend/src\actions\ExerciseActions.js
+22 line of comment 
+
+379 line in file:  ../../Frontend/src\constants\gerarchia.js
+0 line of comment 
+
+138 line in file:  ../../Frontend/src\constants\Label.js
+6 line of comment 
+
+3 line in file:  ../../Frontend/src\constants\Languages.js
+0 line of comment 
+
+10 line in file:  ../../Frontend/src\constants\RegExpression.js
+0 line of comment 
+
+145 line in file:  ../../Frontend/src\helpers\LanguageIterator.js
+47 line of comment 
+
+47 line in file:  ../../Frontend/src\helpers\SolutionMapper.js
+0 line of comment 
+
+15 line in file:  ../../Frontend/src\helpers\Translator.js
+0 line of comment 
+
+75 line in file:  ../../Frontend/src\helpers\Utils.js
+0 line of comment 
+
+19 line in file:  ../../Frontend/src\helpers\Validator.js
+0 line of comment 
+
+51 line in file:  ../../Frontend/src\reducers\AdminReducer.js
+0 line of comment 
+
+102 line in file:  ../../Frontend/src\reducers\AuthReducer.js
+0 line of comment 
+
+96 line in file:  ../../Frontend/src\reducers\ExerciseReducer.js
+3 line of comment 
+
+14 line in file:  ../../Frontend/src\reducers\RootReducer.js
+1 line of comment 
+
+0 line in file:  ../../Frontend/src\store\index.js
+0 line of comment 
+
+62 line in file:  ../../Frontend/src\view\components\DeveloperToAccept.jsx
+0 line of comment 
+
+17 line in file:  ../../Frontend/src\view\components\Error.jsx
+0 line of comment 
+
+62 line in file:  ../../Frontend/src\view\components\ExecutionExercise.jsx
+2 line of comment 
+
+53 line in file:  ../../Frontend/src\view\components\ExercisePreview.jsx
+10 line of comment 
+
+67 line in file:  ../../Frontend/src\view\components\Footer.jsx
+3 line of comment 
+
+61 line in file:  ../../Frontend/src\view\components\InputSentence.jsx
+1 line of comment 
+
+53 line in file:  ../../Frontend/src\view\components\Sidebar.jsx
+0 line of comment 
+
+36 line in file:  ../../Frontend/src\view\components\SidebarElementAdministrator.jsx
+0 line of comment 
+
+26 line in file:  ../../Frontend/src\view\components\SidebarElementDeveloper.jsx
+0 line of comment 
+
+46 line in file:  ../../Frontend/src\view\components\SidebarElementStudent.jsx
+0 line of comment 
+
+41 line in file:  ../../Frontend/src\view\components\SidebarElementTeacher.jsx
+0 line of comment 
+
+108 line in file:  ../../Frontend/src\view\components\SignedInLinks.jsx
+0 line of comment 
+
+42 line in file:  ../../Frontend/src\view\components\SignedOutLinks.jsx
+0 line of comment 
+
+72 line in file:  ../../Frontend/src\view\components\User.jsx
+0 line of comment 
+
+226 line in file:  ../../Frontend/src\view\components\Word.jsx
+14 line of comment 
+
+151 line in file:  ../../Frontend/src\view\containers\AuthContainers\Account.jsx
+4 line of comment 
+
+94 line in file:  ../../Frontend/src\view\containers\AuthContainers\SignIn.jsx
+0 line of comment 
+
+233 line in file:  ../../Frontend/src\view\containers\AuthContainers\SignUp.jsx
+1 line of comment 
+
+123 line in file:  ../../Frontend/src\view\containers\DashboardContainers\AdminDevDashBoard.jsx
+0 line of comment 
+
+119 line in file:  ../../Frontend/src\view\containers\DashboardContainers\AdminUserDashBoard.jsx
+0 line of comment 
+
+46 line in file:  ../../Frontend/src\view\containers\DashboardContainers\Dashboard.jsx
+0 line of comment 
+
+53 line in file:  ../../Frontend/src\view\containers\DashboardContainers\DeveloperDashBoard.jsx
+0 line of comment 
+
+61 line in file:  ../../Frontend/src\view\containers\ExerciseContainers\DoneHomework.jsx
+1 line of comment 
+
+78 line in file:  ../../Frontend/src\view\containers\ExerciseContainers\Homework.jsx
+1 line of comment 
+
+178 line in file:  ../../Frontend/src\view\containers\ExerciseContainers\HomeworkExecution.jsx
+41 line of comment 
+
+307 line in file:  ../../Frontend/src\view\containers\ExerciseContainers\InsertExercise.jsx
+51 line of comment 
+
+222 line in file:  ../../Frontend/src\view\containers\ExerciseContainers\NewExercise.jsx
+49 line of comment 
+
+69 line in file:  ../../Frontend/src\view\containers\NavbarContainers\Navbar.jsx
+0 line of comment 
+

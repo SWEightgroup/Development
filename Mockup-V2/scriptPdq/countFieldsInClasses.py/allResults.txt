@@ -1,0 +1,139 @@
+COUNT FIELDS FOR CLASS 
+file name: ../../Backend/src/main/java/it\colletta\SweightApplication.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\controller\Controller.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\error\CustomAccessDeniedHandler.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\error\RestResponseEntityExceptionHandler.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\exceptions\ApiError.java
+classes in file: 1
+fields in class: 3
+
+file name: ../../Backend/src/main/java/it\colletta\exceptions\CustomRestExceptionHandler.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\library\FreelingAdapterSocket.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\library\FreelingSocketClient.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\model\ClassModel.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\model\ExerciseModel.java
+classes in file: 1
+fields in class: 8
+
+file name: ../../Backend/src/main/java/it\colletta\model\PhraseModel.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\model\SignupRequestModel.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\model\SolutionModel.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\model\UserModel.java
+classes in file: 1
+fields in class: 11
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\CorrectionHelper.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\ExerciseHelper.java
+classes in file: 1
+fields in class: 9
+
+file name: ../../Backend/src/main/java/it\colletta\repository\classes\ClassRepositoryImpl.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\repository\exercise\ExerciseRepositoryImpl.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\repository\phrase\PhraseRepositoryImpl.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\repository\user\UsersRepositoryImpl.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\security\JWTAuthenticationFilter.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\security\JWTAuthorizationFilter.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\security\ParseJWT.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\security\Role.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\security\SecurityConstants.java
+classes in file: 1
+fields in class: 4
+
+file name: ../../Backend/src/main/java/it\colletta\security\WebSecurity.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\service\ExerciseService.java
+classes in file: 1
+fields in class: 3
+
+file name: ../../Backend/src/main/java/it\colletta\service\PhraseService.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\service\SolutionService.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\service\classes\ClassService.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\service\signup\EmailServiceImpl.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\service\signup\SignupRequestService.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\service\user\UserDetailsServiceImpl.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\service\user\UserService.java
+classes in file: 1
+fields in class: 2
+
+analyzed file: 44
+number of classes: 34
