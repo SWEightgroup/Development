@@ -43,10 +43,8 @@ export const signIn = credentials => {
             JSON.stringify(res.headers.authorization)
           );
         }
-
         const userInfo = { user: res.data, token: res.headers.authorization };
         _toastSuccess(_translator('gen_welcome', res.data.language));
-
         dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
       .catch(e => {
