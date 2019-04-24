@@ -65,7 +65,7 @@ class LanguageIterator {
   nextLevel(choice) {
     if (this.level === -1) this.category = choice.full;
     if (this.level < this.categoryLength()) {
-      this.level++;
+      this.level+=1;
       this.solution.push(choice);
       this.currentChoices = this.getCurrentChoices();
     } else {
@@ -93,9 +93,9 @@ class LanguageIterator {
   prevLevel() {
     let lastSolution = this.solution.pop();
     while (
-      JSON.stringify(lastSolution) === JSON.stringify({ short: 0, full: '' })
+      JSON.stringify(lastSolution) === JSON.stringify({ short: 0, full: '' }) 
     ) {
-      this.level--;
+      this.level-=1;
       lastSolution = this.solution.pop();
     }
     this.solution.push(lastSolution);
@@ -103,7 +103,7 @@ class LanguageIterator {
       if (this.level === 0) {
         this.setBaseLevel();
       } else {
-        this.level--;
+        this.level-=1;
         this.solution.pop();
         this.currentChoices = this.getCurrentChoices();
       }
