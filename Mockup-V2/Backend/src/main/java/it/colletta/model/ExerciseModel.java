@@ -2,15 +2,17 @@ package it.colletta.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.ToString;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
 @AllArgsConstructor
 @Builder
 @ToString
@@ -30,6 +32,54 @@ public class ExerciseModel {
   private String authorName;
   private String authorId;
   private Boolean visibility;
+  @Builder.Default
+  private ArrayList<String> studentIdToDo = new ArrayList<>();
+  @Builder.Default
+  private ArrayList<String> studentIdDone = new ArrayList<>();
+
+  public String getId() {
+    return id;
+  }
+
+  public Long getDateExercise() {
+    return dateExercise;
+  }
+
+  public String getPhraseId() {
+    return phraseId;
+  }
+
+  public String getPhraseText() {
+    return phraseText;
+  }
+
+  public String getMainSolutionId() {
+    return mainSolutionId;
+  }
+
+  public String getAlternativeSolutionId() {
+    return alternativeSolutionId;
+  }
+
+  public String getAuthorName() {
+    return authorName;
+  }
+
+  public String getAuthorId() {
+    return authorId;
+  }
+
+  public Boolean getVisibility() {
+    return visibility;
+  }
+
+  public ArrayList<String> getStudentIdToDo() {
+    return studentIdToDo;
+  }
+
+  public ArrayList<String> getStudentIdDone() {
+    return studentIdDone;
+  }
 
   /**
    * Constructor.
@@ -39,5 +89,47 @@ public class ExerciseModel {
     this.dateExercise = System.currentTimeMillis();
     this.visibility = true;
     this.alternativeSolutionId = null;
+    this.studentIdToDo = new ArrayList<>();
+    this.studentIdDone = new ArrayList<>();
+  }
+
+  public void setDateExercise(Long dateExercise) {
+    this.dateExercise = dateExercise;
+  }
+
+  public void setPhraseId(String phraseId) {
+    this.phraseId = phraseId;
+  }
+
+  public void setPhraseText(String phraseText) {
+    this.phraseText = phraseText;
+  }
+
+  public void setMainSolutionId(String mainSolutionId) {
+    this.mainSolutionId = mainSolutionId;
+  }
+
+  public void setAlternativeSolutionId(String alternativeSolutionId) {
+    this.alternativeSolutionId = alternativeSolutionId;
+  }
+
+  public void setAuthorName(String authorName) {
+    this.authorName = authorName;
+  }
+
+  public void setAuthorId(String authorId) {
+    this.authorId = authorId;
+  }
+
+  public void setVisibility(Boolean visibility) {
+    this.visibility = visibility;
+  }
+
+  public void setStudentIdToDo(ArrayList<String> studentIdToDo) {
+    this.studentIdToDo = studentIdToDo;
+  }
+
+  public boolean addStudentToDoIds(List<String> ids) {
+    return studentIdToDo.addAll(ids);
   }
 }

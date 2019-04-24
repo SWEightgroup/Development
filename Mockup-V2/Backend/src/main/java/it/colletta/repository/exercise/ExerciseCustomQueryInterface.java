@@ -19,4 +19,5 @@ public interface ExerciseCustomQueryInterface {
   Page<ExerciseModel> findPublicByIdPaged(Pageable page, List<ObjectId> ids);
 
   Page<ExerciseModel> findByAuthorIdPaged(Pageable page, String id);
+
 }

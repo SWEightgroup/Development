@@ -56,4 +56,5 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
     long total = mongoTemplate.count(query, ExerciseModel.class);
     return new PageImpl<>(exerciseModelList, page, total);
   }
+
 }
