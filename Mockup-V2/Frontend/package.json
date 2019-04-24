@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
-    "axios": "^0.18.0",
     "es6-interface": "^3.0.9",
+    "expect": "^24.7.1",
     "file-saver": "^2.0.1",
     "history": "^4.9.0",
     "node-uuid": "^1.4.8",
@@ -24,6 +25,7 @@
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "start": "^5.1.0",
     "superagent": "^4.1.0",
     "web-streams-polyfill": "^2.0.3"
   },
@@ -39,7 +41,6 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    
     "enzyme-to-json": "^3.3.5",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",

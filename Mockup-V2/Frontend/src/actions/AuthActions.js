@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { store } from '../index';
+import store from '../store/index';
 import _translator from '../helpers/Translator';
 import { _toastSuccess, _toastError } from '../helpers/Utils';
 

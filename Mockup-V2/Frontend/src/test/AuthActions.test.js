@@ -1,22 +1,19 @@
-/* import configureMockStore from 'redux-mock-store';
+import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from '../../src/actions/AuthActions';
+import mockAxios from 'axios';
 import expect from 'expect'; // You can use any testing library
+import * as actions from '../actions/AuthActions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-/* jest.mock('react-toastify', () => ({
+jest.mock('react-toastify', () => ({
   toast: {
-      configure:jest.fn;
+    configure: jest.fn()
   }
-})); */
+}));
 
 describe('SignIn', () => {
-  afterEach(() => {
-    fetchMock.restore();
-  });
-
   it('creates FETCH_TODOS_SUCCESS when fetching todos has been done', () => {
     const res = {
       data: {
@@ -56,4 +53,3 @@ describe('SignIn', () => {
     });
   });
 });
- */

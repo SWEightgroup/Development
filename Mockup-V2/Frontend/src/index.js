@@ -2,16 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 // import { v4 } from 'node-uuid';
 import { toast } from 'react-toastify';
-import rootReducer from './reducers/RootReducer';
+import store from './store/index';
+
 import App from './App';
 import { register } from './serviceWorker';
-
-export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 toast.configure();
 
