@@ -55,5 +55,19 @@ public class PhraseServiceTest {
 
   }
 
+  @Test
+  public void getPhraseById(){
+    Mockito.when(phraseRepository.findById(anyString())).thenReturn(Optional.of(phrase));
+    Optional<PhraseModel> phraseReturn = phraseService.getPhraseById(phrase.getId());
+    if(phraseReturn.isPresent()) {
+      assertEquals(phraseReturn.get().getPhraseText(), "questa è una prova");
+      assertEquals(phraseReturn.get().getLanguage(), "it");
+    }
+
+  }
+
+
+
+
 
 }
