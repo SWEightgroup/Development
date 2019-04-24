@@ -45,6 +45,8 @@ class App extends Component {
     const { loader, innerLoader, auth } = this.props;
     const { language, isReady } = auth;
     if (isReady) {
+      console.log('AAAAAAAAAAAAAAAA', <Sidebar />);
+
       return (
         <BrowserRouter>
           <div className="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
