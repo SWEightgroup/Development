@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -193,16 +194,13 @@ public class ExerciseServiceTest {
 
   @Test
   public void correct(){
-    /*ArrayList<String> studentSolutionMap = new ArrayList<>();
+    ArrayList<String> studentSolutionMap = new ArrayList<>();
     ArrayList<String> systemSolution = new ArrayList<>();
-
     studentSolutionMap.add(exercise.getMainSolution());
     systemSolution.add(exercise.getMainSolution());
 
     String myMark = ReflectionTestUtils.
-            invokeMethod(exerciseService,"correct",studentSolutionMap,systemSolution).toString();
+            invokeMethod(new DecimalCorrectionStrategyImpl<>(),"correction",studentSolutionMap,systemSolution).toString();
     assertEquals(myMark,"10.0");
-
-     */
   }
 }
