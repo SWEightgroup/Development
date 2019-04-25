@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
 
 export default class User extends Component {
+  state = {};
+
   render() {
     const {
       firstName,

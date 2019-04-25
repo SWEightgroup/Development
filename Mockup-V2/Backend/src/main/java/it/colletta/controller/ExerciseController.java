@@ -19,7 +19,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -98,10 +98,10 @@ public class ExerciseController {
     try {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
 
-      return new ResponseEntity<  >(exerciseModel, HttpStatus.OK);
+      return new ResponseEntity<>(exerciseModel, HttpStatus.OK);
     } catch (Exception error) {
       error.printStackTrace();
-      return new ResponseEntity<  >(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -119,10 +119,10 @@ public class ExerciseController {
       ExerciseModel exerciseModel;
       exerciseModel = exerciseService
           .insertFreeExercise(exercise, ParseJwt.getIdFromJwt(token));
-      return new ResponseEntity<  >(exerciseModel, HttpStatus.OK);
+      return new ResponseEntity<>(exerciseModel, HttpStatus.OK);
     } catch (Exception error) {
       error.printStackTrace();
-      return new ResponseEntity<  >(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -168,26 +168,27 @@ public class ExerciseController {
       PagedResourcesAssembler< ExerciseModel > assembler,
       @RequestHeader("Authorization") String studentToken) {
     try {
-      Page< ExerciseModel > exercisesToDo = exerciseService.getAllPublicExercises(pageable, ParseJwt.getIdFromJwt(studentToken));
+      Page< ExerciseModel > exercisesToDo = exerciseService
+          .getAllPublicExercises(pageable, ParseJwt.getIdFromJwt(studentToken));
       PagedResources< ? > resources = assembler
           .toResource(exercisesToDo, new ExerciseResourceAssembler("/public-exercise"));
       return new ResponseEntity<>(resources, HttpStatus.OK);
-    }
-    catch(Exception e) {
+    } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  /**
-   * @param exerciseId the unique id of the exercise
-   * @param jwtToken   the token of the theacher who is going to delete a exercise
-   * @return ccc. @RequestMapping( value = "/exercises/delete/{exerciseid}",
-   *         method = RequestMethod.DELETE, produces =
-   *         MediaType.APPLICATION_JSON_VALUE) public ResponseEntity<Object>
-   *         deleteExercise( @RequestParam("exerciseid") String
-   *         exerciseId, @RequestHeader("Authorization") String jwtToken) { String
-   *         userId = ParseJWT.getIdFromJwt(jwtToken);
-   *         userService.deleteExerciseAssigned(exerciseId, userId);
-   *         exerciseService.deleteExercise(exerciseId); return new
-   *         ResponseEntity<>(HttpStatus.OK); }
-   */
+
+
+  @RequestMapping(value = "/{exerciseId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity< ? > deleteExercise(@RequestParam("exerciseId") String exerciseId,
+      @RequestHeader("Authorization") String teacherToken) {
+    try {
+      return new ResponseEntity<>(
+          exerciseService.deleteExercise(exerciseId, ParseJwt.getIdFromJwt(teacherToken)),
+          HttpStatus.OK);
+    }
+    catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+  }
 }

@@ -10,10 +10,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentService {
 
+  private StudentRepository studentRepository;
+
+  /**
+   * Construct a new student service using a repository
+   * @param studentRepository the student repository
+   */
   @Autowired
-  StudentRepository studentRepository;
-
-
+  public StudentService(StudentRepository studentRepository) {
+    this.studentRepository = studentRepository;
+  }
   /**
    * Return all student user.
    *
@@ -21,26 +27,5 @@ public class StudentService {
    */
   public Iterable<StudentModel> getAllStudents() {
     return studentRepository.findAllByRole(Role.STUDENT);
-  }
-
-
-  /**
-   * Delete an exercise.
-   * <p>
-   * TODO ritorna sempre optional vuoto..
-   *
-   * @param exerciseId Exercise id
-   * @param userId User id
-   * @return StudentModel
-   */
-  public Optional<StudentModel> deleteExerciseAssigned(final String exerciseId,
-      final String userId) {
-    Optional<StudentModel> user = studentRepository.findById(userId);
-    if (user.isPresent()) {
-      if (user.get().getRole().equals(Role.TEACHER)) {
-        studentRepository.deleteFromExerciseToDo(exerciseId);
-      }
-    }
-    return Optional.empty();
   }
 }

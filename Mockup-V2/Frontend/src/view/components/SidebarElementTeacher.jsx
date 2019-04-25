@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import _translator from '../../helpers/Translator';
 
-class SidebarElementStudent extends Component {
+class SidebarElementTeacher extends Component {
   state = {};
 
   render() {
@@ -38,4 +38,4 @@ class SidebarElementStudent extends Component {
   }
 }
 
-export default SidebarElementStudent;
+export default SidebarElementTeacher;
