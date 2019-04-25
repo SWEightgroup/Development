@@ -95,7 +95,7 @@ const gerarchia = {
           { short: '2', full: '2' },
           { short: '3', full: '3' }
         ],
-        condition: null
+        condition: { index: 1, short: 'P' }
       },
       {
         attrName: 'gen',
@@ -122,7 +122,7 @@ const gerarchia = {
           { short: 'S', full: 'singular' },
           { short: 'P', full: 'plural' }
         ],
-        condition: null
+        condition: { index: 1, short: 'P' }
       }
     ]
   },
@@ -223,7 +223,8 @@ const gerarchia = {
         choices: [
           { short: '1', full: '1' },
           { short: '2', full: '2' },
-          { short: '3', full: '3' }
+          { short: '3', full: '3' },
+          { short: '0', full: 'None' }
         ],
         condition: null
       },
@@ -231,7 +232,8 @@ const gerarchia = {
         attrName: 'num',
         choices: [
           { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' }
+          { short: 'P', full: 'plural' },
+          { short: '0', full: 'None' }
         ],
         condition: null
       },
@@ -242,7 +244,8 @@ const gerarchia = {
           { short: 'M', full: 'masculine' },
           { short: 'C', full: 'common' },
           { short: 'N', full: 'neuter' },
-          { short: '0', full: 'none' }
+          { short: '0', full: 'none' },
+          { short: '0', full: 'None' }
         ],
         condition: null
       }
@@ -271,7 +274,7 @@ const gerarchia = {
           { short: '2', full: '2' },
           { short: '3', full: '3' }
         ],
-        condition: null
+        condition: { index: 1, full: 'P' }
       },
       {
         attrName: 'gen',
@@ -298,7 +301,8 @@ const gerarchia = {
           { short: 'N', full: 'nominative' },
           { short: 'A', full: 'accusative' },
           { short: 'D', full: 'dative' },
-          { short: 'O', full: 'oblique' }
+          { short: 'O', full: 'oblique' },
+          { short: '0', full: 'None' }
         ],
         condition: null
       },
