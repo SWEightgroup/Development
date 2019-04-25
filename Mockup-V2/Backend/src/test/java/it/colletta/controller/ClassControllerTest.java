@@ -82,7 +82,7 @@ public class ClassControllerTest {
   }
 
   @Test
-  public void CreateClassNullParameterTest() {
+  public void CreateNewClassNullParameterTest() {
     try {
       ClassHelper classHelperWrong = ClassHelper.builder()
               .teacherId(null)
@@ -128,6 +128,44 @@ public class ClassControllerTest {
               .contentType(MediaType.APPLICATION_JSON_VALUE))
               .andExpect(status().isBadRequest());
     } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void RenameClassTest(){
+    try{
+      String jsonClassHelperTest = mapper.writeValueAsString(classHelperTest);
+      mvc.perform(MockMvcRequestBuilders.put("/class/rename")
+              .header("Authorization", userToken)
+              .content(jsonClassHelperTest)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void DeleteClassTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.delete("/class/1")
+              .header("Authorization", userToken)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void GetAllClassesTest(){
+    try{
+      mvc.perform(MockMvcRequestBuilders.get("/class/123")
+              .header("Authorization", userToken)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch(Exception e){
       e.printStackTrace();
     }
   }

@@ -107,7 +107,7 @@ public class ClassController {
   public ResponseEntity<String> renameClass(@RequestHeader("Authorization") String token,
                                             @Valid @RequestBody ClassHelper classHelper) {
     try{
-        String newClassName = classService.renameExistingClass(classHelper);
+        String newClassName = classService.renameExistingClass(classHelper.getClassId(),classHelper.getName());
         return new ResponseEntity<String>(newClassName, HttpStatus.OK);
     } catch (Exception e){
         e.printStackTrace();
