@@ -91,6 +91,17 @@ public class PhraseServiceTest {
       assertEquals(mysolution.getSolutionText(), "[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]");
     }
 
+    @Test
+    public void createPhrase(){
+
+      PhraseModel myPhrase = phraseService.createPhrase(phrase.getPhraseText(),phrase.getLanguage());
+
+      assertEquals(myPhrase.getPhraseText(), phrase.getPhraseText());
+      assertEquals(myPhrase.getLanguage(), phrase.getLanguage());
+
+    }
+
+
 }
 
 
