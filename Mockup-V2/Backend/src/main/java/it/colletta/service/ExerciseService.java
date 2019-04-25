@@ -251,6 +251,10 @@ public class ExerciseService {
         return exerciseRepository.findExerciseModelsByStudentIdDoneIsIn(page, userId);
     }
 
+  public Page< ExerciseModel > getAllToDoByStudentId(final Pageable page, final String id) {
+    return exerciseRepository.findExerciseModelsByStudentIdToDoIsIn(page, id);
+  }
+  
   public Page< ExerciseModel > getAllAddedByTeacherId(final Pageable page, final String userId) {
     return exerciseRepository.findByAuthorIdPaged(page, userId);
   }
