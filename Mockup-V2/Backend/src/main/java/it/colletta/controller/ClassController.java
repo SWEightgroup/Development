@@ -48,12 +48,12 @@ public class ClassController {
     binder.setValidator(new StudentClassHelperValidator());
   }
 
+  private ClassService classService;
+
   @Autowired
   public ClassController(ClassService classService) {
     this.classService = classService;
   }
-
-  private ClassService classService;
 
   /**
    * @param classHelper the new class which needs to be inserted in the database
@@ -76,7 +76,7 @@ public class ClassController {
   }
 
   /**
-   * @param studentClassHelper the unique Id of the student that is add in the class
+   * @param studentClassHelper DTO with unique classId and List<String> userId
    * @param token the authorization token of the teacher
    * @return A new ResponseEntity that contains the student that was added to the class.
    */
@@ -87,7 +87,7 @@ public class ClassController {
   public ResponseEntity<HttpStatus> modifyStudentsClass(@RequestHeader("Authorization") String token,
                                                     @Valid @RequestBody StudentClassHelper studentClassHelper) {
     try{
-
+        classService.modifyExistingStudentClass(studentClassHelper);
         return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e){
         e.printStackTrace();

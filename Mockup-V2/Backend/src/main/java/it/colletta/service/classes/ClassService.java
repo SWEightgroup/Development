@@ -37,7 +37,6 @@ public class ClassService {
     return classToAdd.getName();
   }
 
-
   public String renameExistingClass(ClassHelper renamedClassHelper) throws Exception{
     String classId = renamedClassHelper.getClassId();
     String newClassName = renamedClassHelper.getName();
@@ -49,7 +48,6 @@ public class ClassService {
   public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception{
     classRepository.updateStudentList(studentClassHelper.getClassId(), studentClassHelper.getStudentsId());
   }
-
 
   public void deleteClass(@NotNull String classId) throws Exception{
     classRepository.deleteById(classId);
