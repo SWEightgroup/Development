@@ -239,26 +239,17 @@ public class ExerciseService {
   }
 
 
-  /**
-   * Return all exercises done by a student
-   * @param page {@link Pageable}
-   * @param userId the user unique id
-   * @return A page of exercises
-   */
-  public Page< ExerciseModel > getAllDoneBySudentId(final Pageable page, final String userId) {
-    return exerciseRepository.findExerciseModelsByStudentIdDoneIsIn(page, userId);
-  }
+    /**
+     * Return all exercises done by a student.
+     *
+     * @param page {@link Pageable}
+     * @param userId the user unique id
+     * @return All exercise done by the user as pages
+     */
 
-  /**
-   * Return all exercises that the user has to do.
-   *
-   * @param page {@link Pageable}
-   * @param id the user unique id
-   * @return All exercise to do by the user as pages
-   */
-  public Page< ExerciseModel > getAllToDoByStudentId(final Pageable page, final String id) {
-    return exerciseRepository.findExerciseModelsByStudentIdToDoIsIn(page, id);
-  }
+    public Page<ExerciseModel> getAllDoneBySudentId(final Pageable page, final String userId) {
+        return exerciseRepository.findExerciseModelsByStudentIdDoneIsIn(page, userId);
+    }
 
   public Page< ExerciseModel > getAllAddedByTeacherId(final Pageable page, final String userId) {
     return exerciseRepository.findByAuthorIdPaged(page, userId);

@@ -1,9 +1,11 @@
-/**
- * @path it.colletta.controller.ExerciseController
- * @author Francesco Magarotto, Enrico Muraro, Francesco Corti
- * @date 2019-03-27
- * @description Menage the HTTP user request regarding the exercises
- */
+/*
+  Menage all request regarding the exercises.
+  @path it.colletta.controller.ExerciseController
+  @author Francesco Magarotto, Enrico Muraro, Francesco Corti
+  @date 2019-03-27
+  @description Menage the HTTP user request regarding the exercises
+*/
+
 package it.colletta.controller;
 
 import it.colletta.controller.assembler.ExerciseResourceAssembler;
@@ -46,55 +48,74 @@ public class ExerciseController {
     this.solutionService = solutionService;
   }
 
-  @RequestMapping(value = "/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< ? > allExercisesDone(@RequestHeader("Authorization") String token,
+  /**
+   * Return all exercises done by a student.
+   * @param token JWT token contained in the header request
+   * @param pageable {@link Pageable}
+   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
+   * @return List of exercises inserted by the user
+   */
+  @RequestMapping(value = "/done", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,
       @PageableDefault(value = 4) Pageable pageable,
-      PagedResourcesAssembler< ExerciseModel > assembler) {
+      PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
-    Page< ExerciseModel > exercisesDone = exerciseService.getAllDoneBySudentId(pageable, id);
-    PagedResources< ? > resources = assembler
+    Page<ExerciseModel> exercisesDone = exerciseService.getAllDoneBySudentId(pageable, id);
+    PagedResources<?> resources = assembler
         .toResource(exercisesDone, new ExerciseResourceAssembler("/done-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
 
   /**
    * Returns all the exercises added by the requesting teacher.
-   *
-   * @param token User token
+   * @param token JWT token contained in the header request
    * @param pageable pageable
    * @param assembler assembler
-   * @return List of exercises
+   * @return List of exercises inserted by the user
    */
-  @RequestMapping(value = "/added", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< ? > allAddedExercises(@RequestHeader("Authorization") String token,
+  @RequestMapping(value = "/added", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> allAddedExercises(@RequestHeader("Authorization") String token,
       @PageableDefault(value = 4) Pageable pageable,
-      PagedResourcesAssembler< ExerciseModel > assembler) {
+      PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
-    Page< ExerciseModel > exercisesDone = exerciseService.getAllAddedByTeacherId(pageable, id);
-    PagedResources< ? > resources = assembler
+    Page<ExerciseModel> exercisesDone = exerciseService.getAllAddedByTeacherId(pageable, id);
+    PagedResources<?> resources = assembler
         .toResource(exercisesDone, new ExerciseResourceAssembler("/added-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< ? > allExercisesToDo(@RequestHeader("Authorization") String token,
+  /**
+   * Return all exercises to by using auth token authentication.
+   * @param token JWT token contained in the header request
+   * @param pageable {@link Pageable}
+   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
+   * @return A paged version of the exercises to do
+   * @see com.auth0.jwt.JWT
+   */
+  @RequestMapping(value = "/todo", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> allExercisesToDo(@RequestHeader("Authorization") String token,
       @PageableDefault(value = 4) Pageable pageable,
-      PagedResourcesAssembler< ExerciseModel > assembler) {
+      PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
-    Page< ExerciseModel > exercisesToDo = exerciseService.getAllToDoByStudentId(pageable, id);
-    PagedResources< ? > resources = assembler
+    Page<ExerciseModel> exercisesToDo = exerciseService.getAllToDoByStudentId(pageable, id);
+    PagedResources<?> resources = assembler
         .toResource(exercisesToDo, new ExerciseResourceAssembler("/todo-alt"));
     return new ResponseEntity<>(resources, HttpStatus.OK);
   }
 
   /**
+   * Insert an new exercise.
    * @param exercise the exercise which needs to be inserted in the database
-   * @return A new ResponseEntity that contains the phrase.
+   * @return the inserted phrase.
    */
-  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< ExerciseModel > insertExercise(@RequestBody ExerciseHelper exercise) {
+  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
       ExerciseModel exerciseModel = exerciseService.insertExercise(exercise);
 
@@ -106,13 +127,14 @@ public class ExerciseController {
   }
 
   /**
-   * @param token User's token
-   * @param exercise exercise the exercise which needs to be inserted in the database
-   * @return A new ResponseEntity that contains the phrase.
+   * Insert a new solution of the free exercise done by a student.
+   * @param token JWT token contained in the header request
+   * @param exercise the free exercise which needs to be inserted in the database
+   * @return the inserted phrase
    */
   @RequestMapping(value = "/student/insert-free-exercise", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< ExerciseModel > insertFreeExercise(
+  public ResponseEntity<ExerciseModel> insertFreeExercise(
       @RequestHeader("Authorization") String token,
       @RequestBody ExerciseHelper exercise) {
     try {
@@ -127,13 +149,15 @@ public class ExerciseController {
   }
 
   /**
+   * Do the correction of the exercise and then give a mark.
    * @param token the unique token of the user, in this case a student
-   * @param correctionHelper contains the unique id of the exercise and the solution that was
-   * written by the student
+   * @param correctionHelper <p>contains the unique id of the exercise and the solution that was
+   * written by the student</p>
    * @return the teacher solution of the exercise.
    */
-  @RequestMapping(value = "/student/do", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< SolutionModel > doExercise(@RequestHeader("Authorization") String token,
+  @RequestMapping(value = "/student/do", method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,
       @RequestBody CorrectionHelper correctionHelper) {
     try {
       SolutionModel insertedSolution = exerciseService
@@ -146,26 +170,37 @@ public class ExerciseController {
   }
 
   /**
-   * @param stringObj the text which has to be analyzed by freeling as map
+   * Return the automatic solution of a phrase provided by Freeling library.
+   * @param stringObj the text which has to be analyzed by Freeling as map
    * @param studentToken the unique token of the user
    * @return A SolutionModel with the analyzed sentence or empty if the service is unavailable.
    */
-  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< SolutionModel > getCorrection(@RequestBody Map< String, String > stringObj,
+  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj,
       @RequestHeader("Authorization") String studentToken) {
     try {
       SolutionModel solution = solutionService.getAutomaticCorrection(stringObj.get("text"));
-      return new ResponseEntity< SolutionModel >(solution, HttpStatus.OK);
+      return new ResponseEntity<SolutionModel>(solution, HttpStatus.OK);
     } catch (IOException error) {
       error.printStackTrace();
-      return new ResponseEntity< SolutionModel >(new SolutionModel(),
+      return new ResponseEntity<SolutionModel>(new SolutionModel(),
           HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
 
-  @RequestMapping(value = "/public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity< ? > getPublicExercises(@PageableDefault(value = 4) Pageable pageable,
-      PagedResourcesAssembler< ExerciseModel > assembler,
+  /**
+   * Return all public exercises to do by using auth token authentication.
+   * @param studentToken JWT token contained in the header request
+   * @param pageable {@link Pageable}
+   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
+   * @return A paged version of the exercises public to do
+   * @see com.auth0.jwt.JWT
+   */
+  @RequestMapping(value = "/public", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getPublicExercises(@PageableDefault(value = 4) Pageable pageable,
+      PagedResourcesAssembler<ExerciseModel> assembler,
       @RequestHeader("Authorization") String studentToken) {
     try {
       Page< ExerciseModel > exercisesToDo = exerciseService
