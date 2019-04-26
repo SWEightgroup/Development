@@ -140,7 +140,6 @@ public class ClassController {
    * @return A new ResponseEntity that contains the list of teacher classes with all the fields
    */
   @RequestMapping(
-          value = "/",
           method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ClassModel>> getAllClasses(@RequestHeader("Authorization") String token) {

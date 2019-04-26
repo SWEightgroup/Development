@@ -161,7 +161,7 @@ public class ClassControllerTest {
   @Test
   public void GetAllClassesTest(){
     try{
-      mvc.perform(MockMvcRequestBuilders.get("/class/123")
+      mvc.perform(MockMvcRequestBuilders.get("/class")
               .header("Authorization", userToken)
               .contentType(MediaType.APPLICATION_JSON_VALUE))
               .andExpect(status().isOk());
