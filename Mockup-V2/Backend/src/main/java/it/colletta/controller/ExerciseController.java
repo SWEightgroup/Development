@@ -25,6 +25,7 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -113,7 +114,9 @@ public class ExerciseController {
      * @param exercise the exercise which needs to be inserted in the database
      * @return the inserted phrase.
      */
-
+    //@RolesAllowed("TEACHER")
+    //@Secured("ROLE_TEACHER")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
