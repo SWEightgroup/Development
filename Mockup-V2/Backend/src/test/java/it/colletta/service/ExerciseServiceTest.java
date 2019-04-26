@@ -160,7 +160,7 @@ public class ExerciseServiceTest {
   public void doExercise() {
 
     Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
-    Mockito.when(phraseService.getSolutionInPhrase(anyString(), anyString()))
+    Mockito.when(phraseService.getSolutionInPhrase(anyString(), anyString(), anyString()))
         .thenReturn(mainSolution);
     Mockito.when(phraseService.getPhraseById(anyString())).thenReturn(Optional.of(phrase));
     Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
