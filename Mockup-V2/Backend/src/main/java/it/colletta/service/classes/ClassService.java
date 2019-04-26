@@ -8,11 +8,13 @@ import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassService {
@@ -26,13 +28,21 @@ public class ClassService {
     this.userService = userService;
   }
 
-  public String createNewClass(ClassHelper newClass, @NotNull String teacherId){
+  public String createNewClass(ClassHelper newClass, @NonNull String teacherId){
     ClassModel classToAdd = ClassModel.builder()
             .name(newClass.getName())
-            .studentsId(newClass.getStudentsId())
             .teacher(newClass.getTeacher())
             .teacherId(teacherId)
             .build();
+
+    Optional<List<String>> studentsId = Optional.ofNullable(newClass.getStudentsId());
+    if(studentsId.isPresent()){
+
+      classToAdd.setStudentsId(studentsId.get()
+              .stream()
+              .distinct()
+              .collect(Collectors.toList()));
+    }
     classRepository.save(classToAdd);
     return classToAdd.getName();
   }
