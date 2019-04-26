@@ -174,18 +174,12 @@ class InsertExercise extends Component {
                 <div className="card-header-tab card-header-tab-animation card-header">
                   <div className="card-header-title">
                     <i className="header-icon lnr-apartment icon-gradient bg-love-kiss" />
-                    Vuoi assegnarlo a qualcuno in particolare?
+                    {_translator('insertExercise_StudentDisp', language)}
                   </div>
                 </div>
                 <div className="card-body">
                   <div className="tab-content">
                     <div className="tab-pane fade show active">
-                      <h6
-                        className="text-muted text-uppercase 
-                      font-size-md opacity-5 font-weight-normal"
-                      >
-                        Studenti disponibili
-                      </h6>
                       <div className="scroll-area-sm">
                         <div className="scrollbar-container">
                           <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
@@ -236,26 +230,14 @@ class InsertExercise extends Component {
                   <div className="card-header-tab card-header-tab-animation card-header">
                     <div className="card-header-title">
                       <i className="header-icon lnr-apartment icon-gradient bg-love-kiss" />
-                      Vuoi assegnarlo a qualcuno in particolare?
+                      {_translator('insertExercise_ClassDisp', language)}
                     </div>
                   </div>
                   <div className="card-body">
                     <div className="tab-content">
                       <div className="tab-pane fade show active">
-                        <h6
-                          className="text-muted text-uppercase 
-                      font-size-md opacity-5 font-weight-normal"
-                        >
-                          Studenti disponibili
-                        </h6>
                         <div className="scroll-area-sm">
                           <div className="scrollbar-container">
-                            <h6>
-                              {_translator(
-                                'classCreationModal_selStudents',
-                                language
-                              )}
-                            </h6>
                             <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
                               {classList.map(classElement => (
                                 <li

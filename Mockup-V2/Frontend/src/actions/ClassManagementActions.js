@@ -178,7 +178,7 @@ export const editClass = ({ studentsId, name }) => {
         {
           studentsId,
           classId: store.getState().class.newClass.id,
-          name
+          className: name
         },
         {
           headers: {

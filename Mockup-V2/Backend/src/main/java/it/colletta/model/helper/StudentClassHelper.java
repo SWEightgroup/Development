@@ -13,5 +13,5 @@ import java.util.List;
 public class StudentClassHelper {
   List<String> studentsId;
   String classId;
-  String name;
+  String className;
 }

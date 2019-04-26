@@ -45,7 +45,7 @@ public class ClassService {
   }
 
   public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception{
-    classRepository.updateStudentList(studentClassHelper.getClassId(), studentClassHelper.getStudentsId());
+    classRepository.updateClass(studentClassHelper.getClassId(), studentClassHelper.getStudentsId(),studentClassHelper.getClassName());
   }
 
   public void deleteClass(@NonNull String classId) throws NullPointerException{

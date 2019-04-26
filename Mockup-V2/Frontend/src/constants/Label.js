@@ -49,6 +49,8 @@ export const _label = {
     gen_opSuccess: 'Operazione completata',
     inputSentence_executeExercise: "Svolgi l'esercizio",
     inputSentence_insertSentence: 'Inserisci la frase',
+    insertExercise_ClassDisp: 'Classi disponibili',
+    insertExercise_StudentDisp: 'Studenti disponibili ',
     signup_errorPassword: 'Le due passowrd non coincidono',
     signup_selectOption: "Seleziona un'opzione",
     signup_hint:
@@ -141,6 +143,8 @@ export const _label = {
     exercisePreview_execute: 'Execute exercise',
     inputSentence_executeExercise: 'Get to work!',
     inputSentence_insertSentence: 'Enter phrase',
+    insertExercise_ClassDisp: 'Classes available',
+    insertExercise_StudentDisp: 'Students available',
     signup_errorPassword: 'The two passwords do not match',
     signup_selectOption: 'Select an option',
     signup_hint:

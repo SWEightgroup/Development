@@ -65,7 +65,7 @@ class ClassManagement extends React.Component {
             </div>
             <div className="row">
               <div className="col-md-12">
-                <div id="accordion" className="accordion-wrapper mb-3">
+                <div id="accordion" className="accordion-wrapper">
                   {classList &&
                     classList.length > 0 &&
                     classList.map(classItem => {

@@ -63,7 +63,6 @@ public class ClassControllerTest {
     studentClassHelpertest = StudentClassHelper.builder()
             .classId("1")
             .studentsId(Arrays.asList("1","2","3"))
-            .name("className")
             .build();
   }
 
@@ -132,6 +131,20 @@ public class ClassControllerTest {
   }
 
   @Test
+  public void RenameClassTest(){
+    try{
+      String jsonClassHelperTest = mapper.writeValueAsString(classHelperTest);
+      mvc.perform(MockMvcRequestBuilders.put("/class/rename")
+              .header("Authorization", userToken)
+              .content(jsonClassHelperTest)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  @Test
   public void DeleteClassTest(){
     try{
       mvc.perform(MockMvcRequestBuilders.delete("/class/1")
@@ -146,7 +159,7 @@ public class ClassControllerTest {
   @Test
   public void GetAllClassesTest(){
     try{
-      mvc.perform(MockMvcRequestBuilders.get("/class/")
+      mvc.perform(MockMvcRequestBuilders.get("/class")
               .header("Authorization", userToken)
               .contentType(MediaType.APPLICATION_JSON_VALUE))
               .andExpect(status().isOk());

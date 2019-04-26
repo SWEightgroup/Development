@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface ClassCustomQueryInterface {
 
+  void renameClass(String classId, String newClassName);
 
   List<ClassModel> getAllTeacherClasses(String teacherId);
 
-  void updateStudentList(String classId, List<String> studentId, String className);
+  void updateClass(String classId, List<String> studentId,String className);
 }

@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseServiceTest {
 
@@ -42,6 +43,9 @@ public class ExerciseServiceTest {
 
   @Mock
   private PhraseService phraseService;
+
+  @Mock
+  private UserService userService;
 
   private ExerciseModel exerciseModel;
 
@@ -57,30 +61,57 @@ public class ExerciseServiceTest {
 
   private SolutionModel mainSolution;
 
+
   @Before
   public void setUp() {
 
-    exerciseModel = ExerciseModel.builder().id("1").phraseId("10").phraseText("questa è una prova")
-        .dateExercise(378136781L).mainSolutionId("22").alternativeSolutionId("22").authorName("Insegnante Insegnante")
-        .authorId("100").visibility(true).build();
+    exerciseModel = ExerciseModel.builder()
+        .id("1")
+        .phraseId("10")
+        .phraseText("questa è una prova")
+        .dateExercise(378136781L)
+        .mainSolutionId("22")
+        .alternativeSolutionId("22")
+        .authorName("Insegnante Insegnante")
+        .authorId("100")
+        .visibility(true)
+        .build();
 
     List<String> assignedUsersIds = new ArrayList<>();
     assignedUsersIds.add("104");
-    exercise = ExerciseHelper.builder().id("123").assignedUsersIds(assignedUsersIds).phraseText("questa è una prova")
+    exercise = ExerciseHelper.builder()
+        .id("123")
+        .assignedUsersIds(assignedUsersIds)
+        .phraseText("questa è una prova")
         .mainSolution("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
-        .alternativeSolution("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]").visibility(true).author("100")
-        .date(378136781L).language("it").build();
+        .alternativeSolution("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
+        .visibility(true)
+        .author("100")
+        .date(378136781L)
+        .language("it")
+        .build();
 
-    correctionHelper = CorrectionHelper.builder().exerciseId(exercise.getId())
-        .solutionFromStudent("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]").build();
+    correctionHelper = CorrectionHelper.builder()
+        .exerciseId(exercise.getId())
+        .solutionFromStudent("[\"AP0MN3S\",\"NPNNG0D\",\"RG\",\"DE2FSS\"]")
+        .build();
 
-    phrase = PhraseModel.builder().id("321").language(exercise.getLanguage()).datePhrase(exercise.getDate())
-        .phraseText(exercise.getPhraseText()).build();
+    phrase = PhraseModel.builder()
+        .id("321")
+        .language(exercise.getLanguage())
+        .datePhrase(exercise.getDate())
+        .phraseText(exercise.getPhraseText())
+        .build();
 
-    mainSolution = SolutionModel.builder().id("1246").reliability(0).authorId(exercise.getAuthor())
-        .solutionText(exercise.getMainSolution()).build();
+    mainSolution = SolutionModel.builder()
+        .id("1246")
+        .reliability(0)
+        .authorId(exercise.getAuthor())
+        .solutionText(exercise.getMainSolution())
+        .build();
 
-    studentModel = StudentModel.studentBuilder().id("101").firstName("Studente").lastName("Studente").build();
+    studentModel = StudentModel.studentBuilder().id("101").firstName("Studente")
+        .lastName("Studente").build();
 
   }
 
@@ -90,20 +121,20 @@ public class ExerciseServiceTest {
 
   @Test
   public void insertExercise() {
-    /*
-     * Mockito.when(phraseService.createPhrase(exercise.getPhraseText(),
-     * exercise.getLanguage())) .thenReturn(phrase);
-     * Mockito.when(solutionService.createSolution(exercise.getMainSolution(),
-     * exercise.getAuthor())) .thenReturn(mainSolution);
-     * Mockito.when(phraseService.insertPhrase(phrase)).thenReturn(phrase);
-     * Mockito.when(userService.findById(exercise.getAuthor())).thenReturn(Optional.
-     * of(userModel));
-     * 
-     * ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
-     * 
-     * assertEquals(myAddedExercise.getAuthorName(), "Insegnante Insegnante");
-     * assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
-     */
+  /*
+    Mockito.when(phraseService.createPhrase(exercise.getPhraseText(), exercise.getLanguage()))
+        .thenReturn(phrase);
+    Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
+
+    Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
+
+    Mockito.when(exerciseRepository.save(any(ExerciseModel.class))).thenReturn(exerciseModel);
+
+    ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
+
+    assertEquals(myAddedExercise.getAuthorName(), "Insegnante Insegnante");
+    assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
+  */
   }
 
   /**
@@ -111,19 +142,22 @@ public class ExerciseServiceTest {
    * Test insertExercise method.
    *
    */
-  /*
-   * @Test public void insertFreeExercise() {
-   * Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(
-   * returnsFirstArg());
-   * Mockito.when(userService.findById(studentModel.getId())).thenReturn(Optional.
-   * of(studentModel));
-   * 
-   * ExerciseModel myAddedExercise =
-   * exerciseService.insertFreeExercise(exercise,exercise.getAuthor());
-   * 
-   * assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
-   * assertEquals(myAddedExercise.getPhraseText(),"questa è una prova"); }
-   */
+
+  @Test
+  public void insertFreeExercise() {
+    /*
+    Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
+
+    Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
+
+    ExerciseModel myAddedExercise = exerciseService.insertFreeExercise(exercise,exercise.getAuthor());
+
+    assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
+    assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
+    */
+
+  }
+
 
   /**
    * Test doExercise method.
@@ -132,7 +166,8 @@ public class ExerciseServiceTest {
   public void doExercise() {
 
     Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
-    Mockito.when(phraseService.getSolutionInPhrase(anyString(), anyString())).thenReturn(mainSolution);
+    Mockito.when(phraseService.getSolutionInPhrase(anyString(), anyString(), anyString()))
+        .thenReturn(mainSolution);
     Mockito.when(phraseService.getPhraseById(anyString())).thenReturn(Optional.of(phrase));
     Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
 
@@ -146,6 +181,7 @@ public class ExerciseServiceTest {
     }
 
   }
+
 
   /**
    * Test findById method.
