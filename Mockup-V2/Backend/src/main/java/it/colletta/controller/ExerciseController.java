@@ -16,8 +16,6 @@ import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
-import java.io.IOException;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,19 +32,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/exercises")
 public class ExerciseController {
 
-  private ExerciseService exerciseService;
-  private SolutionService solutionService;
+    private ExerciseService exerciseService;
+    private SolutionService solutionService;
 
-  @Autowired
-  public ExerciseController(ExerciseService exerciseService,
-      SolutionService solutionService) {
-    this.exerciseService = exerciseService;
-    this.solutionService = solutionService;
-  }
+    @Autowired
+    public ExerciseController(ExerciseService exerciseService,
+                              SolutionService solutionService) {
+        this.exerciseService = exerciseService;
+        this.solutionService = solutionService;
+    }
 
   /**
    * Return all exercises done by a student.
@@ -124,7 +125,6 @@ public class ExerciseController {
       error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-  }
 
   /**
    * Insert a new solution of the free exercise done by a student.
@@ -146,7 +146,6 @@ public class ExerciseController {
       error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-  }
 
   /**
    * Do the correction of the exercise and then give a mark.
@@ -167,7 +166,6 @@ public class ExerciseController {
       error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-  }
 
   /**
    * Return the automatic solution of a phrase provided by Freeling library.
@@ -187,7 +185,6 @@ public class ExerciseController {
       return new ResponseEntity<SolutionModel>(new SolutionModel(),
           HttpStatus.SERVICE_UNAVAILABLE);
     }
-  }
 
   /**
    * Return all public exercises to do by using auth token authentication.
