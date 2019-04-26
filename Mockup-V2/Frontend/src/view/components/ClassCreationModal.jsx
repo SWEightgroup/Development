@@ -10,6 +10,12 @@ import Checkbox from './Checkbox';
 import _translator from '../../helpers/Translator';
 
 class ClassCreationModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.errorName = React.createRef();
+    this.errorList = React.createRef();
+  }
+
   handleChangeCheck = e => {
     e.preventDefault();
     const { updateList, students } = this.props;
@@ -18,14 +24,30 @@ class ClassCreationModal extends React.Component {
 
   handleChangeName = e => {
     e.preventDefault();
+    const { language } = this.props;
+    if (e.target.value === '') {
+      this.errorName.current.innerText = _translator('gen_reqField', language);
+    } else this.errorName.current.innerText = '';
     const { onChangeName } = this.props;
     onChangeName(e.target.value);
+  };
+
+  onConfirm = ({ name, studentsId: studentsToReturn, teacherName }) => {
+    const { confirm, language } = this.props;
+    if (!name || name.length === 0) {
+      this.errorName.current.innerText = _translator('gen_reqField', language);
+    } else if (studentsToReturn && studentsToReturn.length === 0) {
+      this.errorList.current.innerText = _translator('gen_reqField', language);
+    } else {
+      this.errorName.current.innerText = '';
+      this.errorList.current.innerText = '';
+      confirm({ name, studentsId: studentsToReturn, teacherName });
+    }
   };
 
   render() {
     const {
       title,
-      confirm,
       language,
       name,
       show,
@@ -65,6 +87,7 @@ class ClassCreationModal extends React.Component {
                       value={name}
                       onChange={this.handleChangeName}
                     />
+                    <span className="text-danger" ref={this.errorName} />
                   </div>
                 </Col>
               </Row>
@@ -162,6 +185,7 @@ class ClassCreationModal extends React.Component {
                     </div>
                   </div>
                 </Col>
+                <span className="text-danger" ref={this.errorList} />
               </Row>
             </Container>
           </Modal.Body>
@@ -169,7 +193,11 @@ class ClassCreationModal extends React.Component {
             <ButtonToolbar>
               <Button
                 onClick={() =>
-                  confirm({ name, studentsId: studentsToReturn, teacherName })
+                  this.onConfirm({
+                    name,
+                    studentsId: studentsToReturn,
+                    teacherName
+                  })
                 }
               >
                 {_translator('gen_save', language)}
