@@ -26,9 +26,7 @@ public interface PhraseCustomQueryInterface {
    */
   UpdateResult increaseReliability(SolutionModel solutionModels);
 
-  /**
-   * @return The analyzed sentence
-   */
+
   SolutionModel getSolution(final String phraseId, String solutionId);
 
 

@@ -13,7 +13,6 @@ import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.model.validator.ClassHelperValidator;
 import it.colletta.model.validator.StudentClassHelperValidator;
 import it.colletta.security.ParseJwt;
-import it.colletta.service.ExerciseService;
 import it.colletta.service.classes.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
-/*
-*    2: sistemare ClassService ricordandosi che quando si fa save con classRepository Mongo, se passo l'id, sostituisce solamente
-*    i campi che sono stati modificati e non tutto l'oggetto.
-*
-*    TODO: Fare metodo che datO teacherId e nome della classe torna l'id della classe
-* */
 
 @RestController
 @RequestMapping("/class")

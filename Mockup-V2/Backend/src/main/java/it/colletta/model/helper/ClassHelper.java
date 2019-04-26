@@ -15,6 +15,6 @@ public class ClassHelper {
   private String classId;
   private String name;
   private List<String> studentsId;
-  private String teacher;
   private String teacherId;
+
 }

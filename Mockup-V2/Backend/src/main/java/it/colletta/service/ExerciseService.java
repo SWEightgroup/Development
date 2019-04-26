@@ -173,13 +173,13 @@ public class ExerciseService {
       ExerciseModel exerciseToCorrect = exerciseOptional.get();
       SolutionModel mainSolutionModel = phraseService
           .getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
-              exerciseToCorrect.getMainSolutionId());
+              exerciseToCorrect.getMainSolutionId(), exerciseToCorrect.getAuthorId());
       SolutionModel alternativeSolutionModel = null;
       if (exerciseToCorrect.getAlternativeSolutionId() != null
           && !exerciseToCorrect.getAlternativeSolutionId().isEmpty()) {
         alternativeSolutionModel = phraseService
             .getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
-                exerciseToCorrect.getAlternativeSolutionId());
+                exerciseToCorrect.getAlternativeSolutionId(), exerciseToCorrect.getAuthorId());
       }
       ObjectMapper objectMapper = new ObjectMapper();
       JavaType type = objectMapper.getTypeFactory()

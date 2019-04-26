@@ -50,7 +50,7 @@ public class PhraseService {
 
     PhraseModel returnPhrase;
     Optional<PhraseModel> phraseOptional = phraseRepository
-        .getPhraseWithText(newPhrase.getPhraseText());
+        .findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
 
@@ -119,9 +119,10 @@ public class PhraseService {
    * @param solutionId Solution id
    * @return Solution
    */
-  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId) {
+  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId, String teacherId) {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
+
 
   public File downloadAllPhrases() throws IOException {
     File file = File.createTempFile("allphrases", ".json");

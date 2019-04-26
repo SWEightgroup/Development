@@ -108,7 +108,6 @@ public class ExerciseServiceTest {
 
   /**
    *
-   * TODO FIXME temporaneamente commentato perché va cambiato insertFreeExercise
    * Test insertExercise method.
    *
    */

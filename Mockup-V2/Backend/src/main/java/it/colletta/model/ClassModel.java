@@ -22,7 +22,6 @@ public class ClassModel {
   private String id;
   private String name;
   private List<String> studentsId;
-  private String teacher;
   private String teacherId;
   /**
    * @param name TODO
@@ -43,4 +42,11 @@ public class ClassModel {
    * public Boolean deleteStudent(@NonNull UserModel student){ if(studentList.contains(student)){
    * return studentList.remove(student); } else { return false; } }
    */
+
+  /**
+   * @param studentsId the List of studentsId present in the class
+   */
+  public void setStudentsId(List<String> studentsId){
+    this.studentsId = studentsId;
+  }
 }
