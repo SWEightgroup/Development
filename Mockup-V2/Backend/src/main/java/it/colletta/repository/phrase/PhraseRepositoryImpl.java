@@ -8,6 +8,8 @@ import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import java.util.List;
+import java.util.Objects;
+import javax.print.Doc;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,7 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
   // "$solutions"},{$match:{"solutions._id" : ObjectId("5ca7bcae83406d3d1c5bfb57")}}, { "$project" :
   // { "solutions": 1, "_id": 0 }}
 
-  @Override
+  /*@Override
   public SolutionModel getSolution(final String phraseId, String solutionId) {
     Aggregation aggregation = Aggregation.newAggregation(
         match(Criteria.where("_id").is(new ObjectId(phraseId))), unwind("$solutions"),
@@ -70,14 +72,29 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
         .solutionText(obj.getString("solutionText")).authorId(obj.getString("authorId"))
         .reliability(obj.getInteger("reliability")).dateSolution(obj.getLong("dateSolution"))
         .build();
+  }*/
+
+  @Override
+  public SolutionModel getSolution(final String phraseId, String solutionId) {
+    Aggregation aggregation = Aggregation.newAggregation(
+        match(Criteria.where("_id").is(new ObjectId(phraseId))), unwind("$solutions"),
+        match(Criteria.where("solutions._id").in(new ObjectId(solutionId))));
+    AggregationResults<Document> doc =
+        mongoTemplate.aggregate(aggregation, "phrases", Document.class);
+    //assert doc.getMappedResults().size() > 0;
+    int s = doc.getMappedResults().size();
+    Document map = Objects.requireNonNull(doc.getUniqueMappedResult());
+    Document obj = map.get("solutions", Document.class);
+    final SolutionModel build = SolutionModel.builder().id(obj.getObjectId("_id").toHexString())
+        .solutionText(obj.getString("solutionText")).authorId(obj.getString("authorId"))
+        .reliability(obj.getInteger("reliability")).dateSolution(obj.getLong("dateSolution"))
+        .build();
+    return build;
   }
 
   @Override
   public FindIterable<Document> findAllPhrasesAsIterable() {
-    final FindIterable<Document> documents =
-        mongoTemplate.getCollection("phrases").find();
-    return documents;
+    return mongoTemplate.getCollection("phrases").find();
   }
-
 
 }
