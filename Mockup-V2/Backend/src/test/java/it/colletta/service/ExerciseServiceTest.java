@@ -44,6 +44,8 @@ public class ExerciseServiceTest {
   @Mock
   private PhraseService phraseService;
 
+  @Mock
+  private UserService userService;
 
   private ExerciseModel exerciseModel;
 
@@ -119,39 +121,43 @@ public class ExerciseServiceTest {
 
   @Test
   public void insertExercise() {
-    /*
+  /*
     Mockito.when(phraseService.createPhrase(exercise.getPhraseText(), exercise.getLanguage()))
         .thenReturn(phrase);
-    Mockito.when(solutionService.createSolution(exercise.getMainSolution(), exercise.getAuthor()))
-        .thenReturn(mainSolution);
-    Mockito.when(phraseService.insertPhrase(phrase)).thenReturn(phrase);
-    Mockito.when(userService.findById(exercise.getAuthor())).thenReturn(Optional.of(userModel));
+    Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
+
+    Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
+
+    Mockito.when(exerciseRepository.save(any(ExerciseModel.class))).thenReturn(exerciseModel);
 
     ExerciseModel myAddedExercise = exerciseService.insertExercise(exercise);
 
     assertEquals(myAddedExercise.getAuthorName(), "Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
-    */
+  */
   }
 
   /**
    *
-   * TODO FIXME temporaneamente commentato perché va cambiato insertFreeExercise
    * Test insertExercise method.
    *
    */
-  /*
+
   @Test
   public void insertFreeExercise() {
+    /*
     Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
-    Mockito.when(userService.findById(studentModel.getId())).thenReturn(Optional.of(studentModel));
+
+    Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
 
     ExerciseModel myAddedExercise = exerciseService.insertFreeExercise(exercise,exercise.getAuthor());
 
     assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
+    */
+
   }
-  */
+
 
   /**
    * Test doExercise method.
