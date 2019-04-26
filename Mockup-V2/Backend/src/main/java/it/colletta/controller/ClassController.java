@@ -136,18 +136,16 @@ public class ClassController {
   }
 
   /**
-   * @param teacherId the unique Id of the teacher
    * @param token the authorization token of the teacher
-   * @return A new ResponseEntity that contains the list of teacher classes
+   * @return A new ResponseEntity that contains the list of teacher classes with all the fields
    */
   @RequestMapping(
-          value = "/{teacherId}",
+          value = "/",
           method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<ClassModel>> getAllClasses(@RequestHeader("Authorization") String token,
-                                                        @PathVariable("teacherId") String teacherId) {
+  public ResponseEntity<List<ClassModel>> getAllClasses(@RequestHeader("Authorization") String token) {
     try{
-      return new ResponseEntity<List<ClassModel>>(classService.getAllClasses(teacherId), HttpStatus.OK);
+      return new ResponseEntity<List<ClassModel>>(classService.getAllClasses(ParseJwt.getIdFromJwt(token)), HttpStatus.OK);
     } catch (Exception e){
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
