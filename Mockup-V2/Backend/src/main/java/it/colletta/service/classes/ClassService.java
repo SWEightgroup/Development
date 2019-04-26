@@ -17,29 +17,23 @@ import java.util.stream.Collectors;
 public class ClassService {
 
   private ClassRepository classRepository;
-  private UserService userService;
 
   @Autowired
-  public ClassService(ClassRepository classRepository, UserService userService) {
+  public ClassService(ClassRepository classRepository) {
     this.classRepository = classRepository;
-    this.userService = userService;
   }
 
   public String createNewClass(ClassHelper newClass, @NonNull String teacherId){
     ClassModel classToAdd = ClassModel.builder()
             .name(newClass.getName())
-            .teacher(newClass.getTeacher())
             .teacherId(teacherId)
             .build();
 
     Optional<List<String>> studentsId = Optional.ofNullable(newClass.getStudentsId());
-    if(studentsId.isPresent()){
-
-      classToAdd.setStudentsId(studentsId.get()
-              .stream()
-              .distinct()
-              .collect(Collectors.toList()));
-    }
+    studentsId.ifPresent(strings -> classToAdd.setStudentsId(strings
+            .stream()
+            .distinct()
+            .collect(Collectors.toList())));
     classRepository.save(classToAdd);
     return classToAdd.getName();
   }

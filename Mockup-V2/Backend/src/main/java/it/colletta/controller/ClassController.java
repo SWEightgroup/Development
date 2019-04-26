@@ -13,7 +13,6 @@ import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.model.validator.ClassHelperValidator;
 import it.colletta.model.validator.StudentClassHelperValidator;
 import it.colletta.security.ParseJwt;
-import it.colletta.service.ExerciseService;
 import it.colletta.service.classes.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

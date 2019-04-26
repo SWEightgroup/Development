@@ -22,7 +22,6 @@ public class ClassModel {
   private String id;
   private String name;
   private List<String> studentsId;
-  private String teacher;
   private String teacherId;
   /**
    * @param name TODO

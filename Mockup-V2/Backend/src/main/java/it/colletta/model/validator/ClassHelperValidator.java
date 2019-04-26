@@ -16,8 +16,6 @@ public class ClassHelperValidator implements Validator {
 
   public void validate(Object obj, Errors e) {
     ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
-    ValidationUtils.rejectIfEmpty(e, "teacher", "teacher.empty");
-    //ValidationUtils.rejectIfEmpty(e, "teacherId", "teacherId.empty");
     ClassHelper p = (ClassHelper) obj;
   }
 }
