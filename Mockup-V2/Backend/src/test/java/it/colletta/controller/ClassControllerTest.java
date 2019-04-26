@@ -58,7 +58,6 @@ public class ClassControllerTest {
     classHelperTest = ClassHelper.builder()
             .teacherId("1")
             .name("theClass")
-            .teacher("FMag")
             .studentsId(Arrays.asList("1","2","3"))
             .build();
     studentClassHelpertest = StudentClassHelper.builder()
@@ -87,7 +86,6 @@ public class ClassControllerTest {
       ClassHelper classHelperWrong = ClassHelper.builder()
               .teacherId(null)
               .name(null)
-              .teacher(null)
               .studentsId(Arrays.asList("1","2","3"))
               .build();
       String jsonClassHelperTest = mapper.writeValueAsString(classHelperWrong);
