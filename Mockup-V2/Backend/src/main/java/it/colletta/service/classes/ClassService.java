@@ -1,18 +1,17 @@
 package it.colletta.service.classes;
 
 import it.colletta.model.ClassModel;
-import it.colletta.model.StudentModel;
-import it.colletta.model.UserModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassService {
@@ -26,18 +25,26 @@ public class ClassService {
     this.userService = userService;
   }
 
-  public String createNewClass(ClassHelper newClass, @NotNull String teacherId){
+  public String createNewClass(ClassHelper newClass, @NonNull String teacherId){
     ClassModel classToAdd = ClassModel.builder()
             .name(newClass.getName())
-            .studentsId(newClass.getStudentsId())
             .teacher(newClass.getTeacher())
             .teacherId(teacherId)
             .build();
+
+    Optional<List<String>> studentsId = Optional.ofNullable(newClass.getStudentsId());
+    if(studentsId.isPresent()){
+
+      classToAdd.setStudentsId(studentsId.get()
+              .stream()
+              .distinct()
+              .collect(Collectors.toList()));
+    }
     classRepository.save(classToAdd);
     return classToAdd.getName();
   }
 
-  public String renameExistingClass(@NotNull String classId, String newClassName) throws Exception{
+  public String renameExistingClass(@NonNull String classId, String newClassName) throws Exception{
     classRepository.renameClass(classId, newClassName);
     return newClassName;
 
@@ -47,11 +54,11 @@ public class ClassService {
     classRepository.updateStudentList(studentClassHelper.getClassId(), studentClassHelper.getStudentsId());
   }
 
-  public void deleteClass(@NotNull String classId) throws Exception{
+  public void deleteClass(@NonNull String classId) throws NullPointerException{
     classRepository.deleteById(classId);
   }
 
-  public List<ClassModel> getAllClasses(@NotNull String teacherId) throws Exception {
+  public List<ClassModel> getAllClasses(@NonNull String teacherId) throws NullPointerException{
     return classRepository.getAllTeacherClasses(teacherId);
   }
 }
