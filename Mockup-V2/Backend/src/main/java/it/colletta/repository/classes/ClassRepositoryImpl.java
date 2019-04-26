@@ -19,23 +19,19 @@ public class ClassRepositoryImpl implements ClassCustomQueryInterface {
   }
 
   @Override
-  public void renameClass(String classId, String newClassName){
-    Query query = new Query(Criteria.where("_id").is(classId));
-    mongoTemplate.updateFirst(query, Update.update("name", newClassName), ClassModel.class);
+  public List<ClassModel> getAllTeacherClasses(String teacherId) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where("teacherId").is(teacherId));
+    // query.fields().exclude("studentsId");
+    return mongoTemplate.find(query, ClassModel.class);
   }
 
   @Override
-  public List<ClassModel> getAllTeacherClasses(String teacherId){
-      Query query = new Query();
-      query.addCriteria(Criteria.where("teacherId").is(teacherId));
-      //query.fields().exclude("studentsId");
-      return mongoTemplate.find(query, ClassModel.class);
-  }
-
-  @Override
-  public void updateStudentList(String classId, List<String> studentId){
+  public void updateStudentList(String classId, List<String> studentId, String className) {
     Query query = new Query();
     query.addCriteria(Criteria.where("_id").is(classId));
     mongoTemplate.updateFirst(query, Update.update("studentsId", studentId), ClassModel.class);
+    mongoTemplate.updateFirst(query, Update.update("name", className), ClassModel.class);
+
   }
 }

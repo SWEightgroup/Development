@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import InputSentence from '../../components/InputSentence';
 import ExecutionExercise from '../../components/ExecutionExercise';
 import _translator from '../../../helpers/Translator';
-
 import {
   initializeNewExercise,
   updateNewExerciseState,
@@ -12,16 +11,21 @@ import {
   initNewExerciseState,
   innerLoaderOff,
   innerLoaderOn,
-  getAutomaticSolution,
-  getAllStudents,
-  updateStudentList
+  getAutomaticSolution
 } from '../../../actions/ExerciseActions';
+
+import {
+  getAllStudents,
+  updateStudentsList,
+  loadClassList
+} from '../../../actions/ClassManagementActions';
 
 class InsertExercise extends Component {
   constructor(props) {
     super(props);
     props.initializeNewExercise();
     props.getAllStudentsDispatch();
+    props.loadClassListDispatch();
   }
 
   /**
@@ -94,17 +98,33 @@ class InsertExercise extends Component {
       response: null
     });
     const { sentenceString } = newExercise;
-    // qui faremo la chiamata
-    // la soluzione sarà formata da un array di parola/codice
     getAutomaticSolutionDispatch(sentenceString);
   };
 
   handleChange = event => {
-    const { updateStudentListDispatch, studentList } = this.props;
+    const { updateStudentsListDispatch, studentsList } = this.props;
 
-    studentList.find(student => student.username === event.target.id).check =
+    studentsList.find(student => student.username === event.target.id).check =
       event.target.checked;
-    updateStudentListDispatch(studentList);
+    updateStudentsListDispatch(studentsList);
+  };
+
+  /**
+   *  Select/Deselect students of this class
+   *  @param event Event
+   *  @param studentsId List of students id
+   */
+  handleChangeClassList = (event, studentsId) => {
+    const { updateStudentsListDispatch, studentsList } = this.props;
+    if (studentsId && studentsId.length > 0) {
+      studentsId.forEach(studentId => {
+        const element = studentsList.find(student => student.id === studentId);
+        if (element !== undefined) {
+          element.check = event.target.checked;
+        }
+      });
+    }
+    updateStudentsListDispatch(studentsList);
   };
 
   render() {
@@ -112,7 +132,8 @@ class InsertExercise extends Component {
       changeNewInputSentenceDispatch,
       newExercise,
       auth,
-      studentList
+      studentsList,
+      classList
     } = this.props;
     const { user } = auth;
     const {
@@ -146,7 +167,7 @@ class InsertExercise extends Component {
           />
         )}
 
-        {response && studentList && !showSolution && studentList.length > 0 && (
+        {response && studentsList && !showSolution && studentsList.length > 0 && (
           <div className="row">
             <div className="col-sm-12 col-md-6 ">
               <div className="mb-3 card">
@@ -168,7 +189,7 @@ class InsertExercise extends Component {
                       <div className="scroll-area-sm">
                         <div className="scrollbar-container">
                           <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
-                            {studentList.map(student => (
+                            {studentsList.map(student => (
                               <li
                                 key={`li-${student.username}`}
                                 className="list-group-item"
@@ -181,6 +202,9 @@ class InsertExercise extends Component {
                                         value={student.username}
                                         id={student.username}
                                         onChange={this.handleChange}
+                                        checked={
+                                          student.check ? student.check : false
+                                        }
                                       />
                                     </div>
 
@@ -194,18 +218,6 @@ class InsertExercise extends Component {
                                         </div>
                                       </label>
                                     </div>
-
-                                    {/* <div className="widget-content-right">
-                                      <div className="font-size-xlg text-muted">
-                                        <small className="opacity-5 pr-1">
-                                          $
-                                        </small>
-                                        <span>129</span>
-                                        <small className="text-danger pl-2">
-                                          <i className="fa fa-angle-down" />
-                                        </small>
-                                      </div>
-                            </div> */}
                                   </div>
                                 </div>
                               </li>
@@ -218,6 +230,74 @@ class InsertExercise extends Component {
                 </div>
               </div>
             </div>
+            {classList && classList.length > 0 && (
+              <div className="col-sm-12 col-md-6 ">
+                <div className="mb-3 card">
+                  <div className="card-header-tab card-header-tab-animation card-header">
+                    <div className="card-header-title">
+                      <i className="header-icon lnr-apartment icon-gradient bg-love-kiss" />
+                      Vuoi assegnarlo a qualcuno in particolare?
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <div className="tab-content">
+                      <div className="tab-pane fade show active">
+                        <h6
+                          className="text-muted text-uppercase 
+                      font-size-md opacity-5 font-weight-normal"
+                        >
+                          Studenti disponibili
+                        </h6>
+                        <div className="scroll-area-sm">
+                          <div className="scrollbar-container">
+                            <h6>
+                              {_translator(
+                                'classCreationModal_selStudents',
+                                language
+                              )}
+                            </h6>
+                            <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
+                              {classList.map(classElement => (
+                                <li
+                                  key={`li-${classElement.id}`}
+                                  className="list-group-item"
+                                >
+                                  <div className="widget-content p-0">
+                                    <div className="widget-content-wrapper">
+                                      <div className="widget-content-left mr-3">
+                                        <input
+                                          type="checkbox"
+                                          id={classElement.id}
+                                          name={classElement.id}
+                                          value={classElement}
+                                          onChange={e =>
+                                            this.handleChangeClassList(
+                                              e,
+                                              classElement.studentsId
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                      <div className="widget-content-left">
+                                        <label htmlFor={classElement.id}>
+                                          <div className="widget-heading">
+                                            {classElement.name}
+                                          </div>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
         {response && (
@@ -244,12 +324,14 @@ const mapStateToProps = store => {
     auth: store.auth,
     token: store.auth.user.token,
     newExercise: store.exercise.newExercise,
-    studentList: store.exercise.studentList
+    studentsList: store.class.studentsList,
+    classList: store.class.classList
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    loadClassListDispatch: () => dispatch(loadClassList()),
     initializeNewExercise: () => dispatch(initializeNewExercise()),
     updateNewExerciseStateDispatch: newExercise =>
       dispatch(updateNewExerciseState(newExercise)),
@@ -264,8 +346,8 @@ const mapDispatchToProps = dispatch => {
     getAutomaticSolutionDispatch: sentenceString =>
       dispatch(getAutomaticSolution(sentenceString)),
     getAllStudentsDispatch: () => dispatch(getAllStudents()),
-    updateStudentListDispatch: studentList =>
-      dispatch(updateStudentList(studentList))
+    updateStudentsListDispatch: studentsList =>
+      dispatch(updateStudentsList(studentsList))
   };
 };
 

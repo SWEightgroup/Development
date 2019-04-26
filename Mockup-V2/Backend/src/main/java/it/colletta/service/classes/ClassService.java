@@ -26,28 +26,19 @@ public class ClassService {
     this.userService = userService;
   }
 
-  public String createNewClass(ClassHelper newClass, @NotNull String teacherId){
-    ClassModel classToAdd = ClassModel.builder()
-            .name(newClass.getName())
-            .studentsId(newClass.getStudentsId())
-            .teacher(newClass.getTeacher())
-            .teacherId(teacherId)
-            .build();
+  public String createNewClass(ClassHelper newClass, @NotNull String teacherId) {
+    ClassModel classToAdd = ClassModel.builder().name(newClass.getName()).studentsId(newClass.getStudentsId())
+        .teacher(newClass.getTeacher()).teacherId(teacherId).build();
     classRepository.save(classToAdd);
     return classToAdd.getName();
   }
 
-  public String renameExistingClass(@NotNull String classId, String newClassName) throws Exception{
-    classRepository.renameClass(classId, newClassName);
-    return newClassName;
-
+  public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception {
+    classRepository.updateStudentList(studentClassHelper.getClassId(), studentClassHelper.getStudentsId(),
+        studentClassHelper.getName());
   }
 
-  public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception{
-    classRepository.updateStudentList(studentClassHelper.getClassId(), studentClassHelper.getStudentsId());
-  }
-
-  public void deleteClass(@NotNull String classId) throws Exception{
+  public void deleteClass(@NotNull String classId) throws Exception {
     classRepository.deleteById(classId);
   }
 

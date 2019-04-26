@@ -50,12 +50,6 @@ export const updateNewExerciseState = newExercise => {
   };
 };
 
-export const updateStudentList = studentList => {
-  return dispatch => {
-    dispatch({ type: 'UPDATE_STUDENT_LIST', studentList });
-  };
-};
-
 export const changeNewInputSentence = data => {
   return dispatch => {
     dispatch({ type: 'CHANGE_INPUT_SENTENCE_DATA', data });
@@ -151,6 +145,7 @@ export const saveExerciseSolution = newExercise => {
   return dispatch => {
     dispatch(innerLoaderOn());
     const { id } = store.getState().auth.user;
+    console.log('TCL: store.getState()', store.getState());
     // prelevo dal response la soluzione della punteggiatuera
 
     axios
@@ -159,7 +154,7 @@ export const saveExerciseSolution = newExercise => {
         {
           assignedUsersIds: store
             .getState()
-            .exercise.studentList.filter(student => student.check)
+            .class.studentsList.filter(student => student.check)
             .map(student => student.id),
           phraseText: newExercise.sentenceString,
           mainSolution: JSON.stringify(newExercise.codeSolution),
@@ -306,26 +301,6 @@ export const getAutomaticSolution = sentenceString => {
   };
 };
 
-export const getAllStudents = () => {
-  return dispatch => {
-    axios
-      .get('http://localhost:8081/users/get-students', {
-        headers: {
-          Authorization: store.getState().auth.token
-        }
-      })
-      .then(resGetStudent => {
-        dispatch(updateStudentList(resGetStudent.data));
-      })
-      .catch(err => {
-        console.error(err);
-        _toastError(
-          _translator('gen_error', store.getState().auth.user.language)
-        );
-        return dispatch({ type: '' });
-      });
-  };
-};
 /* {
   "assignedUsersIds": [
     "demoData"

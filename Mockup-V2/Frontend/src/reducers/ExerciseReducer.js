@@ -9,7 +9,6 @@ const initState = {
     codeSolution: [],
     complete: false
   },
-  studentList: [],
   todoExercises: { exercises: null, page: null, links: null },
   doneExercises: { exercises: null, page: null, links: null },
   publicExercises: { exercises: null, page: null, links: null },
@@ -47,11 +46,7 @@ const ExerciseReducer = (state = initState, action) => {
         ...state,
         newExercise: { ...state.newExercise, ...action.newExercise }
       };
-    case 'UPDATE_STUDENT_LIST':
-      return {
-        ...state,
-        studentList: action.studentList
-      };
+
     case 'UPDATE_WORD_STATE':
       const userSolution = state.newExercise.userSolution;
       userSolution[action.word.index] = action.word;
@@ -76,7 +71,6 @@ const ExerciseReducer = (state = initState, action) => {
           ...action.newExercise,
           showSolution: true
         },
-        studentList: state.studentList,
         innerLoader: false
         // newExercise: initState.newExercise
       };

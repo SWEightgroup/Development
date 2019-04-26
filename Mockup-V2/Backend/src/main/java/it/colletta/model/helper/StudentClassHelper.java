@@ -1,6 +1,5 @@
 package it.colletta.model.helper;
 
-
 import lombok.*;
 
 import java.util.List;
@@ -14,4 +13,5 @@ import java.util.List;
 public class StudentClassHelper {
   List<String> studentsId;
   String classId;
+  String name;
 }

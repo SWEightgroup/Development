@@ -41,6 +41,12 @@ export const _label = {
     gen_phrase: 'Frase',
     gen_insertDone: 'Esercizio aggiunto con successo',
     gen_error: 'Errore interno',
+    gen_add: 'Aggiungi',
+    gen_new: 'Nuova',
+    gen_save: 'Salva',
+    gen_edit: 'Modifica',
+    gen_delete: 'Elimina',
+    gen_opSuccess: 'Operazione completata',
     inputSentence_executeExercise: "Svolgi l'esercizio",
     inputSentence_insertSentence: 'Inserisci la frase',
     signup_errorPassword: 'Le due passowrd non coincidono',
@@ -60,7 +66,7 @@ export const _label = {
     sidebarElementTeacher_exercise: 'Esercizi',
     sidebarElementTeacher_insertExercise: 'Inserisci esercizio',
     sidebarElementTeacher_exercises: 'Esercizi inseriti',
-    sidebarElementTeacher_ExerciseDone: 'Esercizi allievi',
+    sidebarElementTeacher_class: 'Gestione Classi',
     SidebarElementAdministrator_devs: 'Sviluppatori',
     insertExercise_confirmFSolution: 'Inserisci soluzione proposta',
     insertExercise_editFSolution: 'Modifica soluzione',
@@ -86,7 +92,11 @@ export const _label = {
     pagination_last: 'Ultimo',
     pagination_prev: 'Precedente',
     pagination_next: 'Successivo',
-    exercisePreview_addedOn: 'Aggiunto il'
+    exercisePreview_addedOn: 'Aggiunto il',
+    classManagement_title: 'Gestione delle classi',
+    classCreationModal_name: 'Nome della classe',
+    classCreationModal_allStudents: 'Tutti gli studenti',
+    classCreationModal_selStudents: 'Studenti selezionati'
   },
   en: {
     account_yourData: 'Your data',
@@ -122,6 +132,12 @@ export const _label = {
     gen_phrase: 'Phrase',
     gen_insertDone: 'Successfully added exercise',
     gen_error: 'Internal error',
+    gen_add: 'Add',
+    gen_new: 'New',
+    gen_save: 'Save',
+    gen_opSuccess: 'Complete',
+    gen_edit: 'Edit',
+    gen_delete: 'Delete',
     exercisePreview_execute: 'Execute exercise',
     inputSentence_executeExercise: 'Get to work!',
     inputSentence_insertSentence: 'Enter phrase',
@@ -140,7 +156,7 @@ export const _label = {
     sidebarElementTeacher_exercise: 'Esercise',
     sidebarElementTeacher_insertExercise: 'Insert exercise',
     sidebarElementTeacher_exercises: 'Exercise history',
-    sidebarElementTeacher_ExerciseDone: 'Students ecercises',
+    sidebarElementTeacher_class: 'Class Management',
     SidebarElementAdministrator_devs: 'Developers',
     insertExercise_confirmFSolution: 'Insert solution',
     insertExercise_editFSolution: 'Edit solution',
@@ -166,6 +182,10 @@ export const _label = {
     pagination_last: 'Last',
     pagination_prev: 'Previous',
     pagination_next: 'Next',
-    exercisePreview_addedOn: 'Added on'
+    exercisePreview_addedOn: 'Added on',
+    classManagement_title: 'Class management',
+    classCreationModal_name: 'Class name',
+    classCreationModal_allStudents: 'All students',
+    classCreationModal_selStudents: 'Selected students'
   }
 };

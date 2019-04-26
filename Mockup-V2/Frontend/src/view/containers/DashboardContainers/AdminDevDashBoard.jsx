@@ -62,42 +62,40 @@ class AdminDevDashBoard extends Component {
       );
 
     return (
-      <React.Fragment>
-        <div className="row">
-          <div className="col-md-12">
-            <div className="main-card mb-3 card">
-              <div className="card-header">
-                {_translator('SidebarElementAdministrator_devs', language)}
-              </div>
-              <div className="table-responsive">
-                <table className="align-middle mb-0 table table-borderless table-striped table-hover">
-                  <thead>
-                    <tr>
-                      <th>{_translator('gen_firstName', language)}</th>
-                      <th className="text-center">
-                        {_translator('gen_email', language)}
-                      </th>
-                      <th className="text-center">
-                        {_translator('developerDashBoard_action', language)}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>{devRender}</tbody>
-                </table>
-              </div>
-              <div className="d-block text-center card-footer">
-                <button
-                  type="button"
-                  onClick={() => fetchDeveloperListDispatch()}
-                  className="btn-wide btn btn-primary"
-                >
-                  {_translator('adminDashBoard_update', language)}
-                </button>
-              </div>
+      <div className="row">
+        <div className="col-md-12">
+          <div className="main-card mb-3 card">
+            <div className="card-header">
+              {_translator('SidebarElementAdministrator_devs', language)}
+            </div>
+            <div className="table-responsive">
+              <table className="align-middle mb-0 table table-borderless table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>{_translator('gen_firstName', language)}</th>
+                    <th className="text-center">
+                      {_translator('gen_email', language)}
+                    </th>
+                    <th className="text-center">
+                      {_translator('developerDashBoard_action', language)}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{devRender}</tbody>
+              </table>
+            </div>
+            <div className="d-block text-center card-footer">
+              <button
+                type="button"
+                onClick={() => fetchDeveloperListDispatch()}
+                className="btn-wide btn btn-primary"
+              >
+                {_translator('adminDashBoard_update', language)}
+              </button>
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

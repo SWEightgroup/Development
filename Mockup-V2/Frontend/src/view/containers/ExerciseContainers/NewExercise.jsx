@@ -64,8 +64,9 @@ class NewExsercise extends Component {
       if (
         word.languageIterator.getSolution().length === 0 &&
         newExercise.response[index].tag.charAt(0) === 'F'
-      )
+      ) {
         return newExercise.response[index].tag;
+      }
       return word.languageIterator.getCodeSolution();
     }); // questo è un array di codici che invio al backend
 

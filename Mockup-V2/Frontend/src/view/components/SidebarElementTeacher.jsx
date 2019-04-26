@@ -26,11 +26,11 @@ class SidebarElementTeacher extends Component {
                 {_translator('sidebarElementTeacher_exercises', language)}
               </NavLink>
             </li>
-            {/* <li>
-              <NavLink to="/acaso" activeClassName="mm-active">
-                {_translator('sidebarElementTeacher_ExerciseDone', language)}
+            <li>
+              <NavLink to="/class" activeClassName="mm-active">
+                {_translator('sidebarElementTeacher_class', language)}
               </NavLink>
-            </li> */}
+            </li>
           </ul>
         </li>
       </React.Fragment>
