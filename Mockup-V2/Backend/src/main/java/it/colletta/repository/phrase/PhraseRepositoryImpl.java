@@ -1,5 +1,6 @@
 package it.colletta.repository.phrase;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.limit;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
@@ -78,11 +79,10 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
   public SolutionModel getSolution(final String phraseId, String solutionId) {
     Aggregation aggregation = Aggregation.newAggregation(
         match(Criteria.where("_id").is(new ObjectId(phraseId))), unwind("$solutions"),
-        match(Criteria.where("solutions._id").in(new ObjectId(solutionId))));
+        match(Criteria.where("solutions._id").in(new ObjectId(solutionId))),
+        limit(1));
     AggregationResults<Document> doc =
         mongoTemplate.aggregate(aggregation, "phrases", Document.class);
-    //assert doc.getMappedResults().size() > 0;
-    int s = doc.getMappedResults().size();
     Document map = Objects.requireNonNull(doc.getUniqueMappedResult());
     Document obj = map.get("solutions", Document.class);
     final SolutionModel build = SolutionModel.builder().id(obj.getObjectId("_id").toHexString())

@@ -9,12 +9,12 @@ import it.colletta.model.UserModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import it.colletta.strategy.CorrectionStrategy;
 import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import java.security.acl.NotOwnerException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.bson.types.ObjectId;
@@ -30,13 +30,16 @@ public class ExerciseService {
   private ExerciseRepository exerciseRepository;
   private PhraseService phraseService;
   private UserService userService;
+  private StudentService studentService;
 
   @Autowired
   public ExerciseService(ExerciseRepository exerciseRepository,
-      PhraseService phraseService, UserService userService) {
+      PhraseService phraseService, UserService userService,
+      StudentService studentService) {
     this.exerciseRepository = exerciseRepository;
     this.phraseService = phraseService;
     this.userService = userService;
+    this.studentService = studentService;
   }
 
 
@@ -46,9 +49,8 @@ public class ExerciseService {
    * @param id Exercise id.
    * @returnc Exericse.
    */
-  public Optional< ExerciseModel > findById(final String id) {
-    return exerciseRepository.findById(id);
-    // controllo su id, in caso exception
+  public ExerciseModel findById(final String id) {
+    return exerciseRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Exercise not found"));
   }
 
   /**
@@ -138,9 +140,8 @@ public class ExerciseService {
         .phraseText(exercise.getPhraseText()).build();
 
     phrase.addSolution(mainSolution);
-    if (alternativeSolution != null) {
+    if (alternativeSolution != null)
       phrase.addSolution(alternativeSolution);
-    }
 
     phrase = phraseService.insertPhrase(phrase);
 
@@ -211,11 +212,12 @@ public class ExerciseService {
         phraseService.increaseReliability(studentSolution);
         exerciseRepository.pullStudentToDoList(exerciseOptional.get().getId(), studentId);
         exerciseRepository.pushStudentDoneList(exerciseOptional.get().getId(), studentId);
+        studentService.increaseLevel(mark, studentId);
       }
 
       return studentSolution;
     } else {
-      throw new IllegalArgumentException("Exercise not defined in the system");
+      throw new ResourceNotFoundException("Exercise not defined in the system");
     }
   }
 
