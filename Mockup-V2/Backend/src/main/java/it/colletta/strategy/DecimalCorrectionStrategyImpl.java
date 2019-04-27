@@ -14,16 +14,11 @@ public class DecimalCorrectionStrategyImpl<T extends Number, E extends Comparabl
   @Override
   public T correction(ArrayList< E > studentSolution, ArrayList< E > teacherSolution) {
       int points = 0;
-      if (studentSolution.size() == teacherSolution.size()) {
-        Iterator<E> studentSolutionIterator = studentSolution.iterator();
-        for (E word : teacherSolution) {
-          E studentWord = studentSolutionIterator.next();
-          if (word.compareTo(studentWord) == 0) {
-            ++points;
-          }
+      int sizeList = Math.min(teacherSolution.size(), studentSolution.size());
+      for (int i = 0; i < sizeList; ++i) {
+        if (studentSolution.get(i).compareTo(teacherSolution.get(i)) == 0) {
+          ++points;
         }
-      } else {
-        throw new IllegalArgumentException("Solutions have different length");
       }
       int num = points * 10;
       int size = teacherSolution.size();
