@@ -99,7 +99,15 @@ export const _label = {
     classManagement_title: 'Gestione delle classi',
     classCreationModal_name: 'Nome della classe',
     classCreationModal_allStudents: 'Tutti gli studenti',
-    classCreationModal_selStudents: 'Studenti selezionati'
+    classCreationModal_selStudents: 'Studenti selezionati',
+    dashboard_done: 'Svolti',
+    dashboard_numDone: 'Numero di esercizi svolti',
+    dashboard_toDo: 'Da fare',
+    dashboard_numToDo: 'Numero di esercizi da fare',
+    dashboard_public: 'Pubblici',
+    dashboard_numPublic: 'Numbero di esericizi pubblici',
+    dashboard_donePercentTitle: 'Compiti svolti',
+    dashboard_donePercent: 'Percentuale di compiti svolti'
   },
   en: {
     account_yourData: 'Your data',
@@ -192,6 +200,14 @@ export const _label = {
     classManagement_title: 'Class management',
     classCreationModal_name: 'Class name',
     classCreationModal_allStudents: 'All students',
-    classCreationModal_selStudents: 'Selected students'
+    classCreationModal_selStudents: 'Selected students',
+    dashboard_done: 'Done',
+    dashboard_numDone: 'Number of done exercises',
+    dashboard_toDo: 'To do',
+    dashboard_numToDo: 'Number of exercises to be done',
+    dashboard_public: 'Public',
+    dashboard_numPublic: 'Number of public exercises',
+    dashboard_donePercentTitle: 'Done Excercises',
+    dashboard_donePercent: 'Done exercises percentage'
   }
 };
