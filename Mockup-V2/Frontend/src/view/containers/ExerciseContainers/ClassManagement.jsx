@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import _translator from '../../../helpers/Translator';
