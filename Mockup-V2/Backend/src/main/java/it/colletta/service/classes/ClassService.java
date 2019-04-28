@@ -1,9 +1,11 @@
 package it.colletta.service.classes;
 
 import it.colletta.model.ClassModel;
+import it.colletta.model.UserModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.model.helper.TeacherClasses;
+import it.colletta.model.helper.UserClassHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
 import lombok.NonNull;
@@ -27,7 +29,7 @@ public class ClassService {
     this.userService = userService;
   }
 
-  public String createNewClass(ClassHelper newClass, @NonNull String teacherId){
+  public String createNewClass(ClassHelper newClass, @NonNull String teacherId) {
     ClassModel classToAdd = ClassModel.builder()
             .name(newClass.getName())
             .teacherId(teacherId)
@@ -42,31 +44,41 @@ public class ClassService {
     return classToAdd.getName();
   }
 
-  public String renameExistingClass(@NonNull String classId, String newClassName) throws Exception{
+  public String renameExistingClass(@NonNull String classId, String newClassName) throws Exception {
     classRepository.renameClass(classId, newClassName);
     return newClassName;
 
   }
 
-  public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception{
-    classRepository.updateClass(studentClassHelper.getClassId(), studentClassHelper.getStudentsId(),studentClassHelper.getClassName());
+  public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception {
+    classRepository.updateClass(studentClassHelper.getClassId(), studentClassHelper.getStudentsId(), studentClassHelper.getClassName());
   }
 
-  public void deleteClass(@NonNull String classId) throws NullPointerException{
+  public void deleteClass(@NonNull String classId) throws NullPointerException {
     classRepository.deleteById(classId);
   }
 
-  public List<TeacherClasses> getAllClasses(@NonNull String teacherId) throws NullPointerException{
+  public List<TeacherClasses> getAllClasses(@NonNull String teacherId) throws NullPointerException {
     List<ClassModel> classes = classRepository.getAllTeacherClasses(teacherId);
     List<TeacherClasses> allTeacherClasses = new ArrayList<>();
-    for(ClassModel actualClassModel: classes) {
+
+    for (ClassModel actualClassModel : classes) {
+      List<UserModel> actualClassStudent =
+              userService.getAllListUser(actualClassModel.getStudentsId());
+      List<UserClassHelper> actualClassStudentHelper = actualClassStudent.stream()
+              .map(user -> UserClassHelper.builder()
+                      .id(user.getId())
+                      .email(user.getEmail())
+                      .firstName(user.getFirstName())
+                      .lastName(user.getLastName())
+                      .build())
+              .collect(Collectors.toList());
       allTeacherClasses.add(
               TeacherClasses.builder()
                       .classId(actualClassModel.getId())
                       .className(actualClassModel.getName())
-                      .students(userService.getAllListUser(actualClassModel.getStudentsId()))
-                      .build()
-      );
+                      .students(actualClassStudentHelper)
+                      .build());
     }
     return allTeacherClasses;
   }

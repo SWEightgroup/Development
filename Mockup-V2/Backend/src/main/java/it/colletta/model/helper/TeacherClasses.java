@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 public class TeacherClasses{
-  private List<UserModel> students;
+  private List<UserClassHelper> students;
   private String className;
   private String classId;
 }
