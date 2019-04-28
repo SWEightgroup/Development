@@ -190,7 +190,7 @@ public class ExerciseServiceTest {
   @Test
   public void findById() {
     Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
-    Optional<ExerciseModel> myidfound = exerciseService.findById(exerciseModel.getId());
+    ExerciseModel myidfound = exerciseService.findById(exerciseModel.getId());
 
     Assert.assertNotNull(myidfound);
     Mockito.verify(exerciseRepository, Mockito.times(1)).findById(anyString());
