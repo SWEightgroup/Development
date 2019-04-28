@@ -3,12 +3,14 @@ package it.colletta.service.classes;
 import it.colletta.model.ClassModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
+import it.colletta.model.helper.TeacherClasses;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class ClassService {
 
   private ClassRepository classRepository;
+  private UserService userService;
 
   @Autowired
-  public ClassService(ClassRepository classRepository) {
+  public ClassService(ClassRepository classRepository, UserService userService) {
     this.classRepository = classRepository;
+    this.userService = userService;
   }
 
   public String createNewClass(ClassHelper newClass, @NonNull String teacherId){
@@ -52,7 +56,18 @@ public class ClassService {
     classRepository.deleteById(classId);
   }
 
-  public List<ClassModel> getAllClasses(@NonNull String teacherId) throws NullPointerException{
-    return classRepository.getAllTeacherClasses(teacherId);
+  public List<TeacherClasses> getAllClasses(@NonNull String teacherId) throws NullPointerException{
+    List<ClassModel> classes = classRepository.getAllTeacherClasses(teacherId);
+    List<TeacherClasses> allTeacherClasses = new ArrayList<>();
+    for(ClassModel actualClassModel: classes) {
+      allTeacherClasses.add(
+              TeacherClasses.builder()
+                      .classId(actualClassModel.getId())
+                      .className(actualClassModel.getName())
+                      .students(userService.getAllListUser(actualClassModel.getStudentsId()))
+                      .build()
+      );
+    }
+    return allTeacherClasses;
   }
 }

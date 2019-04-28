@@ -15,4 +15,10 @@ public interface UserCustomQueryInterface {
    * @return all the user who are successfully register and activated in the system
    */
   List<UserModel> getAllUsers();
+
+
+  /**
+   * @return all the user who are in the list
+   */
+  List<UserModel> findAllByList(final List<String> userId);
 }

@@ -40,6 +40,9 @@ public class UserService {
     }
   }
 
+  public List<UserModel> getAllListUser(final List<String> userId){
+    return applicationUserRepository.findAllByList(userId);
+  }
   /**
    * Active an user.
    *
