@@ -68,7 +68,7 @@ public class ClassService {
       List<UserClassHelper> actualClassStudentHelper = actualClassStudent.stream()
               .map(user -> UserClassHelper.builder()
                       .id(user.getId())
-                      .email(user.getEmail())
+                      .email(user.getUsername())
                       .firstName(user.getFirstName())
                       .lastName(user.getLastName())
                       .build())
