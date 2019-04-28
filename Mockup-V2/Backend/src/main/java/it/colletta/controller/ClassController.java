@@ -10,6 +10,7 @@ package it.colletta.controller;
 import it.colletta.model.ClassModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
+import it.colletta.model.helper.TeacherClasses;
 import it.colletta.model.validator.ClassHelperValidator;
 import it.colletta.model.validator.StudentClassHelperValidator;
 import it.colletta.security.ParseJwt;
@@ -110,11 +111,12 @@ public class ClassController {
    * @return A new ResponseEntity that contains the list of teacher classes with all the fields
    */
   @RequestMapping(
+          value = "/",
           method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<ClassModel>> getAllClasses(@RequestHeader("Authorization") String token) {
+  public ResponseEntity<List<TeacherClasses>> getAllClasses(@RequestHeader("Authorization") String token) {
     try{
-      return new ResponseEntity<List<ClassModel>>(classService.getAllClasses(ParseJwt.getIdFromJwt(token)), HttpStatus.OK);
+      return new ResponseEntity<List<TeacherClasses>>(classService.getAllClasses(ParseJwt.getIdFromJwt(token)), HttpStatus.OK);
     } catch (Exception e){
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
