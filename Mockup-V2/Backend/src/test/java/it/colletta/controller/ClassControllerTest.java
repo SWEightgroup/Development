@@ -131,20 +131,6 @@ public class ClassControllerTest {
   }
 
   @Test
-  public void RenameClassTest(){
-    try{
-      String jsonClassHelperTest = mapper.writeValueAsString(classHelperTest);
-      mvc.perform(MockMvcRequestBuilders.put("/class/rename")
-              .header("Authorization", userToken)
-              .content(jsonClassHelperTest)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
-    } catch(Exception e){
-      e.printStackTrace();
-    }
-  }
-
-  @Test
   public void DeleteClassTest(){
     try{
       mvc.perform(MockMvcRequestBuilders.delete("/class/1")

@@ -86,26 +86,6 @@ public class ClassController {
   }
 
   /**
-   * @param classHelper the class that is going to change the name
-   * @param token the authorization token of the teacher
-   * @return A new ResponseEntity that contains the new name of the class
-   */
-  @RequestMapping(
-          value = "/rename",
-          method = RequestMethod.PUT,
-          produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> renameClass(@RequestHeader("Authorization") String token,
-                                            @Valid @RequestBody ClassHelper classHelper) {
-    try{
-        String newClassName = classService.renameExistingClass(classHelper.getClassId(),classHelper.getName());
-        return new ResponseEntity<String>(newClassName, HttpStatus.OK);
-    } catch (Exception e){
-        e.printStackTrace();
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  /**
    * @param classId the unique Id of the class
    * @param token the authorization token of the teacher
    * @return A new ResponseEntity that contains the status of the operation
