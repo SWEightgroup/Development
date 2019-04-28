@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Navbar from './view/containers/NavbarContainers/Navbar';
 import Sidebar from './view/components/Sidebar';
 import Dashboard from './view/containers/DashboardContainers/Dashboard';
+import TeacherDashboard from './view/containers/DashboardContainers/TeacherDashboard';
 import Footer from './view/components/Footer';
 import SignUp from './view/containers/AuthContainers/SignUp';
 import SignIn from './view/containers/AuthContainers/SignIn';
@@ -45,6 +46,21 @@ class App extends Component {
   render() {
     const { loader, innerLoader, auth } = this.props;
     const { language, isReady } = auth;
+
+    let main_dash = null;
+    if (auth.user) {
+      switch (auth.user.role) {
+        case 'ROLE_TEACHER':
+          main_dash = TeacherDashboard;
+          break;
+        case 'ROLE_STUDENT':
+          main_dash = Dashboard;
+          break;
+        default:
+          main_dash = Dashboard;
+      }
+    }
+
     if (isReady) {
       return (
         <BrowserRouter>
@@ -91,7 +107,7 @@ class App extends Component {
                     <ProtectedRoute
                       exact
                       path="/"
-                      component={Dashboard}
+                      component={main_dash}
                       isAllowed={auth.user}
                     />
                     <ProtectedRoute
@@ -109,7 +125,7 @@ class App extends Component {
                     <ProtectedRoute
                       path="/dashboard"
                       isAllowed={auth.user}
-                      component={Dashboard}
+                      component={main_dash}
                     />
                     <ProtectedRoute
                       path="/account"
