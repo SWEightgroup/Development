@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import it.colletta.model.ClassModel;
 import it.colletta.model.helper.ClassHelper;
+import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.classes.ClassService;
 import org.junit.Before;
@@ -33,6 +34,8 @@ public class ClassServiceTest {
 
     private ClassHelper classHelper;
 
+    private StudentClassHelper studentClassHelper;
+
 
     @Before
     public void setUp() {
@@ -54,6 +57,12 @@ public class ClassServiceTest {
                 .teacherId("100")
                 .build();
 
+        studentClassHelper = studentClassHelper.builder()
+                .classId("0")
+                .className("classe0")
+                .studentsId(studentsId)
+                .build();
+
     }
 
     @Test
@@ -65,5 +74,18 @@ public class ClassServiceTest {
         assertEquals(myClass, "nomeclasse");
 
     }
+
+    @Test
+    public void modifyExistingStudentClass() throws Exception {
+
+        classService.modifyExistingStudentClass(studentClassHelper);
+
+        Mockito.verify(classRepository).updateClass(
+                studentClassHelper.getClassId(),
+                studentClassHelper.getStudentsId(),
+                studentClassHelper.getClassName()
+        );
+    }
+
 
 }
