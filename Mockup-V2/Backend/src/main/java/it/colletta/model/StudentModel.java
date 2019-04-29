@@ -45,6 +45,10 @@ public class StudentModel extends UserModel {
     return favoriteTeacherIds;
   }
 
+  public void setFavoriteTeacherIds(ArrayList<String> favoriteTeacherIds){
+    this.favoriteTeacherIds = favoriteTeacherIds;
+  }
+
   public void setCurrentGoal(int currentGoal) {
     this.currentGoal = currentGoal;
   }

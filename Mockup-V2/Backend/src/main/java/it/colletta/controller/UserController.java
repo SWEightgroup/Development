@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,9 +76,7 @@ public class UserController {
   public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(
       @RequestHeader("Authorization") String jwtToken) {
     String userId = ParseJwt.getIdFromJwt(jwtToken);
-    ResponseEntity<List<UserModel>> mydevelopmentneedenable =
-        new ResponseEntity<>(userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
-    return mydevelopmentneedenable;
+    return new ResponseEntity<>(userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
   }
 
   /**
