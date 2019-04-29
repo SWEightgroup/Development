@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { mount } from 'enzyme';
 import Sidebar from '../../view/components/Sidebar';
 import SidebarElementStudent from '../../view/components/SidebarElementStudent';
