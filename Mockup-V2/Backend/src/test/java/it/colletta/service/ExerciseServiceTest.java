@@ -13,10 +13,12 @@ import it.colletta.model.UserModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
+import it.colletta.security.Role;
 import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +40,17 @@ public class ExerciseServiceTest {
   @Mock
   private ExerciseRepository exerciseRepository;
 
-  @InjectMocks
-  private ExerciseService exerciseService;
-
   @Mock
   private PhraseService phraseService;
 
   @Mock
   private UserService userService;
+
+  @Mock
+  private StudentService studentService;
+
+  @InjectMocks
+  private ExerciseService exerciseService;
 
   private ExerciseModel exerciseModel;
 
@@ -79,6 +84,8 @@ public class ExerciseServiceTest {
 
     List<String> assignedUsersIds = new ArrayList<>();
     assignedUsersIds.add("104");
+    Date date = new Date(2323223232L);
+
     exercise = ExerciseHelper.builder()
         .id("123")
         .assignedUsersIds(assignedUsersIds)
@@ -113,6 +120,17 @@ public class ExerciseServiceTest {
     studentModel = StudentModel.studentBuilder().id("101").firstName("Studente")
         .lastName("Studente").build();
 
+    userModel = UserModel.builder()
+            .id("123")
+            .firstName("firstname")
+            .email("email@email.com")
+            .enabled(true)
+            .role(Role.TEACHER)
+            .lastName("lastname")
+            .dateOfBirth(date)
+            .language("it")
+            .build();
+
   }
 
   /**
@@ -121,9 +139,9 @@ public class ExerciseServiceTest {
 
   @Test
   public void insertExercise() {
-  /*
     Mockito.when(phraseService.createPhrase(exercise.getPhraseText(), exercise.getLanguage()))
         .thenReturn(phrase);
+
     Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
 
     Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
@@ -134,7 +152,7 @@ public class ExerciseServiceTest {
 
     assertEquals(myAddedExercise.getAuthorName(), "Insegnante Insegnante");
     assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
-  */
+
   }
 
   /**
@@ -145,16 +163,14 @@ public class ExerciseServiceTest {
 
   @Test
   public void insertFreeExercise() {
-    /*
     Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
 
     Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
 
     ExerciseModel myAddedExercise = exerciseService.insertFreeExercise(exercise,exercise.getAuthor());
 
-    assertEquals(myAddedExercise.getAuthorName(),"Insegnante Insegnante");
+    assertEquals(myAddedExercise.getAuthorName(),"firstname lastname");
     assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
-    */
 
   }
 
@@ -165,7 +181,7 @@ public class ExerciseServiceTest {
   @Test
   public void doExercise() {
 
-    /*Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
+    Mockito.when(exerciseRepository.findById(anyString())).thenReturn(Optional.of(exerciseModel));
     Mockito.when(phraseService.getSolutionInPhrase(anyString(), anyString(), anyString()))
         .thenReturn(mainSolution);
     Mockito.when(phraseService.getPhraseById(anyString())).thenReturn(Optional.of(phrase));
@@ -179,7 +195,6 @@ public class ExerciseServiceTest {
     } catch (Exception error) {
       error.printStackTrace();
     }
-    */
   }
 
 
