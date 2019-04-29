@@ -26,6 +26,7 @@ import AdminUserDashBoard from './view/containers/DashboardContainers/AdminUserD
 import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
 import PublicExercises from './view/containers/ExerciseContainers/PublicExercises';
 import ClassManagement from './view/containers/ExerciseContainers/ClassManagement';
+import AdminDashboard from './view/containers/DashboardContainers/AdminDashboard';
 
 class App extends Component {
   state = {};
@@ -55,6 +56,9 @@ class App extends Component {
           break;
         case 'ROLE_STUDENT':
           main_dash = Dashboard;
+          break;
+        case 'ROLE_ADMIN':
+          main_dash = AdminDashboard;
           break;
         default:
           main_dash = Dashboard;
