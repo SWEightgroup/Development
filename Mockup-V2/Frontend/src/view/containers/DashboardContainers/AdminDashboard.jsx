@@ -32,9 +32,11 @@ class AdminDashboard extends Component {
         <div className="card mb-3 widget-content bg-midnight-bloom">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">Studenti</div>
+              <div className="widget-heading">
+                {_translator('adminDashboard_students', language)}
+              </div>
               <div className="widget-subheading">
-                Numero totale di studenti iscritti al sistema
+                {_translator('adminDashboard_numStudents', language)}
               </div>
             </div>
             <div className="widget-content-right">
@@ -52,9 +54,11 @@ class AdminDashboard extends Component {
         <div className="card mb-3 widget-content bg-arielle-smile">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">Insegnanti</div>
+              <div className="widget-heading">
+                {_translator('adminDashboard_teachers', language)}
+              </div>
               <div className="widget-subheading">
-                Numero di insegnanti iscritti al sistema
+                {_translator('adminDashboard_numTeachers', language)}
               </div>
             </div>
             <div className="widget-content-right">
@@ -72,9 +76,11 @@ class AdminDashboard extends Component {
         <div className="card mb-3 widget-content bg-happy-green">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">Sviluppatori</div>
+              <div className="widget-heading">
+                {_translator('adminDashboard_devs', language)}
+              </div>
               <div className="widget-subheading">
-                Numero di sviluppatori iscritti al sistema
+                {_translator('adminDashboard_numDevs', language)}
               </div>
             </div>
             <div className="widget-content-right">
@@ -92,9 +98,11 @@ class AdminDashboard extends Component {
         <div className="card mb-3 widget-content bg-premium-dark">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">In Attesa</div>
+              <div className="widget-heading">
+                {_translator('adminDashboard_devWait', language)}
+              </div>
               <div className="widget-subheading">
-                Numero di sviluppatori in attesa di approvazione
+                {_translator('adminDashboard_numDevWait', language)}
               </div>
             </div>
             <div className="widget-content-right">

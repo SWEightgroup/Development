@@ -35,9 +35,11 @@ class TeacherDashboard extends Component {
         <div className="card mb-3 widget-content bg-midnight-bloom">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">Esercizi inseriti</div>
+              <div className="widget-heading">
+                {_translator('teacherDashboard_insEx', language)}
+              </div>
               <div className="widget-subheading">
-                Numero totale di esericizi inseriti
+                {_translator('teacherDashboard_numInsEx', language)}
               </div>
             </div>
             <div className="widget-content-right">
@@ -57,8 +59,12 @@ class TeacherDashboard extends Component {
         <div className="card mb-3 widget-content bg-arielle-smile">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">Classi</div>
-              <div className="widget-subheading">Numero di classi create</div>
+              <div className="widget-heading">
+                {_translator('teacherDashboard_class', language)}
+              </div>
+              <div className="widget-subheading">
+                {_translator('teacherDashboard_numClass', language)}
+              </div>
             </div>
             <div className="widget-content-right">
               <div className="widget-numbers text-white">
@@ -76,9 +82,11 @@ class TeacherDashboard extends Component {
         <div className="card mb-3 widget-content bg-happy-green">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
-              <div className="widget-heading">Studenti</div>
+              <div className="widget-heading">
+                {_translator('teacherDashboard_students', language)}
+              </div>
               <div className="widget-subheading">
-                Numero di studenti nel sistema
+                {_translator('teacherDashboard_numStudents', language)}
               </div>
             </div>
             <div className="widget-content-right">
