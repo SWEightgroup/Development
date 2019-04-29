@@ -1,8 +1,10 @@
 package it.colletta.service;
 
 import com.mongodb.client.FindIterable;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
+import it.colletta.model.helper.FilterHelper;
 import it.colletta.repository.phrase.PhraseRepository;
 import java.io.File;
 import java.io.IOException;
@@ -123,6 +125,18 @@ public class PhraseService {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 
+  public File downloadPhrasesWithFilter(FilterHelper filter) throws IOException {
+    File file = File.createTempFile("filteredPhrases", ".json");
+    FindIterable<Document> documents = phraseRepository.findAllPhrasesWithFilter(filter);
+    PrintStream fileStream = new PrintStream(file);
+
+    for (Document document : documents) {
+      document.remove("_class");
+      document.remove("_id");
+      fileStream.println(document.toJson());
+    }
+    return file;
+  }
 
   public File downloadAllPhrases() throws IOException {
     File file = File.createTempFile("allphrases", ".json");

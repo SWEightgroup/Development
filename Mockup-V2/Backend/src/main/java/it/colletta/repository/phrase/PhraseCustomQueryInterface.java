@@ -5,6 +5,8 @@ import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import java.util.List;
+
+import it.colletta.model.helper.FilterHelper;
 import org.bson.Document;
 
 // interface for custom query on phrases collections
@@ -31,4 +33,6 @@ public interface PhraseCustomQueryInterface {
 
 
   FindIterable<Document> findAllPhrasesAsIterable();
+
+    FindIterable<Document> findAllPhrasesWithFilter(FilterHelper filter);
 }
