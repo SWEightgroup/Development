@@ -7,14 +7,14 @@ class AdminDashboard extends Component {
   constructor(props) {
     super(props);
     const { admin, fetchUsersListDispatch } = props;
-    const { devList, usersList } = admin;
+    const { /* devList ,*/ usersList } = admin;
     if (usersList.length < 1) fetchUsersListDispatch();
   }
 
   render() {
     const { user, admin } = this.props;
     const { firstName, language } = user;
-    const { devList, usersList } = admin;
+    const { /* devList ,*/ usersList } = admin;
     const numOfStudents = usersList.filter(user => user.role === 'ROLE_STUDENT')
       .length;
     const numOfDevs = usersList.filter(user => user.role === 'ROLE_DEVELOPER')
