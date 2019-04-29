@@ -1,20 +1,20 @@
 package it.colletta.service;
 
 import com.mongodb.client.FindIterable;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.helper.FilterHelper;
 import it.colletta.repository.phrase.PhraseRepository;
+import lombok.NonNull;
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
-import lombok.NonNull;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
