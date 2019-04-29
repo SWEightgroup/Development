@@ -116,7 +116,13 @@ export const _label = {
     adminDashboard_numDevs: 'Numero di sviluppatori iscritti al sistema',
     adminDashboard_devWait: 'In Attesa',
     adminDashboard_numDevWait:
-      'Numero di sviluppatori in attesa di approvazione'
+      'Numero di sviluppatori in attesa di approvazione',
+    teacherDashboard_insEx: 'Esercizi inseriti',
+    teacherDashboard_numInsEx: 'Numero totale di esericizi inseriti',
+    teacherDashboard_class: 'Classi',
+    teacherDashboard_numClass: 'Numero di classi create',
+    teacherDashboard_students: 'Studenti',
+    teacherDashboard_numStudents: 'Numero di studenti nel sistema'
   },
   en: {
     account_yourData: 'Your data',
@@ -225,6 +231,12 @@ export const _label = {
     adminDashboard_devs: 'Developers',
     adminDashboard_numDevs: 'Total number of developers in the system',
     adminDashboard_devWait: 'Pending',
-    adminDashboard_numDevWait: 'Number of developers pending approval'
+    adminDashboard_numDevWait: 'Number of developers pending approval',
+    teacherDashboard_insEx: 'Inserted exercises',
+    teacherDashboard_numInsEx: 'Total number of inserted execises',
+    teacherDashboard_class: 'Classes',
+    teacherDashboard_numClass: 'Total number of created classes',
+    teacherDashboard_students: 'Students',
+    teacherDashboard_numStudents: 'Total number of students in the system'
   }
 };
