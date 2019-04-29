@@ -60,7 +60,7 @@ class NewExsercise extends Component {
       updateNewExerciseStateDispatch
     } = this.props;
 
-    const codeSolution = newExercise.userSolution.map((word, index) => {
+    const codeSolution = newExercise.userSolution[0].map((word, index) => {
       if (
         word.languageIterator.getSolution().length === 0 &&
         newExercise.response[index].tag.charAt(0) === 'F'
@@ -76,7 +76,7 @@ class NewExsercise extends Component {
     });
     saveFreeExerciseDispatch({
       ...newExercise,
-      codeSolution
+      codeSolution: [codeSolution, []]
     });
   };
 
@@ -128,6 +128,7 @@ class NewExsercise extends Component {
               createAt={createAt}
               showButton={showButton}
               language={language}
+              indexSolution={0}
             />
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">

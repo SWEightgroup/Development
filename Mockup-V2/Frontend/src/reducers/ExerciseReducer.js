@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 const initState = {
   newExercise: {
     sentence: [],
@@ -5,9 +6,10 @@ const initState = {
     response: null,
     showSolution: false,
     createAt: Date.now(),
-    userSolution: [], // lista di stati per le word
-    codeSolution: [],
-    complete: false
+    userSolution: [[], []], // lista di stati per le word
+    codeSolution: [[], []],
+    complete: false,
+    alternativeSolution: false
   },
   todoExercises: { exercises: null, page: null, links: null },
   doneExercises: { exercises: null, page: null, links: null },
@@ -48,8 +50,10 @@ const ExerciseReducer = (state = initState, action) => {
       };
 
     case 'UPDATE_WORD_STATE':
-      const userSolution = state.newExercise.userSolution;
-      userSolution[action.word.index] = action.word;
+      const { word, indexSolution } = action.obj;
+      const userSolution = state.newExercise.userSolution[indexSolution];
+
+      userSolution[word.index] = word;
       return {
         ...state,
         newExercise: { ...state.newExercise }

@@ -66,12 +66,22 @@ class InsertExercise extends Component {
       updateNewExerciseStateDispatch
     } = this.props;
 
-    const codeSolution = newExercise.userSolution.map((word, index) => {
+    const codeSolution1 = newExercise.userSolution[0].map((word, index) => {
       if (word.languageIterator.getSolution().length === 0) {
         return newExercise.response[index].tag;
       }
       return word.languageIterator.getCodeSolution();
     }); // questo è un array di codici che invio al backend
+
+    const codeSolution2 = newExercise.alternativeSolution
+      ? newExercise.userSolution[1].map((word, index) => {
+          if (word.languageIterator.getSolution().length === 0) {
+            return newExercise.response[index].tag;
+          }
+          return word.languageIterator.getCodeSolution();
+        })
+      : newExercise.userSolution[1]; // questo è un array di codici che invio al backend
+
     updateNewExerciseStateDispatch({
       ...newExercise,
       showSolution: true
@@ -79,7 +89,7 @@ class InsertExercise extends Component {
     saveExerciseSolutionDispatch({
       ...newExercise,
       showSolution: true,
-      codeSolution
+      codeSolution: [codeSolution1, codeSolution2]
     });
   };
 
@@ -114,11 +124,13 @@ class InsertExercise extends Component {
    *  @param event Event
    *  @param studentsId List of students id
    */
-  handleChangeClassList = (event, studentsId) => {
+  handleChangeClassList = (event, students) => {
     const { updateStudentsListDispatch, studentsList } = this.props;
-    if (studentsId && studentsId.length > 0) {
-      studentsId.forEach(studentId => {
-        const element = studentsList.find(student => student.id === studentId);
+    if (students && students.length > 0) {
+      students.forEach(student => {
+        const element = studentsList.find(
+          _student => _student.id === student.id
+        );
         if (element !== undefined) {
           element.check = event.target.checked;
         }
@@ -133,7 +145,8 @@ class InsertExercise extends Component {
       newExercise,
       auth,
       studentsList,
-      classList
+      classList,
+      updateNewExerciseStateDispatch
     } = this.props;
     const { user } = auth;
     const {
@@ -142,7 +155,8 @@ class InsertExercise extends Component {
       showSolution,
       createAt,
       sentenceString,
-      showButton
+      showButton,
+      alternativeSolution
     } = newExercise;
 
     const { language } = user;
@@ -155,16 +169,72 @@ class InsertExercise extends Component {
           language={language}
         />
         {response && (
-          <ExecutionExercise
-            sentence={sentence} // array di parole
-            response={response}
-            showSolution={showSolution}
-            createAt={createAt}
-            salvaEsercizio={this.salvaEsercizio}
-            language={language}
-            initSolution
-            showButton={showButton}
-          />
+          <React.Fragment>
+            <h2 className="h5">
+              {_translator('executionExercise_mainSolution', language)}
+            </h2>
+            <ExecutionExercise
+              sentence={sentence} // array di parole
+              response={response}
+              showSolution={showSolution}
+              createAt={createAt}
+              salvaEsercizio={this.salvaEsercizio}
+              language={language}
+              initSolution
+              showButton={showButton}
+              indexSolution={0}
+            />
+            <div className="main-card  card no-bg-color ">
+              <div className="card-body pt-0 pl-1">
+                {!alternativeSolution && !showSolution && (
+                  <button
+                    type="button"
+                    className="btn btn-success btn-lg "
+                    onClick={() =>
+                      updateNewExerciseStateDispatch({
+                        ...newExercise,
+                        alternativeSolution: true
+                      })
+                    }
+                  >
+                    {_translator('executionExercise_addSolAlter', language)}
+                  </button>
+                )}
+                {alternativeSolution && !showSolution && (
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-lg "
+                    onClick={() =>
+                      updateNewExerciseStateDispatch({
+                        ...newExercise,
+                        alternativeSolution: false
+                      })
+                    }
+                  >
+                    {_translator('executionExercise_delSolAlter', language)}
+                  </button>
+                )}
+              </div>
+            </div>
+            {alternativeSolution && (
+              <React.Fragment>
+                <h2 className="h5">
+                  {_translator('executionExercise_altSolution', language)}
+                </h2>
+                <ExecutionExercise
+                  sentence={sentence} // array di parole
+                  response={response}
+                  showSolution={showSolution}
+                  createAt={createAt}
+                  salvaEsercizio={this.salvaEsercizio}
+                  language={language}
+                  initSolution
+                  showButton={showButton}
+                  indexSolution={1}
+                />
+              </React.Fragment>
+            )}
+          </React.Fragment>
         )}
 
         {response && studentsList && !showSolution && studentsList.length > 0 && (
@@ -241,7 +311,7 @@ class InsertExercise extends Component {
                             <ul className="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
                               {classList.map(classElement => (
                                 <li
-                                  key={`li-${classElement.id}`}
+                                  key={`li-${classElement.classId}`}
                                   className="list-group-item"
                                 >
                                   <div className="widget-content p-0">
@@ -249,21 +319,21 @@ class InsertExercise extends Component {
                                       <div className="widget-content-left mr-3">
                                         <input
                                           type="checkbox"
-                                          id={classElement.id}
-                                          name={classElement.id}
+                                          id={classElement.classId}
+                                          name={classElement.className}
                                           value={classElement}
                                           onChange={e =>
                                             this.handleChangeClassList(
                                               e,
-                                              classElement.studentsId
+                                              classElement.students
                                             )
                                           }
                                         />
                                       </div>
                                       <div className="widget-content-left">
-                                        <label htmlFor={classElement.id}>
+                                        <label htmlFor={classElement.classId}>
                                           <div className="widget-heading">
-                                            {classElement.name}
+                                            {classElement.className}
                                           </div>
                                         </label>
                                       </div>
@@ -337,42 +407,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(InsertExercise);
-
-/* 
-
-"   { "sentences" : [
-      { "id":"1",
-        "tokens" : [
-           { "id" : "t1.1", "begin" : "0", "end" : "10", "form" : "sebastiano", "lemma" : "sebastiano", "tag" : "AQ0MS00", "ctag" : "AQ", "pos" : "adjective", "type" : "qualificative", "gen" : "masculine", "num" : "singular"},
-           { "id" : "t1.2", "begin" : "11", "end" : "18", "form" : "caccaro", "lemma" : "caccaro", "tag" : "AQ0MS00", "ctag" : "AQ", "pos" : "adjective", "type" : "qualificative", "gen" : "masculine", "num" : "singular"},
-           { "id" : "t1.3", "begin" : "19", "end" : "27", "form" : "facebook", "lemma" : "facebook", "tag" : "NCMN000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "masculine", "num" : "invariable"},
-           { "id" : "t1.4", "begin" : "28", "end" : "29", "form" : ".", "lemma" : ".", "tag" : "Fp", "ctag" : "Fp", "pos" : "punctuation", "type" : "period"}]}]}
-" 
-"{ "sentences" : [
-      { "id":"1",
-        "tokens" : [
-           { "id" : "t1.1", "begin" : "0", "end" : "1", "form" : "{", "lemma" : "{", "tag" : "Fla", "ctag" : "Fla", "pos" : "punctuation", "type" : "curlybracket", "punctenclose" : "open"},
-           { "id" : "t1.2", "begin" : "1", "end" : "2", "form" : ""\", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
-           { "id" : "t1.3", "begin" : "2", "end" : "6", "form" : "text", "lemma" : "text", "tag" : "NCMN000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "masculine", "num" : "invariable"},
-           { "id" : "t1.4", "begin" : "6", "end" : "7", "form" : "\"", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
-           { "id" : "t1.5", "begin" : "7", "end" : "8", "form" : ":", "lemma" : ":", "tag" : "Fd", "ctag" : "Fd", "pos" : "punctuation", "type" : "colon"},
-           { "id" : "t1.6", "begin" : "8", "end" : "9", "form" : "\"", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
-           { "id" : "t1.7", "begin" : "9", "end" : "10", "form" : "i", "lemma" : "il", "tag" : "DA0MP0", "ctag" : "DA", "pos" : "determiner", "type" : "article", "gen" : "masculine", "num" : "plural"},
-           { "id" : "t1.8", "begin" : "11", "end" : "15", "form" : "topi", "lemma" : "topo", "tag" : "NCMP000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "masculine", "num" : "plural"},
-           { "id" : "t1.9", "begin" : "16", "end" : "19", "form" : "non", "lemma" : "non", "tag" : "RG", "ctag" : "RG", "pos" : "adverb", "type" : "general"},
-           { "id" : "t1.10", "begin" : "20", "end" : "27", "form" : "avevano", "lemma" : "avere", "tag" : "VAII3P0", "ctag" : "VAI", "pos" : "verb", "type" : "auxiliary", "mood" : "indicative", "tense" : "imperfect", "person" : "3", "num" : "plural"},
-           { "id" : "t1.11", "begin" : "28", "end" : "34", "form" : "nipoti", "lemma" : "nipote", "tag" : "NCCP000", "ctag" : "NC", "pos" : "noun", "type" : "common", "gen" : "common", "num" : "plural"},
-           { "id" : "t1.12", "begin" : "34", "end" : "35", "form" : "\"", "lemma" : "\"", "tag" : "Fe", "ctag" : "Fe", "pos" : "punctuation", "type" : "quotation"},
-           { "id" : "t1.13", "begin" : "35", "end" : "36", "form" : "}", "lemma" : "}", "tag" : "Flt", "ctag" : "Flt", "pos" : "punctuation", "type" : "curlybracket", "punctenclose" : "close"},
-           { "id" : "t1.14", "begin" : "37", "end" : "38", "form" : ".", "lemma" : ".", "tag" : "Fp", "ctag" : "Fp", "pos" : "punctuation", "type" : "period"}]}]}"
-
-
-config: {adapter: ƒ, transformRequest: {…}, transformResponse: {…}, timeout: 0, xsrfCookieName: "XSRF-TOKEN", …}
-data: {id: "5c9d4a3f388c5b0e2088c10b", solutionText: "   { "sentences" : [↵      { "id":"1",↵        "to…, "pos" : "punctuation", "type" : "period"}]}]}↵", dateSolution: "2019-03-28T22:27:11.660+0000", affidability: 0, authorId: null, …}
-headers: {pragma: "no-cache", content-type: "application/json;charset=UTF-8", cache-control: "no-cache, no-store, max-age=0, must-revalidate", expires: "0"}
-request: XMLHttpRequest {onreadystatechange: ƒ, readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, …}
-status: 200
-statusText: ""
-__proto__: Object
-
-*/

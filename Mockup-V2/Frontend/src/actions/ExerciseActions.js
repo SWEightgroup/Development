@@ -34,11 +34,14 @@ export const initNewExerciseState = newExercise => {
       type: 'INIT_NEW_EXERCISE',
       newExercise: {
         ...newExercise,
-        userSolution: newExercise.sentence
-          // .filter(word => word.match(allowedPunctuation))
-          .map(() => {
+        userSolution: [
+          newExercise.sentence.map(() => {
+            return {};
+          }),
+          newExercise.sentence.map(() => {
             return {};
           })
+        ]
       }
     });
   };
@@ -56,9 +59,9 @@ export const changeNewInputSentence = data => {
   };
 };
 
-export const updateWordState = word => {
+export const updateWordState = (word, indexSolution) => {
   return dispatch => {
-    dispatch({ type: 'UPDATE_WORD_STATE', word });
+    dispatch({ type: 'UPDATE_WORD_STATE', obj: { word, indexSolution } });
   };
 };
 
@@ -73,7 +76,7 @@ export const saveFreeExercise = newExercise => {
         {
           assignedUsersIds: null,
           phraseText: newExercise.sentenceString,
-          mainSolution: JSON.stringify(newExercise.codeSolution),
+          mainSolution: JSON.stringify(newExercise.codeSolution[0]),
           alternativeSolution: '',
           visibility: true,
           author: id,
@@ -106,7 +109,7 @@ export const saveSolution = newExercise => {
       .post(
         'http://localhost:8081/exercises/student/do',
         {
-          solutionFromStudent: JSON.stringify(newExercise.codeSolution),
+          solutionFromStudent: JSON.stringify(newExercise.codeSolution[0]),
           exerciseId: newExercise.id
         },
         {
@@ -133,8 +136,7 @@ export const saveSolution = newExercise => {
       })
       .catch(() => {
         _toastError(
-          _translator('gen_error', store.getState().auth.user.language),
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+          _translator('gen_error', store.getState().auth.user.language)
         );
         return dispatch({ type: '' });
       });
@@ -157,8 +159,10 @@ export const saveExerciseSolution = newExercise => {
             .class.studentsList.filter(student => student.check)
             .map(student => student.id),
           phraseText: newExercise.sentenceString,
-          mainSolution: JSON.stringify(newExercise.codeSolution),
-          alternativeSolution: '',
+          mainSolution: JSON.stringify(newExercise.codeSolution[0]),
+          alternativeSolution: newExercise.alternativeSolution
+            ? JSON.stringify(newExercise.codeSolution[1])
+            : '',
           visibility: true,
           author: id,
           date: new Date().getTime(),

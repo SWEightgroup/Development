@@ -18,7 +18,8 @@ class ExecutionExercise extends Component {
       initSolution,
       createAt,
       language,
-      showButton
+      showButton,
+      indexSolution
     } = this.props;
 
     const filterWord = sentence; // .filter(word => word.match(allowedPunctuation));
@@ -48,6 +49,7 @@ class ExecutionExercise extends Component {
                       showSolution={showSolution}
                       showButton={showButton}
                       initSolution={initSolution}
+                      indexSolution={indexSolution}
                     />
                   );
                 })}

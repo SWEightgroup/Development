@@ -33,7 +33,7 @@ class HomeworkExercise extends Component {
       updateNewExerciseStateDispatch
     } = this.props;
 
-    const codeSolution = newExercise.userSolution.map((word, index) => {
+    const codeSolution = newExercise.userSolution[0].map((word, index) => {
       if (
         newExercise.response !== null &&
         word.languageIterator.getSolution() &&
@@ -51,7 +51,7 @@ class HomeworkExercise extends Component {
     });
     saveSolutionDispatch({
       ...newExercise,
-      codeSolution
+      codeSolution: [codeSolution, []]
     });
   };
 
@@ -60,7 +60,6 @@ class HomeworkExercise extends Component {
     const { user } = auth;
 
     const { response, showSolution, createAt, mark } = newExercise;
-    console.log(': HomeworkExercise -> render -> newExercise', newExercise);
 
     const { language } = user;
 
@@ -105,6 +104,7 @@ class HomeworkExercise extends Component {
             salvaEsercizio={this.salvaEsercizio}
             language={language}
             showButton
+            indexSolution={0}
           />
 
           {sentence && sentence.length > 0 && (

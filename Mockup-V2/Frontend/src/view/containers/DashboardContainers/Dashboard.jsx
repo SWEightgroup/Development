@@ -101,7 +101,7 @@ class Dashboard extends Component {
 
     const percent =
       (numberOfExercise / (numberOfToDo + numberOfExercise)) * 100;
-    const percentToShow = isNaN(percent) ? 0 : percent;
+    const percentToShow = Number.isNaN(percent) ? 0 : percent.toFixed(2);
     const donePercentage = (
       <div className="col-md-8">
         <div className="card mb-3 widget-content">
@@ -129,7 +129,7 @@ class Dashboard extends Component {
                   aria-valuenow={percentToShow}
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  style={{ width: percentToShow + '%' }}
+                  style={{ width: `${percentToShow  }%` }}
                 />
               </div>
               <div className="progress-sub-label">

@@ -8,19 +8,27 @@ import { updateWordState } from '../../actions/ExerciseActions';
 class Word extends Component {
   constructor(props) {
     super(props);
-    const { gerarchy, updateWordStateDispatch, solutionTag } = props;
-    const languageIterator = new LanguageStructure(gerarchy).getBaseIterator(); // NON VA BENE, VA CAMBIATO
+    const {
+      gerarchy,
+      updateWordStateDispatch,
+      solutionTag,
+      indexSolution
+    } = props;
+    const languageIterator = new LanguageStructure(gerarchy).getBaseIterator();
 
-    updateWordStateDispatch({
-      languageIterator,
-      buttons: languageIterator.getCurrentButtonList(),
-      solution:
-        solutionTag && props.initSolution && solutionTag.charAt(0) !== 'F'
-          ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution()
-          : '',
-      index: props.index,
-      showButton: props.showButton
-    });
+    updateWordStateDispatch(
+      {
+        languageIterator,
+        buttons: languageIterator.getCurrentButtonList(),
+        solution:
+          solutionTag && props.initSolution && solutionTag.charAt(0) !== 'F'
+            ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution()
+            : '',
+        index: props.index,
+        showButton: props.showButton
+      },
+      indexSolution
+    );
   }
 
   /**
@@ -32,17 +40,25 @@ class Word extends Component {
 
   backOne = () => {
     try {
-      const { updateWordStateDispatch, newExercise, index } = this.props;
-      const state = newExercise.userSolution[index];
+      const {
+        updateWordStateDispatch,
+        newExercise,
+        index,
+        indexSolution
+      } = this.props;
+      const state = newExercise.userSolution[indexSolution][index];
       const { languageIterator } = state;
       languageIterator.prevLevel();
 
-      updateWordStateDispatch({
-        ...state,
-        languageIterator,
-        buttons: languageIterator.getCurrentButtonList(),
-        solution: languageIterator.getVerboseSolution()
-      });
+      updateWordStateDispatch(
+        {
+          ...state,
+          languageIterator,
+          buttons: languageIterator.getCurrentButtonList(),
+          solution: languageIterator.getVerboseSolution()
+        },
+        indexSolution
+      );
     } catch (err) {
       console.error(err);
     }
@@ -55,16 +71,24 @@ class Word extends Component {
    */
   generateNext = button => {
     try {
-      const { updateWordStateDispatch, newExercise, index } = this.props;
-      const state = newExercise.userSolution[index];
+      const {
+        updateWordStateDispatch,
+        newExercise,
+        index,
+        indexSolution
+      } = this.props;
+      const state = newExercise.userSolution[indexSolution][index];
       const { languageIterator } = state;
       languageIterator.nextLevel(button);
-      updateWordStateDispatch({
-        ...state,
-        buttons: languageIterator.getCurrentButtonList(),
-        solution: languageIterator.getVerboseSolution(),
-        languageIterator
-      });
+      updateWordStateDispatch(
+        {
+          ...state,
+          buttons: languageIterator.getCurrentButtonList(),
+          solution: languageIterator.getVerboseSolution(),
+          languageIterator
+        },
+        indexSolution
+      );
     } catch (err) {
       console.error(err);
     }
@@ -74,25 +98,45 @@ class Word extends Component {
    * Reset the word solution and buttons
    */
   reset = () => {
-    const { updateWordStateDispatch, newExercise, index } = this.props;
-    const state = newExercise.userSolution[index];
+    const {
+      updateWordStateDispatch,
+      newExercise,
+      index,
+      indexSolution
+    } = this.props;
+    const state = newExercise.userSolution[indexSolution][index];
     const { languageIterator } = state;
     languageIterator.setBaseLevel();
-    updateWordStateDispatch({
-      ...state,
-      buttons: languageIterator.getCurrentButtonList(),
-      solution: languageIterator.getVerboseSolution(),
-      languageIterator
-    });
+    updateWordStateDispatch(
+      {
+        ...state,
+        buttons: languageIterator.getCurrentButtonList(),
+        solution: languageIterator.getVerboseSolution(),
+        languageIterator
+      },
+      indexSolution
+    );
   };
 
   edit = () => {
-    const { updateWordStateDispatch, newExercise, index } = this.props;
-    const state = newExercise.userSolution[index];
-    updateWordStateDispatch({
-      ...state,
-      showButton: true
-    });
+    const {
+      updateWordStateDispatch,
+      newExercise,
+      index,
+      indexSolution
+    } = this.props;
+    console.log(
+      ': edit ->  newExercise.userSolution',
+      newExercise.userSolution
+    );
+    const state = newExercise.userSolution[indexSolution][index];
+    updateWordStateDispatch(
+      {
+        ...state,
+        showButton: true
+      },
+      indexSolution
+    );
   };
 
   render() {
@@ -102,10 +146,12 @@ class Word extends Component {
       showSolution,
       gerarchy,
       newExercise,
-      index
+      index,
+      initSolution,
+      indexSolution
     } = this.props;
 
-    const state = newExercise.userSolution[index];
+    const state = newExercise.userSolution[indexSolution][index];
     const { buttons, solution, showButton } = state;
     const allowedPunctuation = /[,.?!"'<>;:]/g;
 
@@ -143,18 +189,15 @@ class Word extends Component {
                     </button>
                   </React.Fragment>
                 )}
-                {buttons &&
-                  !showButton &&
-                  !showSolution &&
-                  this.props.initSolution && (
-                    <button
-                      type="button"
-                      className="border-0 btn btn-outline-danger btn-sm"
-                      onClick={this.edit}
-                    >
-                      MODIFICA
-                    </button>
-                  )}
+                {buttons && !showButton && !showSolution && initSolution && (
+                  <button
+                    type="button"
+                    className="border-0 btn btn-outline-danger btn-sm"
+                    onClick={this.edit}
+                  >
+                    MODIFICA
+                  </button>
+                )}
 
                 <strong className="p-2 text-uppercase">{parola}</strong>
               </div>
@@ -216,7 +259,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateWordStateDispatch: word => dispatch(updateWordState(word))
+    updateWordStateDispatch: (word, indexSolution) =>
+      dispatch(updateWordState(word, indexSolution))
   };
 };
 

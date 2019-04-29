@@ -73,6 +73,10 @@ export const _label = {
     SidebarElementAdministrator_devs: 'Sviluppatori',
     insertExercise_confirmFSolution: 'Inserisci soluzione proposta',
     insertExercise_editFSolution: 'Modifica soluzione',
+    executionExercise_addSolAlter: 'Aggiungi soluzione alternativa',
+    executionExercise_delSolAlter: 'Rimuovi la soluzione alternativa',
+    executionExercise_altSolution: 'Soluzione alternativa',
+    executionExercise_mainSolution: 'Soluzione principale',
     gen_devDashboard: 'Pannello Sviluppatore',
     developerDashBoard_desc: 'Filtra e scarica i dati che ti interessano',
     developerDashBoard_devDownText:
@@ -170,6 +174,10 @@ export const _label = {
     inputSentence_insertSentence: 'Enter phrase',
     insertExercise_ClassDisp: 'Classes available',
     insertExercise_StudentDisp: 'Students available',
+    executionExercise_addSolAlter: 'Add alternative solution',
+    executionExercise_delSolAlter: 'Delete alternative solution',
+    executionExercise_altSolution: 'Alternative solution',
+    executionExercise_mainSolution: 'Main solution',
     signup_errorPassword: 'The two passwords do not match',
     signup_selectOption: 'Select an option',
     signup_hint:
