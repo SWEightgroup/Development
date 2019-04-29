@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _translator from '../../../helpers/Translator';
-import { fetchUsersList } from '../../../actions/AdminActions';
+import {
+  fetchUsersList,
+  fetchDeveloperList
+} from '../../../actions/AdminActions';
 
 class AdminDashboard extends Component {
   constructor(props) {
     super(props);
-    const { admin, fetchUsersListDispatch } = props;
-    const { /* devList ,*/ usersList } = admin;
+    const { admin, fetchUsersListDispatch, fetchDeveloperListDispatch } = props;
+    const { devList, usersList } = admin;
     if (usersList.length < 1) fetchUsersListDispatch();
+    if (devList.length < 1) fetchDeveloperListDispatch();
   }
 
   render() {
     const { user, admin } = this.props;
     const { firstName, language } = user;
-    const { /* devList ,*/ usersList } = admin;
+    const { devList, usersList } = admin;
     const numOfStudents = usersList.filter(user => user.role === 'ROLE_STUDENT')
       .length;
     const numOfDevs = usersList.filter(user => user.role === 'ROLE_DEVELOPER')
       .length;
     const numOfTeachers = usersList.filter(user => user.role === 'ROLE_TEACHER')
       .length;
+    const devToAccept = devList.length;
 
     const students = (
       <div className="col-md-6 col-xl-4">
@@ -81,6 +86,27 @@ class AdminDashboard extends Component {
         </div>
       </div>
     );
+
+    const devsAccept = (
+      <div className="col-md-6 col-xl-4">
+        <div className="card mb-3 widget-content bg-premium-dark">
+          <div className="widget-content-wrapper text-white">
+            <div className="widget-content-left">
+              <div className="widget-heading">In Attesa</div>
+              <div className="widget-subheading">
+                Numero di sviluppatori in attesa di approvazione
+              </div>
+            </div>
+            <div className="widget-content-right">
+              <div className="widget-numbers text-white">
+                <span>{devToAccept}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <React.Fragment>
         <div className="row justify-content-center">
@@ -97,6 +123,7 @@ class AdminDashboard extends Component {
           {teachers}
           {devs}
         </div>
+        <div className="row justify-content-center">{devsAccept}</div>
       </React.Fragment>
     );
   }
@@ -111,6 +138,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchDeveloperListDispatch: () => dispatch(fetchDeveloperList()),
     fetchUsersListDispatch: () => dispatch(fetchUsersList())
   };
 };
