@@ -44,11 +44,6 @@ public class ClassService {
     return classToAdd.getName();
   }
 
-  public String renameExistingClass(@NonNull String classId, String newClassName) throws Exception {
-    classRepository.renameClass(classId, newClassName);
-    return newClassName;
-
-  }
 
   public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception {
     classRepository.updateClass(studentClassHelper.getClassId(), studentClassHelper.getStudentsId(), studentClassHelper.getClassName());

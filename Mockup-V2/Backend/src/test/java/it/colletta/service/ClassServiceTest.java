@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassServiceTest {
@@ -55,8 +56,6 @@ public class ClassServiceTest {
 
     }
 
-    //public String createNewClass(ClassHelper newClass, @NonNull String teacherId)
-
     @Test
     public void createNewClass(){
         Mockito.when( classRepository.save(any(ClassModel.class))).thenReturn(classModel);
@@ -66,7 +65,5 @@ public class ClassServiceTest {
         assertEquals(myClass, "nomeclasse");
 
     }
-
-
 
 }
