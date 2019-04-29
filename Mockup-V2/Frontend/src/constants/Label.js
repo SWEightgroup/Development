@@ -107,7 +107,16 @@ export const _label = {
     dashboard_public: 'Pubblici',
     dashboard_numPublic: 'Numbero di esericizi pubblici',
     dashboard_donePercentTitle: 'Compiti svolti',
-    dashboard_donePercent: 'Percentuale di compiti svolti'
+    dashboard_donePercent: 'Percentuale di compiti svolti',
+    adminDashboard_students: 'Studenti',
+    adminDashboard_numStudents: 'Numero totale di studenti iscritti al sistema',
+    adminDashboard_teachers: 'Insegnanti',
+    adminDashboard_numTeachers: 'Numero di insegnanti iscritti al sistema',
+    adminDashboard_devs: 'Sviluppatori',
+    adminDashboard_numDevs: 'Numero di sviluppatori iscritti al sistema',
+    adminDashboard_devWait: 'In Attesa',
+    adminDashboard_numDevWait:
+      'Numero di sviluppatori in attesa di approvazione'
   },
   en: {
     account_yourData: 'Your data',
@@ -208,6 +217,14 @@ export const _label = {
     dashboard_public: 'Public',
     dashboard_numPublic: 'Number of public exercises',
     dashboard_donePercentTitle: 'Done Excercises',
-    dashboard_donePercent: 'Done exercises percentage'
+    dashboard_donePercent: 'Done exercises percentage',
+    adminDashboard_students: 'Students',
+    adminDashboard_numStudents: 'Total number of students in the system',
+    adminDashboard_teachers: 'Teachers',
+    adminDashboard_numTeachers: 'Total number of teachers in the system',
+    adminDashboard_devs: 'Developers',
+    adminDashboard_numDevs: 'Total number of developers in the system',
+    adminDashboard_devWait: 'Pending',
+    adminDashboard_numDevWait: 'Number of developers pending approval'
   }
 };
