@@ -87,5 +87,11 @@ public class ClassServiceTest {
         );
     }
 
+    @Test
+    public void deleteClass(){
+        classService.deleteClass(anyString());
+        Mockito.verify(classRepository).deleteById(anyString());
+    }
+
 
 }
