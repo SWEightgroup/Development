@@ -23,6 +23,7 @@ class ExecutionExercise extends Component {
 
     const filterWord = sentence; // .filter(word => word.match(allowedPunctuation));
 
+    // console.log(props);
     if (sentence && sentence.length) {
       return (
         <div className="main-card mb-3 card">
