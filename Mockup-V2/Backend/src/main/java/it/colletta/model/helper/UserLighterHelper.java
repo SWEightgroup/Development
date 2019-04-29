@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UserClassHelper {
+public class UserLighterHelper {
   private String id;
   private String firstName;
   private String lastName;

@@ -12,7 +12,7 @@ public class StudentModel extends UserModel {
 
   private Integer currentGoal;
 
-  private ArrayList<String> favoriteTeacherIds;
+  private List<String> favoriteTeacherIds;
 
   public StudentModel() {
     super();
@@ -41,11 +41,11 @@ public class StudentModel extends UserModel {
   /**
    *
    */
-  public ArrayList<String> getFavoriteTeacherIds() {
+  public List<String> getFavoriteTeacherIds() {
     return favoriteTeacherIds;
   }
 
-  public void setFavoriteTeacherIds(ArrayList<String> favoriteTeacherIds){
+  public void setFavoriteTeacherIds(List<String> favoriteTeacherIds){
     this.favoriteTeacherIds = favoriteTeacherIds;
   }
 

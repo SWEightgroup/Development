@@ -5,7 +5,7 @@ import it.colletta.model.UserModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.model.helper.TeacherClasses;
-import it.colletta.model.helper.UserClassHelper;
+import it.colletta.model.helper.UserLighterHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
 import lombok.NonNull;
@@ -60,8 +60,8 @@ public class ClassService {
     for (ClassModel actualClassModel : classes) {
       List<UserModel> actualClassStudent =
               userService.getAllListUser(actualClassModel.getStudentsId());
-      List<UserClassHelper> actualClassStudentHelper = actualClassStudent.stream()
-              .map(user -> UserClassHelper.builder()
+      List<UserLighterHelper> actualClassStudentHelper = actualClassStudent.stream()
+              .map(user -> UserLighterHelper.builder()
                       .id(user.getId())
                       .email(user.getUsername())
                       .firstName(user.getFirstName())

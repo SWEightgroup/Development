@@ -1,7 +1,7 @@
 package it.colletta.model.helper;
 
 import lombok.*;
-import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -9,5 +9,5 @@ import java.util.ArrayList;
 @ToString
 @Builder
 public class FavoriteTeacherHelper {
-  private ArrayList<String> teacherId;
+  private List<String> teacherId;
 }

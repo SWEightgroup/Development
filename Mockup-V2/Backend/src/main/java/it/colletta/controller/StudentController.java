@@ -3,6 +3,7 @@ package it.colletta.controller;
 import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.model.helper.FavoriteTeacherHelper;
+import it.colletta.model.helper.UserLighterHelper;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.user.UserService;
 import java.util.List;
@@ -58,7 +59,7 @@ public class StudentController {
           value = "/favorite-teacher",
           method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserModel>> getFavoriteTeachers(
+  public ResponseEntity<List<UserLighterHelper>> getFavoriteTeachers(
           @RequestHeader("Authorization") String token) {
     try {
       return new ResponseEntity<>(

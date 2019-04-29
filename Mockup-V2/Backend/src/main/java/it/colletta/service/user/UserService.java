@@ -2,6 +2,7 @@ package it.colletta.service.user;
 
 import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
+import it.colletta.model.helper.UserLighterHelper;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -138,7 +141,7 @@ public class UserService {
    *
    * @param studentId the unique Id of the student
    */
-  public void modifyFavoriteTeachers(String studentId, ArrayList<String> teacherId) {
+  public void modifyFavoriteTeachers(String studentId, List<String> teacherId) {
     StudentModel student = (StudentModel) applicationUserRepository.findById(studentId).get();
     student.setFavoriteTeacherIds(teacherId);
     applicationUserRepository.save(student);
@@ -151,9 +154,16 @@ public class UserService {
    * @param studentId the unique Id of the student
    * @return User actual List of favorite teacher.
    */
-  public List<UserModel> getFavoriteTeachers(String studentId){
+  public List<UserLighterHelper> getFavoriteTeachers(String studentId){
     StudentModel student = (StudentModel) applicationUserRepository.findById(studentId).get();
-    List<String> teachersId = student.getFavoriteTeacherIds();
-    return getAllListUser(teachersId);
+    List<UserModel> favoriteTeacherModel = getAllListUser(student.getFavoriteTeacherIds());
+    return favoriteTeacherModel.stream()
+            .map(user -> UserLighterHelper.builder()
+                    .id(user.getId())
+                    .email(user.getUsername())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .build())
+            .collect(Collectors.toList());
   }
 }

@@ -116,7 +116,7 @@ public class ClassController {
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<TeacherClasses>> getAllClasses(@RequestHeader("Authorization") String token) {
     try{
-      return new ResponseEntity<List<TeacherClasses>>(classService.getAllClasses(ParseJwt.getIdFromJwt(token)), HttpStatus.OK);
+      return new ResponseEntity<>(classService.getAllClasses(ParseJwt.getIdFromJwt(token)), HttpStatus.OK);
     } catch (Exception e){
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
