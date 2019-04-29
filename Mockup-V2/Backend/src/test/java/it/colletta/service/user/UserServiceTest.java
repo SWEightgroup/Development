@@ -1,11 +1,16 @@
 package it.colletta.service.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
 
 import it.colletta.model.ExerciseModel;
+import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.Role;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.TestPropertySource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -26,8 +29,12 @@ public class UserServiceTest {
 
   @InjectMocks
   private UserService userService;
+
   private UserModel user;
+
   private ExerciseModel testExercise;
+
+  private StudentModel studentModel;
 
   @Before
   public void setUp() throws Exception {
@@ -36,7 +43,14 @@ public class UserServiceTest {
     user.setEmail("test@admin.it");
     user.setRole(Role.ADMIN);
 
-    Mockito.when(usersRepository.findById(user.getId())).thenReturn(Optional.of(user));
+    List<String> TeacherIds = new ArrayList<>();
+    TeacherIds.add("104");
+
+    studentModel = new StudentModel();
+    studentModel.setCurrentGoal(10);
+    studentModel.setFavoriteTeacherIds(TeacherIds);
+
+    Mockito.when(usersRepository.findById(anyString())).thenReturn(Optional.of(user));
   }
 
   /*@Test
@@ -65,7 +79,7 @@ public class UserServiceTest {
   @Test(expected = UsernameNotFoundException.class)
   public void getUserInfoWithWrongId() {
 
-    Mockito.when(usersRepository.findById(user.getId())).thenReturn(Optional.empty());
+    Mockito.when(usersRepository.findById(anyString())).thenReturn(Optional.empty());
 
     userService.getUserInfo(user.getId());
   }
@@ -190,4 +204,29 @@ public class UserServiceTest {
 
     Mockito.verify(usersRepository).findAllDeveloperDisabled();
   }
+
+
+  @Test
+  public void getFavoriteTeachers(){
+    /*
+    Mockito.when(usersRepository.findById(anyString())).thenReturn(Optional.of(studentModel));
+    List<UserLighterHelper> userLighterHelpers = new ArrayList<>();
+    userLighterHelpers = userService.getFavoriteTeachers(anyString());
+
+     */
+  }
+
+  @Test
+  public void modifyFavoriteTeachers(){
+    /*
+    List<String> TeacherIds = new ArrayList<>();
+    TeacherIds.add("104");
+
+    userService.modifyFavoriteTeachers(anyString(),TeacherIds);
+    Mockito.verify(usersRepository).findById(anyString());
+    Mockito.verify(usersRepository).save(any(StudentModel.class));
+
+     */
+  }
+
 }
