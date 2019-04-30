@@ -69,30 +69,32 @@ class ClassManagement extends React.Component {
                     classList.length > 0 &&
                     classList.map(classItem => {
                       return (
-                        <div className="card" key={classItem.id}>
+                        <div className="card" key={classItem.classId}>
                           <div id="headingOne" className="card-header">
                             <button
                               type="button"
                               data-toggle="collapse"
-                              data-target={`#c${classItem.id}`}
+                              data-target={`#c${classItem.classId}`}
                               aria-expanded="true"
                               aria-controls="collapseOne"
                               className="text-left m-0 p-0 btn btn-link btn-block"
                             >
-                              <h5 className="m-0 p-0">{classItem.name}</h5>
+                              <h5 className="m-0 p-0">{classItem.className}</h5>
                             </button>
                           </div>
                           <div
                             data-parent="#accordion"
-                            id={`c${classItem.id}`}
+                            id={`c${classItem.classId}`}
                             aria-labelledby="headingOne"
                             className="collapse "
                           >
                             <div className="card-body">
                               <ul>
                                 {classItem &&
-                                  classItem.studentsId.map(student => (
-                                    <li key={student}>{student}</li>
+                                  classItem.students.map(student => (
+                                    <li key={student.id}>
+                                      {student.firstName} {student.lastName}
+                                    </li>
                                   ))}
                               </ul>
 
@@ -104,9 +106,9 @@ class ClassManagement extends React.Component {
                                   variant="warning"
                                   onClick={() =>
                                     initEditClassDispatch({
-                                      id: classItem.id,
-                                      name: classItem.name,
-                                      studentsId: classItem.studentsId
+                                      id: classItem.classId,
+                                      name: classItem.className,
+                                      students: classItem.students
                                     })
                                   }
                                 >
@@ -121,7 +123,7 @@ class ClassManagement extends React.Component {
                                           'Sei sicuro di voler approvare?'
                                       },
                                       deleteClassDispatch,
-                                      { classId: classItem.id }
+                                      { classId: classItem.classId }
                                     )
                                   }
                                 >
@@ -175,12 +177,12 @@ const mapDispatchToProps = dispatch => {
     initListNewClassDispatch: list => dispatch(initListNewClass(list)),
     updateListNewClassDispatch: (list, name) =>
       dispatch(updateListNewClass(list, name)),
-    createClassDispatch: ({ name, studentsId, teacherName }) =>
-      dispatch(createClass({ name, studentsId, teacherName })),
+    createClassDispatch: ({ name, students, teacherName }) =>
+      dispatch(createClass({ name, students, teacherName })),
     initEditClassDispatch: selectedClass =>
       dispatch(initEditClass(selectedClass)),
-    editClassDispatch: ({ studentsId, name }) =>
-      dispatch(editClass({ studentsId, name })),
+    editClassDispatch: ({ students, name }) =>
+      dispatch(editClass({ students, name })),
     deleteClassDispatch: classId => dispatch(deleteClass(classId))
   };
 };

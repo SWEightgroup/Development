@@ -29,14 +29,14 @@ export const loadClassList = () => {
   };
 };
 
-export const createClass = ({ name, studentsId, teacherName }) => {
+export const createClass = ({ name, students, teacherName }) => {
   return dispatch => {
     axios
       .post(
         'http://localhost:8081/class/create',
         {
           name,
-          studentsId,
+          students,
           teacher: teacherName
         },
         {
@@ -146,7 +146,7 @@ export const getAllStudents = () => {
   };
 };
 
-export const initEditClass = ({ id, name, studentsId }) => {
+export const initEditClass = ({ id, name, students }) => {
   const studentsList = store.getState().class.studentsList
     ? store.getState().class.studentsList.map(student => {
         return {
@@ -157,8 +157,8 @@ export const initEditClass = ({ id, name, studentsId }) => {
         };
       })
     : [];
-  if (studentsId) {
-    studentsId.forEach(studentId => {
+  if (students) {
+    students.forEach(studentId => {
       const element = studentsList.find(student => student.key === studentId);
       if (element !== undefined) {
         element.isSelected = true;
@@ -170,13 +170,13 @@ export const initEditClass = ({ id, name, studentsId }) => {
   };
 };
 
-export const editClass = ({ studentsId, name }) => {
+export const editClass = ({ students, name }) => {
   return dispatch => {
     axios
       .put(
         'http://localhost:8081/class/modify',
         {
-          studentsId,
+          students,
           classId: store.getState().class.newClass.id,
           className: name
         },

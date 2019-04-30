@@ -122,7 +122,7 @@ class InsertExercise extends Component {
   /**
    *  Select/Deselect students of this class
    *  @param event Event
-   *  @param studentsId List of students id
+   *  @param students List of students id
    */
   handleChangeClassList = (event, students) => {
     const { updateStudentsListDispatch, studentsList } = this.props;
