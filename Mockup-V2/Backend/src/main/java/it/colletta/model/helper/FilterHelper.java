@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class FilterHelper {
 
-    private List<String> roles = new ArrayList<>();
+    //private List<String> roles = new ArrayList<>();
     private List<String> languages = new ArrayList<>();
     private Long startDate;
     private Long endDate;

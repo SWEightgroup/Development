@@ -5,13 +5,13 @@ import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.helper.FilterHelper;
+import org.bson.BSON;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -100,19 +100,15 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
     @Override
     public FindIterable<Document> findAllPhrasesWithFilter(FilterHelper filterHelper) {
-
         /*
         Query query = new Query();
-
-        //filter by language
         query.addCriteria(Criteria.where("language").in(filter.getLanguages()));
-        //filter by date
         query.addCriteria(Criteria.where("solutions.dateSolution").gte(filter.getStartDate()).lte(filter.getEndDate()));
-        //filter by reliability
         query.addCriteria(Criteria.where("solutions.reliability").gte(filter.getMinReliability()));
         */
 
-        Bson filter = and(
+
+        Bson filter = and (
                 in("language", filterHelper.getLanguages()),
                 gte("solutions.dateSolution", filterHelper.getStartDate()),
                 lte("solutions.dateSolution", filterHelper.getEndDate()),
