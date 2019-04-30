@@ -37,6 +37,12 @@ class AdminDevDashBoard extends Component {
     const { user, admin, fetchDeveloperListDispatch } = this.props;
     const { language } = user;
     const { devList } = admin;
+    console.log('user ', user);
+    console.log('admin', admin);
+    console.log('fetchdevList', fetchDeveloperList);
+    console.log('language', language);
+    console.log('devlist', devList);
+    console.log('prop', this.props);
 
     const devRender =
       devList.length > 0 ? (
