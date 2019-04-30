@@ -12,8 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class TeacherClasses{
-  private List<UserLighterHelper> students;
+public class TeacherClassesHelper{
+  private List<UserModel> students;
   private String className;
   private String classId;
 }

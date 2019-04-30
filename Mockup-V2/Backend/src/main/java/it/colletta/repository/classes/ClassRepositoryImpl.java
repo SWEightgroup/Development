@@ -28,7 +28,6 @@ public class ClassRepositoryImpl implements ClassCustomQueryInterface {
   public List<ClassModel> getAllTeacherClasses(String teacherId){
       Query query = new Query();
       query.addCriteria(Criteria.where("teacherId").is(teacherId));
-      //query.fields().exclude("studentsId");
       return mongoTemplate.find(query, ClassModel.class);
   }
 

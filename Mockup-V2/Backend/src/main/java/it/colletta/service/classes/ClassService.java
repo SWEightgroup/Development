@@ -1,11 +1,9 @@
 package it.colletta.service.classes;
 
 import it.colletta.model.ClassModel;
-import it.colletta.model.UserModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
-import it.colletta.model.helper.TeacherClasses;
-import it.colletta.model.helper.UserLighterHelper;
+import it.colletta.model.helper.TeacherClassesHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
 import lombok.NonNull;
@@ -53,26 +51,16 @@ public class ClassService {
     classRepository.deleteById(classId);
   }
 
-  public List<TeacherClasses> getAllClasses(@NonNull String teacherId) throws NullPointerException {
+  public List<TeacherClassesHelper> getAllClasses(@NonNull String teacherId) throws NullPointerException {
     List<ClassModel> classes = classRepository.getAllTeacherClasses(teacherId);
-    List<TeacherClasses> allTeacherClasses = new ArrayList<>();
+    List<TeacherClassesHelper> allTeacherClasses = new ArrayList<>();
 
     for (ClassModel actualClassModel : classes) {
-      List<UserModel> actualClassStudent =
-              userService.getAllListUser(actualClassModel.getStudentsId());
-      List<UserLighterHelper> actualClassStudentHelper = actualClassStudent.stream()
-              .map(user -> UserLighterHelper.builder()
-                      .id(user.getId())
-                      .email(user.getUsername())
-                      .firstName(user.getFirstName())
-                      .lastName(user.getLastName())
-                      .build())
-              .collect(Collectors.toList());
       allTeacherClasses.add(
-              TeacherClasses.builder()
+              TeacherClassesHelper.builder()
                       .classId(actualClassModel.getId())
                       .className(actualClassModel.getName())
-                      .students(actualClassStudentHelper)
+                      .students(userService.getAllListUser(actualClassModel.getStudentsId()))
                       .build());
     }
     return allTeacherClasses;

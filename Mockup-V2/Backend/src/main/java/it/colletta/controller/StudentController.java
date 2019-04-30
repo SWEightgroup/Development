@@ -1,12 +1,12 @@
 package it.colletta.controller;
 
-import com.sun.javaws.progress.Progress;
+//import com.sun.javaws.progress.Progress;
 import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.model.helper.FavoriteTeacherHelper;
 import it.colletta.model.helper.ProgressHelper;
-import it.colletta.model.helper.UserLighterHelper;
 import it.colletta.security.ParseJwt;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/students")
 public class StudentController {
 
-  private UserService userService;
+  private StudentService studentService;
 
   @Autowired
-  public StudentController(UserService userService) {
-    this.userService = userService;
+  public StudentController(StudentService studentService) {
+    this.studentService = studentService;
   }
 
   /**
@@ -44,7 +44,7 @@ public class StudentController {
           @RequestHeader("Authorization") String token,
           @RequestBody FavoriteTeacherHelper favoriteTeacherHelper) {
     try{
-      userService.modifyFavoriteTeachers(ParseJwt.getIdFromJwt(token), favoriteTeacherHelper.getTeacherId());
+      studentService.modifyFavoriteTeachers(ParseJwt.getIdFromJwt(token), favoriteTeacherHelper.getTeacherId());
       return new ResponseEntity<>(HttpStatus.OK);
     } catch(Exception e){
       e.printStackTrace();
@@ -61,11 +61,11 @@ public class StudentController {
           value = "/favorite-teacher",
           method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserLighterHelper>> getFavoriteTeachers(
+  public ResponseEntity<List<UserModel>> getFavoriteTeachers(
           @RequestHeader("Authorization") String token) {
     try {
       return new ResponseEntity<>(
-              userService.getFavoriteTeachers(ParseJwt.getIdFromJwt(token)),
+              studentService.getFavoriteTeachers(ParseJwt.getIdFromJwt(token)),
               HttpStatus.OK);
     } catch(Exception e){
       e.printStackTrace();

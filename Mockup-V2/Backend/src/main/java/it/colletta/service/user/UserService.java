@@ -2,7 +2,6 @@ package it.colletta.service.user;
 
 import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
-import it.colletta.model.helper.UserLighterHelper;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
 
@@ -136,34 +135,4 @@ public class UserService {
     return mydevelopment;
   }
 
-  /**
-   * Modify the List of the student favorite teacher List
-   *
-   * @param studentId the unique Id of the student
-   */
-  public void modifyFavoriteTeachers(String studentId, List<String> teacherId) {
-    StudentModel student = (StudentModel) applicationUserRepository.findById(studentId).get();
-    student.setFavoriteTeacherIds(teacherId);
-    applicationUserRepository.save(student);
-  }
-
-
-  /**
-   * Return all the favorite student List of teacher.
-   *
-   * @param studentId the unique Id of the student
-   * @return User actual List of favorite teacher.
-   */
-  public List<UserLighterHelper> getFavoriteTeachers(String studentId){
-    StudentModel student = (StudentModel) applicationUserRepository.findById(studentId).get();
-    List<UserModel> favoriteTeacherModel = getAllListUser(student.getFavoriteTeacherIds());
-    return favoriteTeacherModel.stream()
-            .map(user -> UserLighterHelper.builder()
-                    .id(user.getId())
-                    .email(user.getUsername())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .build())
-            .collect(Collectors.toList());
-  }
 }
