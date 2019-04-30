@@ -35,7 +35,6 @@ public class StudentController {
    * @param token the unique token of the user
    * @return the update List of student favorite teacher/s.
    */
-  @PreAuthorize("hasRole('STUDENT')")
   @RequestMapping(
           value = "/favorite-teacher",
           method = RequestMethod.PUT,
@@ -56,7 +55,6 @@ public class StudentController {
    * @param token the unique token of the user
    * @return the actual List of student favorite teacher/s.
    */
-  @PreAuthorize("hasRole('STUDENT')")
   @RequestMapping(
           value = "/favorite-teacher",
           method = RequestMethod.GET,
@@ -73,4 +71,19 @@ public class StudentController {
     }
   }
 
+  @RequestMapping(
+      value = "/progress",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> progress(
+      @RequestHeader("Authorization") String token) {
+    try {
+      return new ResponseEntity<>(
+          studentService.getStudentProgress(ParseJwt.getIdFromJwt(token)),
+          HttpStatus.OK);
+    } catch(Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
 }

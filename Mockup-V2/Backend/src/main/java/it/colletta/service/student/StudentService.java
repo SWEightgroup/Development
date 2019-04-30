@@ -47,7 +47,7 @@ public class StudentService {
       student.setCurrentGoal(student.getCurrentGoal() + 1);
     }
     else {
-      student.setCurrentGoal(student.getCurrentGoal() - 1);
+      student.setCurrentGoal(Math.min(0, student.getCurrentGoal() - 1));
     }
     studentRepository.save(student);
   }
