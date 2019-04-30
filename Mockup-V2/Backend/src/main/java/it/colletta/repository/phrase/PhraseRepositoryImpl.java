@@ -97,4 +97,5 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     return mongoTemplate.getCollection("phrases").find();
   }
 
+
 }
