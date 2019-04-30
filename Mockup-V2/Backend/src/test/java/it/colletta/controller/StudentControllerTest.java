@@ -52,9 +52,9 @@ public class StudentControllerTest {
             .build();
   }
 
-  //@Test
-  //@WithMockUser(roles={"STUDENT"})
- // public void ModifyFavoriteTeachersTest() {
+ @Test
+// @WithMockUser(roles={"STUDENT"})
+  public void ModifyFavoriteTeachersTest() {
     /*try {
       String jsonFavoriteTeacherHelper = mapper.writeValueAsString(favoriteTeacherHelper);
       mvc.perform(MockMvcRequestBuilders.put("/students/favorite-teacher")
@@ -65,12 +65,13 @@ public class StudentControllerTest {
     } catch (Exception e) {
       e.printStackTrace();
     } */
-  //}
+  }
 
-  /*
+
   @Test
-  @WithMockUser(roles={"STUDENT"})
+  //@WithMockUser(roles={"STUDENT"})
   public void GetFavoriteTeachersTest() {
+    /*
     try {
       mvc.perform(MockMvcRequestBuilders.get("/students/favorite-teacher")
               .header("Authorization", userToken)
@@ -79,8 +80,10 @@ public class StudentControllerTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+     */
   }
 
-   */
+
 
 }
