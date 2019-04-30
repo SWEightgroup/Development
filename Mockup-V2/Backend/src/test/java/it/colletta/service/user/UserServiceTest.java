@@ -76,18 +76,17 @@ public class UserServiceTest {
 
   @Test
   public void updateUser() {
-/*
+    /*
     Mockito.when(usersRepository.findByEmail(anyString())).thenReturn(user);
     Mockito.when(usersRepository.save(any(UserModel.class))).thenReturn(user);
     UserModel myuser = userService.updateUser(user,anyString());
 
- */
-
+     */
   }
 
   @Test
   public void getAllListUser(){
-    /*
+
     List<String> StudentIds = new ArrayList<>();
     StudentIds.add("104");
     List<UserModel> listusermodel = new ArrayList<>();
@@ -96,7 +95,9 @@ public class UserServiceTest {
     Mockito.when(usersRepository.findAllByList(StudentIds)).thenReturn(listusermodel);
 
     List<UserModel> Mylistusermodel = userService.getAllListUser(StudentIds);
-  */
+    assertEquals(Mylistusermodel.get(0).getUsername(), user.getUsername());
+    assertEquals(Mylistusermodel.get(0).getRole(), user.getRole());
+
   }
 
   @Test
