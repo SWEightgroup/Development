@@ -1,3 +1,5 @@
+import _translator from './Translator';
+
 class SolutionMapper {
   translation = [];
 
@@ -29,10 +31,10 @@ class SolutionMapper {
     return this.translation;
   }
 
-  getVerboseSolution() {
+  getVerboseSolution(lang) {
     return this.translation
       .map(element => {
-        return element ? element.full : '';
+        return _translator(element ? element.full : '', lang);
       }) // ------------------------------------------------------------ DA CONTROLLARE
       .join(' ');
   }

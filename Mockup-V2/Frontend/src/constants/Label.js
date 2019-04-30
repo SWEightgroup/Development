@@ -127,6 +127,9 @@ export const _label = {
     teacherDashboard_numClass: 'Numero di classi create',
     teacherDashboard_students: 'Studenti',
     teacherDashboard_numStudents: 'Numero di studenti nel sistema'
+    /*
+    Gerarchy below
+    */
   },
   en: {
     account_yourData: 'Your data',
@@ -245,6 +248,44 @@ export const _label = {
     teacherDashboard_class: 'Classes',
     teacherDashboard_numClass: 'Total number of created classes',
     teacherDashboard_students: 'Students',
-    teacherDashboard_numStudents: 'Total number of students in the system'
+    teacherDashboard_numStudents: 'Total number of students in the system',
+    /*
+    Gerarchy below
+    */
+    cat_adjective: 'Adjective',
+    attr_type: 'Type',
+    attr_degree: 'Degree',
+    attr_gen: 'Genre',
+    attr_num: 'Number',
+    attr_possessorpers: 'Possessor person',
+    attr_possessornum: 'Possessor number',
+    choice_ordinal: 'Ordinal',
+    choice_quali: 'Qualificative',
+    choice_poss: 'Possessive',
+    choice_super: 'Superlative',
+    choice_none: 'None',
+    choice_feminile: 'Feminile',
+    choice_masculine: 'Masculine',
+    choice_common: 'Common',
+    choice_neuter: 'Neuter',
+    choice_singular: 'Singular',
+    choice_plural: 'Plural',
+    choice_invariable: 'Invariable',
+    choice_1pers: 'First Person',
+    choice_2pers: 'Second Person',
+    choice_3pers: 'Third Person',
+    cat_conjunction: 'Conjunction',
+    choice_coordinating: 'Coordinating',
+    choice_subordinating: 'Subordinating',
+    cat_determiner: 'Determiner',
+    attr_person: 'Person',
+    choice_article: 'Article',
+    choice_demonstrative: 'Demonstrative',
+    choice_exclamative: 'Exclamative',
+    choice_indefinite: 'Indefinite',
+    choice_interrogative: 'Interrogative',
+    choice_numeral: 'Numeral',
+    choice_possessive: 'Possessive',
+    cat_noun: 'cat_noun'
   }
 };

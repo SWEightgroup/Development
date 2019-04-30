@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import _translator from '../../helpers/Translator';
 import LanguageStructure from '../../helpers/LanguageIterator';
 import SolutionMapper from '../../helpers/SolutionMapper';
 import { updateWordState } from '../../actions/ExerciseActions';
@@ -12,7 +13,8 @@ class Word extends Component {
       gerarchy,
       updateWordStateDispatch,
       solutionTag,
-      indexSolution
+      indexSolution,
+      language
     } = props;
     const languageIterator = new LanguageStructure(gerarchy).getBaseIterator();
 
@@ -22,7 +24,9 @@ class Word extends Component {
         buttons: languageIterator.getCurrentButtonList(),
         solution:
           solutionTag && props.initSolution && solutionTag.charAt(0) !== 'F'
-            ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution()
+            ? new SolutionMapper(solutionTag, gerarchy).getVerboseSolution(
+                language
+              )
             : '',
         index: props.index,
         showButton: props.showButton
@@ -44,7 +48,8 @@ class Word extends Component {
         updateWordStateDispatch,
         newExercise,
         index,
-        indexSolution
+        indexSolution,
+        language
       } = this.props;
       const state = newExercise.userSolution[indexSolution][index];
       const { languageIterator } = state;
@@ -55,7 +60,7 @@ class Word extends Component {
           ...state,
           languageIterator,
           buttons: languageIterator.getCurrentButtonList(),
-          solution: languageIterator.getVerboseSolution()
+          solution: languageIterator.getVerboseSolution(language)
         },
         indexSolution
       );
@@ -75,7 +80,8 @@ class Word extends Component {
         updateWordStateDispatch,
         newExercise,
         index,
-        indexSolution
+        indexSolution,
+        language
       } = this.props;
       const state = newExercise.userSolution[indexSolution][index];
       const { languageIterator } = state;
@@ -84,7 +90,7 @@ class Word extends Component {
         {
           ...state,
           buttons: languageIterator.getCurrentButtonList(),
-          solution: languageIterator.getVerboseSolution(),
+          solution: languageIterator.getVerboseSolution(language),
           languageIterator
         },
         indexSolution
@@ -102,7 +108,8 @@ class Word extends Component {
       updateWordStateDispatch,
       newExercise,
       index,
-      indexSolution
+      indexSolution,
+      language
     } = this.props;
     const state = newExercise.userSolution[indexSolution][index];
     const { languageIterator } = state;
@@ -111,7 +118,7 @@ class Word extends Component {
       {
         ...state,
         buttons: languageIterator.getCurrentButtonList(),
-        solution: languageIterator.getVerboseSolution(),
+        solution: languageIterator.getVerboseSolution(language),
         languageIterator
       },
       indexSolution
@@ -148,7 +155,8 @@ class Word extends Component {
       newExercise,
       index,
       initSolution,
-      indexSolution
+      indexSolution,
+      language
     } = this.props;
 
     const state = newExercise.userSolution[indexSolution][index];
@@ -219,7 +227,7 @@ class Word extends Component {
                     {new SolutionMapper(
                       solutionTag,
                       gerarchy
-                    ).getVerboseSolution()}
+                    ).getVerboseSolution(language)}
                   </p>
                 )}
               </div>
@@ -243,7 +251,7 @@ class Word extends Component {
                 key={`index${index}`}
                 onClick={() => this.generateNext(button)}
               >
-                {button.full}
+                {_translator(button.full, language)}
               </button>
             );
           })}
@@ -253,6 +261,7 @@ class Word extends Component {
 }
 const mapStateToProps = store => {
   return {
+    language: store.auth.user.language,
     newExercise: store.exercise.newExercise
   };
 };

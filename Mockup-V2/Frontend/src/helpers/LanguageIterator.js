@@ -1,3 +1,5 @@
+import _translator from './Translator';
+
 /**
  * @classdesc Iterator class for a LanguageStructure.
  *
@@ -38,8 +40,10 @@ class LanguageIterator {
     return this.solution;
   }
 
-  getVerboseSolution() {
-    return this.solution.map(solutionItem => solutionItem.full).join(' ');
+  getVerboseSolution(lang) {
+    return this.solution
+      .map(solutionItem => _translator(solutionItem.full, lang))
+      .join(' ');
   }
 
   getCodeSolution() {

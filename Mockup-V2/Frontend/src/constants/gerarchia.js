@@ -1,133 +1,133 @@
 const gerarchia = {
-  adjective: {
-    text: { full: 'adjective', short: 'A' },
+  cat_adjective: {
+    text: { full: 'cat_adjective', short: 'A' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'O', full: 'Ordinal' },
-          { short: 'Q', full: 'qualificative' },
-          { short: 'P', full: 'Possesive' }
+          { short: 'O', full: 'choice_ordinal' },
+          { short: 'Q', full: 'choice_quali' },
+          { short: 'P', full: 'choice_poss' }
         ],
         condition: null
       },
       {
-        attrName: 'degree',
+        attrName: 'attr_degree',
         choices: [
-          { short: 'S', full: 'superlative' },
-          { short: '0', full: 'none' }
+          { short: 'S', full: 'choice_super' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: { index: 1, short: 'Q' }
       },
       {
-        attrName: 'gen',
+        attrName: 'attr_gen',
         choices: [
-          { short: 'F', full: 'feminile' },
-          { short: 'M', full: 'masculine' },
-          { short: 'C', full: 'common' },
-          { short: 'N', full: 'neuter' }
+          { short: 'F', full: 'choice_feminile' },
+          { short: 'M', full: 'choice_masculine' },
+          { short: 'C', full: 'choice_common' },
+          { short: 'N', full: 'choice_neuter' }
         ],
         condition: null
       },
 
       {
-        attrName: 'num',
+        attrName: 'attr_num',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' },
-          { short: 'N', full: 'invariable' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' },
+          { short: 'N', full: 'choice_invariable' }
         ],
         condition: null
       },
       {
-        attrName: 'possessorpers',
+        attrName: 'attr_possessorpers',
         choices: [
-          { short: '1', full: '1' },
-          { short: '2', full: '2' },
-          { short: '3', full: '3' }
+          { short: '1', full: 'choice_1pers' },
+          { short: '2', full: 'choice_2pers' },
+          { short: '3', full: 'choice_3pers' }
         ],
         condition: { index: 1, short: 'P' }
       },
       {
-        attrName: 'possessornum',
+        attrName: 'attr_possessornum',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' },
-          { short: 'N', full: 'invariable' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' },
+          { short: 'N', full: 'choice_invariable' }
         ],
         condition: { index: 1, short: 'P' }
       }
     ]
   },
-  conjunction: {
-    text: { full: 'conjunction', short: 'C' },
+  cat_conjunction: {
+    text: { full: 'cat_conjunction', short: 'C' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'C', full: 'coordinating' },
-          { short: 'S', full: 'subordinating' }
+          { short: 'C', full: 'choice_coordinating' },
+          { short: 'S', full: 'choice_subordinating' }
         ],
         condition: null
       }
     ]
   },
-  determiner: {
-    text: { full: 'determiner', short: 'D' },
+  cat_determiner: {
+    text: { full: 'cat_determiner', short: 'D' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'A', full: 'article' },
-          { short: 'D', full: 'demonstrative' },
-          { short: 'E', full: 'exclamative' },
-          { short: 'I', full: 'indefinite' },
-          { short: 'T', full: 'interrogative' },
-          { short: 'N', full: 'numeral' },
-          { short: 'P', full: 'possessive' }
+          { short: 'A', full: 'choice_article' },
+          { short: 'D', full: 'choice_demonstrative' },
+          { short: 'E', full: 'choice_exclamative' },
+          { short: 'I', full: 'choice_indefinite' },
+          { short: 'T', full: 'choice_interrogative' },
+          { short: 'N', full: 'choice_numeral' },
+          { short: 'P', full: 'choice_possessive' }
         ],
         condition: null
       },
       {
-        attrName: 'person',
+        attrName: 'attr_person',
         choices: [
-          { short: '1', full: '1' },
-          { short: '2', full: '2' },
-          { short: '3', full: '3' }
+          { short: '1', full: 'choice_1pers' },
+          { short: '2', full: 'choice_2pers' },
+          { short: '3', full: 'choice_3pers' }
         ],
         condition: { index: 1, short: 'P' }
       },
       {
-        attrName: 'gen',
+        attrName: 'attr_gen',
         choices: [
-          { short: 'F', full: 'feminile' },
-          { short: 'M', full: 'masculine' },
-          { short: 'C', full: 'common' },
-          { short: 'N', full: 'neuter' }
+          { short: 'F', full: 'choice_feminile' },
+          { short: 'M', full: 'choice_masculine' },
+          { short: 'C', full: 'choice_common' },
+          { short: 'N', full: 'choice_neuter' }
         ],
         condition: null
       },
       {
-        attrName: 'num',
+        attrName: 'attr_num',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' },
-          { short: 'N', full: 'invariable' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' },
+          { short: 'N', full: 'choice_invariable' }
         ],
         condition: null
       },
       {
-        attrName: 'possessornum',
+        attrName: 'attr_possessornum',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' }
         ],
         condition: { index: 1, short: 'P' }
       }
     ]
   },
-  noun: {
-    text: { full: 'noun', short: 'N' },
+  cat_noun: {
+    text: { full: 'cat_noun', short: 'N' },
     attributes: [
       {
         attrName: 'type',
@@ -183,7 +183,7 @@ const gerarchia = {
       }
     ]
   },
-  verb: {
+  cat_verb: {
     text: { full: 'verb', short: 'V' },
     attributes: [
       {
@@ -251,7 +251,7 @@ const gerarchia = {
       }
     ]
   },
-  pronoun: {
+  cat_pronoun: {
     text: { full: 'pronoun', short: 'P' },
     attributes: [
       {
@@ -313,7 +313,7 @@ const gerarchia = {
       }
     ]
   },
-  adverb: {
+  cat_adverb: {
     text: { full: 'adverb', short: 'R' },
     attributes: [
       {
@@ -326,7 +326,7 @@ const gerarchia = {
       }
     ]
   },
-  adposition: {
+  cat_adposition: {
     text: { full: 'adposition', short: 'S' },
     attributes: [
       {
@@ -360,7 +360,7 @@ const gerarchia = {
       }
     ]
   },
-  number: {
+  cat_number: {
     text: { full: 'number', short: 'Z' },
     attributes: [
       {
@@ -375,7 +375,7 @@ const gerarchia = {
       }
     ]
   },
-  date: {
+  cat_date: {
     text: { full: 'date', short: 'W' },
     attributes: []
   }
