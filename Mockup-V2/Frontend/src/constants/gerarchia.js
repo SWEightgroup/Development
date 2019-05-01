@@ -130,253 +130,258 @@ const gerarchia = {
     text: { full: 'cat_noun', short: 'N' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'C', full: 'common' },
-          { short: 'P', full: 'proper' }
+          { short: 'C', full: 'choice_common' },
+          { short: 'P', full: 'choice_proper' }
         ],
         condition: null
       },
       {
-        attrName: 'gen',
+        attrName: 'attr_gen',
         choices: [
-          { short: 'F', full: 'feminile' },
-          { short: 'M', full: 'masculine' },
-          { short: 'C', full: 'common' },
-          { short: 'N', full: 'neuter' }
+          { short: 'F', full: 'choice_feminile' },
+          { short: 'M', full: 'choice_masculine' },
+          { short: 'C', full: 'choice_common' },
+          { short: 'N', full: 'choice_neuter' }
         ],
         condition: null
       },
       {
         attrName: 'num',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' },
-          { short: 'N', full: 'invariable' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' },
+          { short: 'N', full: 'choice_invariable' }
         ],
         condition: null
       },
       {
-        attrName: 'neclass',
+        attrName: 'attr_neclass',
         choices: [
-          { short: 'S', full: 'person' },
-          { short: 'G', full: 'location' },
-          { short: 'O', full: 'oranization' },
-          { short: 'V', full: 'other' },
-          { short: '0', full: 'none' }
+          { short: 'S', full: 'choice_person' },
+          { short: 'G', full: 'choice_location' },
+          { short: 'O', full: 'choice_organization' },
+          { short: 'V', full: 'choice_other' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       },
       {
-        attrName: 'nesubclass',
-        choices: [{ short: '0', full: 'none' }], // se ho una sola scelta metto automaticamente 0
+        attrName: 'attr_nesubclass',
+        choices: [{ short: '0', full: 'choice_none' }], // se ho una sola scelta metto automaticamente 0
         condition: { index: 1, short: 'void' } // farlocco
       },
       {
-        attrName: 'degree',
+        attrName: 'attr_degree',
         choices: [
-          { short: 'A', full: 'augmentative' },
-          { short: 'D', full: 'diminutive' },
-          { short: '0', full: 'none' }
+          { short: 'A', full: 'choice_augmentative' },
+          { short: 'D', full: 'choice_diminutive' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       }
     ]
   },
   cat_verb: {
-    text: { full: 'verb', short: 'V' },
+    text: { full: 'cat_verb', short: 'V' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'M', full: 'main' },
-          { short: 'A', full: 'auxiliary' },
-          { short: 'S', full: 'semiauxiliary' }
+          { short: 'M', full: 'choice_main' },
+          { short: 'A', full: 'choice_auxiliary' },
+          { short: 'S', full: 'choice_semiauxiliary' }
         ],
         condition: null
       },
       {
-        attrName: 'mood',
+        attrName: 'attr_mood',
         choices: [
-          { short: 'I', full: 'indicative' },
-          { short: 'S', full: 'subjunctive' },
-          { short: 'M', full: 'imperative' },
-          { short: 'P', full: 'pastparticiple' },
-          { short: 'G', full: 'gerund' },
-          { short: 'N', full: 'infinitive' }
+          { short: 'I', full: 'choice_indicative' },
+          { short: 'S', full: 'choice_subjunctive' },
+          { short: 'M', full: 'choice_imperative' },
+          { short: 'P', full: 'choice_pastparticiple' },
+          { short: 'G', full: 'choice_gerund' },
+          { short: 'N', full: 'choice_infinitive' }
         ],
         condition: null
       },
       {
-        attrName: 'tense',
+        attrName: 'attr_tense',
         choices: [
-          { short: 'P', full: 'present' },
-          { short: 'I', full: 'imperfect' },
-          { short: 'F', full: 'future' },
-          { short: 'P', full: 'past' },
-          { short: 'C', full: 'conditional' }
+          { short: 'P', full: 'choice_present' },
+          { short: 'I', full: 'choice_imperfect' },
+          { short: 'F', full: 'choice_future' },
+          { short: 'P', full: 'choice_past' },
+          { short: 'C', full: 'choice_conditional' }
         ],
         condition: null
       },
       {
-        attrName: 'person',
+        attrName: 'attr_person',
         choices: [
-          { short: '1', full: '1' },
-          { short: '2', full: '2' },
-          { short: '3', full: '3' },
-          { short: '0', full: 'None' }
+          { short: '1', full: 'choice_1pers' },
+          { short: '2', full: 'choice_2pers' },
+          { short: '3', full: 'choice_3pers' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       },
       {
-        attrName: 'num',
+        attrName: 'attr_num',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' },
-          { short: '0', full: 'None' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       },
       {
-        attrName: 'gen',
+        attrName: 'attr_gen',
         choices: [
-          { short: 'F', full: 'feminile' },
-          { short: 'M', full: 'masculine' },
-          { short: 'C', full: 'common' },
-          { short: 'N', full: 'neuter' },
-          { short: '0', full: 'none' },
-          { short: '0', full: 'None' }
+          { short: 'F', full: 'choice_feminile' },
+          { short: 'M', full: 'choice_masculine' },
+          { short: 'C', full: 'choice_common' },
+          { short: 'N', full: 'choice_neuter' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       }
     ]
   },
   cat_pronoun: {
-    text: { full: 'pronoun', short: 'P' },
+    text: { full: 'cat_pronoun', short: 'P' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'D', full: 'demonstrative' },
-          { short: 'E', full: 'exclamative' },
-          { short: 'I', full: 'indefinite' },
-          { short: 'T', full: 'interrogative' },
-          { short: 'N', full: 'numeral' },
-          { short: 'P', full: 'personal' },
-          { short: 'R', full: 'relative' }
+          { short: 'D', full: 'choice_demonstrative' },
+          { short: 'E', full: 'choice_exclamative' },
+          { short: 'I', full: 'choice_indefinite' },
+          { short: 'T', full: 'choice_interrogative' },
+          { short: 'N', full: 'choice_numeral' },
+          { short: 'P', full: 'choice_personal' },
+          { short: 'R', full: 'choice_relative' }
         ],
         condition: null
       },
       {
-        attrName: 'person',
+        attrName: 'attr_person',
         choices: [
-          { short: '1', full: '1' },
-          { short: '2', full: '2' },
-          { short: '3', full: '3' }
+          { short: '1', full: 'choice_1pers' },
+          { short: '2', full: 'choice_2pers' },
+          { short: '3', full: 'choice_3pers' }
         ],
         condition: { index: 1, full: 'P' }
       },
       {
-        attrName: 'gen',
+        attrName: 'attr_gen',
         choices: [
-          { short: 'F', full: 'feminile' },
-          { short: 'M', full: 'masculine' },
-          { short: 'C', full: 'common' },
-          { short: 'N', full: 'neuter' }
+          { short: 'F', full: 'choice_feminile' },
+          { short: 'M', full: 'choice_masculine' },
+          { short: 'C', full: 'choice_common' },
+          { short: 'N', full: 'choice_neuter' }
         ],
         condition: null
       },
       {
-        attrName: 'num',
+        attrName: 'attr_num',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: 'P', full: 'plural' },
-          { short: 'N', full: 'invariable' }
+          { short: 'S', full: 'choice_singular' },
+          { short: 'P', full: 'choice_plural' },
+          { short: 'N', full: 'choice_invariable' }
         ],
         condition: null
       },
       {
-        attrName: 'case',
+        attrName: 'attr_case',
         choices: [
-          { short: 'N', full: 'nominative' },
-          { short: 'A', full: 'accusative' },
-          { short: 'D', full: 'dative' },
-          { short: 'O', full: 'oblique' },
-          { short: '0', full: 'None' }
+          { short: 'N', full: 'choice_nominative' },
+          { short: 'A', full: 'choice_accusative' },
+          { short: 'D', full: 'choice_dative' },
+          { short: 'O', full: 'choice_oblique' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       },
       {
-        attrName: 'polite',
-        choices: [{ short: 'P', full: 'yes' }, { short: '0', full: 'none' }],
+        attrName: 'attr_polite',
+        choices: [
+          { short: 'P', full: 'choice_polite' },
+          { short: '0', full: 'choice_none' }
+        ],
         condition: null
       }
     ]
   },
   cat_adverb: {
-    text: { full: 'adverb', short: 'R' },
+    text: { full: 'cat_adverb', short: 'R' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'N', full: 'negative' },
-          { short: 'G', full: 'general' }
+          { short: 'N', full: 'choice_negative' },
+          { short: 'G', full: 'choice_general' }
         ],
         condition: null
       }
     ]
   },
   cat_adposition: {
-    text: { full: 'adposition', short: 'S' },
+    text: { full: 'cat_adposition', short: 'S' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'P', full: 'preposition' },
-          { short: '0', full: 'none' }
+          { short: 'P', full: 'choice_preposition' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       },
       {
-        attrName: 'num',
+        attrName: 'attr_num',
         choices: [
-          { short: 'S', full: 'singular' },
-          { short: '0', full: 'none' }
+          { short: 'S', full: 'choice_singular' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       },
       {
-        attrName: 'contracted',
-        choices: [{ short: 'C', full: 'yes' }, { short: '0', full: 'none' }],
+        attrName: 'attr_contracted',
+        choices: [
+          { short: 'C', full: 'choice_contracted' },
+          { short: '0', full: 'choice_none' }
+        ],
         condition: null
       },
       {
-        attrName: 'gen',
+        attrName: 'attr_gen',
         choices: [
-          { short: 'M', full: 'masculine' },
-          { short: '0', full: 'none' }
+          { short: 'M', full: 'choice_masculine' },
+          { short: '0', full: 'choice_none' }
         ],
         condition: null
       }
     ]
   },
   cat_number: {
-    text: { full: 'number', short: 'Z' },
+    text: { full: 'cat_number', short: 'Z' },
     attributes: [
       {
-        attrName: 'type',
+        attrName: 'attr_type',
         choices: [
-          { short: 'd', full: 'partitive' },
-          { short: 'm', full: 'currency' },
-          { short: 'p', full: 'ratio' },
-          { short: 'u', full: 'unit' }
+          { short: 'd', full: 'choice_partitive' },
+          { short: 'm', full: 'choice_currency' },
+          { short: 'p', full: 'choice_ratio' },
+          { short: 'u', full: 'choice_unit' }
         ],
         condition: null
       }
     ]
   },
   cat_date: {
-    text: { full: 'date', short: 'W' },
+    text: { full: 'cat_date', short: 'W' },
     attributes: []
   }
 };
