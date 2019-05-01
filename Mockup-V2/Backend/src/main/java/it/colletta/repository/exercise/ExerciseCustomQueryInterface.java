@@ -3,6 +3,8 @@ package it.colletta.repository.exercise;
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.ExerciseModel;
 import java.util.List;
+
+import it.colletta.model.UserModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +27,6 @@ public interface ExerciseCustomQueryInterface {
   void pushStudentDoneList(String exerciseId, String studentId);
 
   Page<ExerciseModel> findAllPublicExercises(Pageable page, String studentId);
+
+  Page<ExerciseModel> findAllFavoriteExercises(Pageable page, List<String>teacherFavoriteIds, String studentId);
 }
