@@ -233,4 +233,33 @@ public class ExerciseController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Return all public exercises to do by using auth token authentication.
+     *
+     * @param studentToken JWT token contained in the header request
+     * @param pageable     {@link Pageable}
+     * @param assembler    {@link org.springframework.hateoas.ResourceAssembler}
+     * @return A paged version of the favorite exercise to do
+     * @see com.auth0.jwt.JWT
+     */
+    @RequestMapping(
+            value = "/favourite-public",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getFavouritePublic(@PageableDefault(value = 4) Pageable pageable,
+                                                PagedResourcesAssembler<ExerciseModel> assembler,
+                                                @RequestHeader("Authorization") String studentToken)
+    {
+        try {
+            Page<ExerciseModel> exercisesFavoritePublic = exerciseService
+                    .getFavoritePublicExercise(pageable, ParseJwt.getIdFromJwt(studentToken));
+            PagedResources<?> resources = assembler
+                    .toResource(exercisesFavoritePublic, new ExerciseResourceAssembler("/favorite-exercise"));
+            return new ResponseEntity<>(resources, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

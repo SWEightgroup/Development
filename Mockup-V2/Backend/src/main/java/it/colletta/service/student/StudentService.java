@@ -9,6 +9,8 @@ import it.colletta.security.Role;
 import it.colletta.service.user.UserService;
 import it.colletta.strategy.NextObjectiveStrategyImpl;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
@@ -37,6 +39,10 @@ public class StudentService {
    */
   public Iterable<StudentModel> getAllStudents() {
     return studentRepository.findAllByRole(Role.STUDENT);
+  }
+
+  public Optional<StudentModel> findById(final String userId) {
+    return studentRepository.findById(userId);
   }
 
   public void increaseLevel(Double mark, String studentId) {

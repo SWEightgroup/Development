@@ -3,6 +3,8 @@ package it.colletta.repository.exercise;
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.ExerciseModel;
 import java.util.List;
+
+import it.colletta.model.UserModel;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -85,4 +87,26 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
     );
   }
 
+  /**
+   * Return all exercises done by a student.
+   * @param page {@link Pageable}
+   * @param studentId the student unique id
+   * @param teacherFavoriteIds the List of the user favorite teachers
+   * @return All public exercise of user favorite teacher
+   */
+  @Override
+  public Page<ExerciseModel> findAllFavoriteExercises(Pageable page, List<String> teacherFavoriteIds, String studentId){
+    Query query =
+            new Query(
+                    Criteria.where("studentIdDone").nin(studentId)
+                            .and("studentIdToDo").nin(studentId)
+                            .and("visibility").is(true)
+                            .and("authorId").in(teacherFavoriteIds)
+            );
+    return new PageImpl<>(
+            mongoTemplate.find(query, ExerciseModel.class),
+            page,
+            mongoTemplate.count(query, ExerciseModel.class)
+    );
+  }
 }

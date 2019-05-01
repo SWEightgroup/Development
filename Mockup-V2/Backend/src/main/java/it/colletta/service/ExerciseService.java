@@ -15,6 +15,7 @@ import it.colletta.strategy.CorrectionStrategy;
 import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import java.security.acl.NotOwnerException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.bson.types.ObjectId;
@@ -263,5 +264,19 @@ public class ExerciseService {
 
   public Page< ExerciseModel > getAllPublicExercises(final Pageable page, final String userId) {
     return exerciseRepository.findAllPublicExercises(page, userId);
+  }
+
+  /**
+   * Return all exercises done by a student.
+   * @param page {@link Pageable}
+   * @param studentId the student unique id
+   * @return All public exercise of user favorite teacher
+   */
+  public Page< ExerciseModel > getFavoritePublicExercise(final Pageable page, final String studentId) throws ResourceNotFoundException{
+    List<String> teacherFavoriteListIds = studentService.findById(studentId).orElseThrow(
+            () -> new ResourceNotFoundException("Student not found")
+    ).getFavoriteTeacherIds();
+
+    return exerciseRepository.findAllFavoriteExercises(page, teacherFavoriteListIds, studentId);
   }
 }
