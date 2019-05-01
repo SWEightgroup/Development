@@ -153,7 +153,7 @@ class ClassManagement extends React.Component {
             show={_class.showModalClass}
             setShow={setShowModalClassDispatch}
             updateList={updateListNewClassDispatch}
-            teacherName={`${user.firstName} ${user.lastName}`}
+            teacherId={user.id}
           />
         )}
       </div>
@@ -177,8 +177,8 @@ const mapDispatchToProps = dispatch => {
     initListNewClassDispatch: list => dispatch(initListNewClass(list)),
     updateListNewClassDispatch: (list, name) =>
       dispatch(updateListNewClass(list, name)),
-    createClassDispatch: ({ name, students, teacherName }) =>
-      dispatch(createClass({ name, students, teacherName })),
+    createClassDispatch: ({ name, students, teacherId }) =>
+      dispatch(createClass({ name, students, teacherId })),
     initEditClassDispatch: selectedClass =>
       dispatch(initEditClass(selectedClass)),
     editClassDispatch: ({ students, name }) =>

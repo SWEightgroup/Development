@@ -29,15 +29,15 @@ export const loadClassList = () => {
   };
 };
 
-export const createClass = ({ name, students, teacherName }) => {
+export const createClass = ({ name, students, teacherId }) => {
   return dispatch => {
     axios
       .post(
         'http://localhost:8081/class/create',
         {
           name,
-          students,
-          teacher: teacherName
+          studentsId: students,
+          teacherId
         },
         {
           headers: {

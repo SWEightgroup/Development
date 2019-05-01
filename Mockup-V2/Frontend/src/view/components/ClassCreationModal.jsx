@@ -32,7 +32,7 @@ class ClassCreationModal extends React.Component {
     onChangeName(e.target.value);
   };
 
-  onConfirm = ({ name, students: studentsToReturn, teacherName }) => {
+  onConfirm = ({ name, students: studentsToReturn, teacherId }) => {
     const { confirm, language } = this.props;
     if (!name || name.length === 0) {
       this.errorName.current.innerText = _translator('gen_reqField', language);
@@ -41,7 +41,7 @@ class ClassCreationModal extends React.Component {
     } else {
       this.errorName.current.innerText = '';
       this.errorList.current.innerText = '';
-      confirm({ name, students: studentsToReturn, teacherName });
+      confirm({ name, students: studentsToReturn, teacherId });
     }
   };
 
@@ -53,7 +53,7 @@ class ClassCreationModal extends React.Component {
       show,
       setShow,
       students,
-      teacherName
+      teacherId
     } = this.props;
 
     const studentsToReturn = students
@@ -196,7 +196,7 @@ class ClassCreationModal extends React.Component {
                   this.onConfirm({
                     name,
                     students: studentsToReturn,
-                    teacherName
+                    teacherId
                   })
                 }
               >
