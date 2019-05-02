@@ -6,7 +6,7 @@ import {
   loadPublicExercises,
   changePublicExerciseFilter
 } from '../../../actions/ExerciseActions';
-
+import _translator from '../../../helpers/Translator';
 import { getFavouriteTeachers } from '../../../actions/ClassManagementActions';
 import ExercisePreview from '../../components/ExercisePreview';
 import Pagination from '../../components/Paginatioin';
@@ -77,7 +77,7 @@ class PublicExercises extends Component {
                   }
                   disabled={!onlyFavouritePublicExercise}
                 >
-                  ALL
+                  {_translator('publicExercises_All', auth.user.language)}
                 </button>
               </div>
               <div className="col-6 pl-0">
@@ -91,7 +91,7 @@ class PublicExercises extends Component {
                   className={`btn btn-transition btn  btn-lg btn-block rounded-0 ${classStyleOnlyFav}`}
                   disabled={onlyFavouritePublicExercise}
                 >
-                  favourite
+                  {_translator('publicExercises_Favourite', auth.user.language)}
                 </button>
               </div>
             </div>

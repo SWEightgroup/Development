@@ -130,6 +130,8 @@ export const _label = {
     teacherDashboard_students: 'Studenti',
     teacherDashboard_numStudents: 'Numero di studenti nel sistema',
     favouriteTeachers_allTeacher: 'Tutti gli insegnanti',
+    publicExercises_All: 'Tutti',
+    publicExercises_Favourite: 'Insegnanti Preferiti',
     /*
     Gerarchy below
     */
@@ -338,6 +340,9 @@ export const _label = {
     teacherDashboard_students: 'Students',
     teacherDashboard_numStudents: 'Total number of students in the system',
     favouriteTeachers_allTeacher: 'All teachers',
+    publicExercises_All: 'All',
+    publicExercises_Favourite: 'Favourites',
+
     /*
     Gerarchy below
     */

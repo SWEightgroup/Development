@@ -177,7 +177,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadDoneExercisesDispatch: link => dispatch(loadDoneExercises(link)),
     loadTodoExercisesDispatch: link => dispatch(loadTodoExercises(link)),
-    loadPublicExercisesDispatch: link => dispatch(loadPublicExercises(link))
+    loadPublicExercisesDispatch: link =>
+      dispatch(loadPublicExercises({ _link: link }))
   };
 };
 
