@@ -12,8 +12,6 @@ class InputSentence extends Component {
     e.preventDefault();
     const { sentenceString } = this.props;
     const cleanString = removePunctuation(sentenceString);
-
-    // document.getElementById('sentenceString').value = cleanString;
     const { prepareExercise } = this.props;
 
     prepareExercise(cleanString);
