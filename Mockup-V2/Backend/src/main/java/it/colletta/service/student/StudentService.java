@@ -79,7 +79,6 @@ public class StudentService {
     studentRepository.save(student);
   }
 
-
   /**
    * Return all the favorite student List of teacher.
    *
@@ -90,5 +89,33 @@ public class StudentService {
     StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
             new ResourceNotFoundException("Student not found"));
     return userService.getAllListUser(student.getFavoriteTeacherIds());
+  }
+
+  /**
+   * Add teacher of the student favorite teacher List
+   *
+   * @param studentId the unique Id of the student
+   */
+  public void addFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException{
+    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
+            new ResourceNotFoundException("Student not found"));
+    List<String> favoriteTeacherIds = student.getFavoriteTeacherIds();
+    if(!favoriteTeacherIds.contains(teacherId)){
+      favoriteTeacherIds.add(teacherId);
+    }
+    studentRepository.save(student);
+  }
+
+  /**
+   * Delete teacher of the student favorite teacher List
+   *
+   * @param studentId the unique Id of the student
+   */
+  public void deleteFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException{
+    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
+            new ResourceNotFoundException("Student not found"));
+    List<String> favoriteTeacherIds = student.getFavoriteTeacherIds();
+    favoriteTeacherIds.removeIf(x -> favoriteTeacherIds.contains(teacherId));
+    studentRepository.save(student);
   }
 }

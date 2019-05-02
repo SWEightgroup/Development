@@ -115,4 +115,30 @@ public class StudentControllerTest {
       e.printStackTrace();
     }
   }
+
+  @Test
+  public void addTeacherTest() {
+    try {
+      mvc.perform(MockMvcRequestBuilders.post("/students/favorite-teacher/123")
+              .header("Authorization", userToken)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void deleteTeacherTest() {
+    try {
+      mvc.perform(MockMvcRequestBuilders.delete("/students/favorite-teacher/123")
+              .header("Authorization", userToken)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+
 }

@@ -14,11 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/students")
@@ -33,7 +29,47 @@ public class StudentController {
 
   /**
    * @param token the unique token of the user
-   * @return the update List of student favorite teacher/s.
+   * @return HttpStatus of the operation.
+   */
+  @RequestMapping(
+          value = "/favorite-teacher/{teacherId}",
+          method = RequestMethod.POST,
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<HttpStatus> addTeacher(
+          @RequestHeader("Authorization") String token,
+          @PathVariable("teacherId") String teacherId) {
+    try{
+      studentService.addFavoriteTeacher(ParseJwt.getIdFromJwt(token), teacherId);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch(Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * @param token the unique token of the user
+   * @return HttpStatus of the operation.
+   */
+  @RequestMapping(
+          value = "/favorite-teacher/{teacherId}",
+          method = RequestMethod.DELETE,
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<HttpStatus> deleteTeacher(
+          @RequestHeader("Authorization") String token,
+          @PathVariable("teacherId") String teacherId) {
+    try{
+      studentService.deleteFavoriteTeacher(ParseJwt.getIdFromJwt(token), teacherId);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch(Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * @param token the unique token of the user
+   * @return HttpStatus of the operation
    */
   @RequestMapping(
           value = "/favorite-teacher",
