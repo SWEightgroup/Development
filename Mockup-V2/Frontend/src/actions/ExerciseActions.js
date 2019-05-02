@@ -247,11 +247,14 @@ export const loadDoneExercises = _link => {
   };
 };
 
-export const loadPublicExercises = _link => {
-  const link =
-    _link !== null && _link !== undefined
-      ? _link.href
-      : `http://localhost:8081/exercises/public`;
+export const loadPublicExercises = ({ _link, onlyFavourite }) => {
+  console.log(': loadPublicExercises -> onlyFavourite', onlyFavourite);
+  console.log(': loadPublicExercises -> _link', _link);
+  const defaultLink = onlyFavourite
+    ? 'http://localhost:8081/exercises/favourite-public'
+    : 'http://localhost:8081/exercises/public';
+  console.log(': loadPublicExercises -> defaultLink', defaultLink);
+  const link = _link !== null && _link !== undefined ? _link.href : defaultLink;
   return dispatch => {
     dispatch(innerLoaderOn());
     axios
@@ -302,6 +305,17 @@ export const getAutomaticSolution = sentenceString => {
         );
         return dispatch({ type: '' });
       });
+  };
+};
+
+export const changePublicExerciseFilter = onlyFavourite => {
+  return dispatch => {
+    dispatch(
+      loadPublicExercises({
+        onlyFavourite
+      })
+    );
+    dispatch({ type: 'CHANGE_PUBLIC_EXERCISE_FILTER' });
   };
 };
 

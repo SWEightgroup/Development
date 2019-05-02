@@ -32,6 +32,7 @@ public class StudentController {
    * @return HttpStatus of the operation.
    */
   @RequestMapping(
+      
           value = "/favorite-teacher/{teacherId}",
           method = RequestMethod.POST,
           produces = MediaType.APPLICATION_JSON_VALUE)

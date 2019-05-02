@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import {
   updateNewExerciseState,
   initializeNewExercise,
-  loadPublicExercises
+  loadPublicExercises,
+  changePublicExerciseFilter
 } from '../../../actions/ExerciseActions';
+
+import { getFavouriteTeachers } from '../../../actions/ClassManagementActions';
 import ExercisePreview from '../../components/ExercisePreview';
 import Pagination from '../../components/Paginatioin';
 
@@ -13,7 +16,8 @@ class PublicExercises extends Component {
     super(props);
     const { initializeNewExerciseDispatch } = props;
     // if (!todoExercises)
-    props.loadPublicExercisesDispatch();
+    props.loadPublicExercisesDispatch({ onlyFavourite: false });
+    props.getFavouriteTeachersDispatch();
     initializeNewExerciseDispatch();
   }
 
@@ -29,13 +33,70 @@ class PublicExercises extends Component {
     history.push('homework-execution');
   };
 
+  onClickPagination = link => {
+    const {
+      loadPublicExercisesDispatch,
+      onlyFavouritePublicExercise
+    } = this.props;
+    loadPublicExercisesDispatch({
+      _link: link,
+      onlyFavourite: onlyFavouritePublicExercise
+    });
+  };
+
   render() {
-    const { publicExercises, auth, loadPublicExercisesDispatch } = this.props;
+    const {
+      publicExercises,
+      auth,
+      onlyFavouritePublicExercise,
+      changePublicExerciseFilterDispatch
+    } = this.props;
     const { exercises, page, links } = publicExercises;
     const areThereExercisePublic =
       publicExercises && exercises && exercises.length > 0;
+
+    const classStyleAll = onlyFavouritePublicExercise
+      ? 'btn-outline-primary'
+      : 'btn-primary';
+    const classStyleOnlyFav = !onlyFavouritePublicExercise
+      ? 'btn-outline-primary'
+      : 'btn-primary';
     return (
       <React.Fragment>
+        <div className="row justify-content-center">
+          <div className="col-12 col-xs-10 col-md-8 col-xl-6 ">
+            <div className="row justify-content-center ">
+              <div className="col-6 pr-0 pb-2">
+                <button
+                  type="button"
+                  className={`btn btn-transition btn  btn-lg btn-block rounded-0 ${classStyleAll}`}
+                  onClick={() =>
+                    changePublicExerciseFilterDispatch(
+                      !onlyFavouritePublicExercise
+                    )
+                  }
+                  disabled={!onlyFavouritePublicExercise}
+                >
+                  ALL
+                </button>
+              </div>
+              <div className="col-6 pl-0">
+                <button
+                  type="button"
+                  onClick={() =>
+                    changePublicExerciseFilterDispatch(
+                      !onlyFavouritePublicExercise
+                    )
+                  }
+                  className={`btn btn-transition btn  btn-lg btn-block rounded-0 ${classStyleOnlyFav}`}
+                  disabled={onlyFavouritePublicExercise}
+                >
+                  favourite
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="row justify-content-center">
           <div className="col-12 col-xs-10 col-md-8 col-xl-6 ">
             {areThereExercisePublic &&
@@ -66,7 +127,7 @@ class PublicExercises extends Component {
             number={page.number}
             totalPages={page.totalPages}
             language={auth.user.language}
-            onClick={loadPublicExercisesDispatch}
+            onClick={this.onClickPagination}
           />
         )}
       </React.Fragment>
@@ -78,7 +139,8 @@ const mapStateToProps = store => {
   return {
     auth: store.auth,
     newExercise: store.exercise.newExercise,
-    publicExercises: store.exercise.publicExercises
+    publicExercises: store.exercise.publicExercises,
+    onlyFavouritePublicExercise: store.exercise.onlyFavouritePublicExercise
   };
 };
 
@@ -87,7 +149,11 @@ const mapDispatchToProps = dispatch => {
     updateNewExerciseStateDispatch: newExercise =>
       dispatch(updateNewExerciseState(newExercise)),
     initializeNewExerciseDispatch: () => dispatch(initializeNewExercise()),
-    loadPublicExercisesDispatch: link => dispatch(loadPublicExercises(link))
+    loadPublicExercisesDispatch: ({ _link, onlyFavourite }) =>
+      dispatch(loadPublicExercises({ _link, onlyFavourite })),
+    changePublicExerciseFilterDispatch: onlyFavourite =>
+      dispatch(changePublicExerciseFilter(onlyFavourite)),
+    getFavouriteTeachersDispatch: () => dispatch(getFavouriteTeachers())
   };
 };
 

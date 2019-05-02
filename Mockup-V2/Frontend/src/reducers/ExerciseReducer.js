@@ -14,6 +14,7 @@ const initState = {
   todoExercises: { exercises: null, page: null, links: null },
   doneExercises: { exercises: null, page: null, links: null },
   publicExercises: { exercises: null, page: null, links: null },
+  onlyFavouritePublicExercise: false,
   innerLoader: false
 };
 
@@ -132,7 +133,11 @@ const ExerciseReducer = (state = initState, action) => {
         },
         innerLoader: false
       };
-
+    case 'CHANGE_PUBLIC_EXERCISE_FILTER':
+      return {
+        ...state,
+        onlyFavouritePublicExercise: !state.onlyFavouritePublicExercise
+      };
     default:
       // console.error('REDUCER ERRATO', state, action);
       return { ...state, innerLoader: false };

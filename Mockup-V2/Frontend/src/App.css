@@ -58,6 +58,15 @@
   position: relative !important;
 }
 
+.scroll-area-xxl {
+  height: calc(100vh - 320px);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.scroll-area-xxl .scrollbar-container {
+  flex: 1;
+}
 /* Transparent Overlay */
 .loading:before {
   content: '';
@@ -80,6 +89,13 @@
   text-shadow: none;
   background-color: transparent;
   border: 0;
+}
+.hover .btn-hover {
+  opacity: 0;
+}
+.hover:hover .btn-hover {
+  opacity: 1;
+  transition: 0.5s;
 }
 
 .loading:not(:required):after {

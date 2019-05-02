@@ -43,6 +43,16 @@ class SidebarElementStudent extends Component {
             </li> */}
           </ul>
         </li>
+        <li>
+          <NavLink
+            to="/favorite-teachers"
+            className="nav-link"
+            activeClassName="mm-active"
+          >
+            <i className="metismenu-icon pe-7s-star" />
+            {_translator('sidebarElementStudent_favoriteTeachers', language)}
+          </NavLink>
+        </li>
       </React.Fragment>
     );
   }

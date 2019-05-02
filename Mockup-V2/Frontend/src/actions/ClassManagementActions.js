@@ -146,6 +146,122 @@ export const getAllStudents = () => {
   };
 };
 
+export const getAllTeachers = _link => {
+  const link =
+    _link !== null && _link !== undefined
+      ? _link.href
+      : 'http://localhost:8081/users/ROLE_TEACHER';
+  return dispatch => {
+    axios
+      .get(link, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch({
+          type: 'GET_TEACHERS_LIST',
+          teachersList: res.data
+        });
+      })
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
+  };
+};
+
+export const getFavouriteTeachers = () => {
+  return dispatch => {
+    axios
+      .get('http://localhost:8081/students/favorite-teacher', {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch({
+          type: 'GET_FAVOURITE_TEACHERS',
+          favouriteTeachers: res.data
+        });
+      })
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
+  };
+};
+
+export const addFavouriteTeachers = teacher => {
+  return dispatch => {
+    const _class = store.getState().class;
+    const { favouriteTeachers } = _class;
+    const teacherIndex = favouriteTeachers.findIndex(
+      _teacher => _teacher.id === teacher.id
+    );
+    if (teacherIndex === -1) favouriteTeachers.push(teacher);
+    dispatch({
+      type: 'GET_FAVOURITE_TEACHERS',
+      favouriteTeachers
+    });
+    if (teacherIndex === -1) {
+      axios
+        .post(
+          `http://localhost:8081/students/favorite-teacher/${teacher.id}`,
+          {},
+          {
+            headers: {
+              Authorization: store.getState().auth.token
+            }
+          }
+        )
+        .then(() => {
+          // dispatch(getFavouriteTeachers());
+        })
+        .catch(() => {
+          _toastError(
+            _translator('gen_error', store.getState().auth.user.language)
+          );
+          return dispatch({ type: '' });
+        });
+    }
+  };
+};
+
+export const removeFavouriteTeachers = teacherId => {
+  return dispatch => {
+    const _class = store.getState().class;
+    const { favouriteTeachers } = _class;
+    const teacherIndex = favouriteTeachers.findIndex(
+      teacher => teacher.id === teacherId
+    );
+    if (teacherIndex > -1) favouriteTeachers.splice(teacherIndex, 1);
+    dispatch({
+      type: 'GET_FAVOURITE_TEACHERS',
+      favouriteTeachers
+    });
+    axios
+      .delete(`http://localhost:8081/students/favorite-teacher/${teacherId}`, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(() => {
+        // dispatch(getFavouriteTeachers());
+      })
+      .catch(() => {
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
+  };
+};
+
 export const initEditClass = ({ id, name, students }) => {
   const studentsList = store.getState().class.studentsList
     ? store.getState().class.studentsList.map(student => {

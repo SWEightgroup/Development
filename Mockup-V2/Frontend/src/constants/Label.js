@@ -66,6 +66,7 @@ export const _label = {
     sidebarElementStudent_marks: 'I tuoi voti',
     sidebarElementStudent_doneExercises: 'Esercizi Svolti',
     sidebarElementStudent_publicExercises: 'Esercizi Pubblici',
+    sidebarElementStudent_favoriteTeachers: 'Insegnanti preferiti',
     sidebarElementTeacher_exercise: 'Esercizi',
     sidebarElementTeacher_insertExercise: 'Inserisci esercizio',
     sidebarElementTeacher_exercises: 'Esercizi inseriti',
@@ -128,6 +129,7 @@ export const _label = {
     teacherDashboard_numClass: 'Numero di classi create',
     teacherDashboard_students: 'Studenti',
     teacherDashboard_numStudents: 'Numero di studenti nel sistema',
+    favouriteTeachers_allTeacher: 'Tutti gli insegnanti',
     /*
     Gerarchy below
     */
@@ -277,6 +279,7 @@ export const _label = {
     sidebarElementStudent_marks: 'Your marks',
     sidebarElementStudent_doneExercises: 'Completed Exercises',
     sidebarElementStudent_publicExercises: 'Public Exercises',
+    sidebarElementStudent_favoriteTeachers: 'Favorite Teachers',
     sidebarElementTeacher_exercise: 'Esercise',
     sidebarElementTeacher_insertExercise: 'Insert exercise',
     sidebarElementTeacher_exercises: 'Exercise history',
@@ -334,6 +337,7 @@ export const _label = {
     teacherDashboard_numClass: 'Total number of created classes',
     teacherDashboard_students: 'Students',
     teacherDashboard_numStudents: 'Total number of students in the system',
+    favouriteTeachers_allTeacher: 'All teachers',
     /*
     Gerarchy below
     */

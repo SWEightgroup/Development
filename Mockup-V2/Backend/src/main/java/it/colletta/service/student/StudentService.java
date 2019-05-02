@@ -18,12 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentService {
 
-
   private StudentRepository studentRepository;
   private UserService userService;
 
   /**
    * Construct a new student service using a repository
+   * 
    * @param studentRepository the student repository
    */
 
@@ -32,6 +32,7 @@ public class StudentService {
     this.studentRepository = studentRepository;
     this.userService = userService;
   }
+
   /**
    * Return all student user.
    *
@@ -46,21 +47,20 @@ public class StudentService {
   }
 
   public void increaseLevel(Double mark, String studentId) {
-    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
-        new ResourceNotFoundException("Student not found"));
-    //mark is always >= 0
+    StudentModel student = studentRepository.findById(studentId)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    // mark is always >= 0
     if (mark >= 6.0) {
       student.setCurrentGoal(student.getCurrentGoal() + 1);
-    }
-    else {
+    } else {
       student.setCurrentGoal(Math.min(0, student.getCurrentGoal() - 1));
     }
     studentRepository.save(student);
   }
 
   public ProgressHelper getStudentProgress(String studentId) {
-    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
-        new ResourceNotFoundException("Student not found"));
+    StudentModel student = studentRepository.findById(studentId)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     NextObjectiveStrategyImpl strategy = new NextObjectiveStrategyImpl();
     double current = student.getCurrentGoal().doubleValue();
     Double nextProgress = strategy.nextProgress(current);
@@ -73,8 +73,8 @@ public class StudentService {
    * @param studentId the unique Id of the student
    */
   public void modifyFavoriteTeachers(String studentId, List<String> teacherId) {
-    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
-            new ResourceNotFoundException("Student not found"));
+    StudentModel student = studentRepository.findById(studentId)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     student.setFavoriteTeacherIds(teacherId);
     studentRepository.save(student);
   }
@@ -85,9 +85,9 @@ public class StudentService {
    * @param studentId the unique Id of the student
    * @return User actual List of favorite teacher.
    */
-  public List<UserModel> getFavoriteTeachers(String studentId){
-    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
-            new ResourceNotFoundException("Student not found"));
+  public List<UserModel> getFavoriteTeachers(String studentId) {
+    StudentModel student = studentRepository.findById(studentId)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     return userService.getAllListUser(student.getFavoriteTeacherIds());
   }
 
@@ -96,11 +96,11 @@ public class StudentService {
    *
    * @param studentId the unique Id of the student
    */
-  public void addFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException{
-    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
-            new ResourceNotFoundException("Student not found"));
+  public void addFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException {
+    StudentModel student = studentRepository.findById(studentId)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     List<String> favoriteTeacherIds = student.getFavoriteTeacherIds();
-    if(!favoriteTeacherIds.contains(teacherId)){
+    if (!favoriteTeacherIds.contains(teacherId)) {
       favoriteTeacherIds.add(teacherId);
     }
     studentRepository.save(student);
@@ -111,11 +111,13 @@ public class StudentService {
    *
    * @param studentId the unique Id of the student
    */
-  public void deleteFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException{
-    StudentModel student = studentRepository.findById(studentId).orElseThrow(() ->
-            new ResourceNotFoundException("Student not found"));
+  public void deleteFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException {
+    StudentModel student = studentRepository.findById(studentId)
+        .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     List<String> favoriteTeacherIds = student.getFavoriteTeacherIds();
-    favoriteTeacherIds.removeIf(x -> favoriteTeacherIds.contains(teacherId));
+    if (favoriteTeacherIds.contains(teacherId)) {
+      favoriteTeacherIds.remove(teacherId);
+    }
     studentRepository.save(student);
   }
 }

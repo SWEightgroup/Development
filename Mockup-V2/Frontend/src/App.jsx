@@ -29,6 +29,7 @@ import PublicExercises from './view/containers/ExerciseContainers/PublicExercise
 import ClassManagement from './view/containers/ExerciseContainers/ClassManagement';
 import AdminDashboard from './view/containers/DashboardContainers/AdminDashboard';
 import ExercisesDetails from './view/containers/ExerciseContainers/ExerciseDetails';
+import FavouriteTeachers from './view/containers/ExerciseContainers/FavouriteTeachers';
 
 class App extends Component {
   state = {};
@@ -152,6 +153,11 @@ class App extends Component {
                       path="/doneHomework"
                       isAllowed={auth.user && auth.user.role === 'ROLE_STUDENT'}
                       component={DoneHomework}
+                    />
+                    <ProtectedRoute
+                      path="/favorite-teachers"
+                      isAllowed={auth.user && auth.user.role === 'ROLE_STUDENT'}
+                      component={FavouriteTeachers}
                     />
                     <ProtectedRoute
                       path="/assignedHomework"

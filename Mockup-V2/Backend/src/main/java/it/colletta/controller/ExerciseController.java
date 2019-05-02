@@ -80,7 +80,6 @@ public class ExerciseController {
                                                @PageableDefault(value = 4) Pageable pageable,
                                                PagedResourcesAssembler<ExerciseModel> assembler) {
         String id = ParseJwt.getIdFromJwt(token);
-
         Page<ExerciseModel> exercisesDone = exerciseService.getAllAddedByTeacherId(pageable, id);
         PagedResources<?> resources = assembler
                 .toResource(exercisesDone, new ExerciseResourceAssembler("/added-alt"));

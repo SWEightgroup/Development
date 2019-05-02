@@ -6,7 +6,9 @@ const initState = {
     name: '',
     studentsList: [],
     id: null
-  }
+  },
+  favouriteTeachers: [],
+  teachersList: null
 };
 
 const ClassManagementReducer = (state = initState, action) => {
@@ -70,6 +72,22 @@ const ClassManagementReducer = (state = initState, action) => {
           id: action.class.id
         },
         showModalClass: true
+      };
+    case 'GET_FAVOURITE_TEACHERS':
+      return {
+        ...state,
+        favouriteTeachers: action.favouriteTeachers
+      };
+    case 'GET_TEACHERS_LIST':
+      return {
+        ...state,
+        teachersList: {
+          teachers: action.teachersList._embedded
+            ? action.teachersList._embedded.userModels
+            : [],
+          page: action.teachersList.page,
+          links: action.teachersList._links
+        }
       };
     default:
       // console.error('REDUCER ERRATO', state, action);
