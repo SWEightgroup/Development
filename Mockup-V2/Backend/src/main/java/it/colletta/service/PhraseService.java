@@ -3,16 +3,18 @@ package it.colletta.service;
 import com.mongodb.client.FindIterable;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
+import it.colletta.model.helper.FilterHelper;
 import it.colletta.repository.phrase.PhraseRepository;
+import lombok.NonNull;
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
-import lombok.NonNull;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
@@ -128,6 +130,19 @@ public class PhraseService {
    */
   public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId, String teacherId) {
     return phraseRepository.getSolution(phraseId, solutionId);
+  }
+
+  public File downloadPhrasesWithFilter(FilterHelper filter) throws IOException {
+    File file = File.createTempFile("filteredPhrases", ".json");
+    List<Document> documents = phraseRepository.findAllPhrasesWithFilter(filter);
+    PrintStream fileStream = new PrintStream(file);
+
+    for (Document document : documents) {
+      document.remove("_class");
+      document.remove("_id");
+      fileStream.println(document.toJson());
+    }
+    return file;
   }
 
   public File downloadAllPhrases() throws IOException {
