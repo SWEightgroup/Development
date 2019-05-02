@@ -108,7 +108,10 @@ class InsertExercise extends Component {
       response: null
     });
     const { sentenceString } = newExercise;
-    getAutomaticSolutionDispatch(sentenceString);
+
+    const toSend = sentenceString.replace('.', ' ');
+
+    getAutomaticSolutionDispatch(toSend);
   };
 
   handleChange = event => {
