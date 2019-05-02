@@ -4,6 +4,8 @@ package it.colletta.controller;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static it.colletta.security.SecurityConstants.EXPIRATION_TIME;
 import static it.colletta.security.SecurityConstants.SECRET;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 import com.auth0.jwt.JWT;
@@ -12,14 +14,21 @@ import it.colletta.model.helper.FavoriteTeacherHelper;
 import java.util.Arrays;
 import java.util.Date;
 
+import it.colletta.repository.user.StudentRepository;
+import it.colletta.repository.user.UsersRepository;
+import it.colletta.security.ParseJwt;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
@@ -32,10 +41,13 @@ public class StudentControllerTest {
   private FavoriteTeacherHelper favoriteTeacherHelper;
 
   @Mock
-  private UserService userService;
+  StudentService studentService;
+
+  @Mock
+  StudentRepository studentRepository;
 
   @InjectMocks
-  private StudentController studentController;
+  StudentController studentController;
 
   @Before
   public void setup() {
@@ -52,10 +64,22 @@ public class StudentControllerTest {
             .build();
   }
 
+  @Test
+  public void ModifyFavoriteTeachersWithoutTokenTest() {
+    try {
+      String jsonFavoriteTeacherHelper = mapper.writeValueAsString(favoriteTeacherHelper);
+      mvc.perform(MockMvcRequestBuilders.put("/students/favorite-teacher")
+              .content(jsonFavoriteTeacherHelper)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isBadRequest());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
  @Test
-// @WithMockUser(roles={"STUDENT"})
   public void ModifyFavoriteTeachersTest() {
-    /*try {
+    try {
       String jsonFavoriteTeacherHelper = mapper.writeValueAsString(favoriteTeacherHelper);
       mvc.perform(MockMvcRequestBuilders.put("/students/favorite-teacher")
               .header("Authorization", userToken)
@@ -64,14 +88,12 @@ public class StudentControllerTest {
               .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
-    } */
+    }
   }
 
 
   @Test
-  //@WithMockUser(roles={"STUDENT"})
   public void GetFavoriteTeachersTest() {
-    /*
     try {
       mvc.perform(MockMvcRequestBuilders.get("/students/favorite-teacher")
               .header("Authorization", userToken)
@@ -80,10 +102,17 @@ public class StudentControllerTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-     */
   }
 
-
-
+  @Test
+  public void GetProgressTest() {
+    try {
+      mvc.perform(MockMvcRequestBuilders.get("/students/progress")
+              .header("Authorization", userToken)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.colletta.model.UserModel;
+import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import java.util.Date;
 import org.junit.Before;
@@ -15,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,14 +25,19 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
-  @Mock
-  UserService userService;
-  @InjectMocks
-  UserController userController;
   private MockMvc mvc;
   private String userToken;
   private ObjectMapper mapper;
   private UserModel fakeTestUser;
+
+  @Mock
+  UserService userService;
+
+  @Mock
+  StudentService studentService;
+
+  @InjectMocks
+  UserController userController;
 
   @Before
   public void setup() {
@@ -52,7 +57,6 @@ public class UserControllerTest {
 
     mapper = new ObjectMapper();
     mvc = MockMvcBuilders.standaloneSetup(userController)
-        //.alwaysExpect(status().isOk())
         .build();
   }
 
@@ -132,14 +136,4 @@ public class UserControllerTest {
     }
   }
 
-  @Test
-  public void getAllUser() {
-    /* try {
-      mvc.perform(MockMvcRequestBuilders.get("/users/get-students")
-          .header("Authorization", userToken))
-          .andExpect(status().isOk());
-    } catch (Exception e) {
-      e.printStackTrace();
-    } */
-  }
 }

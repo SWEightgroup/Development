@@ -13,25 +13,29 @@ import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
 import it.colletta.service.ExerciseService;
 import it.colletta.service.SolutionService;
-import java.util.Arrays;
-import java.util.Date;
+
+import java.util.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseControllerTest {
 
-  @InjectMocks
-  ExerciseController exerciseController;
   private MockMvc mvc;
   private String userToken;
   private ObjectMapper mapper;
@@ -39,12 +43,15 @@ public class ExerciseControllerTest {
   private CorrectionHelper fakeCorrectionHelper;
   private ExerciseModel fakeExerciseModel;
   private SolutionModel fakeSolutionModel;
+
   @Mock
-  private ExerciseService exerciseService;
+  ExerciseService exerciseService;
+
   @Mock
-  private SolutionService solutionService;
-  @Mock
-  private EntityLinks links;
+  SolutionService solutionService;
+
+  @InjectMocks
+  ExerciseController exerciseController;
 
   @Before
   public void setup() {
@@ -54,7 +61,13 @@ public class ExerciseControllerTest {
 
     mapper = new ObjectMapper();
     mvc = MockMvcBuilders.standaloneSetup(exerciseController)
-        // .alwaysExpect(status().isOk())
+            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+            .setViewResolvers(new ViewResolver() {
+              @Override
+              public View resolveViewName(String viewName, Locale locale) throws Exception {
+                return new MappingJackson2JsonView();
+              }
+            })
         .build();
 
     fakeExerciseHelper = ExerciseHelper.builder().assignedUsersIds(Arrays.asList("1", "2"))
@@ -90,6 +103,18 @@ public class ExerciseControllerTest {
 
   @Test
   public void ExerciseToDo() {
+  }
+
+  @Test
+  public void getFavouritePublicTest(){
+    /*try {
+      mvc.perform(MockMvcRequestBuilders.get("/exercises/favourite-public")
+              .header("Authorization", userToken)
+              .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e) {
+      e.printStackTrace();
+    } */
   }
 
   @Test
@@ -132,11 +157,31 @@ public class ExerciseControllerTest {
     }
   }
 
-  // TODO
   @Test
   public void automaticSolutionTest() {
     try {
+      Map<String, String> articleMapOne = new HashMap<>();
+      articleMapOne.put("ar01", "test");
+      String jsonMapCorrection = mapper.writeValueAsString(articleMapOne);
+      mvc.perform(
+              MockMvcRequestBuilders.post("/exercises/student/do")
+                      .header("Authorization", userToken)
+                      .content(jsonMapCorrection)
+                      .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
+  @Test
+  public void deleteExerciseTest() {
+    try {
+      mvc.perform(
+              MockMvcRequestBuilders.delete("/exercises/1")
+                      .header("Authorization", userToken)
+                      .contentType(MediaType.APPLICATION_JSON_VALUE))
+              .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }

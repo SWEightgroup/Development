@@ -223,7 +223,7 @@ public class ExerciseController {
 
 
     @RequestMapping(value = "/{exerciseId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteExercise(@RequestParam("exerciseId") String exerciseId,
+    public ResponseEntity<?> deleteExercise(@PathVariable("exerciseId") String exerciseId,
                                             @RequestHeader("Authorization") String teacherToken) {
         try {
             return new ResponseEntity<>(
