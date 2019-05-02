@@ -185,8 +185,6 @@ public class ExerciseServiceTest {
     Mockito.when(phraseService.getSolutionInPhrase(anyString(), anyString(), anyString()))
         .thenReturn(mainSolution);
     Mockito.when(phraseService.getPhraseById(anyString())).thenReturn(Optional.of(phrase));
-    Mockito.when(phraseService.insertPhrase(any(PhraseModel.class))).thenAnswer(returnsFirstArg());
-
     try {
       SolutionModel mySolution = exerciseService.doExercise(correctionHelper, anyString());
 

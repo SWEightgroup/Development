@@ -83,7 +83,15 @@ public class PhraseServiceTest {
 
     }
 
-    @Test
+
+  @Test
+  public void savePhrase(){
+    phraseService.savePhrase(phrase);
+    Mockito.verify(phraseRepository).save(phrase);
+  }
+
+
+  @Test
     public void getSolutionInPhrase(){
       /*Mockito.when(phraseRepository.getSolution(anyString(), anyString(), anyString())).thenReturn(mainSolution);
       SolutionModel mysolution = phraseService.getSolutionInPhrase(phrase.getId(),mainSolution.getId());
