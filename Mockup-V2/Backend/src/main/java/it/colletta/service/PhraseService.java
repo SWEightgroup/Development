@@ -49,8 +49,7 @@ public class PhraseService {
   public PhraseModel insertPhrase(PhraseModel newPhrase) {
 
     PhraseModel returnPhrase;
-    Optional<PhraseModel> phraseOptional = phraseRepository
-        .findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
+    Optional<PhraseModel> phraseOptional = phraseRepository.findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
 
@@ -68,6 +67,15 @@ public class PhraseService {
     }
     return returnPhrase;
 
+  }
+
+  /**
+   * Save a phrase in the system
+   * 
+   * @param phrase Phrase
+   */
+  public void savePhrase(PhraseModel phrase) {
+    phraseRepository.save(phrase);
   }
 
   /**
@@ -114,14 +122,13 @@ public class PhraseService {
   /**
    * Get solution of the phrase by id.
    *
-   * @param phraseId Phrase id
+   * @param phraseId   Phrase id
    * @param solutionId Solution id
    * @return Solution
    */
   public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId, String teacherId) {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
-
 
   public File downloadAllPhrases() throws IOException {
     File file = File.createTempFile("allphrases", ".json");
@@ -137,8 +144,7 @@ public class PhraseService {
   }
 
   public PhraseModel createPhrase(String phraseText, String language) {
-    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis())
-        .phraseText(phraseText)
+    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis()).phraseText(phraseText)
         .build();
 
   }
