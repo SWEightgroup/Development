@@ -43,6 +43,7 @@ public class UserControllerTest {
         .sign(HMAC512(SECRET.getBytes()));
 
     fakeTestUser = UserModel.builder()
+        .email("prova@prova.it")
         .firstName("fransisco")
         .lastName("corti")
         .language("it")
@@ -54,21 +55,6 @@ public class UserControllerTest {
         //.alwaysExpect(status().isOk())
         .build();
   }
-
-  /*@Test
-  public void userTryToModify(){
-    try{
-      String jsonFakeTestUser = mapper.writeValueAsString(fakeTestUser);
-      mvc.perform(MockMvcRequestBuilders.put("/users/modify")
-              .header("Authorization", userToken)
-              .content(jsonFakeTestUser)
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON)
-              .characterEncoding("UTF-8"));
-    }catch (Exception e){
-      e.printStackTrace();
-    }
-  } */
 
   @Test
   public void checkTokenUserControllerTest() {

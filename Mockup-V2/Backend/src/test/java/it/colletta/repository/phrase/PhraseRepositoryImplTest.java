@@ -7,7 +7,10 @@ import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.repository.config.MongoConfig;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +34,7 @@ public class PhraseRepositoryImplTest {
   private PhraseModel noSolutionPhrase;
   private PhraseModel oneSolutionPhrase;
   private PhraseModel multipleSolutionsPhrase;
+  private PhraseModel testPhrase;
 
   @Before
   public void setUp() {
@@ -85,12 +89,10 @@ public class PhraseRepositoryImplTest {
 
   @Test
   public void getSolution() {
-
-    //SolutionModel solution = phraseRepository.getSolution("3","12");
-    //assertEquals(solution.getSolutionText(),"second solution");
-
-    //solution = phraseRepository.getSolution("1","wrongId");
-    //assertNull(solution);
+    String phraseId = testPhrase.getId();
+    String solutionId = testPhrase.getSolutions().get(0).getId();
+    SolutionModel solution = phraseRepository.getSolution(phraseId,solutionId);
+    assertEquals(solution.getSolutionText(),"test solution");
   }
 
   @After
@@ -127,9 +129,14 @@ public class PhraseRepositoryImplTest {
             .solutions(multipleSolutionsList)
             .build();
 
+    SolutionModel testSolution = SolutionModel.builder().solutionText("test solution").authorId("5").build();
+    testPhrase = PhraseModel.builder().phraseText("test phrase").solutions(new ArrayList<>(Arrays.asList(testSolution))).build();
+
+    testPhrase = mongoTemplate.save(testPhrase);
     noSolutionPhrase = mongoTemplate.save(noSolutionPhrase);
     oneSolutionPhrase = mongoTemplate.save(oneSolutionPhrase);
     multipleSolutionsPhrase = mongoTemplate.save(multipleSolutionsPhrase);
+
   }
 
 }
