@@ -8,9 +8,12 @@ import it.colletta.model.helper.FilterHelper;
 import it.colletta.repository.config.MongoConfig;
 import org.bson.Document;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
+import org.mockito.internal.matchers.LessOrEqual;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,8 +21,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -99,22 +104,28 @@ public class PhraseRepositoryImplTest {
 
     @Test
     public void findAllPhrasesWithFilter() {
-
+        Long filterStartDate = 1500L;
+        Long filterEndDate = 4000L;
+        Integer filterMinRel = 3;
         ArrayList<String> filterLanguages = new ArrayList<>();
         filterLanguages.add("it");
         filterLanguages.add("en");
 
         FilterHelper filter = FilterHelper.builder()
+                .startDate(filterStartDate)
+                .endDate(filterEndDate)
+                .minReliability(filterMinRel)
                 .languages(filterLanguages)
-                .startDate(1500L)
-                .endDate(4000L)
-                .minReliability(3)
                 .build();
 
-        FindIterable<Document> result = phraseRepository.findAllPhrasesWithFilter(filter);
+        List<Document> result = phraseRepository.findAllPhrasesWithFilter(filter);
 
         for(Document d : result) {
-            String test = d.toJson();
+            d.getString("language");
+            Document solution = d.get("solutions",Document.class);
+            assertTrue(solution.getLong("dateSolution")>=filterStartDate);
+            assertTrue(solution.getLong("dateSolution")<=filterEndDate);
+            assertTrue(solution.getInteger("reliability")>=filterMinRel);
         }
     }
 

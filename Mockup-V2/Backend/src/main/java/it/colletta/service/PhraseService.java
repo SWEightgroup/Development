@@ -127,7 +127,7 @@ public class PhraseService {
 
   public File downloadPhrasesWithFilter(FilterHelper filter) throws IOException {
     File file = File.createTempFile("filteredPhrases", ".json");
-    FindIterable<Document> documents = phraseRepository.findAllPhrasesWithFilter(filter);
+    List<Document> documents = phraseRepository.findAllPhrasesWithFilter(filter);
     PrintStream fileStream = new PrintStream(file);
 
     for (Document document : documents) {

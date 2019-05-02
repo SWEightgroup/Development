@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,15 +100,24 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     }
 
     @Override
-    public FindIterable<Document> findAllPhrasesWithFilter(FilterHelper filterHelper) {
+    public List<Document> findAllPhrasesWithFilter(FilterHelper filterHelper) {
         /*
         Query query = new Query();
         query.addCriteria(Criteria.where("language").in(filter.getLanguages()));
         query.addCriteria(Criteria.where("solutions.dateSolution").gte(filter.getStartDate()).lte(filter.getEndDate()));
         query.addCriteria(Criteria.where("solutions.reliability").gte(filter.getMinReliability()));
         */
+        Aggregation aggregation = Aggregation.newAggregation(
+                unwind("$solutions"),
+                match(Criteria.where("language").in(filterHelper.getLanguages())),
+                match(Criteria.where("solutions.dateSolution").gte(filterHelper.getStartDate()).lte(filterHelper.getEndDate())),
+                match(Criteria.where("solutions.reliability").gte(filterHelper.getMinReliability())));
 
 
+        AggregationResults<Document> doc = mongoTemplate.aggregate(aggregation, "phrases", Document.class);
+        return doc.getMappedResults();
+
+        /*
         Bson filter = and (
                 in("language", filterHelper.getLanguages()),
                 gte("solutions.dateSolution", filterHelper.getStartDate()),
@@ -115,7 +125,8 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
                 gte("solutions.reliability", filterHelper.getMinReliability())
         );
 
-        return mongoTemplate.getCollection("phrases").find(filter);
+        FindIterable<Document> result =  mongoTemplate.getCollection("phrases").find();
+        */
     }
 
 }

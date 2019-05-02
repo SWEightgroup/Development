@@ -4,6 +4,8 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
+
+import java.util.Iterator;
 import java.util.List;
 
 import it.colletta.model.helper.FilterHelper;
@@ -34,5 +36,5 @@ public interface PhraseCustomQueryInterface {
 
   FindIterable<Document> findAllPhrasesAsIterable();
 
-    FindIterable<Document> findAllPhrasesWithFilter(FilterHelper filter);
+  List<Document> findAllPhrasesWithFilter(FilterHelper filter);
 }
