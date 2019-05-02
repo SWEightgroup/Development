@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -50,5 +53,18 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
     query.addCriteria(Criteria.where("_id").in(userId));
     query.fields().exclude("favoriteTeacherIds");
     return mongoTemplate.find(query, UserModel.class);
+  }
+
+  @Override
+  public Page<UserModel> findAllByRolePage(Pageable page, String role){
+    Query query =
+            new Query(
+                    Criteria.where("role").is(role)
+            );
+    return new PageImpl<>(
+            mongoTemplate.find(query, UserModel.class),
+            page,
+            mongoTemplate.count(query, UserModel.class)
+    );
   }
 }

@@ -10,6 +10,7 @@
  */
 package it.colletta.controller;
 
+import it.colletta.controller.assembler.UserResourceAssembler;
 import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.security.ParseJwt;
@@ -18,6 +19,8 @@ import it.colletta.service.user.UserService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +35,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 
 
 @RestController
@@ -154,5 +162,34 @@ public class UserController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<StudentModel>> getStudentsList() {
     return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+  }
+
+  /**
+   * Return all public exercises to do by using auth token authentication.
+   *
+   * @param token JWT token contained in the header request
+   * @param pageable     {@link Pageable}
+   * @param assembler    {@link org.springframework.hateoas.ResourceAssembler}
+   * @return A paged version of the favorite teacher
+   * @see com.auth0.jwt.JWT
+   */
+  @RequestMapping(
+          value = "/users/{Role}",
+          method = RequestMethod.GET,
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getFavouritePublic(@PageableDefault(value = 4) Pageable pageable,
+                                              PagedResourcesAssembler<UserModel> assembler,
+                                              @RequestHeader("Authorization") String token,
+                                              @PathVariable("Role") String role
+  )
+  {
+    try {
+      Page<UserModel> exercisesFavoritePublic = userService.findByRole(pageable, role);
+      PagedResources<?> resources = assembler
+              .toResource(exercisesFavoritePublic, new UserResourceAssembler("/user-by-role"));
+      return new ResponseEntity<>(resources, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

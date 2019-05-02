@@ -2,6 +2,8 @@ package it.colletta.repository.user;
 
 import it.colletta.model.UserModel;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 // interface for custom query on users collections
 public interface UserCustomQueryInterface {
@@ -21,4 +23,9 @@ public interface UserCustomQueryInterface {
    * @return all the user who are in the list
    */
   List<UserModel> findAllByList(final List<String> userId);
+
+  /**
+   * @return all the user with a specific role in a page format
+   */
+  Page<UserModel> findAllByRolePage(Pageable page, String role);
 }

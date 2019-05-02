@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -28,6 +30,17 @@ public class UserService {
 
   public Optional<UserModel> findById(final String userId) {
     return applicationUserRepository.findById(userId);
+  }
+
+
+  /**
+   * Return list of user by role
+   *
+   * @param role
+   * @return List<UserModel> with that role
+   */
+  public Page<UserModel> findByRole(final Pageable page, final String role){
+    return applicationUserRepository.findAllByRolePage(page, role);
   }
 
   /**
