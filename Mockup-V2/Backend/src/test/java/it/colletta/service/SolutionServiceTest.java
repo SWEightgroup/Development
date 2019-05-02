@@ -37,7 +37,7 @@ public class SolutionServiceTest {
 
     }
 
-    @Test
+    @Test(timeout=5000)
     public void getAutomaticCorrection() throws IOException, JSONException {
 
         String myTest = new String("sono un testo");
