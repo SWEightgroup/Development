@@ -25,6 +25,9 @@ class ExecutionExercise extends Component {
     const filterWord = sentence; // .filter(word => word.match(allowedPunctuation));
 
     // console.log(props);
+    const tags = props.response
+      ? props.response.filter(word => word.tag.charAt(0) !== 'F')
+      : null;
     if (sentence && sentence.length) {
       return (
         <div className="main-card mb-3 card">
@@ -43,7 +46,7 @@ class ExecutionExercise extends Component {
                       index={index}
                       solutionTag={
                         props.response && props.response.length
-                          ? this.extractTag(props.response, index)
+                          ? this.extractTag(tags, index)
                           : null
                       }
                       showSolution={showSolution}
