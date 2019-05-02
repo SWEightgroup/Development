@@ -10,7 +10,7 @@ class Sidebar extends Component {
   state = {};
 
   render() {
-    const { auth } = this.props;
+    const { auth, admin } = this.props;
     const { user } = auth;
     const { role, language } = user;
     if (!(auth && auth.user)) return null;
@@ -19,7 +19,9 @@ class Sidebar extends Component {
     if (role === 'ROLE_STUDENT') {
       roleSpecificNav = <SidebarElementStudent language={language} />;
     } else if (role === 'ROLE_ADMIN') {
-      roleSpecificNav = <SidebarElementAdministrator language={language} />;
+      roleSpecificNav = (
+        <SidebarElementAdministrator language={language} admin={admin} />
+      );
     } else if (role === 'ROLE_TEACHER') {
       roleSpecificNav = <SidebarElementTeacher language={language} />;
     } else if (role === 'ROLE_DEVELOPER') {

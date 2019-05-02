@@ -24,9 +24,11 @@ import DeveloperDashBoard from './view/containers/DashboardContainers/DeveloperD
 import AdminDevDashBoard from './view/containers/DashboardContainers/AdminDevDashBoard';
 import AdminUserDashBoard from './view/containers/DashboardContainers/AdminUserDashBoard';
 import DoneHomework from './view/containers/ExerciseContainers/DoneHomework';
+import AssignedHomework from './view/containers/ExerciseContainers/AssignedHomework';
 import PublicExercises from './view/containers/ExerciseContainers/PublicExercises';
 import ClassManagement from './view/containers/ExerciseContainers/ClassManagement';
 import AdminDashboard from './view/containers/DashboardContainers/AdminDashboard';
+import ExercisesDetails from './view/containers/ExerciseContainers/ExerciseDetails';
 
 class App extends Component {
   state = {};
@@ -45,23 +47,23 @@ class App extends Component {
   }
 
   render() {
-    const { loader, innerLoader, auth } = this.props;
+    const { loader, innerLoader, auth, admin } = this.props;
     const { language, isReady } = auth;
 
-    let main_dash = null;
+    let mainDash = null;
     if (auth.user) {
       switch (auth.user.role) {
         case 'ROLE_TEACHER':
-          main_dash = TeacherDashboard;
+          mainDash = TeacherDashboard;
           break;
         case 'ROLE_STUDENT':
-          main_dash = Dashboard;
+          mainDash = Dashboard;
           break;
         case 'ROLE_ADMIN':
-          main_dash = AdminDashboard;
+          mainDash = AdminDashboard;
           break;
         default:
-          main_dash = Dashboard;
+          mainDash = Dashboard;
       }
     }
 
@@ -102,7 +104,7 @@ class App extends Component {
                     </button>
                   </div>
                 </div>
-                {auth.user && <Sidebar auth={auth} />}
+                {auth.user && <Sidebar auth={auth} admin={admin} />}
               </div>
               <div className="app-main__outer">
                 <div className="app-main__inner relative full-height-mobile">
@@ -111,7 +113,7 @@ class App extends Component {
                     <ProtectedRoute
                       exact
                       path="/"
-                      component={main_dash}
+                      component={mainDash}
                       isAllowed={auth.user}
                     />
                     <ProtectedRoute
@@ -129,7 +131,7 @@ class App extends Component {
                     <ProtectedRoute
                       path="/dashboard"
                       isAllowed={auth.user}
-                      component={main_dash}
+                      component={mainDash}
                     />
                     <ProtectedRoute
                       path="/account"
@@ -148,12 +150,18 @@ class App extends Component {
                     />
                     <ProtectedRoute
                       path="/doneHomework"
-                      isAllowed={
-                        auth.user &&
-                        (auth.user.role === 'ROLE_STUDENT' ||
-                          auth.user.role === 'ROLE_TEACHER')
-                      }
+                      isAllowed={auth.user && auth.user.role === 'ROLE_STUDENT'}
                       component={DoneHomework}
+                    />
+                    <ProtectedRoute
+                      path="/assignedHomework"
+                      isAllowed={auth.user && auth.user.role === 'ROLE_TEACHER'}
+                      component={AssignedHomework}
+                    />
+                    <ProtectedRoute
+                      path="/exerciseDetail/:exerciseId"
+                      isAllowed={auth.user && auth.user.role === 'ROLE_TEACHER'}
+                      component={ExercisesDetails}
                     />
                     <ProtectedRoute
                       path="/publicExercises"
@@ -203,12 +211,12 @@ class App extends Component {
 
 const ProtectedRoute = ({ isAllowed, ...props }) =>
   isAllowed ? <Route {...props} /> : <Redirect to="/signin" />;
-
-const mapStateToProps = state => {
+const mapStateToProps = store => {
   return {
-    auth: state.auth,
-    loader: state.auth.loader,
-    innerLoader: state.exercise.innerLoader
+    auth: store.auth,
+    loader: store.auth.loader,
+    admin: store.admin,
+    innerLoader: store.exercise.innerLoader
   };
 };
 const mapDispatchToProps = dispatch => {

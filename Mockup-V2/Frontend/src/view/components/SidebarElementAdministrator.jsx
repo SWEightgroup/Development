@@ -6,7 +6,8 @@ class SidebarElementAdministrator extends Component {
   state = {};
 
   render() {
-    const { language } = this.props;
+    const { language, admin } = this.props;
+    const { devList } = admin;
     return (
       <React.Fragment>
         <li>
@@ -17,6 +18,12 @@ class SidebarElementAdministrator extends Component {
           >
             <i className="metismenu-icon pe-7s-plugin" />
             {_translator('SidebarElementAdministrator_devs', language)}
+            {'  '}
+            {devList && devList.length > 0 && (
+              <span className="badge badge-pill badge-warning">
+                {devList.length}
+              </span>
+            )}
           </NavLink>
         </li>
         <li>

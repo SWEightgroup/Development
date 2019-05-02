@@ -66,7 +66,6 @@ public class PhraseService {
     for (SolutionModel solution : newPhrase.getSolutions()) {
       increaseReliability(solution);
     }
-
     return returnPhrase;
 
   }

@@ -129,7 +129,7 @@ class Dashboard extends Component {
                   aria-valuenow={percentToShow}
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  style={{ width: `${percentToShow  }%` }}
+                  style={{ width: `${percentToShow}%` }}
                 />
               </div>
               <div className="progress-sub-label">
@@ -146,6 +146,7 @@ class Dashboard extends Component {
         <div className="row justify-content-center">
           <div className="py-5 text-center">
             <h2>{_translator('gen_userDashboard', language)}</h2>
+
             <p className="lead">
               {_translator('dashboard_hiUser', language)}
               {firstName}

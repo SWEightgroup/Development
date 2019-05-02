@@ -13,7 +13,7 @@ class Footer extends Component {
     const head = document.getElementsByTagName('body')[0];
     const script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = './main.js';
+    script.src = '/main.js';
     script.id = 'mainJs';
     if (!document.getElementById('mainJs')) {
       head.appendChild(script);

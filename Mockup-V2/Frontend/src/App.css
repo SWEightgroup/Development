@@ -24,6 +24,11 @@
 .m0-a {
   margin: 0 auto !important;
 }
+.assignedExercises .card-body:hover {
+  border-left: 6px solid lightsteelblue;
+  padding-left: calc(1.25rem - 6px);
+  cursor: pointer;
+}
 /*-----------------------------spinner -------------------------------*/
 /* Absolute Center Spinner */
 .loading {

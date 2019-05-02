@@ -19,16 +19,18 @@ class AdminDashboard extends Component {
     const { user, admin } = this.props;
     const { firstName, language } = user;
     const { devList, usersList } = admin;
-    const numOfStudents = usersList.filter(user => user.role === 'ROLE_STUDENT')
+    const numOfStudents = usersList.filter(
+      _user => _user.role === 'ROLE_STUDENT'
+    ).length;
+    const numOfDevs = usersList.filter(_user => _user.role === 'ROLE_DEVELOPER')
       .length;
-    const numOfDevs = usersList.filter(user => user.role === 'ROLE_DEVELOPER')
-      .length;
-    const numOfTeachers = usersList.filter(user => user.role === 'ROLE_TEACHER')
-      .length;
+    const numOfTeachers = usersList.filter(
+      _user => _user.role === 'ROLE_TEACHER'
+    ).length;
     const devToAccept = devList.length;
 
     const students = (
-      <div className="col-md-6 col-xl-4">
+      <div className="col-md-6 ">
         <div className="card mb-3 widget-content bg-midnight-bloom">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
@@ -50,7 +52,7 @@ class AdminDashboard extends Component {
     );
 
     const teachers = (
-      <div className="col-md-6 col-xl-4">
+      <div className="col-md-6">
         <div className="card mb-3 widget-content bg-arielle-smile">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
@@ -72,7 +74,7 @@ class AdminDashboard extends Component {
     );
 
     const devs = (
-      <div className="col-md-6 col-xl-4">
+      <div className="col-md-6 ">
         <div className="card mb-3 widget-content bg-happy-green">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
@@ -94,7 +96,7 @@ class AdminDashboard extends Component {
     );
 
     const devsAccept = (
-      <div className="col-md-6 col-xl-4">
+      <div className="col-md-6 ">
         <div className="card mb-3 widget-content bg-premium-dark">
           <div className="widget-content-wrapper text-white">
             <div className="widget-content-left">
@@ -130,8 +132,8 @@ class AdminDashboard extends Component {
           {students}
           {teachers}
           {devs}
+          {devsAccept}
         </div>
-        <div className="row justify-content-center">{devsAccept}</div>
       </React.Fragment>
     );
   }

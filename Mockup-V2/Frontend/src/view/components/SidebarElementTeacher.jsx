@@ -22,7 +22,7 @@ class SidebarElementTeacher extends Component {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/doneHomework" activeClassName="mm-active">
+              <NavLink to="/assignedHomework" activeClassName="mm-active">
                 {_translator('sidebarElementTeacher_exercises', language)}
               </NavLink>
             </li>

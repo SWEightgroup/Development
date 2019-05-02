@@ -17,6 +17,23 @@ const initState = {
   innerLoader: false
 };
 
+/* EXERCISE MODEL
+{
+  alternativeSolutionId: "5cca155d04dacb44349032c9"
+  authorId: "5cca0e4204dacb3c58a49caa"
+  authorName: "Margherita Visentin"
+  dateExercise: 1556747727951
+  id: "5cca15cf04dacb44349032cb"
+  mainSolutionId: "5cca155204dacb44349032c8"
+  phraseId: "5cca15a304dacb44349032ca"
+  phraseText: "Questo è un nuovo esercizio per gli studenti"
+  studentIdDone: []
+  studentIdToDo: ["5cca0dfb04dacb3c58a49ca8", "5cca0e7d04dacb3c58a49cad"]
+  visibility: true
+}
+
+*/
+
 const ExerciseReducer = (state = initState, action) => {
   switch (action.type) {
     case 'INIT_STATE':
@@ -115,6 +132,7 @@ const ExerciseReducer = (state = initState, action) => {
         },
         innerLoader: false
       };
+
     default:
       // console.error('REDUCER ERRATO', state, action);
       return { ...state, innerLoader: false };

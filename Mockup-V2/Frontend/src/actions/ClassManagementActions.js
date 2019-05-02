@@ -158,8 +158,8 @@ export const initEditClass = ({ id, name, students }) => {
       })
     : [];
   if (students) {
-    students.forEach(studentId => {
-      const element = studentsList.find(student => student.key === studentId);
+    students.forEach(_student => {
+      const element = studentsList.find(student => student.key === _student.id);
       if (element !== undefined) {
         element.isSelected = true;
       }
@@ -176,9 +176,9 @@ export const editClass = ({ students, name }) => {
       .put(
         'http://localhost:8081/class/modify',
         {
-          students,
-          classId: store.getState().class.newClass.id,
-          className: name
+          className: name,
+          studentsId: students,
+          classId: store.getState().class.newClass.id
         },
         {
           headers: {

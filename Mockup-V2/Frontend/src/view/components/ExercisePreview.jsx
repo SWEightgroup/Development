@@ -12,14 +12,14 @@ class ExercisePreview extends Component {
   };
 
   goToExecution = () => {
-    const { /* solution, */ phrase, selectExercise, id } = this.props;
-    console.log(
-      ': ExercisePreview -> goToExecution ->  this.props',
-      this.props
-    );
-    selectExercise(phrase, id);
+    const { phrase, selectExercise, id } = this.props;
 
-    // DA SISTEMARE
+    selectExercise(phrase, id);
+  };
+
+  onSelect = () => {
+    const { selectCard, id } = this.props;
+    if (selectCard) selectCard(id);
   };
 
   render() {
@@ -28,8 +28,8 @@ class ExercisePreview extends Component {
     if (mark && mark > 8) markClass = 'alert-success';
     if (mark && mark <= 8 && mark > 5) markClass = 'alert-warning';
     return (
-      <div className="main-card mb-3 card">
-        <div className="card-body">
+      <div className="main-card mb-3 card exercise-preview">
+        <div className="card-body" onClick={this.onSelect}>
           <div className="row">
             <div className="col">
               <h5 className="card-title">
@@ -57,8 +57,8 @@ class ExercisePreview extends Component {
           {!isMark && (
             <button
               type="button"
-              onClick={this.goToExecution}
               className="mb-2 mr-2 btn btn-primary btn-sm btn-block "
+              onClick={this.goToExecution}
             >
               {_translator('exercisePreview_execute', language)}
             </button>

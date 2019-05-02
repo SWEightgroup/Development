@@ -148,6 +148,7 @@ class InsertExercise extends Component {
       classList,
       updateNewExerciseStateDispatch
     } = this.props;
+    console.log(': InsertExercise -> render -> classList', classList);
     const { user } = auth;
     const {
       sentence,
