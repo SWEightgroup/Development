@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -59,6 +61,10 @@ public class ExerciseModel {
 
   public String getAlternativeSolutionId() {
     return alternativeSolutionId;
+  }
+
+  public Optional<String> getAlternativeSolutionIdOptional() {
+    return Optional.ofNullable(alternativeSolutionId);
   }
 
   public String getAuthorName() {

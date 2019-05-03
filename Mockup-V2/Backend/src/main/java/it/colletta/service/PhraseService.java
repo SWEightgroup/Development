@@ -128,7 +128,7 @@ public class PhraseService {
    * @param solutionId Solution id
    * @return Solution
    */
-  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId, String teacherId) {
+  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId, String authorId) {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 

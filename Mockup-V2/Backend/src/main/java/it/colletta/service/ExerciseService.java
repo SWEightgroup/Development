@@ -8,16 +8,17 @@ import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
 import it.colletta.model.helper.CorrectionHelper;
 import it.colletta.model.helper.ExerciseHelper;
+import it.colletta.model.helper.ExerciseInfoHelper;
 import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import it.colletta.strategy.CorrectionStrategy;
 import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import java.security.acl.NotOwnerException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -253,5 +254,29 @@ public class ExerciseService {
         .orElseThrow(() -> new ResourceNotFoundException("Student not found")).getFavoriteTeacherIds();
 
     return exerciseRepository.findAllFavoriteExercises(page, teacherFavoriteListIds, studentId);
+  }
+
+  /**
+   *
+   * @param exerciseId the unique id of the exercise
+   * @return ExerciseInfoHelper a DTO with all the info about the exercise
+   * @throws ResourceNotFoundException if the Exercise is not in the system
+   */
+  public ExerciseInfoHelper getExerciseInfo(final String exerciseId) throws ResourceNotFoundException , ParseException {
+      ExerciseModel exercise =  findById(exerciseId);
+      String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(exercise.getDateExercise()));
+      Optional<String> alternativaSolutionId = exercise.getAlternativeSolutionIdOptional();
+      SolutionModel alternativeSolution = null;
+      if(alternativaSolutionId.isPresent()) {
+        alternativeSolution = phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(), exercise.getAuthorId());
+      }
+      return ExerciseInfoHelper.builder()
+              .authorName(exercise.getAuthorName())
+              .date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
+              .mainSolution(phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(), exercise.getAuthorId()))
+                .alternativeSolution(alternativeSolution)
+              .studentToDo(userService.getAllListUser(exercise.getStudentIdToDo()))
+              .studentDone(userService.getAllListUser(exercise.getStudentIdDone()))
+              .build();
   }
 }

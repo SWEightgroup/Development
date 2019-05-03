@@ -39,7 +39,6 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     public List<PhraseModel> findAllByAuthor(final String authorId) {
         Query query = new Query(Criteria.where("solutions.authorId").is(authorId));
         final List<PhraseModel> phraseModels = mongoTemplate.find(query, PhraseModel.class);
-        // TODO eliminare informazioni aggiuntive
         return phraseModels;
     }
 
