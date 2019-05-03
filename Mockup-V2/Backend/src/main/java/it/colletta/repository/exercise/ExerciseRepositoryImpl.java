@@ -79,7 +79,7 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
             Criteria.where("studentIdDone").nin(studentId)
                 .and("studentIdToDo").nin(studentId)
                 .and("visibility").is(true)
-        );
+        ).with(page);
     return new PageImpl<>(
         mongoTemplate.find(query, ExerciseModel.class),
         page,
@@ -102,7 +102,7 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
                             .and("studentIdToDo").nin(studentId)
                             .and("visibility").is(true)
                             .and("authorId").in(teacherFavoriteIds)
-            );
+            ).with(page);
     return new PageImpl<>(
             mongoTemplate.find(query, ExerciseModel.class),
             page,

@@ -60,7 +60,7 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
     Query query =
             new Query(
                     Criteria.where("role").is(role)
-            );
+            ).with(page);
     return new PageImpl<>(
             mongoTemplate.find(query, UserModel.class),
             page,

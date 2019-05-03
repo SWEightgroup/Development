@@ -234,6 +234,25 @@ public class ExerciseController {
     }
 
     /**
+     *
+     * @param exerciseId the unique id of a Exercise
+     * @param teacherToken the unique token of a User
+     * @return DTO with
+     */
+    @RequestMapping(value = "/{exerciseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> infoExercise(@PathVariable("exerciseId") String exerciseId,
+                                            @RequestHeader("Authorization") String teacherToken) {
+        try {
+            return new ResponseEntity<>(
+                    //exerciseService.getExerciseInfo(exerciseId, ParseJwt.getIdFromJwt(teacherToken)),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
      * Return all public exercises to do by using auth token authentication.
      *
      * @param studentToken JWT token contained in the header request
