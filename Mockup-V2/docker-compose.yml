@@ -1,34 +1,20 @@
 version: '3'
 services:
   mongo:
-    image: mongo:3.6
+    image: 'mongo:3.6'
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
     volumes:
-      - ./data/db:/data/db
+      - './data/db:/data/db'
     ports:
-        - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
-  mongo-seed:
-      image: fvilers/mongo-seed
-      environment:
-        - MONGO_HOST=localhost
-        - MONGO_PORT=27017
-      volumes:
-        - ./data:/data
-      command:
-        "mongoimport --host localhost --port 27017 --db colletta --mode upsert --type json --file /data/people.json --jsonArray"
-   app:
-    restart: always
-    build: ./backend
-    working_dir: /backend
-    volumes:
-      - ./backend:/backend
-      - ~/.m2:/root/.m2
+      - '27017:27017'
+    command: mongod --smallfiles --logpath=/dev/null
+  app:
+    image: doc/colletta-2019
     expose:
-      - "8081"
-    command: mvn clean spring-boot:run
+      - '8081'
     depends_on:
       - mongo
-  
+  mongo-seeding:
+    image: pkosiec/mongo-seeding
