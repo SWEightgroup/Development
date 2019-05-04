@@ -16,5 +16,12 @@ services:
       - '8081'
     depends_on:
       - mongo
+      - freeling
   mongo-seeding:
     image: pkosiec/mongo-seeding
+  freeling:
+    build: freelingDocker/.
+    ports:
+     - '50000:50000'
+    entrypoint: analyze -f es.cfg --server -p 50005
+
