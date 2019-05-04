@@ -147,7 +147,6 @@ export const saveExerciseSolution = newExercise => {
   return dispatch => {
     dispatch(innerLoaderOn());
     const { id } = store.getState().auth.user;
-    console.log('TCL: store.getState()', store.getState());
     // prelevo dal response la soluzione della punteggiatuera
 
     axios
@@ -163,10 +162,10 @@ export const saveExerciseSolution = newExercise => {
           alternativeSolution: newExercise.alternativeSolution
             ? JSON.stringify(newExercise.codeSolution[1])
             : '',
-          visibility: true,
+          visibility: !newExercise.privateExercise,
           author: id,
           date: new Date().getTime(),
-          language: 'it' // //////////////////////////////DA CAMBIARE
+          language: 'it'
         },
         {
           headers: {
@@ -248,12 +247,9 @@ export const loadDoneExercises = _link => {
 };
 
 export const loadPublicExercises = ({ _link, onlyFavourite }) => {
-  console.log(': loadPublicExercises -> onlyFavourite', onlyFavourite);
-  console.log(': loadPublicExercises -> _link', _link);
   const defaultLink = onlyFavourite
     ? 'http://localhost:8081/exercises/favourite-public'
     : 'http://localhost:8081/exercises/public';
-  console.log(': loadPublicExercises -> defaultLink', defaultLink);
   const link = _link !== null && _link !== undefined ? _link.href : defaultLink;
   return dispatch => {
     dispatch(innerLoaderOn());
@@ -305,6 +301,35 @@ export const getAutomaticSolution = sentenceString => {
         );
         return dispatch({ type: '' });
       });
+  };
+};
+
+export const getExerciseDetails = exerciseId => {
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    axios
+      .get(`http://localhost:8081/exercises/${exerciseId}`, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch({ type: 'EXERCISE_DETAILS', exercise: res.data });
+        dispatch(innerLoaderOff());
+      })
+      .catch(err => {
+        console.error(err);
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
+  };
+};
+
+export const initExerciseDetails = () => {
+  return dispatch => {
+    dispatch({ type: 'INIT_EXERCISE_DETAILS' });
   };
 };
 

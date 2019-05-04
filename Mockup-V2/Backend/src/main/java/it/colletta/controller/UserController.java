@@ -162,7 +162,7 @@ public class UserController {
    * @see com.auth0.jwt.JWT
    */
   @RequestMapping(value = "/users/{Role}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getUsersByRole(@PageableDefault(value = 4) Pageable pageable,
+  public ResponseEntity<?> getUsersByRole(@PageableDefault(value = 10) Pageable pageable,
       PagedResourcesAssembler<UserModel> assembler, @RequestHeader("Authorization") String token,
       @PathVariable("Role") String role) {
     try {

@@ -24,7 +24,6 @@ class ExecutionExercise extends Component {
 
     const filterWord = sentence; // .filter(word => word.match(allowedPunctuation));
 
-    // console.log(props);
     const tags = props.response
       ? props.response.filter(word => word.tag.charAt(0) !== 'F')
       : null;

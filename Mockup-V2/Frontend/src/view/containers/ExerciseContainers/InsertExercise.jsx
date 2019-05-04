@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import InputSentence from '../../components/InputSentence';
@@ -26,6 +27,7 @@ class InsertExercise extends Component {
     props.initializeNewExercise();
     props.getAllStudentsDispatch();
     props.loadClassListDispatch();
+    this.privateExercise = React.createRef();
   }
 
   /**
@@ -89,7 +91,8 @@ class InsertExercise extends Component {
     saveExerciseSolutionDispatch({
       ...newExercise,
       showSolution: true,
-      codeSolution: [codeSolution1, codeSolution2]
+      codeSolution: [codeSolution1, codeSolution2],
+      privateExercise: this.privateExercise.current.checked
     });
   };
 
@@ -164,7 +167,7 @@ class InsertExercise extends Component {
 
     const { language } = user;
     return (
-      <React.Fragment>
+      <div className="container ml-0">
         <InputSentence
           prepareExercise={this.prepareExercise}
           changeNewInputSentence={changeNewInputSentenceDispatch}
@@ -356,20 +359,42 @@ class InsertExercise extends Component {
           </div>
         )}
         {response && (
-          <div className="main-card mb-3 card no-bg-color ">
-            <div className="card-body">
-              <button
-                type="button"
-                className="btn btn-success btn-lg btn-block"
-                onClick={this.checkSolution}
-                disabled={showSolution}
-              >
-                {_translator('executionExercise_complete', language)}
-              </button>
+          <React.Fragment>
+            <div className="row">
+              <div className="col-12">
+                <div className="custom-control custom-switch ">
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id="chekPublicExericise"
+                    ref={this.privateExercise}
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor="chekPublicExericise"
+                  >
+                    {' '}
+                    {_translator('executionExercise_privateExercise', language)}
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
+
+            <div className="main-card mb-3 card no-bg-color ">
+              <div className="card-body px-0">
+                <button
+                  type="button"
+                  className="btn btn-success btn-lg btn-block "
+                  onClick={this.checkSolution}
+                  disabled={showSolution}
+                >
+                  {_translator('executionExercise_complete', language)}
+                </button>
+              </div>
+            </div>
+          </React.Fragment>
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }

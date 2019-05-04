@@ -15,7 +15,8 @@ const initState = {
   doneExercises: { exercises: null, page: null, links: null },
   publicExercises: { exercises: null, page: null, links: null },
   onlyFavouritePublicExercise: false,
-  innerLoader: false
+  innerLoader: false,
+  exerciseDetails: null
 };
 
 /* EXERCISE MODEL
@@ -137,6 +138,16 @@ const ExerciseReducer = (state = initState, action) => {
       return {
         ...state,
         onlyFavouritePublicExercise: !state.onlyFavouritePublicExercise
+      };
+    case 'EXERCISE_DETAILS':
+      return {
+        ...state,
+        exerciseDetails: action.exercise
+      };
+    case 'INIT_EXERCISE_DETAILS':
+      return {
+        ...state,
+        exerciseDetails: initState.exerciseDetails
       };
     default:
       // console.error('REDUCER ERRATO', state, action);

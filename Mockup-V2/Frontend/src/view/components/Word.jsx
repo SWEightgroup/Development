@@ -132,10 +132,7 @@ class Word extends Component {
       index,
       indexSolution
     } = this.props;
-    console.log(
-      ': edit ->  newExercise.userSolution',
-      newExercise.userSolution
-    );
+
     const state = newExercise.userSolution[indexSolution][index];
     updateWordStateDispatch(
       {

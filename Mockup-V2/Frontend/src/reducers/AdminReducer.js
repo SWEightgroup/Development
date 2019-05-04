@@ -1,10 +1,24 @@
 const initState = {
   devList: [],
-  usersList: []
+  usersList: [],
+  filter: {
+    reliability: 0,
+    dateMin: '',
+    dateMax: '',
+    openFilters: false
+  }
 };
 
 const AdminReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'UPDATE_FILTER':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          ...action.filter
+        }
+      };
     case 'UPDATE_DEV_LIST': {
       return {
         ...state,

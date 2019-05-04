@@ -35,7 +35,7 @@ public class PhraseController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/download")
+    @RequestMapping(method = RequestMethod.POST, value = "/download")
     public void downloadPhrasesWithFilter(HttpServletResponse response, @RequestBody FilterHelper filterHelper) {
         try {
             File file = phraseService.downloadPhrasesWithFilter(filterHelper);

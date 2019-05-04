@@ -114,12 +114,12 @@ export const initializeAuth = () => {
           }
         })
         .then(res => {
-         // _toastSuccess(_translator('gen_welcome', res.data.language));
+          // _toastSuccess(_translator('gen_welcome', res.data.language));
           dispatch({ type: 'LOAD_AUTH', user: res.data });
         })
         .catch(error => {
           dispatch(signOut());
-          console.log(error);
+          console.error(error);
         });
     } else {
       dispatch(signOut());

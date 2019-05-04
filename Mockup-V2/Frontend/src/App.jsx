@@ -63,6 +63,9 @@ class App extends Component {
         case 'ROLE_ADMIN':
           mainDash = AdminDashboard;
           break;
+        case 'ROLE_DEVELOPER':
+          mainDash = DeveloperDashBoard;
+          break;
         default:
           mainDash = Dashboard;
       }
@@ -179,13 +182,7 @@ class App extends Component {
                       isAllowed={auth.user && auth.user.role === 'ROLE_STUDENT'}
                       component={HomeworkExecution}
                     />
-                    <ProtectedRoute
-                      path="/developer-dashboard"
-                      isAllowed={
-                        auth.user && auth.user.role === 'ROLE_DEVELOPER'
-                      }
-                      component={DeveloperDashBoard}
-                    />
+
                     <ProtectedRoute
                       path="/developers-management"
                       isAllowed={auth.user && auth.user.role === 'ROLE_ADMIN'}

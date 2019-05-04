@@ -79,15 +79,19 @@ export const _label = {
     executionExercise_delSolAlter: 'Rimuovi la soluzione alternativa',
     executionExercise_altSolution: 'Soluzione alternativa',
     executionExercise_mainSolution: 'Soluzione principale',
+    executionExercise_privateExercise: 'Esercizio privato',
     gen_devDashboard: 'Pannello Sviluppatore',
     developerDashBoard_desc: 'Filtra e scarica i dati che ti interessano',
     developerDashBoard_devDownText:
       "Premendo il bottone sottostante, puoi scaricare i dati di analisi grammaticale generati dali utenti di Colletta. Potrebbe volerci un po' di tempo, fatti un caffè, dai.",
     developerDashBoard_devDown: 'Scarica',
+    developerDashBoard_minReliability: 'Affidabilità minima',
+    developerDashBoard_minMaxDate: 'Data Min/Max',
     adminDashBoard_update: 'Aggiorna',
     developerToAccept_allow: 'Accetta',
     developerToAccept_deny: 'Rifiuta',
     developer_downloadind: 'Download in corso',
+    developerDashBoard_addFilter: 'Aggiungi filtro',
     adminDevDashBoard_subtitle:
       'Accetta o rifiuta le richieste di iscrizione degli sviluppatori',
     adminDevDashBoard_noDevApprove: 'Nessun developer da approvare',
@@ -132,6 +136,8 @@ export const _label = {
     favouriteTeachers_allTeacher: 'Tutti gli insegnanti',
     publicExercises_All: 'Tutti',
     publicExercises_Favourite: 'Insegnanti Preferiti',
+    exerciseDetails_studentDone: 'Esercizio completato da:',
+    exerciseDetails_studentToDo: 'Esercizio in carico a:',
     /*
     Gerarchy below
     */
@@ -269,6 +275,7 @@ export const _label = {
     executionExercise_delSolAlter: 'Delete alternative solution',
     executionExercise_altSolution: 'Alternative solution',
     executionExercise_mainSolution: 'Main solution',
+    executionExercise_privateExercise: 'Private exercise',
     signup_errorPassword: 'The two passwords do not match',
     signup_selectOption: 'Select an option',
     signup_hint:
@@ -295,10 +302,13 @@ export const _label = {
     developerDashBoard_devDownText:
       'By clicking the button below, you can can download all the user generated data of Colletta. This may take a while, feel free to go grab a coffe!',
     developerDashBoard_devDown: 'Download',
+    developerDashBoard_addFilter: 'Add filter',
+    developerDashBoard_minReliability: 'Minimum reliability',
     adminDashBoard_update: 'Update',
     developerToAccept_allow: 'Allow',
     developerToAccept_deny: 'Deny',
     developer_downloadind: 'Downloading',
+    developerDashBoard_minMaxDate: 'Min/Max Date',
     adminDevDashBoard_subtitle:
       "Approve or deny developers' subscription requests",
     adminDevDashBoard_noDevApprove: 'No developer needs to be approved',
@@ -342,6 +352,8 @@ export const _label = {
     favouriteTeachers_allTeacher: 'All teachers',
     publicExercises_All: 'All',
     publicExercises_Favourite: 'Favourites',
+    exerciseDetails_studentDone: 'Exercise completed by:',
+    exerciseDetails_studentToDo: 'Esercizio in todo:',
 
     /*
     Gerarchy below

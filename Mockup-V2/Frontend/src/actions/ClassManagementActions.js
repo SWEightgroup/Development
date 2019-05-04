@@ -21,7 +21,7 @@ export const loadClassList = () => {
           });
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
     } else {
       dispatch(store.dispatch.signOut());
@@ -107,7 +107,6 @@ export const initListNewClass = list => {
 };
 
 export const updateStudentsList = studentsList => {
-  console.log('TCL: studentsList', studentsList);
   return dispatch => {
     dispatch({ type: 'UPDATE_STUDENT_LIST', studentsList });
   };
@@ -200,7 +199,7 @@ export const addFavouriteTeachers = teacher => {
   return dispatch => {
     const _class = store.getState().class;
     const { favouriteTeachers } = _class;
-    const teacherIndex = favouriteTeachers.findIndex(
+    let teacherIndex = favouriteTeachers.findIndex(
       _teacher => _teacher.id === teacher.id
     );
     if (teacherIndex === -1) favouriteTeachers.push(teacher);
@@ -223,6 +222,14 @@ export const addFavouriteTeachers = teacher => {
           // dispatch(getFavouriteTeachers());
         })
         .catch(() => {
+          teacherIndex = favouriteTeachers.findIndex(
+            _teacher => _teacher.id === teacher.id
+          );
+          if (teacherIndex > -1) favouriteTeachers.splice(teacherIndex, 1);
+          dispatch({
+            type: 'GET_FAVOURITE_TEACHERS',
+            favouriteTeachers
+          });
           _toastError(
             _translator('gen_error', store.getState().auth.user.language)
           );
@@ -239,7 +246,10 @@ export const removeFavouriteTeachers = teacherId => {
     const teacherIndex = favouriteTeachers.findIndex(
       teacher => teacher.id === teacherId
     );
-    if (teacherIndex > -1) favouriteTeachers.splice(teacherIndex, 1);
+    let removedElement = null;
+    if (teacherIndex > -1) {
+      removedElement = favouriteTeachers.splice(teacherIndex, 1);
+    }
     dispatch({
       type: 'GET_FAVOURITE_TEACHERS',
       favouriteTeachers
@@ -254,6 +264,9 @@ export const removeFavouriteTeachers = teacherId => {
         // dispatch(getFavouriteTeachers());
       })
       .catch(() => {
+        if (teacherIndex > -1) {
+          favouriteTeachers.splice(teacherIndex, 0, removedElement);
+        }
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );

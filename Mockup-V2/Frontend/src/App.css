@@ -29,6 +29,20 @@
   padding-left: calc(1.25rem - 6px);
   cursor: pointer;
 }
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 50px;
+  background: #4caf50;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 50px;
+  background: #4caf50;
+  cursor: pointer;
+}
 /*-----------------------------spinner -------------------------------*/
 /* Absolute Center Spinner */
 .loading {
