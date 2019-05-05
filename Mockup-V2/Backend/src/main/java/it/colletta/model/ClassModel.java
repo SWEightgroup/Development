@@ -24,20 +24,18 @@ public class ClassModel {
   private List<String> studentsId;
   private String teacherId;
   /**
-   * @param name TODO
-   * @return TODO
+   * The method is used to change the name of a class
+   *
+   * @param name the name of the class
    */
   public void setName(final String name) {
     this.name = name;
   }
+
   /*
    * public void addStudent(@NonNull UserModel student) { studentList.add(student); }
    */
   public void setTeacherId(final String teacherId){this.teacherId = teacherId;}
-  /**
-   * @param student TODO
-   * @return TODO
-   */
   /*
    * public Boolean deleteStudent(@NonNull UserModel student){ if(studentList.contains(student)){
    * return studentList.remove(student); } else { return false; } }
