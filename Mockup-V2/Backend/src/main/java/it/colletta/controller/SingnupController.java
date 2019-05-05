@@ -11,6 +11,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -49,8 +50,8 @@ public class SingnupController {
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
       }
-    } catch (org.springframework.dao.DuplicateKeyException e) {
-      return new ResponseEntity<>("User already exist", HttpStatus.UNPROCESSABLE_ENTITY);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getClass().getCanonicalName(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
@@ -63,7 +64,7 @@ public class SingnupController {
       singupService.setEnabledToTrue(requestId);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (ResourceNotFoundException exception) {
-      return new ResponseEntity<String>("Signup request not found", HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(exception.getClass().getCanonicalName(), HttpStatus.BAD_REQUEST);
     }
   }
 }
