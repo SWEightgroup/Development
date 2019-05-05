@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
 import { removePunctuation } from '../../helpers/Utils';
+import { ExLang } from '../../constants/Languages';
 
 class InputSentence extends Component {
   handleChange = e => {
     e.preventDefault();
-    this.props.changeNewInputSentence(e.target.value);
+    this.props.changeNewInputSentence({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = e => {
@@ -18,7 +19,7 @@ class InputSentence extends Component {
   };
 
   render() {
-    const { language, sentenceString } = this.props;
+    const { language, sentenceString, exLanguage } = this.props;
     return (
       <div className="main-card mb-3 card">
         <div className="card-body">
@@ -31,10 +32,25 @@ class InputSentence extends Component {
             className="needs-validation was-validated"
           >
             <div className="input-group">
+              <div className="input-group-prepend no-validated">
+                <select
+                  name="language"
+                  className="px-3"
+                  id="languageSelected"
+                  onChange={this.handleChange}
+                  value={exLanguage}
+                >
+                  {ExLang.map(lang => (
+                    <option key={`lang-${lang}`} value={lang}>
+                      {_translator(`gen_${lang}`, language)}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <input
                 id="sentenceString"
                 type="text"
-                className="form-control validate"
+                className="form-control"
                 placeholder={_translator(
                   'inputSentence_insertSentence',
                   language

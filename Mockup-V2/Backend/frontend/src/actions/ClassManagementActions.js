@@ -3,6 +3,12 @@ import store from '../store/index';
 import { _toastSuccess, _toastError } from '../helpers/Utils';
 import _translator from '../helpers/Translator';
 
+export const initClass = () => {
+  return dispatch => {
+    dispatch({ type: 'INIT_STATE' });
+  };
+};
+
 export const loadClassList = () => {
   return dispatch => {
     if (store.getState().auth.token !== null) {

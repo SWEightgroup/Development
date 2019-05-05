@@ -13,6 +13,10 @@ const initState = {
 
 const ClassManagementReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'INIT_STATE':
+      return {
+        ...initState
+      };
     case 'LOAD_CLASS_LIST_SUCCESS':
       return {
         ...state,

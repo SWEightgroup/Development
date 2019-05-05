@@ -89,11 +89,18 @@ class ClassManagement extends React.Component {
                             className="collapse "
                           >
                             <div className="card-body">
-                              <ul>
+                              <ul className="list-group">
                                 {classItem &&
                                   classItem.students.map(student => (
-                                    <li key={student.id}>
-                                      {student.firstName} {student.lastName}
+                                    <li
+                                      key={student.id}
+                                      className="list-group-item disabled"
+                                    >
+                                      <strong>
+                                        {student.firstName} {student.lastName}
+                                      </strong>
+                                      <br />
+                                      {student.username}
                                     </li>
                                   ))}
                               </ul>

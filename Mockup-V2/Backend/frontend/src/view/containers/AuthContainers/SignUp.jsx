@@ -96,7 +96,11 @@ class SignUp extends Component {
     const signUpData = auth.signUp;
 
     if (auth.signUpCompleted) {
-      return <HelperMessage message={_translator('signUp_completed')} />;
+      return (
+        <HelperMessage>
+          <h5>{_translator('signUp_completed')}</h5>
+        </HelperMessage>
+      );
     }
     if (auth.user) return <Redirect to="/" />;
     return (

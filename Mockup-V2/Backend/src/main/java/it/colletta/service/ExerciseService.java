@@ -271,14 +271,11 @@ public class ExerciseService {
       alternativeSolution = phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
           exercise.getAuthorId());
     }
-    return ExerciseInfoHelper.builder()
-            .authorName(exercise.getAuthorName())
-            .exerciseText(exercise.getPhraseText())
-            .date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
-            .mainSolution(phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
+    return ExerciseInfoHelper.builder().authorName(exercise.getAuthorName()).exerciseText(exercise.getPhraseText())
+        .language(exercise.getLanguage()).date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
+        .mainSolution(phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
             exercise.getAuthorId()))
-          .alternativeSolution(alternativeSolution).studentToDo(userService.getAllListUser(exercise.getStudentIdToDo()))
-          .studentDone(userService.getAllListUser(exercise.getStudentIdDone()))
-            .build();
+        .alternativeSolution(alternativeSolution).studentToDo(userService.getAllListUser(exercise.getStudentIdToDo()))
+        .studentDone(userService.getAllListUser(exercise.getStudentIdDone())).build();
   }
 }

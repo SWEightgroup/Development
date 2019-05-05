@@ -38,6 +38,10 @@ class ExercisesDetails extends Component {
 
   render() {
     const { user, exerciseDetails } = this.props;
+    console.log(
+      ': ExercisesDetails -> render -> exerciseDetails',
+      exerciseDetails
+    );
     if (exerciseDetails) {
       const mainSolution = exerciseDetails.mainSolution
         ? JSON.parse(exerciseDetails.mainSolution.solutionText)
@@ -86,9 +90,10 @@ class ExercisesDetails extends Component {
               <ul className="list-group list-group-flush">
                 {mainSolution.map((word, index) => (
                   <li className="list-group-item" key={`main-${word}-${index}`}>
-                    {new SolutionMapper(word, gerarchy).getVerboseSolution(
-                      user.language
-                    )}
+                    {new SolutionMapper(
+                      word,
+                      gerarchy[exerciseDetails.language]
+                    ).getVerboseSolution(user.language)}
                   </li>
                 ))}
               </ul>
@@ -109,9 +114,10 @@ class ExercisesDetails extends Component {
                       className="list-group-item"
                       key={`alt-${word}-${index}`}
                     >
-                      {new SolutionMapper(word, gerarchy).getVerboseSolution(
-                        user.language
-                      )}
+                      {new SolutionMapper(
+                        word,
+                        gerarchy[exerciseDetails.language]
+                      ).getVerboseSolution(user.language)}
                     </li>
                   ))}
                 </ul>

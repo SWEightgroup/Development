@@ -19,7 +19,8 @@ class ExecutionExercise extends Component {
       createAt,
       language,
       showButton,
-      indexSolution
+      indexSolution,
+      exLanguage
     } = this.props;
 
     const filterWord = sentence; // .filter(word => word.match(allowedPunctuation));
@@ -39,6 +40,7 @@ class ExecutionExercise extends Component {
                 filterWord.map((item, index) => {
                   return (
                     <Word
+                      exLanguage={exLanguage}
                       key={`${index + item + createAt}word`}
                       parola={item}
                       gerarchy={gerarchia}

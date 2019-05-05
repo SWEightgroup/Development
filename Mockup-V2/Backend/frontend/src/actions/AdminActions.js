@@ -4,6 +4,12 @@ import store from '../store/index';
 import _translator from '../helpers/Translator';
 import { _toastSuccess, _toastError } from '../helpers/Utils';
 
+export const initAdmin = () => {
+  return dispatch => {
+    dispatch({ type: 'INIT_STATE' });
+  };
+};
+
 export const updateFilter = filter => {
   return dispatch => {
     dispatch({ type: 'UPDATE_FILTER', filter });

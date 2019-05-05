@@ -224,7 +224,7 @@ export const _label = {
     choice_preposition: 'Preposizione',
     attr_contracted: 'Contratto',
     choice_contracted: 'Contratto',
-    cat_number: 'Numbero',
+    cat_number: 'Numero',
     choice_partitive: 'Partitivo',
     choice_currency: 'Valuta',
     choice_ratio: 'Rapporto',

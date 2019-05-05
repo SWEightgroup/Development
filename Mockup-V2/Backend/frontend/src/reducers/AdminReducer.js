@@ -11,6 +11,10 @@ const initState = {
 
 const AdminReducer = (state = initState, action) => {
   switch (action.type) {
+    case 'INIT_STATE':
+      return {
+        ...initState
+      };
     case 'UPDATE_FILTER':
       return {
         ...state,

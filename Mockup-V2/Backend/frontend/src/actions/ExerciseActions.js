@@ -34,6 +34,7 @@ export const initNewExerciseState = newExercise => {
       type: 'INIT_NEW_EXERCISE',
       newExercise: {
         ...newExercise,
+        language: newExercise.languageSelected,
         userSolution: [
           newExercise.sentence.map(() => {
             return {};
@@ -289,7 +290,9 @@ export const getAutomaticSolution = sentenceString => {
       .then(res => {
         dispatch(
           updateNewExerciseState({
-            response: JSON.parse(res.data.solutionText).sentences[0].tokens // .filter(token => token.tag.charAt(0) !== 'F')
+            response: JSON.parse(res.data.solutionText).sentences[0].tokens,
+            language: store.getState().exercise.newExercise.languageSelected
+            // .filter(token => token.tag.charAt(0) !== 'F')
           })
         );
         dispatch(innerLoaderOff());

@@ -29,12 +29,13 @@ public class ExerciseModel {
   private String phraseId;
   private String phraseText;
   private String mainSolutionId;
+  private String language;
+  private String pippo;
   @Builder.Default
   private String alternativeSolutionId = null;
   private String authorName;
   private String authorId;
   private Boolean visibility;
-  private String language;
   @Builder.Default
   private ArrayList<String> studentIdToDo = new ArrayList<>();
   @Builder.Default
@@ -138,5 +139,9 @@ public class ExerciseModel {
 
   public boolean addStudentToDoIds(List<String> ids) {
     return studentIdToDo.addAll(ids);
+  }
+
+  public String getLanguage() {
+    return this.language;
   }
 }

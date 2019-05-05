@@ -15,7 +15,7 @@ import { initializeAuth, loaderOn } from './actions/AuthActions';
 import { initializeNewExercise } from './actions/ExerciseActions';
 
 import './App.css';
-import NewExercise from './view/containers/ExerciseContainers/NewExercise';
+import FreeExercise from './view/containers/ExerciseContainers/FreeExercise';
 import Account from './view/containers/AuthContainers/Account';
 import Homework from './view/containers/ExerciseContainers/Homework';
 import HomeworkExecution from './view/containers/ExerciseContainers/HomeworkExecution';
@@ -128,7 +128,7 @@ class App extends Component {
                     />
                     <ProtectedRoute
                       path="/exercise"
-                      component={NewExercise}
+                      component={FreeExercise}
                       isAllowed={auth.user && auth.user.role === 'ROLE_STUDENT'}
                     />
                     <Route

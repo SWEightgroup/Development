@@ -2,6 +2,9 @@ import axios from 'axios';
 import store from '../store/index';
 import _translator from '../helpers/Translator';
 import { _toastSuccess, _toastError } from '../helpers/Utils';
+import { initClass } from './ClassManagementActions';
+import { initStateExercise } from './ExerciseActions';
+import { initAdmin } from './AdminActions';
 
 export const initAuthStore = () => {
   return dispatch => {
@@ -64,6 +67,9 @@ export const signOut = () => {
   localStorage.removeItem('user');
   localStorage.removeItem('token');
   return dispatch => {
+    dispatch(initAdmin());
+    dispatch(initStateExercise());
+    dispatch(initClass());
     dispatch({ type: 'SIGNOUT_SUCCESS' });
   };
 };

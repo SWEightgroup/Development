@@ -50,14 +50,6 @@ class InsertExercise extends Component {
     });
   };
 
-  changeNewInputSentence = input => {
-    const { changeNewInputSentenceDispatch, newExercise } = this.props;
-    changeNewInputSentenceDispatch({
-      ...newExercise,
-      sentenceString: input
-    });
-  };
-
   /**
    * set the showSolution flag to true
    */
@@ -173,6 +165,7 @@ class InsertExercise extends Component {
           changeNewInputSentence={changeNewInputSentenceDispatch}
           sentenceString={sentenceString}
           language={language}
+          exLanguage={newExercise.languageSelected}
         />
         {response && (
           <React.Fragment>
@@ -189,6 +182,7 @@ class InsertExercise extends Component {
               initSolution
               showButton={showButton}
               indexSolution={0}
+              exLanguage={newExercise.language}
             />
             <div className="main-card  card no-bg-color ">
               <div className="card-body pt-0 pl-1">

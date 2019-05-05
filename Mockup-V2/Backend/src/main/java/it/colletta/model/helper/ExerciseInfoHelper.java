@@ -23,4 +23,5 @@ public class ExerciseInfoHelper {
   private SolutionModel alternativeSolution;
   private List<UserModel> studentToDo;
   private List<UserModel> studentDone;
+  private String language;
 }

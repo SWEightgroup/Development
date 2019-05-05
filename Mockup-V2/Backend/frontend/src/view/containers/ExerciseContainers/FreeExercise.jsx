@@ -13,7 +13,7 @@ import {
   getAutomaticSolution
 } from '../../../actions/ExerciseActions';
 
-class NewExsercise extends Component {
+class FreeExsercise extends Component {
   constructor(props) {
     super(props);
     props.initializeNewExercise();
@@ -42,13 +42,7 @@ class NewExsercise extends Component {
     });
   };
 
-  changeNewInputSentence = input => {
-    const { changeNewInputSentenceDispatch, newExercise } = this.props;
-    changeNewInputSentenceDispatch({
-      ...newExercise,
-      sentenceString: input
-    });
-  };
+
 
   /**
    * set the showSolution flag to true
@@ -121,6 +115,7 @@ class NewExsercise extends Component {
               changeNewInputSentence={changeNewInputSentenceDispatch}
               sentenceString={sentenceString}
               language={language}
+              exLanguage={newExercise.languageSelected}
             />
             <ExecutionExercise
               sentence={sentence} // array di parole
@@ -130,6 +125,7 @@ class NewExsercise extends Component {
               showButton={showButton}
               language={language}
               indexSolution={0}
+              exLanguage={newExercise.language}
             />
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">
@@ -183,4 +179,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewExsercise);
+)(FreeExsercise);

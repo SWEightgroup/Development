@@ -9,7 +9,9 @@ const initState = {
     userSolution: [[], []], // lista di stati per le word
     codeSolution: [[], []],
     complete: false,
-    alternativeSolution: false
+    alternativeSolution: false,
+    language: 'it',
+    languageSelected: 'it' // utilizza
   },
   todoExercises: { exercises: null, page: null, links: null },
   doneExercises: { exercises: null, page: null, links: null },
@@ -83,7 +85,7 @@ const ExerciseReducer = (state = initState, action) => {
         ...state,
         newExercise: {
           ...state.newExercise,
-          sentenceString: action.data
+          ...action.data
         }
       };
     case 'SAVE_EXERCISE_SUCCESS':
