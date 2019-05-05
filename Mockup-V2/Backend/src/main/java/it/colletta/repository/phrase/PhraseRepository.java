@@ -14,7 +14,7 @@ public interface PhraseRepository
 
 
   /**
-   * @param phraseId TODO
+   * @param phraseId the unique Id of the phrase
    */
   @Override
   void deleteById(final String phraseId);

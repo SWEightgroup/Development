@@ -22,8 +22,5 @@ public class ExerciseHelper {
   private String author;
   private Long date;
   private String language;
-  // TODO ho aggiunto questo campo per aggiungere l'esercizio alla lista degli esercizi svolti
-  // dell'utente
-  // se non vi piace, trovate un'altra soluzione
   private String id;
 }
