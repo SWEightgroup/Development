@@ -16,11 +16,11 @@ import java.util.List;
 @ToString
 @Builder
 public class ExerciseInfoHelper {
-  private SolutionModel mainSolution;
-  private SolutionModel alternativeSolution;
   private String exerciseText;
   private String authorName;
   private Date date;
+  private SolutionModel mainSolution;
+  private SolutionModel alternativeSolution;
   private List<UserModel> studentToDo;
   private List<UserModel> studentDone;
 }
