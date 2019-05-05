@@ -247,7 +247,7 @@ public class ExerciseController {
      * @return A paged version of the favorite exercise to do
      * @see com.auth0.jwt.JWT
      */
-    @RequestMapping(value = "pai", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/favourite-public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getFavouritePublic(@PageableDefault(value = 4) Pageable pageable,
             PagedResourcesAssembler<ExerciseModel> assembler, @RequestHeader("Authorization") String studentToken) {
         try {

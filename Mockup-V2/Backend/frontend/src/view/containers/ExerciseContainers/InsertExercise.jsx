@@ -167,7 +167,7 @@ class InsertExercise extends Component {
 
     const { language } = user;
     return (
-      <div className="container ml-0">
+      <div className="">
         <InputSentence
           prepareExercise={this.prepareExercise}
           changeNewInputSentence={changeNewInputSentenceDispatch}

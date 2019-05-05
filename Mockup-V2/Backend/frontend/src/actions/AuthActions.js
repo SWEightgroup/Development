@@ -47,7 +47,7 @@ export const signIn = credentials => {
         _toastSuccess(_translator('gen_welcome', res.data.language));
         dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
-      .catch(e => {
+      .catch(() => {
         _toastError(_translator('login_error', 'it'));
         dispatch({ type: 'LOGIN_ERROR' });
       });

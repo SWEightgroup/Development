@@ -43,8 +43,8 @@ class ExercisesDetails extends Component {
         ? JSON.parse(exerciseDetails.mainSolution.solutionText)
         : [];
 
-      const altSolution = exerciseDetails.mainSolution
-        ? JSON.parse(exerciseDetails.mainSolution.solutionText)
+      const altSolution = exerciseDetails.alternativeSolution
+        ? JSON.parse(exerciseDetails.alternativeSolution.solutionText)
         : [];
       return (
         <React.Fragment>
@@ -95,7 +95,7 @@ class ExercisesDetails extends Component {
             </div>
           </div>
 
-          {
+          {exerciseDetails.alternativeSolution && (
             <div className="main-card mb-3 card exercise-preview">
               <div className="card-header">
                 <h6>
@@ -117,7 +117,7 @@ class ExercisesDetails extends Component {
                 </ul>
               </div>
             </div>
-          }
+          )}
 
           <div className="row">
             <div className="col-6">
@@ -153,7 +153,7 @@ class ExercisesDetails extends Component {
                           className="list-group-item"
                           key={`todo${student.id}`}
                         >
-                          {student.firstName} {student.lastname}
+                          {student.firstName} {student.lastName}
                         </li>
                       ))}
                     </ul>

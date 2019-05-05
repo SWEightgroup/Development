@@ -20,7 +20,7 @@ import javax.validation.Valid;
 public class SingnupController {
 
   @InitBinder
-  protected void initBinderClass(WebDataBinder binder){
+  protected void initBinderClass(WebDataBinder binder) {
     binder.setValidator(new UserHelperValidator());
   }
 
@@ -36,29 +36,29 @@ public class SingnupController {
    * @return ResponseEntity if the operation completed correctly otherwise return
    *         an error response.
    */
-  @RequestMapping(
-          value = "/sign-up",
-          method = RequestMethod.POST,
-          produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> signUp(@Valid @RequestBody UserHelper userDataTransferObject) {
 
     userDataTransferObject.setEmail(userDataTransferObject.getEmail().toLowerCase());
     UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
-      if (singupService.addUser(user, linkTo(SingnupController.class).slash("activate")) != null) {
+      if (singupService.addUser(user, linkTo(SingnupController.class).slash("sign-up/activate")) != null) {
         return new ResponseEntity<>(user, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
       }
     } catch (Exception e) {
+      e.printStackTrace();
       return new ResponseEntity<>(e.getClass().getCanonicalName(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
-  @RequestMapping(
-          value = "/sign-up/activate/{id}",
-          method = RequestMethod.GET,
-          produces = MediaType.APPLICATION_JSON_VALUE)
+  // TODO URGENTE Sistemare questo servizio
+  /**
+   * chiedere a Gionata per l'errore
+   */
+
+  @RequestMapping(value = "/sign-up/activate/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> activateUser(@PathVariable("id") String requestId) {
     try {
       singupService.setEnabledToTrue(requestId);

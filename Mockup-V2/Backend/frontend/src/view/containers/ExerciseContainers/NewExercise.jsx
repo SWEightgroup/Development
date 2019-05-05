@@ -113,7 +113,7 @@ class NewExsercise extends Component {
     const { language } = user;
 
     return (
-      <div className="container ml-0">
+      <div className="">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10">
             <InputSentence
