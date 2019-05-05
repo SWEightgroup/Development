@@ -26,7 +26,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.applicationUserRepository = applicationUserRepository;
     }
 
-
     private static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (String role : roles) {
@@ -47,7 +46,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(email);
         }
-        return new org.springframework.security.core.userdetails.User(applicationUser.getUsername(),
-                applicationUser.getPassword(), getGrantedAuthorities(getRoles(applicationUser.getRole())));
+
+        return org.springframework.security.core.userdetails.User.withUsername(email)
+                .password(applicationUser.getPassword()).authorities(applicationUser.getAuthorities())
+                .disabled(!applicationUser.isEnabled()).build();
     }
 }

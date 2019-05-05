@@ -12,6 +12,7 @@ import _translator from '../../../helpers/Translator';
 import Validator from '../../../helpers/Validator';
 import { ExLang } from '../../../constants/Languages';
 import RegExpression from '../../../constants/RegExpression';
+import HelperMessage from '../../components/HelperMessage';
 
 class SignUp extends Component {
   constructor(props) {
@@ -28,12 +29,12 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     const { props } = this;
-    const { signUpDispatch, auth /*displayErrorDispatch*/ } = props;
+    const { signUpDispatch, auth /* displayErrorDispatch */ } = props;
     e.preventDefault();
     const signUpData = auth.signUp;
     let isValid = true;
 
-    //Email validation
+    // Email validation
     if (
       Validator.validEmail(signUpData.username, RegExpression.getRegEmail())
     ) {
@@ -44,7 +45,7 @@ class SignUp extends Component {
       isValid = false;
     }
 
-    //Date validation
+    // Date validation
     if (Validator.validDate(signUpData.dateOfBirth)) {
       this.errorDate.current.innerHTML = '';
       isValid = !isValid ? isValid : true;
@@ -53,7 +54,7 @@ class SignUp extends Component {
       isValid = false;
     }
 
-    //Password validation
+    // Password validation
     if (
       Validator.validPassword(
         signUpData.password,
@@ -68,7 +69,7 @@ class SignUp extends Component {
       isValid = false;
     }
 
-    //Validation
+    // Validation
     if (
       isValid &&
       Validator.validSelect(signUpData.role, [
@@ -95,15 +96,7 @@ class SignUp extends Component {
     const signUpData = auth.signUp;
 
     if (auth.signUpCompleted) {
-      return (
-        <div className="row justify-content-md-center">
-          <div className="col-sm-12 col-md-8 col-lg-8">
-            <div className="main-card mb-3 card">
-              <div className="card-body">{_translator('signUp_completed')}</div>
-            </div>
-          </div>
-        </div>
-      );
+      return <HelperMessage message={_translator('signUp_completed')} />;
     }
     if (auth.user) return <Redirect to="/" />;
     return (

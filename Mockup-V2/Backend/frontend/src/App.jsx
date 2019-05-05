@@ -30,6 +30,7 @@ import ClassManagement from './view/containers/ExerciseContainers/ClassManagemen
 import AdminDashboard from './view/containers/DashboardContainers/AdminDashboard';
 import ExercisesDetails from './view/containers/ExerciseContainers/ExerciseDetails';
 import FavouriteTeachers from './view/containers/ExerciseContainers/FavouriteTeachers';
+import Activation from './view/containers/AuthContainers/Activation';
 
 class App extends Component {
   state = {};
@@ -129,6 +130,10 @@ class App extends Component {
                       path="/exercise"
                       component={NewExercise}
                       isAllowed={auth.user && auth.user.role === 'ROLE_STUDENT'}
+                    />
+                    <Route
+                      path="/sign-up/active/:activation?"
+                      component={Activation}
                     />
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />

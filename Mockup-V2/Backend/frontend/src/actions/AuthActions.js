@@ -15,6 +15,12 @@ export const loaderOn = () => {
   };
 };
 
+export const loaderOff = () => {
+  return dispatch => {
+    dispatch({ type: 'LOADER_OFF' });
+  };
+};
+
 export const displayError = error => {
   return dispatch => {
     dispatch({ type: 'DISPLAY_ERROR', error });
@@ -59,6 +65,49 @@ export const signOut = () => {
   localStorage.removeItem('token');
   return dispatch => {
     dispatch({ type: 'SIGNOUT_SUCCESS' });
+  };
+};
+
+export const activeAccount = signUpRequestId => {
+  return dispatch => {
+    dispatch({
+      type: 'ACTIVATION',
+      payload: {
+        message: [_translator('activation_progress_line1')],
+        inProgress: true
+      }
+    });
+    dispatch(loaderOn());
+    axios
+      .get(`http://localhost:8081/sign-up/activate/${signUpRequestId}`)
+      .then(res => {
+        _toastSuccess('attivazione avvenuta con successo');
+        dispatch({
+          type: 'ACTIVATION',
+          payload: {
+            message: [
+              _translator('activation_success_line1'),
+              _translator('activation_success_line2')
+            ],
+            inProgress: false
+          }
+        });
+        dispatch(loaderOff());
+      })
+      .catch(err => {
+        dispatch({
+          type: 'ACTIVATION',
+          payload: {
+            message: [
+              _translator('activation_err_line1'),
+              _translator('activation_err_line2')
+            ],
+            inProgress: false
+          }
+        });
+        dispatch(loaderOff());
+        _toastError('Attivazione fallita');
+      });
   };
 };
 

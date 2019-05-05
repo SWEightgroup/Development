@@ -77,6 +77,7 @@ public class SingupService {
   public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)
         .orElseThrow(() -> new ResourceNotFoundException("Signup request not found"));
+
     // Date requestTimestamp = requestModel.getRequestDate();
     // if (requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
     UserModel userToEnable = usersRepository.findById(requestModel.getUserReference())

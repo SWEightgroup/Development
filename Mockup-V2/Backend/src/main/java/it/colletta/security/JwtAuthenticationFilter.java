@@ -55,8 +55,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       throws AuthenticationException {
     try {
       UserModel creds = new ObjectMapper().readValue(request.getInputStream(), UserModel.class);
-      return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-          creds.getUsername().toLowerCase(), creds.getPassword(), new ArrayList<>()));
+      return authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(creds.getUsername().toLowerCase(), creds.getPassword(), new ArrayList<>())
+        );
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -75,9 +76,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String email = ((User) auth.getPrincipal()).getUsername().toLowerCase();
     UserModel userModel = usersRepository.findByEmail(email);
     // TODO Gestire meglio l'eccezione
-    boolean x = userModel.isEnabled();
-    if (!userModel.isEnabled())
-      throw new IOException("user not active");
+
+    // if (!userModel.isEnabled()) throw new IOException("user not active");
+
     userModel.setPassword(null);
     String token = JWT.create().withJWTId(userModel.getId()).withSubject(email)
         .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).sign(HMAC512(SECRET.getBytes()));

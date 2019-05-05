@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static it.colletta.security.SecurityConstants.SIGN_UP_URL;
+import static it.colletta.security.SecurityConstants.ACTIVATION_URL;;
 
 @Configuration
 @EnableWebSecurity
@@ -40,8 +41,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      * @param userDetailsService User details
      * @param passwordEncoder    Encoder
      */
-    public WebSecurity(UserDetailsServiceImpl userDetailsService,
-                       BCryptPasswordEncoder passwordEncoder) {
+    public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -58,9 +58,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().and().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL)
-                .permitAll()
-                //.antMatchers(HttpMethod.GET, "/count").permitAll()
+        http.csrf().disable().cors().and().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.GET, ACTIVATION_URL + "/**").permitAll()
+                // .antMatchers(HttpMethod.GET, "/count").permitAll()
                 .antMatchers("/*", "/resources/**", "/resources/static/**", "/resources/assets/**",
                         "/resources/static/static/**")
                 .anonymous().anyRequest().authenticated().and()
@@ -81,8 +81,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web)
             throws Exception {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/assets/**",
-                "/resources/static/static/**");
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/assets/**", "/resources/static/static/**");
     }
 
     /**
@@ -92,12 +91,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(ImmutableList.of("*"));
-        configuration.setAllowedMethods(
-                ImmutableList.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(ImmutableList.of("*"));
-        configuration.setExposedHeaders(ImmutableList.of("X-Auth-Token", "Authorization",
-                "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+        configuration.setExposedHeaders(ImmutableList.of("X-Auth-Token", "Authorization", "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Credentials"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

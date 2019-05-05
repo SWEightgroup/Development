@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { signIn, loaderOn, changeSignIn } from '../../../actions/AuthActions';
+import {
+  signIn,
+  loaderOn,
+  changeSignIn,
+  activeAccount
+} from '../../../actions/AuthActions';
 import { initStateExercise } from '../../../actions/ExerciseActions';
 import _translator from '../../../helpers/Translator';
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
+    if (props.match.params && props.match.params.activation) {
+      props.activeAccountDispatch(props.match.params.activation);
+    }
     props.initStateExerciseDispatch();
   }
 
@@ -26,6 +34,7 @@ class SignIn extends Component {
     const { auth, signInData } = this.props;
 
     if (auth && auth.user) return <Redirect to="/dashboard" />;
+
     return (
       <div className="row justify-content-md-center">
         <div className="col-sm-12 col-md-6">
@@ -91,7 +100,9 @@ const mapDispatchToProps = dispatch => {
     signIn: credentials => dispatch(signIn(credentials)),
     loaderOn: () => dispatch(loaderOn()),
     changeSignIn: data => dispatch(changeSignIn(data)),
-    initStateExerciseDispatch: () => dispatch(initStateExercise())
+    initStateExerciseDispatch: () => dispatch(initStateExercise()),
+    activeAccountDispatch: signUpRequestId =>
+      dispatch(activeAccount(signUpRequestId))
   };
 };
 

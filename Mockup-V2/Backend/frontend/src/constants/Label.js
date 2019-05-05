@@ -138,6 +138,12 @@ export const _label = {
     publicExercises_Favourite: 'Insegnanti Preferiti',
     exerciseDetails_studentDone: 'Esercizio completato da:',
     exerciseDetails_studentToDo: 'Esercizio in carico a:',
+    activation_err_line1: 'Impossibile attivare questo account',
+    activation_err_line2:
+      "Se hai problemi con l'accesso contatta l'assistenza ",
+    activation_success_line1: 'Attivazione completata',
+    activation_success_line2: 'Grazie per aver scelto Colletta',
+    activation_progress_line1: 'Attivazione completata',
     /*
     Gerarchy below
     */

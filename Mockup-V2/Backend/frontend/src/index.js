@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Provider } from 'react-redux';
-// import { v4 } from 'node-uuid';
 import { toast } from 'react-toastify';
 import store from './store/index';
 

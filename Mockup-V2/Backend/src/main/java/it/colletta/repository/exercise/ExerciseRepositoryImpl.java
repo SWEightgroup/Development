@@ -53,8 +53,7 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   @Override
   public Page<ExerciseModel> findByAuthorIdPaged(Pageable page, String id) {
-    Query query = new Query(Criteria.where("authorId").is(id).and("visibility").is(true))
-        .with(page);
+    Query query = new Query(Criteria.where("authorId").is(id)).with(page);
     List<ExerciseModel> exerciseModelList = mongoTemplate.find(query, ExerciseModel.class);
     long total = mongoTemplate.count(query, ExerciseModel.class);
     return new PageImpl<>(exerciseModelList, page, total);
@@ -74,39 +73,27 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   @Override
   public Page<ExerciseModel> findAllPublicExercises(Pageable page, String studentId) {
-    Query query =
-        new Query(
-            Criteria.where("studentIdDone").nin(studentId)
-                .and("studentIdToDo").nin(studentId)
-                .and("visibility").is(true)
-        ).with(page);
-    return new PageImpl<>(
-        mongoTemplate.find(query, ExerciseModel.class),
-        page,
-        mongoTemplate.count(query, ExerciseModel.class)
-    );
+    Query query = new Query(
+        Criteria.where("studentIdDone").nin(studentId).and("studentIdToDo").nin(studentId).and("visibility").is(true))
+            .with(page);
+    return new PageImpl<>(mongoTemplate.find(query, ExerciseModel.class), page,
+        mongoTemplate.count(query, ExerciseModel.class));
   }
 
   /**
    * Return all exercises done by a student.
-   * @param page {@link Pageable}
-   * @param studentId the student unique id
+   * 
+   * @param page               {@link Pageable}
+   * @param studentId          the student unique id
    * @param teacherFavoriteIds the List of the user favorite teachers
    * @return All public exercise of user favorite teacher
    */
   @Override
-  public Page<ExerciseModel> findAllFavoriteExercises(Pageable page, List<String> teacherFavoriteIds, String studentId){
-    Query query =
-            new Query(
-                    Criteria.where("studentIdDone").nin(studentId)
-                            .and("studentIdToDo").nin(studentId)
-                            .and("visibility").is(true)
-                            .and("authorId").in(teacherFavoriteIds)
-            ).with(page);
-    return new PageImpl<>(
-            mongoTemplate.find(query, ExerciseModel.class),
-            page,
-            mongoTemplate.count(query, ExerciseModel.class)
-    );
+  public Page<ExerciseModel> findAllFavoriteExercises(Pageable page, List<String> teacherFavoriteIds,
+      String studentId) {
+    Query query = new Query(Criteria.where("studentIdDone").nin(studentId).and("studentIdToDo").nin(studentId)
+        .and("visibility").is(true).and("authorId").in(teacherFavoriteIds)).with(page);
+    return new PageImpl<>(mongoTemplate.find(query, ExerciseModel.class), page,
+        mongoTemplate.count(query, ExerciseModel.class));
   }
 }

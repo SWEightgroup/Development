@@ -108,7 +108,7 @@ public class UserModel implements UserDetails {
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return enabled;
   }
 
   @Override

@@ -5,6 +5,8 @@ const initState = {
   isReady: false,
   user: null,
   loader: false,
+  activationInProgress: false,
+  activationMessage: [],
   signIn: {
     username: '',
     password: ''
@@ -48,6 +50,17 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         loader: true
+      };
+    case 'LOADER_OFF':
+      return {
+        ...state,
+        loader: false
+      };
+    case 'ACTIVATION':
+      return {
+        ...state,
+        activationInProgress: action.payload.inProgress,
+        activationMessage: action.payload.message
       };
     case 'LOAD_AUTH':
       return {

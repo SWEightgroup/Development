@@ -99,7 +99,7 @@ public class ExerciseService {
     UserModel user = userOpt.orElseThrow(() -> new NoSuchElementException("User not found in the system"));
     String authorName = user.getFirstName() + " " + user.getLastName();
     ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
-        .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
+        .language(exercise.getLanguage()).dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
         .alternativeSolutionId(alternativeSolution != null ? alternativeSolution.getId() : null)
         .phraseId(phrase.getId()).phraseText(exercise.getPhraseText()).visibility(exercise.getVisibility())
         .authorId(exercise.getAuthor()).authorName(authorName).build();
@@ -262,21 +262,20 @@ public class ExerciseService {
    * @return ExerciseInfoHelper a DTO with all the info about the exercise
    * @throws ResourceNotFoundException if the Exercise is not in the system
    */
-  public ExerciseInfoHelper getExerciseInfo(final String exerciseId) throws ResourceNotFoundException , ParseException {
-      ExerciseModel exercise =  findById(exerciseId);
-      String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(exercise.getDateExercise()));
-      Optional<String> alternativaSolutionId = exercise.getAlternativeSolutionIdOptional();
-      SolutionModel alternativeSolution = null;
-      if(alternativaSolutionId.isPresent()) {
-        alternativeSolution = phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(), exercise.getAuthorId());
-      }
-      return ExerciseInfoHelper.builder()
-              .authorName(exercise.getAuthorName())
-              .date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
-              .mainSolution(phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(), exercise.getAuthorId()))
-                .alternativeSolution(alternativeSolution)
-              .studentToDo(userService.getAllListUser(exercise.getStudentIdToDo()))
-              .studentDone(userService.getAllListUser(exercise.getStudentIdDone()))
-              .build();
+  public ExerciseInfoHelper getExerciseInfo(final String exerciseId) throws ResourceNotFoundException, ParseException {
+    ExerciseModel exercise = findById(exerciseId);
+    String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(exercise.getDateExercise()));
+    Optional<String> alternativaSolutionId = exercise.getAlternativeSolutionIdOptional();
+    SolutionModel alternativeSolution = null;
+    if (alternativaSolutionId.isPresent()) {
+      alternativeSolution = phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
+          exercise.getAuthorId());
+    }
+    return ExerciseInfoHelper.builder().authorName(exercise.getAuthorName())
+        .date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
+        .mainSolution(phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
+            exercise.getAuthorId()))
+        .alternativeSolution(alternativeSolution).studentToDo(userService.getAllListUser(exercise.getStudentIdToDo()))
+        .studentDone(userService.getAllListUser(exercise.getStudentIdDone())).build();
   }
 }

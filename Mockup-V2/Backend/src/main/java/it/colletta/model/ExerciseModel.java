@@ -34,6 +34,7 @@ public class ExerciseModel {
   private String authorName;
   private String authorId;
   private Boolean visibility;
+  private String language;
   @Builder.Default
   private ArrayList<String> studentIdToDo = new ArrayList<>();
   @Builder.Default

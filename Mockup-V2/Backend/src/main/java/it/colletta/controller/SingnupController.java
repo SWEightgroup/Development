@@ -8,6 +8,7 @@ import it.colletta.model.validator.UserHelperValidator;
 import it.colletta.service.SingupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class SingnupController {
     userDataTransferObject.setEmail(userDataTransferObject.getEmail().toLowerCase());
     UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
-      if (singupService.addUser(user, linkTo(SingnupController.class).slash("sign-up/activate")) != null) {
+      if (singupService.addUser(user, linkTo(SingnupController.class).slash("/sign-up/active")) != null) {
         return new ResponseEntity<>(user, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -67,4 +68,5 @@ public class SingnupController {
       return new ResponseEntity<>(exception.getClass().getCanonicalName(), HttpStatus.BAD_REQUEST);
     }
   }
+
 }
