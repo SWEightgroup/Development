@@ -29,20 +29,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
   private AuthenticationManager authenticationManager;
-  private UsersRepository usersRepository;
 
   /**
    * Costructor to filter security class
    *
    * @param authenticationManager the authentication custom manager
-   * @param usersRepository repository which performs query on User collection in MongoDB
-   * @period 2019-03-19
    * @since 1.0
    */
-  public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
-      UsersRepository usersRepository) {
+  public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
-    this.usersRepository = usersRepository;
   }
 
   /**
@@ -78,11 +73,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain,
       Authentication auth) throws IOException, ServletException {
-    String email = ((UserModel) auth.getPrincipal()).getUsername().toLowerCase();
-    UserModel userModel = usersRepository.findByEmail(email).get();
-    Object c = auth.getPrincipal();
+    UserModel userModel = ((UserModel) auth.getPrincipal());
     userModel.setPassword(null);
-    String token = JWT.create().withJWTId(userModel.getId()).withSubject(email)
+    String token = JWT.create().withJWTId(userModel.getId()).withSubject(userModel.getUsername().toLowerCase())
         .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .sign(HMAC512(SECRET.getBytes()));
     response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);

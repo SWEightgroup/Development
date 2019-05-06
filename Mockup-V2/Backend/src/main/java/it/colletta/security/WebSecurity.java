@@ -2,6 +2,7 @@ package it.colletta.security;
 
 import static it.colletta.security.SecurityConstants.ACTIVATION_URL;
 import static it.colletta.security.SecurityConstants.SIGN_UP_URL;
+import static org.springframework.security.config.Elements.HTTP;
 
 import com.google.common.collect.ImmutableList;
 import it.colletta.repository.user.UsersRepository;
@@ -28,9 +29,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  UsersRepository usersRepository;
-
-  @Autowired
   private UserDetailsServiceImpl userDetailsService;
 
   private BCryptPasswordEncoder passwordEncoder;
@@ -47,11 +45,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     this.passwordEncoder = passwordEncoder;
   }
 
-  @Override
-  public UserDetailsService userDetailsServiceBean() throws Exception {
-    return new UserDetailsServiceImpl(usersRepository);
-  }
-
   /**
    * Configure the security for Spring.
    *
@@ -64,9 +57,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, ACTIVATION_URL + "/**").permitAll()
         // .antMatchers(HttpMethod.GET, "/count").permitAll()
         .antMatchers("/*", "/resources/**", "/resources/static/**", "/resources/assets/**",
-            "/resources/static/static/**")
-        .anonymous().anyRequest().authenticated().and()
-        .addFilter(new JwtAuthenticationFilter(authenticationManager(), usersRepository))
+            "/resources/static/static/**").anonymous()
+            .antMatchers(HttpMethod.POST, "/password/**").permitAll()
+            .anyRequest().authenticated().and()
+        .addFilter(new JwtAuthenticationFilter(authenticationManager()))
         .addFilter(new JwtAuthorizationFilter(authenticationManager(), userDetailsService))
         // this disables session creation on Spring Security
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
