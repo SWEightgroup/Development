@@ -25,7 +25,11 @@ export const fetchDeveloperList = () => {
         }
       })
       .then(res => {
+        console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+        console.log(res);
         dispatch({ type: 'UPDATE_DEV_LIST', payload: res.data });
+        console.log('');
+        console.log(res);
       })
       .catch(error => {
         console.error(error);
@@ -42,6 +46,8 @@ export const fetchUsersList = () => {
         }
       })
       .then(res => {
+        console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+        console.log(res);
         dispatch({ type: 'UPDATE_USER_LIST', payload: res.data });
       })
       .catch(error => {

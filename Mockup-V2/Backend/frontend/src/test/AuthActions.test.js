@@ -17,8 +17,8 @@ describe('SignIn', () => {
     const res = {
       data: {
         id: '5cb9010804dacb417c1b9619',
-        firstName: 'Alfredo',
-        lastName: 'Campanile',
+        firstName: 'Peter',
+        lastName: 'Pan',
         role: 'ROLE_ADMIN',
         language: 'en',
         dateOfBirth: 717897600000,
