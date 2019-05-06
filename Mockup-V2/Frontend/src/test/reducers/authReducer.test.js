@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import authReducer from '../../reducers/AuthReducer';
 import * as actions from '../../actions/AuthActions';
 

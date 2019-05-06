@@ -13,7 +13,11 @@ export const fetchDeveloperList = () => {
         }
       })
       .then(res => {
+        console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+        console.log(res);
         dispatch({ type: 'UPDATE_DEV_LIST', payload: res.data });
+        console.log('');
+        console.log(res);
       })
       .catch(error => {
         console.log(error);
@@ -30,6 +34,8 @@ export const fetchUsersList = () => {
         }
       })
       .then(res => {
+        console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+        console.log(res);
         dispatch({ type: 'UPDATE_USER_LIST', payload: res.data });
       })
       .catch(error => {
@@ -57,7 +63,7 @@ export const activateUser = ({ usernameOrId }) => {
   return dispatch => {
     axios
       .put(
-        `http://localhost:8081/users/activate-user/${usernameOrId}`,
+        `http://localhost:8081/users/admin/activate-user/${usernameOrId}`,
         {},
         {
           headers: {
