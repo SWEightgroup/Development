@@ -2,12 +2,11 @@ package it.colletta.service.signup;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
+import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-
-import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailServiceImpl {
@@ -15,7 +14,7 @@ public class EmailServiceImpl {
   private JavaMailSender sender;
 
   @Autowired
-  public EmailServiceImpl(JavaMailSender sender){
+  public EmailServiceImpl(JavaMailSender sender) {
     this.sender = sender;
   }
 
@@ -42,6 +41,20 @@ public class EmailServiceImpl {
         + "\nRegards, Colletta team");
 
     helper.setSubject("Activate your account in Colletta");
+    helper.setText(body.toString());
+    sender.send(message);
+  }
+
+  public void forgotPasswordMail(UserModel user, String link) throws Exception {
+    MimeMessage message = sender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message);
+    helper.setTo(user.getUsername());
+    StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName()
+        + "\n" + "Follow the link to check change the password. \n");
+    body.append("Recover password: ").append(link).append("\n");
+    body.append("Thank you so much."
+        + "\nRegards, Colletta team");
+    helper.setSubject("Recover your account in Colletta");
     helper.setText(body.toString());
     sender.send(message);
   }

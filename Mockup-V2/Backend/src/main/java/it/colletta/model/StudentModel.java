@@ -30,7 +30,6 @@ public class StudentModel extends UserModel {
   }
 
 
-
   /**
    *
    */
@@ -45,7 +44,7 @@ public class StudentModel extends UserModel {
     return favoriteTeacherIds;
   }
 
-  public void setFavoriteTeacherIds(List<String> favoriteTeacherIds){
+  public void setFavoriteTeacherIds(List<String> favoriteTeacherIds) {
     this.favoriteTeacherIds = favoriteTeacherIds;
   }
 

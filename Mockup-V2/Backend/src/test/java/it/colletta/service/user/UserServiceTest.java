@@ -4,7 +4,8 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static it.colletta.security.SecurityConstants.EXPIRATION_TIME;
 import static it.colletta.security.SecurityConstants.SECRET;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import com.auth0.jwt.JWT;
 import it.colletta.model.ExerciseModel;
@@ -12,7 +13,6 @@ import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.Role;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +41,7 @@ public class UserServiceTest {
 
   private StudentModel studentModel;
 
-  private  String token;
+  private String token;
 
   @Before
   public void setUp() throws Exception {
@@ -60,8 +60,8 @@ public class UserServiceTest {
     Mockito.when(usersRepository.findById(anyString())).thenReturn(Optional.of(user));
 
     token = JWT.create().withJWTId(user.getId()).withSubject(user.getUsername())
-            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .sign(HMAC512(SECRET.getBytes()));
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+        .sign(HMAC512(SECRET.getBytes()));
   }
 
   @Test
@@ -88,16 +88,16 @@ public class UserServiceTest {
   @Test
   public void updateUser() {
 
-    Mockito.when(usersRepository.findByEmail(anyString())).thenReturn(user);
+    Mockito.when(usersRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
     Mockito.when(usersRepository.save(any(UserModel.class))).thenReturn(user);
-    UserModel myuser = userService.updateUser(user,token);
+    UserModel myuser = userService.updateUser(user, token);
 
     assertEquals(myuser.getUsername(), user.getUsername());
     assertEquals(myuser.getRole(), user.getRole());
   }
 
   @Test
-  public void getAllListUser(){
+  public void getAllListUser() {
 
     List<String> StudentIds = new ArrayList<>();
     StudentIds.add("104");

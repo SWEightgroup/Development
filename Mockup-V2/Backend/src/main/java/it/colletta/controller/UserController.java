@@ -19,12 +19,14 @@ import it.colletta.service.user.UserService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,11 +37,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
 
 @RestController
 public class UserController {
@@ -76,7 +73,8 @@ public class UserController {
    * @return all the developers that are disabled.
    */
   @RequestMapping(value = "/users/admin/get-all-disabled", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(@RequestHeader("Authorization") String jwtToken) {
+  public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(
+      @RequestHeader("Authorization") String jwtToken) {
     String userId = ParseJwt.getIdFromJwt(jwtToken);
     return new ResponseEntity<>(userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
   }
@@ -92,13 +90,14 @@ public class UserController {
 
   /**
    * @param token the JWT token from the header of the request
-   * @return An Usermodel if the operation completed correctly otherwise return an
-   *         unavailable response.
+   * @return An Usermodel if the operation completed correctly otherwise return an unavailable
+   * response.
    */
   @RequestMapping(value = "/users/get-info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
     try {
-      return new ResponseEntity<>(userService.getUserInfo(ParseJwt.getIdFromJwt(token)), HttpStatus.OK);
+      return new ResponseEntity<>(userService.getUserInfo(ParseJwt.getIdFromJwt(token)),
+          HttpStatus.OK);
     } catch (UsernameNotFoundException error) {
       error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,7 +105,7 @@ public class UserController {
   }
 
   /**
-   * @param token       Token of user
+   * @param token Token of user
    * @param newUserData New data od user
    * @return All user info.
    */
@@ -155,8 +154,8 @@ public class UserController {
   /**
    * Return all public exercises to do by using auth token authentication.
    *
-   * @param token     JWT token contained in the header request
-   * @param pageable  {@link Pageable}
+   * @param token JWT token contained in the header request
+   * @param pageable {@link Pageable}
    * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
    * @return A paged version of the favorite teacher
    * @see com.auth0.jwt.JWT
@@ -167,7 +166,8 @@ public class UserController {
       @PathVariable("Role") String role) {
     try {
       Page<UserModel> users = userService.findByRole(pageable, role);
-      PagedResources<?> resources = assembler.toResource(users, new UserResourceAssembler("/user-by-role"));
+      PagedResources<?> resources = assembler
+          .toResource(users, new UserResourceAssembler("/user-by-role"));
       return new ResponseEntity<>(resources, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

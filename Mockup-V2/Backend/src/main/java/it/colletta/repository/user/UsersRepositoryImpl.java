@@ -2,16 +2,11 @@ package it.colletta.repository.user;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -48,7 +43,7 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   }
 
   @Override
-  public List<UserModel> findAllByList(final List<String> userId){
+  public List<UserModel> findAllByList(final List<String> userId) {
     Query query = new Query();
     query.addCriteria(Criteria.where("_id").in(userId));
     query.fields().exclude("favoriteTeacherIds");
@@ -56,15 +51,15 @@ public class UsersRepositoryImpl implements UserCustomQueryInterface {
   }
 
   @Override
-  public Page<UserModel> findAllByRolePage(Pageable page, String role){
+  public Page<UserModel> findAllByRolePage(Pageable page, String role) {
     Query query =
-            new Query(
-                    Criteria.where("role").is(role)
-            ).with(page);
+        new Query(
+            Criteria.where("role").is(role)
+        ).with(page);
     return new PageImpl<>(
-            mongoTemplate.find(query, UserModel.class),
-            page,
-            mongoTemplate.count(query, UserModel.class)
+        mongoTemplate.find(query, UserModel.class),
+        page,
+        mongoTemplate.count(query, UserModel.class)
     );
   }
 }

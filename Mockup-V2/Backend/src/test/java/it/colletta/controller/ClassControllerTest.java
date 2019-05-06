@@ -1,12 +1,18 @@
 package it.colletta.controller;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static it.colletta.security.SecurityConstants.EXPIRATION_TIME;
+import static it.colletta.security.SecurityConstants.SECRET;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.colletta.model.ClassModel;
 import it.colletta.model.helper.ClassHelper;
 import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.classes.ClassService;
+import java.util.Arrays;
+import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,15 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Date;
-
-import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static it.colletta.security.SecurityConstants.EXPIRATION_TIME;
-import static it.colletta.security.SecurityConstants.SECRET;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassControllerTest {
@@ -46,24 +43,24 @@ public class ClassControllerTest {
   ClassController classController;
 
   @Before
-  public void setUp(){
+  public void setUp() {
     userToken = ("Bearer") + JWT.create().withJWTId("test@test.it").withSubject("test")
-            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .sign(HMAC512(SECRET.getBytes()));
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+        .sign(HMAC512(SECRET.getBytes()));
 
     mapper = new ObjectMapper();
     mvc = MockMvcBuilders.standaloneSetup(classController)
-            .build();
+        .build();
 
     classHelperTest = ClassHelper.builder()
-            .teacherId("1")
-            .name("theClass")
-            .studentsId(Arrays.asList("1","2","3"))
-            .build();
+        .teacherId("1")
+        .name("theClass")
+        .studentsId(Arrays.asList("1", "2", "3"))
+        .build();
     studentClassHelpertest = StudentClassHelper.builder()
-            .classId("1")
-            .studentsId(Arrays.asList("1","2","3"))
-            .build();
+        .classId("1")
+        .studentsId(Arrays.asList("1", "2", "3"))
+        .build();
   }
 
   @Test
@@ -71,10 +68,10 @@ public class ClassControllerTest {
     try {
       String jsonClassHelperTest = mapper.writeValueAsString(classHelperTest);
       mvc.perform(MockMvcRequestBuilders.post("/class/create")
-              .header("Authorization", userToken)
-              .content(jsonClassHelperTest)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
+          .header("Authorization", userToken)
+          .content(jsonClassHelperTest)
+          .contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -84,16 +81,16 @@ public class ClassControllerTest {
   public void CreateNewClassNullParameterTest() {
     try {
       ClassHelper classHelperWrong = ClassHelper.builder()
-              .teacherId(null)
-              .name(null)
-              .studentsId(Arrays.asList("1","2","3"))
-              .build();
+          .teacherId(null)
+          .name(null)
+          .studentsId(Arrays.asList("1", "2", "3"))
+          .build();
       String jsonClassHelperTest = mapper.writeValueAsString(classHelperWrong);
       mvc.perform(MockMvcRequestBuilders.post("/class/create")
-              .header("Authorization", userToken)
-              .content(jsonClassHelperTest)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isBadRequest());
+          .header("Authorization", userToken)
+          .content(jsonClassHelperTest)
+          .contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isBadRequest());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -104,10 +101,10 @@ public class ClassControllerTest {
     try {
       String jsonStudentHelperTest = mapper.writeValueAsString(studentClassHelpertest);
       mvc.perform(MockMvcRequestBuilders.put("/class/modify")
-              .header("Authorization", userToken)
-              .content(jsonStudentHelperTest)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
+          .header("Authorization", userToken)
+          .content(jsonStudentHelperTest)
+          .contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -117,39 +114,39 @@ public class ClassControllerTest {
   public void ModifyClassNullParameterTest() {
     try {
       StudentClassHelper studentClassHelperWrong = StudentClassHelper.builder()
-              .classId(null)
-              .build();
+          .classId(null)
+          .build();
       String jsonStudentHelperTest = mapper.writeValueAsString(studentClassHelperWrong);
       mvc.perform(MockMvcRequestBuilders.put("/class/modify")
-              .header("Authorization", userToken)
-              .content(jsonStudentHelperTest)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isBadRequest());
+          .header("Authorization", userToken)
+          .content(jsonStudentHelperTest)
+          .contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isBadRequest());
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Test
-  public void DeleteClassTest(){
-    try{
+  public void DeleteClassTest() {
+    try {
       mvc.perform(MockMvcRequestBuilders.delete("/class/1")
-              .header("Authorization", userToken)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
-    } catch(Exception e){
+          .header("Authorization", userToken)
+          .contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isOk());
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Test
-  public void GetAllClassesTest(){
-    try{
+  public void GetAllClassesTest() {
+    try {
       mvc.perform(MockMvcRequestBuilders.get("/class/")
-              .header("Authorization", userToken)
-              .contentType(MediaType.APPLICATION_JSON_VALUE))
-              .andExpect(status().isOk());
-    } catch(Exception e){
+          .header("Authorization", userToken)
+          .contentType(MediaType.APPLICATION_JSON_VALUE))
+          .andExpect(status().isOk());
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

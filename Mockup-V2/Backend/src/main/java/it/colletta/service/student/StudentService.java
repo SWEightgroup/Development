@@ -1,6 +1,7 @@
 package it.colletta.service.student;
 
 //import com.sun.javaws.progress.Progress;
+
 import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.model.helper.ProgressHelper;
@@ -10,7 +11,6 @@ import it.colletta.service.user.UserService;
 import it.colletta.strategy.NextObjectiveStrategyImpl;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class StudentService {
 
   /**
    * Construct a new student service using a repository
-   * 
+   *
    * @param studentRepository the student repository
    */
 
@@ -96,7 +96,8 @@ public class StudentService {
    *
    * @param studentId the unique Id of the student
    */
-  public void addFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException {
+  public void addFavoriteTeacher(String studentId, String teacherId)
+      throws ResourceNotFoundException {
     StudentModel student = studentRepository.findById(studentId)
         .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     List<String> favoriteTeacherIds = student.getFavoriteTeacherIds();
@@ -111,13 +112,12 @@ public class StudentService {
    *
    * @param studentId the unique Id of the student
    */
-  public void deleteFavoriteTeacher(String studentId, String teacherId) throws ResourceNotFoundException {
+  public void deleteFavoriteTeacher(String studentId, String teacherId)
+      throws ResourceNotFoundException {
     StudentModel student = studentRepository.findById(studentId)
         .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     List<String> favoriteTeacherIds = student.getFavoriteTeacherIds();
-    if (favoriteTeacherIds.contains(teacherId)) {
-      favoriteTeacherIds.remove(teacherId);
-    }
+    favoriteTeacherIds.remove(teacherId);
     studentRepository.save(student);
   }
 }

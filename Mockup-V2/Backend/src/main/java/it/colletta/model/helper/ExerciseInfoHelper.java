@@ -1,13 +1,15 @@
 package it.colletta.model.helper;
 
-import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
-import it.colletta.service.SolutionService;
-import lombok.*;
-
 import java.util.Date;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -16,6 +18,7 @@ import java.util.List;
 @ToString
 @Builder
 public class ExerciseInfoHelper {
+
   private String exerciseText;
   private String authorName;
   private Date date;

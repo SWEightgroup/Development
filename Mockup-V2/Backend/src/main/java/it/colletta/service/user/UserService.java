@@ -1,21 +1,17 @@
 package it.colletta.service.user;
 
-import it.colletta.model.StudentModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 
 @Service
@@ -36,10 +32,9 @@ public class UserService {
   /**
    * Return list of user by role
    *
-   * @param role
    * @return List<UserModel> with that role
    */
-  public Page<UserModel> findByRole(final Pageable page, final String role){
+  public Page<UserModel> findByRole(final Pageable page, final String role) {
     return applicationUserRepository.findAllByRolePage(page, role);
   }
 
@@ -58,9 +53,10 @@ public class UserService {
     }
   }
 
-  public List<UserModel> getAllListUser(final List<String> userId){
+  public List<UserModel> getAllListUser(final List<String> userId) {
     return applicationUserRepository.findAllByList(userId);
   }
+
   /**
    * Active an user.
    *
@@ -93,7 +89,7 @@ public class UserService {
    * @return User
    */
   public UserModel findByEmail(final String email) {
-    return applicationUserRepository.findByEmail(email);
+    return applicationUserRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
   }
 
   /**
@@ -105,7 +101,8 @@ public class UserService {
    */
   public UserModel updateUser(final UserModel newUserData, final String token) {
     String email = ParseJwt.getEmailFromJwt(token);
-    UserModel user = applicationUserRepository.findByEmail(email);
+    UserModel user = applicationUserRepository.findByEmail(email).orElseThrow(
+        ResourceNotFoundException::new);
     Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
     newFirstName.ifPresent(user::setFirstName);
     Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());

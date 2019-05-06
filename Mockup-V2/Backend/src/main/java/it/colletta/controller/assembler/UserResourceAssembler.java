@@ -9,7 +9,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
 public class UserResourceAssembler extends
-        ResourceAssemblerSupport<UserModel, UserResource> {
+    ResourceAssemblerSupport<UserModel, UserResource> {
 
   private String linkString;
 

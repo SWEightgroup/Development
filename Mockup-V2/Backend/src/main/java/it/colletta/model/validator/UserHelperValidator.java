@@ -6,6 +6,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 public class UserHelperValidator implements Validator {
+
   /**
    * This Validator validates *just* ClassHelper instances
    */

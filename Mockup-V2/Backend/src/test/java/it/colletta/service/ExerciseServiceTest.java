@@ -16,13 +16,11 @@ import it.colletta.repository.exercise.ExerciseRepository;
 import it.colletta.security.Role;
 import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
-
+import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import it.colletta.strategy.DecimalCorrectionStrategyImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -121,15 +119,15 @@ public class ExerciseServiceTest {
         .lastName("Studente").build();
 
     userModel = UserModel.builder()
-            .id("123")
-            .firstName("firstname")
-            .email("email@email.com")
-            .enabled(true)
-            .role(Role.TEACHER)
-            .lastName("lastname")
-            .dateOfBirth(date)
-            .language("it")
-            .build();
+        .id("123")
+        .firstName("firstname")
+        .email("email@email.com")
+        .enabled(true)
+        .role(Role.TEACHER)
+        .lastName("lastname")
+        .dateOfBirth(date)
+        .language("it")
+        .build();
 
   }
 
@@ -156,9 +154,7 @@ public class ExerciseServiceTest {
   }
 
   /**
-   *
    * Test insertExercise method.
-   *
    */
 
   @Test
@@ -167,10 +163,11 @@ public class ExerciseServiceTest {
 
     Mockito.when(userService.findById(anyString())).thenReturn(Optional.of(userModel));
 
-    ExerciseModel myAddedExercise = exerciseService.insertFreeExercise(exercise,exercise.getAuthor());
+    ExerciseModel myAddedExercise = exerciseService
+        .insertFreeExercise(exercise, exercise.getAuthor());
 
-    assertEquals(myAddedExercise.getAuthorName(),"firstname lastname");
-    assertEquals(myAddedExercise.getPhraseText(),"questa è una prova");
+    assertEquals(myAddedExercise.getAuthorName(), "firstname lastname");
+    assertEquals(myAddedExercise.getPhraseText(), "questa è una prova");
 
   }
 
@@ -212,14 +209,15 @@ public class ExerciseServiceTest {
   }
 
   @Test
-  public void correct(){
+  public void correct() {
     ArrayList<String> studentSolutionMap = new ArrayList<>();
     ArrayList<String> systemSolution = new ArrayList<>();
     studentSolutionMap.add(exercise.getMainSolution());
     systemSolution.add(exercise.getMainSolution());
 
     String myMark = ReflectionTestUtils.
-            invokeMethod(new DecimalCorrectionStrategyImpl<>(),"correction",studentSolutionMap,systemSolution).toString();
-    assertEquals(myMark,"10.0");
+        invokeMethod(new DecimalCorrectionStrategyImpl<>(), "correction", studentSolutionMap,
+            systemSolution).toString();
+    assertEquals(myMark, "10.0");
   }
 }

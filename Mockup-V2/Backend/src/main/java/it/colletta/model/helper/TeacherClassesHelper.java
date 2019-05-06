@@ -2,9 +2,13 @@ package it.colletta.model.helper;
 
 
 import it.colletta.model.UserModel;
-import lombok.*;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class TeacherClassesHelper{
+public class TeacherClassesHelper {
+
   private List<UserModel> students;
   private String className;
   private String classId;

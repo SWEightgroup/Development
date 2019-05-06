@@ -6,16 +6,19 @@ import it.colletta.model.UserModel;
 import it.colletta.model.helper.UserHelper;
 import it.colletta.model.validator.UserHelperValidator;
 import it.colletta.service.SingupService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SingnupController {
@@ -34,8 +37,7 @@ public class SingnupController {
 
   /**
    * @param userDataTransferObject the user obj with username and password
-   * @return ResponseEntity if the operation completed correctly otherwise return
-   *         an error response.
+   * @return ResponseEntity if the operation completed correctly otherwise return an error response.
    */
   @RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> signUp(@Valid @RequestBody UserHelper userDataTransferObject) {
@@ -43,7 +45,8 @@ public class SingnupController {
     userDataTransferObject.setEmail(userDataTransferObject.getEmail().toLowerCase());
     UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
-      if (singupService.addUser(user, linkTo(SingnupController.class).slash("/sign-up/active")) != null) {
+      if (singupService.addUser(user, linkTo(SingnupController.class).slash("/sign-up/active"))
+          != null) {
         return new ResponseEntity<>(user, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -55,6 +58,7 @@ public class SingnupController {
   }
 
   // TODO URGENTE Sistemare questo servizio
+
   /**
    * chiedere a Gionata per l'errore
    */

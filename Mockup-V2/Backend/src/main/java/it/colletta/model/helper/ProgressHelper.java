@@ -17,6 +17,7 @@ public class ProgressHelper {
     this.currentLevel = .0;
     this.nextLevel = .0;
   }
+
   public ProgressHelper(Double currentLevel, Double nextLevel) {
     this.currentLevel = currentLevel;
     this.nextLevel = nextLevel;

@@ -6,7 +6,6 @@ import it.colletta.repository.administration.SingupRequestRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.EmailServiceImpl;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SingupService {
 
-  BCryptPasswordEncoder passwordEncoder;
+  private BCryptPasswordEncoder passwordEncoder;
   private SingupRequestRepository singupRequestRepository;
   private UsersRepository usersRepository;
   private EmailServiceImpl emailService;
@@ -30,7 +29,8 @@ public class SingupService {
    * @param passwordEncoder bCryptPasswordEncoder
    */
   @Autowired
-  public SingupService(BCryptPasswordEncoder passwordEncoder, SingupRequestRepository singupRequestRepository,
+  public SingupService(BCryptPasswordEncoder passwordEncoder,
+      SingupRequestRepository singupRequestRepository,
       UsersRepository usersRepository, EmailServiceImpl emailService) {
     this.passwordEncoder = passwordEncoder;
     this.singupRequestRepository = singupRequestRepository;
@@ -53,7 +53,8 @@ public class SingupService {
         user.setPassword(encode);
         user.setEnabled(false);
         usersRepository.save(user);
-        SignupRequestModel signupRequestModel = SignupRequestModel.builder().userReference(user.getId())
+        SignupRequestModel signupRequestModel = SignupRequestModel.builder()
+            .userReference(user.getId())
             .requestDate(Calendar.getInstance().getTime()).build();
         SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
         emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
@@ -71,8 +72,6 @@ public class SingupService {
 
   /**
    * @TODO Controllate questo metodo
-   * @param requestId
-   * @throws ResourceNotFoundException
    */
   public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)

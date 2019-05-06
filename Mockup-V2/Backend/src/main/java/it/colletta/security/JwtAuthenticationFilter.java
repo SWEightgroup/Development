@@ -13,6 +13,7 @@ import it.colletta.repository.user.UsersRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.jws.soap.SOAPBinding.Use;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -33,12 +35,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    * Costructor to filter security class
    *
    * @param authenticationManager the authentication custom manager
-   * @param usersRepository       repository which performs query on User
-   *                              collection in MongoDB
+   * @param usersRepository repository which performs query on User collection in MongoDB
    * @period 2019-03-19
    * @since 1.0
    */
-  public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UsersRepository usersRepository) {
+  public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+      UsersRepository usersRepository) {
     this.authenticationManager = authenticationManager;
     this.usersRepository = usersRepository;
   }
@@ -46,18 +48,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   /**
    * Perform authentication
    *
-   * @param request  the HTTP request from the server
+   * @param request the HTTP request from the server
    * @param response the HTTP response
    * @return Authentication the authentication manager
    */
   @Override
-  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+  public Authentication attemptAuthentication(HttpServletRequest request,
+      HttpServletResponse response)
       throws AuthenticationException {
     try {
       UserModel creds = new ObjectMapper().readValue(request.getInputStream(), UserModel.class);
       return authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(creds.getUsername().toLowerCase(), creds.getPassword(), new ArrayList<>())
-        );
+          new UsernamePasswordAuthenticationToken(creds.getUsername().toLowerCase(),
+              creds.getPassword(), new ArrayList<>())
+      );
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -66,22 +70,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   /**
    * Menage the creation of JWT token and adds it to the response
    *
-   * @param request  the HTTP request from the client
+   * @param request the HTTP request from the client
    * @param response the HTTP reponse with token generated
-   * @param auth     the auth provider from Spring
+   * @param auth the auth provider from Spring
    */
   @Override
-  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+      FilterChain chain,
       Authentication auth) throws IOException, ServletException {
-    String email = ((User) auth.getPrincipal()).getUsername().toLowerCase();
-    UserModel userModel = usersRepository.findByEmail(email);
-    // TODO Gestire meglio l'eccezione
-
-    // if (!userModel.isEnabled()) throw new IOException("user not active");
-
+    String email = ((UserModel) auth.getPrincipal()).getUsername().toLowerCase();
+    UserModel userModel = usersRepository.findByEmail(email).get();
+    Object c = auth.getPrincipal();
     userModel.setPassword(null);
     String token = JWT.create().withJWTId(userModel.getId()).withSubject(email)
-        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).sign(HMAC512(SECRET.getBytes()));
+        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+        .sign(HMAC512(SECRET.getBytes()));
     response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     response.setHeader("Access-Control-Expose-Headers", "Authorization");
     response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");

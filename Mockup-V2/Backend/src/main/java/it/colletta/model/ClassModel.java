@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -23,6 +22,7 @@ public class ClassModel {
   private String name;
   private List<String> studentsId;
   private String teacherId;
+
   /**
    * The method is used to change the name of a class
    *
@@ -35,7 +35,9 @@ public class ClassModel {
   /*
    * public void addStudent(@NonNull UserModel student) { studentList.add(student); }
    */
-  public void setTeacherId(final String teacherId){this.teacherId = teacherId;}
+  public void setTeacherId(final String teacherId) {
+    this.teacherId = teacherId;
+  }
   /*
    * public Boolean deleteStudent(@NonNull UserModel student){ if(studentList.contains(student)){
    * return studentList.remove(student); } else { return false; } }
@@ -44,7 +46,7 @@ public class ClassModel {
   /**
    * @param studentsId the List of studentsId present in the class
    */
-  public void setStudentsId(List<String> studentsId){
+  public void setStudentsId(List<String> studentsId) {
     this.studentsId = studentsId;
   }
 }
