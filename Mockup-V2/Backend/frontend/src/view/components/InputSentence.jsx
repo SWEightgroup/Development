@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _translator from '../../helpers/Translator';
 import { removePunctuation } from '../../helpers/Utils';
-import { ExLang } from '../../constants/Languages';
+// import { ExLang } from '../../constants/Languages';
 
 class InputSentence extends Component {
   handleChange = e => {
