@@ -115,7 +115,7 @@ class FreeExsercise extends Component {
               changeNewInputSentence={changeNewInputSentenceDispatch}
               sentenceString={sentenceString}
               language={language}
-              exLanguage={newExercise.languageSelected}
+              // exLanguage={newExercise.languageSelected}
             />
             <ExecutionExercise
               sentence={sentence} // array di parole
@@ -125,7 +125,7 @@ class FreeExsercise extends Component {
               showButton={showButton}
               language={language}
               indexSolution={0}
-              exLanguage={newExercise.language}
+              // exLanguage={newExercise.language}
             />
             {sentence && sentence.length > 0 && (
               <div className="main-card mb-3 card no-bg-color">

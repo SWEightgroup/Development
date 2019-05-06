@@ -165,7 +165,7 @@ class InsertExercise extends Component {
           changeNewInputSentence={changeNewInputSentenceDispatch}
           sentenceString={sentenceString}
           language={language}
-          exLanguage={newExercise.languageSelected}
+          // exLanguage={newExercise.languageSelected}
         />
         {response && (
           <React.Fragment>
@@ -182,7 +182,7 @@ class InsertExercise extends Component {
               initSolution
               showButton={showButton}
               indexSolution={0}
-              exLanguage={newExercise.language}
+              // exLanguage={newExercise.language}
             />
             <div className="main-card  card no-bg-color ">
               <div className="card-body pt-0 pl-1">

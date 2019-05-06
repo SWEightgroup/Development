@@ -14,11 +14,11 @@ class Word extends Component {
       updateWordStateDispatch,
       solutionTag,
       indexSolution,
-      language,
-      exLanguage
+      language
+      // exLanguage
     } = props;
     const languageIterator = new LanguageStructure(
-      gerarchy[exLanguage]
+      gerarchy // [exLanguage]
     ).getBaseIterator();
 
     updateWordStateDispatch(
@@ -29,7 +29,7 @@ class Word extends Component {
           solutionTag && props.initSolution && solutionTag.charAt(0) !== 'F'
             ? new SolutionMapper(
                 solutionTag,
-                gerarchy[exLanguage]
+                gerarchy // [exLanguage]
               ).getVerboseSolution(language)
             : '',
         index: props.index,
@@ -157,8 +157,8 @@ class Word extends Component {
       index,
       initSolution,
       indexSolution,
-      language,
-      exLanguage
+      language
+      // exLanguage
     } = this.props;
 
     const state = newExercise.userSolution[indexSolution][index];
@@ -228,7 +228,7 @@ class Word extends Component {
                   >
                     {new SolutionMapper(
                       solutionTag,
-                      gerarchy[exLanguage]
+                      gerarchy // [exLanguage]
                     ).getVerboseSolution(language)}
                   </p>
                 )}

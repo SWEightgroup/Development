@@ -15,7 +15,8 @@ public class SolutionService {
 
   // TODO
   /*
-   * public SolutionModel findSolution(final String id) { return new SolutionModel(); }
+   * public SolutionModel findSolution(final String id) { return new
+   * SolutionModel(); }
    */
 
   /**
@@ -27,9 +28,9 @@ public class SolutionService {
    */
   public SolutionModel getAutomaticCorrection(final String correctionText) throws IOException {
     FreelingAdapterInterface freelingLibrary = new FreelingAdapterSocket(host, port);
-    SolutionModel solutionModel =
-        SolutionModel.builder().solutionText(freelingLibrary.getCorrection(correctionText).trim())
-            .reliability(0).dateSolution(System.currentTimeMillis()).build();
+    SolutionModel solutionModel = SolutionModel.builder()
+        .solutionText(freelingLibrary.getCorrection(correctionText).trim()).reliability(0)
+        .dateSolution(System.currentTimeMillis()).build();
     freelingLibrary.closeConnection();
     return solutionModel;
   }

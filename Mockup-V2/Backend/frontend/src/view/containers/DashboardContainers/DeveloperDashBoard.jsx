@@ -118,8 +118,8 @@ class DeveloperDashboard extends Component {
                             className="form-control-range"
                             id="reliability"
                             min="0"
-                            max="1"
-                            step="0.01"
+                            max="100"
+                            step="1"
                             onChange={this.handleChange}
                             value={filter.reliability}
                           />

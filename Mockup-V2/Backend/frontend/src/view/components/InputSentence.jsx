@@ -19,7 +19,7 @@ class InputSentence extends Component {
   };
 
   render() {
-    const { language, sentenceString, exLanguage } = this.props;
+    const { language, sentenceString /* exLanguage */ } = this.props;
     return (
       <div className="main-card mb-3 card">
         <div className="card-body">
@@ -32,6 +32,7 @@ class InputSentence extends Component {
             className="needs-validation was-validated"
           >
             <div className="input-group">
+              {/*
               <div className="input-group-prepend no-validated">
                 <select
                   name="language"
@@ -47,6 +48,7 @@ class InputSentence extends Component {
                   ))}
                 </select>
               </div>
+              */}
               <input
                 id="sentenceString"
                 type="text"

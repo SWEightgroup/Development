@@ -38,11 +38,9 @@ class ExercisesDetails extends Component {
 
   render() {
     const { user, exerciseDetails } = this.props;
-    console.log(
-      ': ExercisesDetails -> render -> exerciseDetails',
-      exerciseDetails
-    );
+
     if (exerciseDetails) {
+      const textSplitted = exerciseDetails.exerciseText.split(' ');
       const mainSolution = exerciseDetails.mainSolution
         ? JSON.parse(exerciseDetails.mainSolution.solutionText)
         : [];
@@ -71,10 +69,13 @@ class ExercisesDetails extends Component {
             <div className="card-body">
               <div className="row">
                 <div className="col">
-                  <h5 className="card-title"> {exerciseDetails.phraseText}</h5>
                   <h6 className="card-subtitle">
                     {exerciseDetails.authorName}
                   </h6>
+                  <h5 className="card-title">
+                    <small>{_translator('gen_phrase', user.language)}: </small>
+                    {exerciseDetails.exerciseText}
+                  </h5>
                 </div>
               </div>
             </div>
@@ -90,9 +91,10 @@ class ExercisesDetails extends Component {
               <ul className="list-group list-group-flush">
                 {mainSolution.map((word, index) => (
                   <li className="list-group-item" key={`main-${word}-${index}`}>
+                    <strong>{textSplitted[index]}</strong> {' : '}
                     {new SolutionMapper(
                       word,
-                      gerarchy[exerciseDetails.language]
+                      gerarchy // [exerciseDetails.language]
                     ).getVerboseSolution(user.language)}
                   </li>
                 ))}
@@ -114,9 +116,10 @@ class ExercisesDetails extends Component {
                       className="list-group-item"
                       key={`alt-${word}-${index}`}
                     >
+                      <strong>{textSplitted[index]}</strong> {' : '}
                       {new SolutionMapper(
                         word,
-                        gerarchy[exerciseDetails.language]
+                        gerarchy // [exerciseDetails.language]
                       ).getVerboseSolution(user.language)}
                     </li>
                   ))}

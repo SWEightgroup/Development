@@ -10,8 +10,8 @@ const initState = {
     codeSolution: [[], []],
     complete: false,
     alternativeSolution: false,
-    language: 'it',
-    languageSelected: 'it' // utilizza
+    language: 'it'
+    // languageSelected: 'it' // utilizza
   },
   todoExercises: { exercises: null, page: null, links: null },
   doneExercises: { exercises: null, page: null, links: null },
