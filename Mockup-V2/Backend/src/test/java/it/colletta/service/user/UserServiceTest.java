@@ -58,6 +58,7 @@ public class UserServiceTest {
     studentModel.setFavoriteTeacherIds(TeacherIds);
 
     Mockito.when(usersRepository.findById(anyString())).thenReturn(Optional.of(user));
+    Mockito.when(usersRepository.findByEmail("test@admin.it")).thenReturn(Optional.of(user));
 
     token = JWT.create().withJWTId(user.getId()).withSubject(user.getUsername())
         .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -131,9 +132,9 @@ public class UserServiceTest {
   @Test
   public void findByEmail() {
 
-    userService.findByEmail("test@test.it");
+    userService.findByEmail("test@admin.it");
 
-    Mockito.verify(usersRepository).findByEmail("test@test.it");
+    Mockito.verify(usersRepository).findByEmail("test@admin.it");
   }
 
 
