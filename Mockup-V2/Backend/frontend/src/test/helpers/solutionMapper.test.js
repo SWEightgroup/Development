@@ -6,7 +6,7 @@ it('solutionMapper, getCodeSolution not null ', () => {
   const solutionTag = 'NCC00FS';
   const getCodeSolutionTest = new SolutionMapper(
     solutionTag,
-    gerarchy.it
+    gerarchy
   ).getCodeSolution();
   expect(getCodeSolutionTest).not.toBeNull();
 });
@@ -16,7 +16,7 @@ it('solutionMapper, getVerboseSolution not null', () => {
 
   const getVerboseSolutionTest = new SolutionMapper(
     solutionTag,
-    gerarchy.it
+    gerarchy
   ).getVerboseSolution();
   expect(getVerboseSolutionTest).not.toBeNull();
 });
@@ -26,7 +26,7 @@ it('solutionMapper, getSolutionTest not null', () => {
 
   const getSolutionTest = new SolutionMapper(
     solutionTag,
-    gerarchy.it
+    gerarchy
   ).getSolution();
 
   expect(getSolutionTest).not.toBeNull();
