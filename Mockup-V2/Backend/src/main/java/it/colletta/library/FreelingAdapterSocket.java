@@ -17,8 +17,8 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
   /**
    * Creates a socket.
    *
-   * @param host address
-   * @param port address
+   * @param host address.
+   * @param port address.
    */
   public FreelingAdapterSocket(final String host, int port) {
     if (StringUtils.countOccurrencesOf(host, ".") != 3) {
@@ -29,7 +29,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
   }
 
   /**
-   * get a sentence's correction
+   * get a sentence's correction.
    *
    * @param sentence String.
    * @return correction String.

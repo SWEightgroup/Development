@@ -30,7 +30,7 @@ public class StudentController {
   }
 
   /**
-   * @param token the unique token of the user
+   * @param token the unique token of the user.
    * @return HttpStatus of the operation.
    */
   @RequestMapping(
@@ -51,7 +51,7 @@ public class StudentController {
   }
 
   /**
-   * @param token the unique token of the user
+   * @param token the unique token of the user.
    * @return HttpStatus of the operation.
    */
   @RequestMapping(
@@ -71,8 +71,8 @@ public class StudentController {
   }
 
   /**
-   * @param token the unique token of the user
-   * @return HttpStatus of the operation
+   * @param token the unique token of the user.
+   * @return HttpStatus of the operation.
    */
   @RequestMapping(
       value = "/favorite-teacher",
@@ -92,7 +92,7 @@ public class StudentController {
   }
 
   /**
-   * @param token the unique token of the user
+   * @param token the unique token of the user.
    * @return the actual List of student favorite teacher/s.
    */
   @RequestMapping(
@@ -111,6 +111,10 @@ public class StudentController {
     }
   }
 
+  /**
+   * @param token the unique token of the user.
+   * @return HttpStatus of the operation.
+   */
   @RequestMapping(
       value = "/progress",
       method = RequestMethod.GET,

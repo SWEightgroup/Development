@@ -21,10 +21,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     super();
   }
 
-  // API 400
 
   /**
-   *
+   * Custom error.
+   *@return HttpStatus of the operation.
    */
   @ExceptionHandler({DataIntegrityViolationException.class})
   public ResponseEntity<Object> handleBadRequest(
@@ -34,6 +34,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
   }
 
+  /**
+   * Custom error.
+   *@return HttpStatus of the operation.
+   */
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(
       final HttpMessageNotReadableException ex,
@@ -46,6 +50,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     return handleExceptionInternal(ex, bodyOfResponse, headers, HttpStatus.BAD_REQUEST, request);
   }
 
+  /**
+   * Custom error.
+   *@return HttpStatus of the operation.
+   */
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
       final MethodArgumentNotValidException ex,
@@ -56,10 +64,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     return handleExceptionInternal(ex, bodyOfResponse, headers, HttpStatus.BAD_REQUEST, request);
   }
 
-  // 403
-
   /**
-   *
+   * Custom error 403.
+   *@return HttpStatus of the operation.
    */
   @ExceptionHandler({AccessDeniedException.class})
   public ResponseEntity<Object> handleAccessDeniedException(
@@ -69,10 +76,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         "Access denied message here", new HttpHeaders(), HttpStatus.FORBIDDEN);
   }
 
-  // 409
-
   /**
-   *
+   * Custom error 409.
+   *@return HttpStatus of the operation.
    */
   @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
   protected ResponseEntity<Object> handleConflict(
@@ -82,12 +88,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
   }
 
-  // 412
-
-  // 500
-
   /**
-   *
+   * Custom error 500.
+   *@return HttpStatus of the operation.
    */
   @ExceptionHandler({
       NullPointerException.class,

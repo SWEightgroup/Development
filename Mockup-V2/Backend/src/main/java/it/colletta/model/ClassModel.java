@@ -24,27 +24,24 @@ public class ClassModel {
   private String teacherId;
 
   /**
-   * The method is used to change the name of a class
+   * The method is used to change the name of a class.
    *
-   * @param name the name of the class
+   * @param name the name of the class.
    */
   public void setName(final String name) {
     this.name = name;
   }
 
-  /*
-   * public void addStudent(@NonNull UserModel student) { studentList.add(student); }
+  /**
+   * set teacher id.
    */
   public void setTeacherId(final String teacherId) {
     this.teacherId = teacherId;
   }
-  /*
-   * public Boolean deleteStudent(@NonNull UserModel student){ if(studentList.contains(student)){
-   * return studentList.remove(student); } else { return false; } }
-   */
+
 
   /**
-   * @param studentsId the List of studentsId present in the class
+   * @param studentsId the List of studentsId present in the class.
    */
   public void setStudentsId(List<String> studentsId) {
     this.studentsId = studentsId;
