@@ -129,7 +129,7 @@ public class UserController {
   }
 
   /**
-   * @param id the unique id of the user
+   * @param id the unique id of the user.
    * @return true if the user has been activated, else return false.
    */
   @RequestMapping(value = "/users/admin/activate-user/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -154,10 +154,10 @@ public class UserController {
   /**
    * Return all public exercises to do by using auth token authentication.
    *
-   * @param token JWT token contained in the header request
+   * @param token JWT token contained in the header request.
    * @param pageable {@link Pageable}
    * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
-   * @return A paged version of the favorite teacher
+   * @return A paged version of the favorite teacher.
    * @see com.auth0.jwt.JWT
    */
   @RequestMapping(value = "/users/{Role}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

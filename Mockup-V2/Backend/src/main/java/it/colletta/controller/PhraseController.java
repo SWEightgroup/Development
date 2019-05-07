@@ -25,6 +25,9 @@ public class PhraseController {
 
   private PhraseService phraseService;
 
+  /**
+   * Download all phrases.
+   */
   @RequestMapping(method = RequestMethod.GET, value = "/downloadAll")
   public void downloadAllPhrases(HttpServletResponse response) {
     try {
@@ -34,6 +37,9 @@ public class PhraseController {
     }
   }
 
+  /**
+   * Response.
+   */
   private void setResponse(HttpServletResponse response, File file) throws IOException {
     response.setContentType("application/json");
     response.setHeader("Content-disposition", "attachment; filename=" + file.getName());
@@ -43,6 +49,9 @@ public class PhraseController {
     final boolean delete = file.delete();
   }
 
+  /**
+   * Download phrases With Filter.
+   */
   @RequestMapping(method = RequestMethod.POST, value = "/download")
   public void downloadPhrasesWithFilter(HttpServletResponse response,
       @RequestBody FilterHelper filterHelper) {

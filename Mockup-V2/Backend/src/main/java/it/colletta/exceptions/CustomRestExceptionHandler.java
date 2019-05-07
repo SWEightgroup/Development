@@ -27,8 +27,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
-  // 400
-
+  /**
+   * Custom ArgumentNotValid error.
+   */
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
       final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status,
@@ -47,6 +48,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
   }
 
+  /**
+   * Custom BindException error.
+   */
   @Override
   protected ResponseEntity<Object> handleBindException(final BindException ex,
       final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
@@ -64,6 +68,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
   }
 
+  /**
+   * Custom TypeMismatch error.
+   */
   @Override
   protected ResponseEntity<Object> handleTypeMismatch(final TypeMismatchException ex,
       final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
@@ -76,6 +83,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
   }
 
+  /**
+   * Custom MissingServletRequestPart error.
+   */
   @Override
   protected ResponseEntity<Object> handleMissingServletRequestPart(
       final MissingServletRequestPartException ex, final HttpHeaders headers,
@@ -87,6 +97,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
   }
 
+  /**
+   * Custom MissingServletRequestParameter error.
+   */
   @Override
   protected ResponseEntity<Object> handleMissingServletRequestParameter(
       final MissingServletRequestParameterException ex, final HttpHeaders headers,
@@ -101,7 +114,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   //
 
   /**
-   *
+   *Custom ArgumentTypeMismatch error.
    */
   @ExceptionHandler({MethodArgumentTypeMismatchException.class})
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
@@ -115,7 +128,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
-   *
+   *Custom ConstraintViolation error.
    */
   @ExceptionHandler({ConstraintViolationException.class})
   public ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex,
@@ -133,7 +146,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
   }
 
-  // 404
+  /**
+   *Custom NoHandlerFoundException error.
+   */
   @Override
   protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex,
       final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
@@ -144,8 +159,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
   }
 
-  // 405
-
+  /**
+   *Custom 405 error.
+   */
   @Override
   protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
       final HttpRequestMethodNotSupportedException ex, final HttpHeaders headers,
@@ -162,8 +178,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
   }
 
-  // 415
-
+  /**
+   *Custom 415 error.
+   */
   @Override
   protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
       final HttpMediaTypeNotSupportedException ex, final HttpHeaders headers,
@@ -180,10 +197,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
   }
 
-  // 500
-
   /**
-   *
+   *Custom 500 error.
    */
   @ExceptionHandler({Exception.class})
   public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {

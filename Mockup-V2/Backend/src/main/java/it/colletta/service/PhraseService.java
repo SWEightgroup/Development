@@ -23,7 +23,7 @@ public class PhraseService {
   /**
    * Constructor.
    *
-   * @param phraseRepository phraseRepository
+   * @param phraseRepository phraseRepository.
    */
   @Autowired
 
@@ -34,8 +34,8 @@ public class PhraseService {
   /**
    * returns all the phrased written by a userId.
    *
-   * @param userId the id of the user
-   * @return the list of the phrases without solution
+   * @param userId the id of the user.
+   * @return the list of the phrases without solution.
    */
   public List<PhraseModel> getAllPhrases(@NonNull String userId) { // TODO che senso ha?
     return phraseRepository.findAllByAuthor(userId);
@@ -44,8 +44,8 @@ public class PhraseService {
   /**
    * Insert a new phrase in the system.
    *
-   * @param newPhrase Phrase
-   * @return Phrase
+   * @param newPhrase Phrase.
+   * @return Phrase.
    */
   public PhraseModel insertPhrase(PhraseModel newPhrase) {
 
@@ -72,9 +72,9 @@ public class PhraseService {
   }
 
   /**
-   * Save a phrase in the system
+   * Save a phrase in the system.
    *
-   * @param phrase Phrase
+   * @param phrase Phrase.
    */
   public void savePhrase(PhraseModel phrase) {
     phraseRepository.save(phrase);
@@ -93,8 +93,8 @@ public class PhraseService {
   /**
    * Get all phrase by id.
    *
-   * @param phraseIds List of phrases id
-   * @return LIst of Phrases
+   * @param phraseIds List of phrases id.
+   * @return LIst of Phrases.
    */
   public List<PhraseModel> getAllPhrasesById(List<String> phraseIds) {
     // return phraseRepository.findAllPhrasesByIds(phraseIds);
@@ -104,8 +104,8 @@ public class PhraseService {
   /**
    * Get phrase by id.
    *
-   * @param phraseId Phrase id
-   * @return Phrase
+   * @param phraseId Phrase id.
+   * @return Phrase.
    */
   public Optional<PhraseModel> getPhraseById(final String phraseId) {
     return phraseRepository.findById(phraseId);
@@ -114,7 +114,7 @@ public class PhraseService {
   /**
    * Increase Realibility of the phrase.
    *
-   * @param mainSolution main solution
+   * @param mainSolution main solution.
    */
   public void increaseReliability(SolutionModel mainSolution) {
 
@@ -124,9 +124,9 @@ public class PhraseService {
   /**
    * Get solution of the phrase by id.
    *
-   * @param phraseId Phrase id
-   * @param solutionId Solution id
-   * @return Solution
+   * @param phraseId Phrase id.
+   * @param solutionId Solution id.
+   * @return Solution.
    */
   public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId,
       String authorId) {

@@ -35,14 +35,14 @@ public class PhraseModel {
   }
 
   /**
-   *
+   * add solution in phrases.
    */
   public void addSolution(final SolutionModel solutionModel) {
     solutions.add(solutionModel);
   }
 
   /**
-   *
+   * remove solution in phrases.
    */
   public boolean removeSolution(final SolutionModel solutionModel) {
     return solutions.remove(solutionModel);

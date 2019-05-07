@@ -15,7 +15,7 @@ public class ApiError {
   }
 
   /**
-   *
+   * Class constructor.
    */
   public ApiError(final HttpStatus status, final String message, final List<String> errors) {
     super();
@@ -25,7 +25,7 @@ public class ApiError {
   }
 
   /**
-   *
+   * Class constructor.
    */
   public ApiError(final HttpStatus status, final String message, final String error) {
     super();
@@ -35,49 +35,49 @@ public class ApiError {
   }
 
   /**
-   *
+   * get the status.
    */
   public HttpStatus getStatus() {
     return status;
   }
 
   /**
-   *
+   * set the status.
    */
   public void setStatus(final HttpStatus status) {
     this.status = status;
   }
 
   /**
-   *
+   * get String message.
    */
   public String getMessage() {
     return message;
   }
 
   /**
-   *
+   * set message.
    */
   public void setMessage(final String message) {
     this.message = message;
   }
 
   /**
-   *
+   * get errors.
    */
   public List<String> getErrors() {
     return errors;
   }
 
   /**
-   *
+   * set errors.
    */
   public void setErrors(final List<String> errors) {
     this.errors = errors;
   }
 
   /**
-   *
+   * set error.
    */
   public void setError(final String error) {
     errors = Arrays.asList(error);

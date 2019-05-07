@@ -23,6 +23,12 @@ public class ForgotPassword {
     this.forgotPasswordService = forgotPasswordService;
   }
 
+  /**
+   * Generate new password forgot.
+   *
+   * @param forgotObject forgotObject.
+   * @return HttpStatus of the operation.
+   */
   @RequestMapping(method = RequestMethod.POST, value = "/forgot", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> requestNewPassword(Map<String, String> forgotObject) {
     try {
@@ -35,7 +41,12 @@ public class ForgotPassword {
       return new ResponseEntity<>(e.getStackTrace(), HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
-
+  /**
+   * Change Password.
+   *
+   * @param passwordHelper passwordHelper.
+   * @return HttpStatus of the operation.
+   */
   @RequestMapping(method = RequestMethod.POST, value = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changePassword(ChangePasswordHelper passwordHelper) {
     try {
