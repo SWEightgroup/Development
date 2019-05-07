@@ -1,7 +1,7 @@
 version: '3'
 services:
   mongo:
-    image: mongo
+    image: mongo:3.6
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -18,15 +18,21 @@ services:
       - '8081'
     depends_on:
       - mongo
+      - freeling-it
+      - freeling-en
+    ports:
+      - '8081:8081'
   seed:
-   build: seedMongo/.
-   links: 
-    - mongo
+    build: seedMongo/.
+    links:
+      - mongo
+
   freeling-it:
     image: maga97/freeling
     entrypoint: analyze -f it.cfg --server -p 50001
     ports:
       - '50001:50001'
+
   freeling-en:
     image: maga97/freeling
     entrypoint: analyze -f en.cfg --server -p 50002
