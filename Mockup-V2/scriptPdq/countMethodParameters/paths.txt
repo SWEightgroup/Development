@@ -1,2 +1,2 @@
 ../../Backend/src/main/java/it
-../../Frontend/src
+../../Backend/Frontend/src

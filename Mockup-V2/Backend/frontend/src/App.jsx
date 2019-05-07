@@ -51,6 +51,8 @@ class App extends Component {
   render() {
     const { loader, innerLoader, auth, admin } = this.props;
     const { language, isReady } = auth;
+    console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
+    console.log(admin);
 
     let mainDash = null;
     if (auth.user) {

@@ -37,6 +37,7 @@ class AdminDevDashBoard extends Component {
     const { user, admin, fetchDeveloperListDispatch } = this.props;
     const { language } = user;
     const { devList } = admin;
+    console.log('tutti');
     console.log('user ', user);
     console.log('admin', admin);
     console.log('fetchdevList', fetchDeveloperList);
@@ -45,7 +46,7 @@ class AdminDevDashBoard extends Component {
     console.log('prop', this.props);
 
     const devRender =
-      devList.length > 0 ? (
+      devList && devList.length > 0 ? (
         devList.map(dev => (
           <DeveloperToAccept
             key={`dev-${dev.username}`}
