@@ -27,11 +27,9 @@ public interface PhraseCustomQueryInterface {
    */
   UpdateResult increaseReliability(SolutionModel solutionModels);
 
-
   SolutionModel getSolution(final String phraseId, String solutionId);
 
-
-  FindIterable<Document> findAllPhrasesAsIterable();
+  List<Document> findAllPhrases();
 
   List<Document> findAllPhrasesWithFilter(FilterHelper filter);
 }

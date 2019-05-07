@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
 import org.bson.Document;
+import org.bson.json.JsonMode;
+import org.bson.json.JsonWriterSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +52,7 @@ public class PhraseService {
   public PhraseModel insertPhrase(PhraseModel newPhrase) {
 
     PhraseModel returnPhrase;
-    Optional<PhraseModel> phraseOptional = phraseRepository
-        .findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
+    Optional<PhraseModel> phraseOptional = phraseRepository.findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
 
@@ -124,12 +125,11 @@ public class PhraseService {
   /**
    * Get solution of the phrase by id.
    *
-   * @param phraseId Phrase id.
+   * @param phraseId   Phrase id.
    * @param solutionId Solution id.
    * @return Solution.
    */
-  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId,
-      String authorId) {
+  public SolutionModel getSolutionInPhrase(final String phraseId, String solutionId, String authorId) {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 
@@ -141,27 +141,29 @@ public class PhraseService {
     for (Document document : documents) {
       document.remove("_class");
       document.remove("_id");
-      fileStream.println(document.toJson());
+      fileStream.print(document.toJson());
+      fileStream.print(",");
     }
+    fileStream.close();
     return file;
   }
 
   public File downloadAllPhrases() throws IOException {
     File file = File.createTempFile("allphrases", ".json");
-    FindIterable<Document> documents = phraseRepository.findAllPhrasesAsIterable();
+    List<Document> documents = phraseRepository.findAllPhrases();
     PrintStream fileStream = new PrintStream(file);
-
     for (Document document : documents) {
       document.remove("_class");
       document.remove("_id");
-      fileStream.println(document.toJson());
+      fileStream.append(document.toJson(new JsonWriterSettings(true)));
+      fileStream.println(",");
     }
+    fileStream.close();
     return file;
   }
 
   public PhraseModel createPhrase(String phraseText, String language) {
-    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis())
-        .phraseText(phraseText)
+    return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis()).phraseText(phraseText)
         .build();
 
   }

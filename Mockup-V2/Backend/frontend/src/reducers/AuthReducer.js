@@ -33,7 +33,6 @@ const initState = {
 };
 
 const authReducer = (state = initState, action) => {
-  console.log(action);
   switch (action.type) {
     case 'INIT_AUTH_STORE':
       return { ...initState, isReady: true };
@@ -80,9 +79,6 @@ const authReducer = (state = initState, action) => {
         isReady: true
       };
     case 'LOGIN_SUCCESS':
-      console.log('MONAAAAAAAAAAA');
-      console.log(action);
-      console.log(action.UserInfo);
       return {
         ...state,
         user: action.userInfo.user,

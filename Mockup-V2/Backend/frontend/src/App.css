@@ -3,8 +3,18 @@
   height: 45px;
   padding: 6px 0px;
 }
+.pointer {
+  cursor: pointer !important;
+}
 .btn-initial:hover {
   box-shadow: 0 0 8px #0f2f44;
+}
+.student .word-error {
+  color: #d92550 !important;
+  font-weight: bold !important;
+}
+.student .word-correct {
+  color: #4caf50;
 }
 
 .text-blue-template {

@@ -26,4 +26,5 @@ public class SolutionModel {
   private int reliability;
   private String authorId;
   private Double mark;
+  private Boolean visibilityDev;
 }

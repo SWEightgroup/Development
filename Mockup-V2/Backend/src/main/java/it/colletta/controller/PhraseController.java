@@ -53,12 +53,12 @@ public class PhraseController {
    * Download phrases With Filter.
    */
   @RequestMapping(method = RequestMethod.POST, value = "/download")
-  public void downloadPhrasesWithFilter(HttpServletResponse response,
-      @RequestBody FilterHelper filterHelper) {
+  public void downloadPhrasesWithFilter(HttpServletResponse response, @RequestBody FilterHelper filterHelper) {
     try {
       File file = phraseService.downloadPhrasesWithFilter(filterHelper);
       setResponse(response, file);
     } catch (Exception ignored) {
+      ignored.printStackTrace();
     }
   }
 }

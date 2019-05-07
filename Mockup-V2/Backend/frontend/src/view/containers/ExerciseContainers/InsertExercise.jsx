@@ -28,6 +28,7 @@ class InsertExercise extends Component {
     props.getAllStudentsDispatch();
     props.loadClassListDispatch();
     this.privateExercise = React.createRef();
+    this.privateExerciseDev = React.createRef();
   }
 
   /**
@@ -84,7 +85,8 @@ class InsertExercise extends Component {
       ...newExercise,
       showSolution: true,
       codeSolution: [codeSolution1, codeSolution2],
-      privateExercise: this.privateExercise.current.checked
+      privateExercise: this.privateExercise.current.checked,
+      privateExerciseDev: this.privateExerciseDev.current.checked
     });
   };
 
@@ -359,16 +361,40 @@ class InsertExercise extends Component {
                 <div className="custom-control custom-switch ">
                   <input
                     type="checkbox"
-                    className="custom-control-input"
+                    className="custom-control-input pointer"
                     id="chekPublicExericise"
                     ref={this.privateExercise}
+                    disabled={showSolution}
                   />
                   <label
-                    className="custom-control-label"
+                    className="custom-control-label pointer"
                     htmlFor="chekPublicExericise"
                   >
                     {' '}
                     {_translator('executionExercise_privateExercise', language)}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                <div className="custom-control custom-switch ">
+                  <input
+                    type="checkbox"
+                    className="custom-control-input pointer"
+                    id="chekPublicExericiseDev"
+                    ref={this.privateExerciseDev}
+                    disabled={showSolution}
+                  />
+                  <label
+                    className="custom-control-label pointer"
+                    htmlFor="chekPublicExericiseDev"
+                  >
+                    {' '}
+                    {_translator(
+                      'executionExercise_privateExerciseDev',
+                      language
+                    )}
                   </label>
                 </div>
               </div>

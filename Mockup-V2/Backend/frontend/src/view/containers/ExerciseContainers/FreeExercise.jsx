@@ -17,6 +17,7 @@ class FreeExsercise extends Component {
   constructor(props) {
     super(props);
     props.initializeNewExercise();
+    this.privateExerciseDev = React.createRef();
   }
 
   componentWillUnmount() {
@@ -41,8 +42,6 @@ class FreeExsercise extends Component {
       sentence: sentenceArray
     });
   };
-
-
 
   /**
    * set the showSolution flag to true
@@ -70,7 +69,8 @@ class FreeExsercise extends Component {
     });
     saveFreeExerciseDispatch({
       ...newExercise,
-      codeSolution: [codeSolution, []]
+      codeSolution: [codeSolution, []],
+      privateExerciseDev: this.privateExerciseDev.current.checked
     });
   };
 
@@ -107,7 +107,7 @@ class FreeExsercise extends Component {
     const { language } = user;
 
     return (
-      <div className="">
+      <div className="student">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10">
             <InputSentence
@@ -128,8 +128,31 @@ class FreeExsercise extends Component {
               // exLanguage={newExercise.language}
             />
             {sentence && sentence.length > 0 && (
-              <div className="main-card mb-3 card no-bg-color">
-                <div className="card-body">
+              <div className="main-card mb-3 card no-bg-color ">
+                <div className="card-body ">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="custom-control custom-switch ">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input pointer"
+                          id="chekPublicExericiseDev"
+                          ref={this.privateExerciseDev}
+                          disabled={showSolution}
+                        />
+                        <label
+                          className="custom-control-label pointer"
+                          htmlFor="chekPublicExericiseDev"
+                        >
+                          {' '}
+                          {_translator(
+                            'executionExercise_privateExerciseDev',
+                            language
+                          )}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   <div className="row justify-content-end ">
                     <div className="col-12 col-sm-4 py-0 px-0">
                       <button

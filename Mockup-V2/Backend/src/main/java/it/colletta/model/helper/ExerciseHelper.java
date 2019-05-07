@@ -19,6 +19,7 @@ public class ExerciseHelper {
   private String mainSolution;
   private String alternativeSolution;
   private Boolean visibility;
+  private Boolean visibilityDev;
   private String author;
   private Long date;
   private String language;

@@ -72,7 +72,7 @@ class HomeworkExercise extends Component {
     if (mark && mark > 8) markClass = 'alert-success';
     if (mark && mark <= 8 && mark > 5) markClass = 'alert-warning';
     return (
-      <div className="row justify-content-center">
+      <div className="row justify-content-center student">
         <div className="col-12 col-md-10">
           <div className="main-card mb-3 card">
             <div className="card-body">

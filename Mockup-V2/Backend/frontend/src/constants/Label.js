@@ -80,6 +80,8 @@ export const _label = {
     executionExercise_altSolution: 'Soluzione alternativa',
     executionExercise_mainSolution: 'Soluzione principale',
     executionExercise_privateExercise: 'Esercizio privato',
+    executionExercise_privateExerciseDev:
+      'Non permettere ad uno sviluppatore di scaricare questa frase',
     gen_devDashboard: 'Pannello Sviluppatore',
     developerDashBoard_desc: 'Filtra e scarica i dati che ti interessano',
     developerDashBoard_devDownText:
@@ -282,6 +284,7 @@ export const _label = {
     executionExercise_altSolution: 'Alternative solution',
     executionExercise_mainSolution: 'Main solution',
     executionExercise_privateExercise: 'Private exercise',
+    executionExercise_privateExerciseDev: 'LABEL NON TROVATA',
     signup_errorPassword: 'The two passwords do not match',
     signup_selectOption: 'Select an option',
     signup_hint:

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { v4 } from 'node-uuid';
 import _translator from '../../helpers/Translator';
 import LanguageStructure from '../../helpers/LanguageIterator';
 import SolutionMapper from '../../helpers/SolutionMapper';
@@ -216,7 +216,35 @@ class Word extends Component {
               <div className=" col-md-auto text-uppercase shwo-tooltip">
                 {solution && (
                   <p title="La tua soluzione" className="bg-light p-2 mb-2">
-                    {solution}
+                    {solution
+                      .split(' ')
+                      .filter(s => s !== '')
+                      .map((word, index) => {
+                        let styleClass = 'p-2 ';
+                        if (showSolution && solutionTag) {
+                          console.log(': solutionTag', solutionTag);
+                          const wordSol = new SolutionMapper(
+                            solutionTag,
+                            gerarchy // [exLanguage]
+                          )
+                            .getVerboseSolution(language)
+                            .split(' ')
+                            .filter(s => s !== '')[index];
+                          if (word !== wordSol) styleClass = 'p-2 word-error';
+                          else styleClass = 'p-2 word-correct';
+                          console.log(
+                            ': word !== wordSol',
+                            word,
+                            ' !==',
+                            wordSol
+                          );
+                        }
+                        return (
+                          <span key={v4()} className={styleClass}>
+                            {word}
+                          </span>
+                        );
+                      })}
                   </p>
                 )}
 
@@ -224,12 +252,22 @@ class Word extends Component {
                 {showSolution && solutionTag && (
                   <p
                     title="La soluzione automatica"
-                    className=" text-warning my-2 text-uppercase"
+                    className=" text-warning my-2 p-2 text-uppercase"
                   >
                     {new SolutionMapper(
                       solutionTag,
                       gerarchy // [exLanguage]
-                    ).getVerboseSolution(language)}
+                    )
+                      .getVerboseSolution(language)
+                      .split(' ')
+                      .filter(s => s !== '')
+                      .map(word => {
+                        return (
+                          <span key={v4()} className="p-2">
+                            {word}
+                          </span>
+                        );
+                      })}
                   </p>
                 )}
               </div>

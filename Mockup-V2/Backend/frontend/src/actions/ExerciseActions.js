@@ -80,6 +80,7 @@ export const saveFreeExercise = newExercise => {
           mainSolution: JSON.stringify(newExercise.codeSolution[0]),
           alternativeSolution: '',
           visibility: true,
+          visibilityDev: !newExercise.privateExerciseDev,
           author: id,
           date: new Date().getTime(),
           language: 'it'
@@ -164,6 +165,7 @@ export const saveExerciseSolution = newExercise => {
             ? JSON.stringify(newExercise.codeSolution[1])
             : '',
           visibility: !newExercise.privateExercise,
+          visibilityDev: !newExercise.privateExerciseDev,
           author: id,
           date: new Date().getTime(),
           language: 'it'

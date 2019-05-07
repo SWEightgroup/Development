@@ -11,13 +11,8 @@ const initState = {
 
 // penso che case 'INIT_STATE' sia inutile e non venga mai utilizzato
 const AdminReducer = (state = initState, action) => {
-  console.log('SEI QUIIII');
-  console.log(action.type);
-  console.log(action);
-  console.log(state);
   switch (action.type) {
     case 'INIT_STATE':
-      console.log('viene dopo');
       return {
         ...initState
       };
