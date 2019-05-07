@@ -21,9 +21,10 @@ describe('Testing Sidebar component', () => {
         id: '12345456667'
       }
     };
+    const admin = {};
     const wrapper = mount(
       <BrowserRouter>
-        <Sidebar auth={auth} />
+        <Sidebar auth={auth} admin={admin} />
       </BrowserRouter>
     );
 
@@ -45,9 +46,10 @@ describe('Testing Sidebar component', () => {
         id: '12345456667'
       }
     };
+    const admin = {};
     const wrapper = mount(
       <BrowserRouter>
-        <Sidebar auth={auth} />
+        <Sidebar auth={auth} admin={admin} />
       </BrowserRouter>
     );
 
@@ -69,9 +71,35 @@ describe('Testing Sidebar component', () => {
         id: '12345456667'
       }
     };
+    const admin = {
+      devList: {},
+      filter: {
+        dateMax: '',
+        dateMin: '',
+        openFilters: false,
+        reliability: 0
+      },
+      loader: false,
+      usersList: {
+        accountNonExpired: true,
+        accountNonLocked: true,
+        authorities: { authority: 'ROLE_STUDENT' },
+        credentialsNonExpired: true,
+        currentGoal: -2,
+        dateOfBirth: '1997-12-12T00:00:00.000+0000',
+        enabled: true,
+        favoriteTeacherIds: [],
+        firstName: 'Claudio',
+        id: '5ccda7a98f8ac93aa4aabd8e',
+        language: 'it',
+        lastName: 'Masin',
+        role: 'ROLE_STUDENT',
+        username: 'studente1@colletta.it'
+      }
+    };
     const wrapper = mount(
       <BrowserRouter>
-        <Sidebar auth={auth} />
+        <Sidebar auth={auth} admin={admin} />
       </BrowserRouter>
     );
 

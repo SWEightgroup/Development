@@ -8,6 +8,8 @@ class SidebarElementAdministrator extends Component {
   render() {
     const { language, admin } = this.props;
     const { devList } = admin;
+    console.log('AAAAAAAAAAADMINNNNNNNN');
+    console.log(admin);
     return (
       <React.Fragment>
         <li>

@@ -1,6 +1,6 @@
 COMMENT LINE PERCENTAGE 
 
-Total file analyzed: 92
-Total rows: 7524
-Comment rows: 945
-Percentage: 12.56
+Total file analyzed: 74
+Total rows: 4412
+Comment rows: 852
+Percentage: 19.31

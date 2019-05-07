@@ -3,7 +3,51 @@ file name: ../../Backend/src/main/java/it\colletta\SweightApplication.java
 classes in file: 1
 fields in class: 0
 
-file name: ../../Backend/src/main/java/it\colletta\controller\Controller.java
+file name: ../../Backend/src/main/java/it\colletta\configuration\RepositoryConfig.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\controller\ClassController.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\controller\ExerciseController.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\controller\PhraseController.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\controller\SingnupController.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\controller\StudentController.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\controller\UserController.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\controller\UserConverter.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\controller\assembler\ExerciseResourceAssembler.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\controller\assembler\UserResourceAssembler.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\controller\assembler\resource\ExerciseResource.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\controller\assembler\resource\UserResource.java
 classes in file: 1
 fields in class: 0
 
@@ -37,7 +81,7 @@ fields in class: 4
 
 file name: ../../Backend/src/main/java/it\colletta\model\ExerciseModel.java
 classes in file: 1
-fields in class: 8
+fields in class: 10
 
 file name: ../../Backend/src/main/java/it\colletta\model\PhraseModel.java
 classes in file: 1
@@ -51,9 +95,17 @@ file name: ../../Backend/src/main/java/it\colletta\model\SolutionModel.java
 classes in file: 1
 fields in class: 4
 
+file name: ../../Backend/src/main/java/it\colletta\model\StudentModel.java
+classes in file: 1
+fields in class: 2
+
 file name: ../../Backend/src/main/java/it\colletta\model\UserModel.java
 classes in file: 1
-fields in class: 11
+fields in class: 10
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\ClassHelper.java
+classes in file: 1
+fields in class: 4
 
 file name: ../../Backend/src/main/java/it\colletta\model\helper\CorrectionHelper.java
 classes in file: 1
@@ -62,6 +114,46 @@ fields in class: 2
 file name: ../../Backend/src/main/java/it\colletta\model\helper\ExerciseHelper.java
 classes in file: 1
 fields in class: 9
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\ExerciseInfoHelper.java
+classes in file: 1
+fields in class: 8
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\FavoriteTeacherHelper.java
+classes in file: 1
+fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\FilterHelper.java
+classes in file: 1
+fields in class: 3
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\ProgressHelper.java
+classes in file: 1
+fields in class: 2
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\StudentClassHelper.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\TeacherClassesHelper.java
+classes in file: 1
+fields in class: 3
+
+file name: ../../Backend/src/main/java/it\colletta\model\helper\UserHelper.java
+classes in file: 1
+fields in class: 7
+
+file name: ../../Backend/src/main/java/it\colletta\model\validator\ClassHelperValidator.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\model\validator\StudentClassHelperValidator.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\model\validator\UserHelperValidator.java
+classes in file: 1
+fields in class: 0
 
 file name: ../../Backend/src/main/java/it\colletta\repository\classes\ClassRepositoryImpl.java
 classes in file: 1
@@ -79,15 +171,15 @@ file name: ../../Backend/src/main/java/it\colletta\repository\user\UsersReposito
 classes in file: 1
 fields in class: 1
 
-file name: ../../Backend/src/main/java/it\colletta\security\JWTAuthenticationFilter.java
+file name: ../../Backend/src/main/java/it\colletta\security\JwtAuthenticationFilter.java
 classes in file: 1
 fields in class: 2
 
-file name: ../../Backend/src/main/java/it\colletta\security\JWTAuthorizationFilter.java
+file name: ../../Backend/src/main/java/it\colletta\security\JwtAuthorizationFilter.java
 classes in file: 1
-fields in class: 0
+fields in class: 1
 
-file name: ../../Backend/src/main/java/it\colletta\security\ParseJWT.java
+file name: ../../Backend/src/main/java/it\colletta\security\ParseJwt.java
 classes in file: 1
 fields in class: 0
 
@@ -105,11 +197,15 @@ fields in class: 2
 
 file name: ../../Backend/src/main/java/it\colletta\service\ExerciseService.java
 classes in file: 1
-fields in class: 3
+fields in class: 4
 
 file name: ../../Backend/src/main/java/it\colletta\service\PhraseService.java
 classes in file: 1
 fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\service\SingupService.java
+classes in file: 1
+fields in class: 3
 
 file name: ../../Backend/src/main/java/it\colletta\service\SolutionService.java
 classes in file: 1
@@ -117,15 +213,15 @@ fields in class: 2
 
 file name: ../../Backend/src/main/java/it\colletta\service\classes\ClassService.java
 classes in file: 1
-fields in class: 0
+fields in class: 2
 
 file name: ../../Backend/src/main/java/it\colletta\service\signup\EmailServiceImpl.java
 classes in file: 1
-fields in class: 2
-
-file name: ../../Backend/src/main/java/it\colletta\service\signup\SignupRequestService.java
-classes in file: 1
 fields in class: 1
+
+file name: ../../Backend/src/main/java/it\colletta\service\student\StudentService.java
+classes in file: 1
+fields in class: 2
 
 file name: ../../Backend/src/main/java/it\colletta\service\user\UserDetailsServiceImpl.java
 classes in file: 1
@@ -133,7 +229,15 @@ fields in class: 1
 
 file name: ../../Backend/src/main/java/it\colletta\service\user\UserService.java
 classes in file: 1
-fields in class: 2
+fields in class: 1
 
-analyzed file: 44
-number of classes: 34
+file name: ../../Backend/src/main/java/it\colletta\strategy\DecimalCorrectionStrategyImpl.java
+classes in file: 1
+fields in class: 0
+
+file name: ../../Backend/src/main/java/it\colletta\strategy\NextObjectiveStrategyImpl.java
+classes in file: 1
+fields in class: 0
+
+analyzed file: 74
+number of classes: 60
