@@ -121,9 +121,9 @@ public class ExerciseService {
   /**
    * Add a phrase solution or free exercise.
    *
-   * @param exercise Exercise/Solution
-   * @param userId Author Id
-   * @return This Exercise
+   * @param exercise Exercise/Solution.
+   * @param userId Author Id.
+   * @return This Exercise.
    */
   public ExerciseModel insertFreeExercise(ExerciseHelper exercise, String userId) {
 
@@ -164,10 +164,10 @@ public class ExerciseService {
   /**
    * Add solution in the system and returns it with the mark.
    *
-   * @param correctionHelper New solution
-   * @param studentId Student id
-   * @return the solution of the exercise
-   * @throws Exception Exception
+   * @param correctionHelper New solution.
+   * @param studentId Student id.
+   * @return the solution of the exercise.
+   * @throws Exception Exception.
    */
   public SolutionModel doExercise(CorrectionHelper correctionHelper, String studentId)
       throws Exception {
@@ -230,7 +230,7 @@ public class ExerciseService {
   /**
    * Delete exercise by id.
    *
-   * @param exerciseId Exercise id
+   * @param exerciseId Exercise id.
    */
   public boolean deleteExercise(final String exerciseId, final String teacherId)
       throws ResourceNotFoundException, NotOwnerException {
@@ -248,8 +248,8 @@ public class ExerciseService {
    * Return all exercises done by a student.
    *
    * @param page {@link Pageable}
-   * @param userId the user unique id
-   * @return All exercise done by the user as pages
+   * @param userId the user unique id.
+   * @return All exercise done by the user as pages.
    */
 
   public Page<ExerciseModel> getAllDoneBySudentId(final Pageable page, final String userId) {
@@ -272,8 +272,8 @@ public class ExerciseService {
    * Return all exercises done by a student.
    *
    * @param page {@link Pageable}
-   * @param studentId the student unique id
-   * @return All public exercise of user favorite teacher
+   * @param studentId the student unique id.
+   * @return All public exercise of user favorite teacher.
    */
   public Page<ExerciseModel> getFavoritePublicExercise(final Pageable page, final String studentId)
       throws ResourceNotFoundException {

@@ -51,8 +51,8 @@ public class ClassController {
   }
 
   /**
-   * @param classHelper the new class which needs to be inserted in the database
-   * @param token the authorization token of the teacher
+   * @param classHelper the new class which needs to be inserted in the database.
+   * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the status of the operation.
    */
   @RequestMapping(
@@ -71,8 +71,8 @@ public class ClassController {
   }
 
   /**
-   * @param studentClassHelper DTO with unique classId and List<String> userId
-   * @param token the authorization token of the teacher
+   * @param studentClassHelper DTO with unique classId and List<String> userId.
+   * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the student that was added to the class.
    */
   @RequestMapping(
@@ -92,9 +92,9 @@ public class ClassController {
   }
 
   /**
-   * @param classId the unique Id of the class
-   * @param token the authorization token of the teacher
-   * @return A new ResponseEntity that contains the status of the operation
+   * @param classId the unique Id of the class.
+   * @param token the authorization token of the teacher.
+   * @return A new ResponseEntity that contains the status of the operation.
    */
   @RequestMapping(
       value = "/{classId}",
@@ -112,8 +112,8 @@ public class ClassController {
   }
 
   /**
-   * @param token the authorization token of the teacher
-   * @return A new ResponseEntity that contains the list of teacher classes with all the fields
+   * @param token the authorization token of the teacher.
+   * @return A new ResponseEntity that contains the list of teacher classes with all the fields.
    */
   @RequestMapping(
       value = "/",

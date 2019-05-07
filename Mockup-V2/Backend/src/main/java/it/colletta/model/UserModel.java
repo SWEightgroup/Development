@@ -45,77 +45,97 @@ public class UserModel implements UserDetails {
   protected Boolean enabled;
 
   /**
-   *
+   * get id.
    */
   public String getId() {
     return id;
   }
 
   /**
-   *
+   * get first name.
    */
   public String getFirstName() {
     return firstName;
   }
 
   /**
-   *
+   * get last name.
    */
   public String getLastName() {
     return lastName;
   }
 
+  /**
+   * get password.
+   */
   @Override
   public String getPassword() {
     return password;
   }
 
   /**
-   *
+   * get role.
    */
   public String getRole() {
     return role;
   }
 
   /**
-   *
+   * get language.
    */
   public String getLanguage() {
     return language;
   }
 
   /**
-   *
+   * get date of birth.
    */
   public Date getDateOfBirth() {
     return dateOfBirth;
   }
 
+  /**
+   * get Authorities.
+   */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return AuthorityUtils.createAuthorityList(role);
   }
-
+  /**
+   * get username.
+   */
   @Override
   public String getUsername() {
     return email;
   }
-
+  /**
+   * return status of account.
+   * @return true or false.
+   */
   @Override
   public boolean isAccountNonExpired() {
     return true;
   }
-
+  /**
+   * return status of account.
+   * @return true or false.
+   */
   @Override
   public boolean isAccountNonLocked() {
     return enabled;
   }
-
+  /**
+   * return status of credentials.
+   * @return true or false.
+   */
   @Override
   public boolean isCredentialsNonExpired() {
     return true;
   }
-
+  /**
+   * return status of user.
+   * @return true or false.
+   */
   @Override
   public boolean isEnabled() {
     return enabled;

@@ -15,14 +15,14 @@ public class CorrectionHelper {
   private String exerciseId;
 
   /**
-   *
+   * get solution from student.
    */
   public String getSolutionFromStudent() {
     return solutionFromStudent;
   }
 
   /**
-   *
+   * get Exercise Id.
    */
   public String getExerciseId() {
     return exerciseId;

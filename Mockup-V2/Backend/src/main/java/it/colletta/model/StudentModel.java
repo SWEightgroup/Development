@@ -31,23 +31,29 @@ public class StudentModel extends UserModel {
 
 
   /**
-   *
+   * get current goal student.
    */
   public Integer getCurrentGoal() {
     return currentGoal;
   }
 
   /**
-   *
+   * get favorite teacher student.
    */
   public List<String> getFavoriteTeacherIds() {
     return favoriteTeacherIds;
   }
 
+  /**
+   * set favorite teacher student.
+   */
   public void setFavoriteTeacherIds(List<String> favoriteTeacherIds) {
     this.favoriteTeacherIds = favoriteTeacherIds;
   }
 
+  /**
+   * set current goal student.
+   */
   public void setCurrentGoal(int currentGoal) {
     this.currentGoal = currentGoal;
   }

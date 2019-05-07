@@ -52,10 +52,10 @@ public class ExerciseController {
   /**
    * Return all exercises done by a student.
    *
-   * @param token JWT token contained in the header request
-   * @param pageable {@link Pageable}
-   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
-   * @return List of exercises inserted by the user
+   * @param token JWT token contained in the header request.
+   * @param pageable {@link Pageable}.
+   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}.
+   * @return List of exercises inserted by the user.
    */
   @RequestMapping(value = "/done", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,
@@ -72,10 +72,10 @@ public class ExerciseController {
   /**
    * Returns all the exercises added by the requesting teacher.
    *
-   * @param token JWT token contained in the header request
-   * @param pageable pageable
-   * @param assembler assembler
-   * @return List of exercises inserted by the user
+   * @param token JWT token contained in the header request.
+   * @param pageable pageable.
+   * @param assembler assembler.
+   * @return List of exercises inserted by the user.
    */
   @RequestMapping(value = "/added", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allAddedExercises(@RequestHeader("Authorization") String token,
@@ -91,11 +91,11 @@ public class ExerciseController {
   /**
    * Return all exercises to by using auth token authentication.
    *
-   * @param token JWT token contained in the header request
-   * @param pageable {@link Pageable}
-   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
-   * @return A paged version of the exercises to do
-   * @see com.auth0.jwt.JWT
+   * @param token JWT token contained in the header request.
+   * @param pageable {@link Pageable}.
+   * @param assembler {@link org.springframework.hateoas.ResourceAssembler}.
+   * @return A paged version of the exercises to do.
+   * @see com.auth0.jwt.JWT token.
    */
   @RequestMapping(value = "/todo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allExercisesToDo(@RequestHeader("Authorization") String token,
@@ -111,7 +111,7 @@ public class ExerciseController {
   /**
    * Insert an new exercise.
    *
-   * @param exercise the exercise which needs to be inserted in the database
+   * @param exercise the exercise which needs to be inserted in the database.
    * @return the inserted phrase.
    */
   // @RolesAllowed("TEACHER")
@@ -132,9 +132,9 @@ public class ExerciseController {
   /**
    * Insert a new solution of the free exercise done by a student.
    *
-   * @param token JWT token contained in the header request
-   * @param exercise the free exercise which needs to be inserted in the database
-   * @return the inserted phrase
+   * @param token JWT token contained in the header request.
+   * @param exercise the free exercise which needs to be inserted in the database.
+   * @return the inserted phrase.
    */
   @RequestMapping(value = "/student/insert-free-exercise", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(
@@ -153,9 +153,8 @@ public class ExerciseController {
   /**
    * Do the correction of the exercise and then give a mark.
    *
-   * @param token the unique token of the user, in this case a student
-   * @param correctionHelper <p> contains the unique id of the exercise and the solution that was
-   * written by the student
+   * @param token the unique token of the user, in this case a student.
+   * @param correctionHelper <p> contains the unique id of the exercise and the solution that was written by the student.
    * </p>
    * @return the teacher solution of the exercise.
    */
@@ -175,8 +174,8 @@ public class ExerciseController {
   /**
    * Return the automatic solution of a phrase provided by Freeling library.
    *
-   * @param stringObj the text which has to be analyzed by Freeling as map
-   * @param studentToken the unique token of the user
+   * @param stringObj the text which has to be analyzed by Freeling as map.
+   * @param studentToken the unique token of the user.
    * @return A SolutionModel with the analyzed sentence or empty if the service is unavailable.
    */
   @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -194,11 +193,11 @@ public class ExerciseController {
   /**
    * Return all public exercises to do by using auth token authentication.
    *
-   * @param studentToken JWT token contained in the header request
+   * @param studentToken JWT token contained in the header request.
    * @param pageable {@link Pageable}
    * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
-   * @return A paged version of the exercises public to do
-   * @see com.auth0.jwt.JWT
+   * @return A paged version of the exercises public to do.
+   * @see com.auth0.jwt.JWT token.
    */
   @RequestMapping(value = "/public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getPublicExercises(@PageableDefault(value = 4) Pageable pageable,
@@ -216,9 +215,9 @@ public class ExerciseController {
   }
 
   /**
-   * @param exerciseId the unique id of a Exercise
-   * @param teacherToken the unique token of a User
-   * @return HttpStatus of the operation
+   * @param exerciseId the unique id of a Exercise.
+   * @param teacherToken the unique token of a User.
+   * @return HttpStatus of the operation.
    */
   @RequestMapping(value = "/{exerciseId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> deleteExercise(@PathVariable("exerciseId") String exerciseId,
@@ -233,9 +232,9 @@ public class ExerciseController {
   }
 
   /**
-   * @param exerciseId the unique id of a Exercise
-   * @param Token the unique token of a User
-   * @return ExerciseInfoHelper a DTO with all exercise info
+   * @param exerciseId the unique id of a Exercise.
+   * @param Token the unique token of a User.
+   * @return ExerciseInfoHelper a DTO with all exercise info.
    */
   @RequestMapping(value = "/{exerciseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> infoExercise(@RequestHeader("Authorization") String Token,
@@ -251,10 +250,10 @@ public class ExerciseController {
   /**
    * Return all public exercises to do by using auth token authentication.
    *
-   * @param studentToken JWT token contained in the header request
+   * @param studentToken JWT token contained in the header request.
    * @param pageable {@link Pageable}
    * @param assembler {@link org.springframework.hateoas.ResourceAssembler}
-   * @return A paged version of the favorite exercise to do
+   * @return A paged version of the favorite exercise to do.
    * @see com.auth0.jwt.JWT
    */
   @RequestMapping(value = "/favourite-public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
