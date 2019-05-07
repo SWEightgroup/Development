@@ -12,6 +12,8 @@ export const initAdmin = () => {
 
 export const updateFilter = filter => {
   return dispatch => {
+    console.log('filter');
+    console.log(filter);
     dispatch({ type: 'UPDATE_FILTER', filter });
   };
 };

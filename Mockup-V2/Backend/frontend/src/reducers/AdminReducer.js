@@ -9,9 +9,15 @@ const initState = {
   }
 };
 
+// penso che case 'INIT_STATE' sia inutile e non venga mai utilizzato
 const AdminReducer = (state = initState, action) => {
+  console.log('SEI QUIIII');
+  console.log(action.type);
+  console.log(action);
+  console.log(state);
   switch (action.type) {
     case 'INIT_STATE':
+      console.log('viene dopo');
       return {
         ...initState
       };
@@ -53,6 +59,7 @@ const AdminReducer = (state = initState, action) => {
     case 'DEV_APPROVE_SUCCES': {
       const { usernameOrId } = action.payload;
       const { devList } = state;
+      // ritorna l’indice dell’elemento che ha id=== usernameOrld || se non c’è ritorna -1
       const indexDev = devList.findIndex(dev => dev.id === usernameOrId);
       if (indexDev > -1) devList.splice(indexDev, 1);
       return {
