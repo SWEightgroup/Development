@@ -4,16 +4,20 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 import it.colletta.model.helper.ChangePasswordHelper;
 import it.colletta.service.ForgotPasswordService;
+
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/password")
+@RestController
+@RequestMapping("/password")
 public class ForgotPassword {
 
   private ForgotPasswordService forgotPasswordService;
@@ -30,17 +34,17 @@ public class ForgotPassword {
    * @return HttpStatus of the operation.
    */
   @RequestMapping(method = RequestMethod.POST, value = "/forgot", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> requestNewPassword(Map<String, String> forgotObject) {
+  public ResponseEntity<?> requestNewPassword(@RequestBody ChangePasswordHelper passwordHelper) {
     try {
-      forgotPasswordService.generateNewPasswordRequest(
-          forgotObject, linkTo(SingnupController.class).slash("/aaa/aaaa")
-      );
+      forgotPasswordService.generateNewPasswordRequest(passwordHelper.getUsername(),
+          linkTo(SingnupController.class).slash("/forgot-password"));
       return new ResponseEntity<>(HttpStatus.OK);
-    }
-    catch (Exception e) {
-      return new ResponseEntity<>(e.getStackTrace(), HttpStatus.SERVICE_UNAVAILABLE);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
+
   /**
    * Change Password.
    *
@@ -48,15 +52,14 @@ public class ForgotPassword {
    * @return HttpStatus of the operation.
    */
   @RequestMapping(method = RequestMethod.POST, value = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> changePassword(ChangePasswordHelper passwordHelper) {
+  public ResponseEntity<?> changePassword(@RequestBody ChangePasswordHelper passwordHelper) {
     try {
       forgotPasswordService.setNewPassword(passwordHelper);
       return new ResponseEntity<>(HttpStatus.OK);
-    }
-    catch (Exception e) {
-      return new ResponseEntity<>(e.getStackTrace(), HttpStatus.SERVICE_UNAVAILABLE);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
-
 
 }

@@ -27,6 +27,13 @@ const initState = {
     firstName: '',
     lastName: ''
   },
+  forgot: {
+    username: '',
+    password: '',
+    passwordConfirm: '',
+    requestSent: false,
+    passwordChanged: false
+  },
   token: localStorage.getItem('token')
     ? JSON.parse(localStorage.getItem('token'))
     : null
@@ -45,6 +52,32 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         signUp: { ...state.signUp, ...action.data }
+      };
+    case 'CHANGE_FORGOT_DATA':
+      return {
+        ...state,
+        forgot: {
+          ...state.forgot,
+          ...action.data
+        }
+      };
+    case 'REQUEST_SENT':
+      return {
+        ...initState,
+        isReady: true,
+        forgot: {
+          ...initState.forgot,
+          requestSent: true
+        }
+      };
+    case 'PASSWORD_CHANGED':
+      return {
+        ...initState,
+        isReady: true,
+        forgot: {
+          ...initState.forgot,
+          passwordChanged: true
+        }
       };
     case 'LOADER_ON':
       return {

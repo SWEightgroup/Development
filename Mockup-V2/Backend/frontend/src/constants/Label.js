@@ -54,6 +54,7 @@ export const _label = {
     insertExercise_StudentDisp: 'Studenti disponibili ',
     signup_errorPassword: 'Le due passowrd non coincidono',
     signup_selectOption: "Seleziona un'opzione",
+    signIn_forgotPassword: 'Password dimenticata?',
     signup_hint:
       'La password deve essere lunga dai 6 ai 20 caratteri e non deve contenere caratteri speciali',
     signUp_completed:
@@ -146,6 +147,11 @@ export const _label = {
     activation_success_line1: 'Attivazione completata',
     activation_success_line2: 'Grazie per aver scelto Colletta',
     activation_progress_line1: 'Attivazione completata',
+    forgot_changePassword: 'Cambia password',
+    forgot_sendRequest: 'Richiedi una nuova password',
+    forgot_info: "Riceverai una mail per l'inserimento di una nuova password",
+    forgot_insNewPass: 'Inserisci la nuova password',
+    forgot_changedSuccess: 'La password è stata cambiata',
     /*
     Gerarchy below
     */
@@ -284,7 +290,8 @@ export const _label = {
     executionExercise_altSolution: 'Alternative solution',
     executionExercise_mainSolution: 'Main solution',
     executionExercise_privateExercise: 'Private exercise',
-    executionExercise_privateExerciseDev: 'LABEL NON TROVATA',
+    executionExercise_privateExerciseDev:
+      'Deny developer acces to this exercise',
     signup_errorPassword: 'The two passwords do not match',
     signup_selectOption: 'Select an option',
     signup_hint:

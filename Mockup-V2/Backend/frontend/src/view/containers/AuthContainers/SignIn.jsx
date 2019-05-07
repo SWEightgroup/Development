@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+
 import {
   signIn,
   loaderOn,
@@ -71,6 +72,11 @@ class SignIn extends Component {
                     required
                     autoComplete="current-password"
                   />
+                </div>
+                <div className="position-relative form-group">
+                  <NavLink to="/forgot-password">
+                    {_translator('signIn_forgotPassword')}
+                  </NavLink>
                 </div>
                 <button type="submit" className="mt-2 btn btn-primary">
                   {_translator('gen_signin')}

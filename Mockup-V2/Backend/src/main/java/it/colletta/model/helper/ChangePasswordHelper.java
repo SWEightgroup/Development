@@ -11,4 +11,5 @@ public class ChangePasswordHelper {
   String requestId;
   String password;
   String passwordConfirm;
+  String username;
 }

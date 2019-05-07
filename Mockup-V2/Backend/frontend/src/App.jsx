@@ -31,6 +31,7 @@ import AdminDashboard from './view/containers/DashboardContainers/AdminDashboard
 import ExercisesDetails from './view/containers/ExerciseContainers/ExerciseDetails';
 import FavouriteTeachers from './view/containers/ExerciseContainers/FavouriteTeachers';
 import Activation from './view/containers/AuthContainers/Activation';
+import Forgot from './view/containers/AuthContainers/Forgot';
 
 class App extends Component {
   state = {};
@@ -120,6 +121,12 @@ class App extends Component {
                       path="/"
                       component={mainDash}
                       isAllowed={auth.user}
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/forgot-password/:request?"
+                      isAllowed={!auth.user}
+                      component={Forgot}
                     />
                     <ProtectedRoute
                       path="/insert-exercise"

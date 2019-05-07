@@ -24,8 +24,7 @@ public class ForgotPasswordService {
   private BCryptPasswordEncoder passwordEncoder;
 
   @Autowired
-  public ForgotPasswordService(UsersRepository usersRepository,
-      ForgotPasswordRepository forgotPasswordRepository,
+  public ForgotPasswordService(UsersRepository usersRepository, ForgotPasswordRepository forgotPasswordRepository,
       EmailServiceImpl emailService, BCryptPasswordEncoder passwordEncoder) {
     this.usersRepository = usersRepository;
     this.forgotPasswordRepository = forgotPasswordRepository;
@@ -34,30 +33,25 @@ public class ForgotPasswordService {
   }
 
   @Transactional
-  public void generateNewPasswordRequest(Map<String, String> user, ControllerLinkBuilder link)
-      throws Exception {
-    UserModel userInstance = usersRepository.findByEmail(user.get("username").toLowerCase())
+  public void generateNewPasswordRequest(String username, ControllerLinkBuilder link) throws Exception {
+    UserModel userInstance = usersRepository.findByEmail(username.toLowerCase())
         .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     ForgotPasswordModel forgotPasswordModel = new ForgotPasswordModel();
     forgotPasswordModel.setRequestDate(Calendar.getInstance().getTime());
     forgotPasswordModel.setUserId(userInstance.getId());
     final ForgotPasswordModel requestPassword = forgotPasswordRepository.save(forgotPasswordModel);
-    emailService.forgotPasswordMail(
-        userInstance, link.slash(requestPassword.getId()).withSelfRel().getHref()
-    );
+    emailService.forgotPasswordMail(userInstance, link.slash(requestPassword.getId()).withSelfRel().getHref());
   }
 
   @Transactional
   public void setNewPassword(ChangePasswordHelper passwordHelper) throws Exception {
-    ForgotPasswordModel passwordModel =
-        forgotPasswordRepository.findById(passwordHelper.getRequestId())
-            .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+    ForgotPasswordModel passwordModel = forgotPasswordRepository.findById(passwordHelper.getRequestId())
+        .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
     String password = passwordHelper.getPassword();
     assert password.equals(passwordHelper.getPasswordConfirm());
     String passwordEncoded = passwordEncoder.encode(password);
-    UserModel userModel = usersRepository.findById(passwordModel.getId()).orElseThrow(
-        ()-> new ResourceNotFoundException("User not found")
-    );
+    UserModel userModel = usersRepository.findById(passwordModel.getUserId())
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     userModel.setPassword(passwordEncoded);
     usersRepository.save(userModel);
   }

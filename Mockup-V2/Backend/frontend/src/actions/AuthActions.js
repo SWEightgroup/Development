@@ -30,12 +30,54 @@ export const displayError = error => {
   };
 };
 
+export const changeForgot = data => {
+  return dispatch => {
+    dispatch({ type: 'CHANGE_FORGOT_DATA', data });
+  };
+};
+
 export const changeSignIn = data => {
   store.dispatch({ type: 'CHANGE_SIGNIN_DATA', data });
 };
 
 export const changeSignUp = data => {
   store.dispatch({ type: 'CHANGE_SIGNUP_DATA', data });
+};
+
+export const changePassword = ({ requestId, password, passwordConfirm }) => {
+  return dispatch => {
+    axios
+      .post('http://localhost:8081/password/change', {
+        requestId,
+        password,
+        passwordConfirm
+      })
+      .then(() => {
+        dispatch({ type: 'PASSWORD_CHANGED' });
+        _toastSuccess(_translator('gen_opSuccess'));
+      })
+      .catch(() => {
+        dispatch(loaderOff());
+        _toastError(_translator('gen_error'));
+      });
+  };
+};
+export const sendRequest = data => {
+  console.log(': data', data);
+  return dispatch => {
+    axios
+      .post('http://localhost:8081/password/forgot', {
+        username: data.username
+      })
+      .then(() => {
+        dispatch({ type: 'REQUEST_SENT' });
+        _toastSuccess(_translator('gen_opSuccess'));
+      })
+      .catch(() => {
+        dispatch(loaderOff());
+        _toastError(_translator('gen_error'));
+      });
+  };
 };
 
 export const signIn = credentials => {
