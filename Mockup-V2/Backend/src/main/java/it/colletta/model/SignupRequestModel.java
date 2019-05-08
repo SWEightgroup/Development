@@ -1,10 +1,13 @@
 package it.colletta.model;
 
 import java.util.Date;
+
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 
 /**
  * This class is used to manage the signup request from user
@@ -17,6 +20,9 @@ public class SignupRequestModel {
   @Id
   private String id;
   private String token;
+
+  @Indexed(name = "Time To Live", expireAfterSeconds = 86400)
   private Date requestDate;
-  private String userReference;
+
+  private UserModel userToConfirm;
 }
