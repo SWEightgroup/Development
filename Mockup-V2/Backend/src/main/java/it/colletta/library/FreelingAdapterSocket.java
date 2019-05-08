@@ -21,11 +21,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
    * @param port address.
    */
   public FreelingAdapterSocket(final String host, int port) {
-    if (StringUtils.countOccurrencesOf(host, ".") != 3) {
-      throw new IllegalArgumentException("L'host " + "inserito non e' nel formato corretto");
-    } else {
       socketClient = new FreelingSocketClient(host, port);
-    }
   }
 
   /**

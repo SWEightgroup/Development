@@ -1,7 +1,7 @@
 version: '3'
 services:
   mongo:
-    image: mongo:3.6
+    image: 'mongo:3.6'
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -12,29 +12,16 @@ services:
     ports:
       - '27017:27017'
     command: mongod --smallfiles --logpath=/dev/null
-  app:
-    image: doc/colletta-2019
-    expose:
-      - '8081'
-    depends_on:
-      - mongo
-      - freeling-it
-      - freeling-en
-    ports:
-      - '8081:8081'
   seed:
     build: seedMongo/.
     links:
       - mongo
-
   freeling-it:
     image: maga97/freeling
-    entrypoint: analyze -f it.cfg --server -p 50001
+    entrypoint: analyze -f it.cfg --server -p 50001 --output json
     ports:
       - '50001:50001'
-
   freeling-en:
     image: maga97/freeling
-    entrypoint: analyze -f en.cfg --server -p 50002
-    ports:
-      - '50002:50002'
+    entrypoint: analyze -f en.cfg --server -p 50002 --output json
+      

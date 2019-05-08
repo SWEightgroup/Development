@@ -27,10 +27,10 @@ public class FreelingSocketClient {
    * @param host address.
    * @param port address.
    */
-  public FreelingSocketClient(final String host, long port) {
+  public FreelingSocketClient(final String host, int port) {
     try {
 
-      socket = new Socket(host, 50005);
+      socket = new Socket(host, port);
       socket.setSoLinger(true, 10);
       socket.setKeepAlive(true);
       socket.setSoTimeout(10000);
