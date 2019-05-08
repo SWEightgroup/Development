@@ -24,7 +24,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   /**
    * Custom error.
-   *@return HttpStatus of the operation.
+   *
+   * @return HttpStatus of the operation.
    */
   @ExceptionHandler({DataIntegrityViolationException.class})
   public ResponseEntity<Object> handleBadRequest(
@@ -36,7 +37,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   /**
    * Custom error.
-   *@return HttpStatus of the operation.
+   *
+   * @return HttpStatus of the operation.
    */
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(
@@ -52,7 +54,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   /**
    * Custom error.
-   *@return HttpStatus of the operation.
+   *
+   * @return HttpStatus of the operation.
    */
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -66,7 +69,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   /**
    * Custom error 403.
-   *@return HttpStatus of the operation.
+   *
+   * @return HttpStatus of the operation.
    */
   @ExceptionHandler({AccessDeniedException.class})
   public ResponseEntity<Object> handleAccessDeniedException(
@@ -78,7 +82,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   /**
    * Custom error 409.
-   *@return HttpStatus of the operation.
+   *
+   * @return HttpStatus of the operation.
    */
   @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
   protected ResponseEntity<Object> handleConflict(
@@ -90,7 +95,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   /**
    * Custom error 500.
-   *@return HttpStatus of the operation.
+   *
+   * @return HttpStatus of the operation.
    */
   @ExceptionHandler({
       NullPointerException.class,

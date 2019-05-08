@@ -7,8 +7,6 @@ import it.colletta.repository.administration.ForgotPasswordRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.EmailServiceImpl;
 import java.util.Calendar;
-import java.util.Map;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -18,13 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ForgotPasswordService {
+
   private UsersRepository usersRepository;
   private ForgotPasswordRepository forgotPasswordRepository;
   private EmailServiceImpl emailService;
   private BCryptPasswordEncoder passwordEncoder;
 
   @Autowired
-  public ForgotPasswordService(UsersRepository usersRepository, ForgotPasswordRepository forgotPasswordRepository,
+  public ForgotPasswordService(UsersRepository usersRepository,
+      ForgotPasswordRepository forgotPasswordRepository,
       EmailServiceImpl emailService, BCryptPasswordEncoder passwordEncoder) {
     this.usersRepository = usersRepository;
     this.forgotPasswordRepository = forgotPasswordRepository;
@@ -33,19 +33,22 @@ public class ForgotPasswordService {
   }
 
   @Transactional
-  public void generateNewPasswordRequest(String username, ControllerLinkBuilder link) throws Exception {
+  public void generateNewPasswordRequest(String username, ControllerLinkBuilder link)
+      throws Exception {
     UserModel userInstance = usersRepository.findByEmail(username.toLowerCase())
         .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     ForgotPasswordModel forgotPasswordModel = new ForgotPasswordModel();
     forgotPasswordModel.setRequestDate(Calendar.getInstance().getTime());
     forgotPasswordModel.setUserId(userInstance.getId());
     final ForgotPasswordModel requestPassword = forgotPasswordRepository.save(forgotPasswordModel);
-    emailService.forgotPasswordMail(userInstance, link.slash(requestPassword.getId()).withSelfRel().getHref());
+    emailService.forgotPasswordMail(userInstance,
+        link.slash(requestPassword.getId()).withSelfRel().getHref());
   }
 
   @Transactional
   public void setNewPassword(ChangePasswordHelper passwordHelper) throws Exception {
-    ForgotPasswordModel passwordModel = forgotPasswordRepository.findById(passwordHelper.getRequestId())
+    ForgotPasswordModel passwordModel = forgotPasswordRepository
+        .findById(passwordHelper.getRequestId())
         .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
     String password = passwordHelper.getPassword();
     assert password.equals(passwordHelper.getPasswordConfirm());

@@ -4,7 +4,6 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,10 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @Document(collection = "forgotpassword")
 public class ForgotPasswordModel {
+
   @Id
   private String id;
   private String userId;
   @Field
-  @Indexed(name="requestDate", expireAfterSeconds=86400)
+  @Indexed(name = "requestDate", expireAfterSeconds = 86400)
   private Date requestDate;
 }

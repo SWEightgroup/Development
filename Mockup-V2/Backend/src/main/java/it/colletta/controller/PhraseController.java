@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/phrases")
 public class PhraseController {
 
+  private PhraseService phraseService;
+
   @Autowired
   public PhraseController(PhraseService phraseService) {
     this.phraseService = phraseService;
   }
-
-  private PhraseService phraseService;
 
   /**
    * Download all phrases.
@@ -53,7 +53,8 @@ public class PhraseController {
    * Download phrases With Filter.
    */
   @RequestMapping(method = RequestMethod.POST, value = "/download")
-  public void downloadPhrasesWithFilter(HttpServletResponse response, @RequestBody FilterHelper filterHelper) {
+  public void downloadPhrasesWithFilter(HttpServletResponse response,
+      @RequestBody FilterHelper filterHelper) {
     try {
       File file = phraseService.downloadPhrasesWithFilter(filterHelper);
       setResponse(response, file);

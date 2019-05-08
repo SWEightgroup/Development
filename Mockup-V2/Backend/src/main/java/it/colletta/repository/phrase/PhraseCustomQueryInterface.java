@@ -1,6 +1,5 @@
 package it.colletta.repository.phrase;
 
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;

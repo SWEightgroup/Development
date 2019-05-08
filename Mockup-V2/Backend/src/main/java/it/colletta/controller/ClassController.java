@@ -33,6 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/class")
 public class ClassController {
 
+  private ClassService classService;
+
+  @Autowired
+  public ClassController(ClassService classService) {
+    this.classService = classService;
+  }
+
   @InitBinder("classHelper")
   protected void initBinderClass(WebDataBinder binder) {
     binder.setValidator(new ClassHelperValidator());
@@ -41,13 +48,6 @@ public class ClassController {
   @InitBinder("studentClassHelper")
   protected void initBinderStudent(WebDataBinder binder) {
     binder.setValidator(new StudentClassHelperValidator());
-  }
-
-  private ClassService classService;
-
-  @Autowired
-  public ClassController(ClassService classService) {
-    this.classService = classService;
   }
 
   /**

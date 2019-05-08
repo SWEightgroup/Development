@@ -101,6 +101,7 @@ public class UserModel implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return AuthorityUtils.createAuthorityList(role);
   }
+
   /**
    * get username.
    */
@@ -108,32 +109,40 @@ public class UserModel implements UserDetails {
   public String getUsername() {
     return email;
   }
+
   /**
    * return status of account.
+   *
    * @return true or false.
    */
   @Override
   public boolean isAccountNonExpired() {
     return true;
   }
+
   /**
    * return status of account.
+   *
    * @return true or false.
    */
   @Override
   public boolean isAccountNonLocked() {
     return enabled;
   }
+
   /**
    * return status of credentials.
+   *
    * @return true or false.
    */
   @Override
   public boolean isCredentialsNonExpired() {
     return true;
   }
+
   /**
    * return status of user.
+   *
    * @return true or false.
    */
   @Override

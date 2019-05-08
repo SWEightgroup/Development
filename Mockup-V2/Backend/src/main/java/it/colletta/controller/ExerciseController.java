@@ -154,7 +154,8 @@ public class ExerciseController {
    * Do the correction of the exercise and then give a mark.
    *
    * @param token the unique token of the user, in this case a student.
-   * @param correctionHelper <p> contains the unique id of the exercise and the solution that was written by the student.
+   * @param correctionHelper <p> contains the unique id of the exercise and the solution that was
+   * written by the student.
    * </p>
    * @return the teacher solution of the exercise.
    */

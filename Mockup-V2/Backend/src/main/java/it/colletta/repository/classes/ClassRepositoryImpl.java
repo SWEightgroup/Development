@@ -1,6 +1,7 @@
 package it.colletta.repository.classes;
 
 import it.colletta.model.ClassModel;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

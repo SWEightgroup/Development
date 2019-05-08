@@ -1,6 +1,5 @@
 package it.colletta.service.user;
 
-import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import java.util.ArrayList;
 import java.util.List;

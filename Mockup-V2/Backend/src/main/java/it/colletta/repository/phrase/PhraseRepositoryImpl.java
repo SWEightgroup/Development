@@ -4,12 +4,10 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.limi
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.result.UpdateResult;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.helper.FilterHelper;
-
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -52,7 +50,8 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
   @Override
   public UpdateResult increaseReliability(SolutionModel solutionModel) {
-    Query query = new Query(Criteria.where("solutions.solutionText").is(solutionModel.getSolutionText()));
+    Query query = new Query(
+        Criteria.where("solutions.solutionText").is(solutionModel.getSolutionText()));
     Update update = new Update().inc("solutions.$.reliability", 1);
     UpdateResult updateResult = mongoTemplate.updateMulti(query, update, PhraseModel.class);
     return updateResult;
@@ -80,14 +79,18 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
   @Override
   public SolutionModel getSolution(final String phraseId, String solutionId) {
-    Aggregation aggregation = Aggregation.newAggregation(match(Criteria.where("_id").is(new ObjectId(phraseId))),
-        unwind("$solutions"), match(Criteria.where("solutions._id").in(new ObjectId(solutionId))), limit(1));
-    AggregationResults<Document> doc = mongoTemplate.aggregate(aggregation, "phrases", Document.class);
+    Aggregation aggregation = Aggregation
+        .newAggregation(match(Criteria.where("_id").is(new ObjectId(phraseId))),
+            unwind("$solutions"),
+            match(Criteria.where("solutions._id").in(new ObjectId(solutionId))), limit(1));
+    AggregationResults<Document> doc = mongoTemplate
+        .aggregate(aggregation, "phrases", Document.class);
     Document map = Objects.requireNonNull(doc.getUniqueMappedResult());
     Document obj = map.get("solutions", Document.class);
     final SolutionModel build = SolutionModel.builder().id(obj.getObjectId("_id").toHexString())
         .solutionText(obj.getString("solutionText")).authorId(obj.getString("authorId"))
-        .reliability(obj.getInteger("reliability")).dateSolution(obj.getLong("dateSolution")).build();
+        .reliability(obj.getInteger("reliability")).dateSolution(obj.getLong("dateSolution"))
+        .build();
     return build;
   }
 
@@ -96,7 +99,8 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     Aggregation aggregation = Aggregation.newAggregation(unwind("$solutions"),
         match(Criteria.where("solutions.visibilityDev").not().in(false)));
 
-    AggregationResults<Document> doc = mongoTemplate.aggregate(aggregation, "phrases", Document.class);
+    AggregationResults<Document> doc = mongoTemplate
+        .aggregate(aggregation, "phrases", Document.class);
     return doc.getMappedResults();
   }
 
@@ -123,15 +127,16 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     end.set(GregorianCalendar.HOUR, 0);
     end.set(GregorianCalendar.MINUTE, 0);
     end.set(GregorianCalendar.SECOND, 0);
-    ;
 
     Aggregation aggregation = Aggregation.newAggregation(unwind("$solutions"),
         match(Criteria.where("language").in(filterHelper.getLanguages())),
-        match(Criteria.where("solutions.dateSolution").gte(start.getTimeInMillis()).lte(end.getTimeInMillis())),
+        match(Criteria.where("solutions.dateSolution").gte(start.getTimeInMillis())
+            .lte(end.getTimeInMillis())),
         match(Criteria.where("solutions.reliability").gte(filterHelper.getMinReliability())),
         match(Criteria.where("solutions.visibilityDev").not().in(false)));
 
-    AggregationResults<Document> doc = mongoTemplate.aggregate(aggregation, "phrases", Document.class);
+    AggregationResults<Document> doc = mongoTemplate
+        .aggregate(aggregation, "phrases", Document.class);
     return doc.getMappedResults();
 
     /*
@@ -139,7 +144,7 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
      * gte("solutions.dateSolution", filterHelper.getStartDate()),
      * lte("solutions.dateSolution", filterHelper.getEndDate()),
      * gte("solutions.reliability", filterHelper.getMinReliability()) );
-     * 
+     *
      * FindIterable<Document> result =
      * mongoTemplate.getCollection("phrases").find();
      */

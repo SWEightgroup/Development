@@ -38,6 +38,13 @@ public class StudentModel extends UserModel {
   }
 
   /**
+   * set current goal student.
+   */
+  public void setCurrentGoal(int currentGoal) {
+    this.currentGoal = currentGoal;
+  }
+
+  /**
    * get favorite teacher student.
    */
   public List<String> getFavoriteTeacherIds() {
@@ -49,12 +56,5 @@ public class StudentModel extends UserModel {
    */
   public void setFavoriteTeacherIds(List<String> favoriteTeacherIds) {
     this.favoriteTeacherIds = favoriteTeacherIds;
-  }
-
-  /**
-   * set current goal student.
-   */
-  public void setCurrentGoal(int currentGoal) {
-    this.currentGoal = currentGoal;
   }
 }

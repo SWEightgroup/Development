@@ -1,9 +1,3 @@
-/**
- * @path it.colletta.controller.ExerciseController
- * @author Francesco Magarotto, Enrico Muraro, Francesco Corti
- * @date 2019-03-27
- * @description Menage the HTTP user request regarding the exercises
- */
 package it.colletta.library;
 
 import java.io.IOException;
@@ -21,7 +15,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
    * @param port address.
    */
   public FreelingAdapterSocket(final String host, int port) {
-      socketClient = new FreelingSocketClient(host, port);
+    socketClient = new FreelingSocketClient(host, port);
   }
 
   /**

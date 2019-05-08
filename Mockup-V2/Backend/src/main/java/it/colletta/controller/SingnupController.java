@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SingnupController {
 
+  private SingupService singupService;
+
   @InitBinder
   protected void initBinderClass(WebDataBinder binder) {
     binder.setValidator(new UserHelperValidator());
   }
-
-  private SingupService singupService;
 
   @Autowired
   public void setSingupService(SingupService singupService) {

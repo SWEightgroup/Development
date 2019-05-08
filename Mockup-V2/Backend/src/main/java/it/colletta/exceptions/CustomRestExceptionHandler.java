@@ -114,7 +114,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   //
 
   /**
-   *Custom ArgumentTypeMismatch error.
+   * Custom ArgumentTypeMismatch error.
    */
   @ExceptionHandler({MethodArgumentTypeMismatchException.class})
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
@@ -128,7 +128,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
-   *Custom ConstraintViolation error.
+   * Custom ConstraintViolation error.
    */
   @ExceptionHandler({ConstraintViolationException.class})
   public ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex,
@@ -147,7 +147,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
-   *Custom NoHandlerFoundException error.
+   * Custom NoHandlerFoundException error.
    */
   @Override
   protected ResponseEntity<Object> handleNoHandlerFoundException(final NoHandlerFoundException ex,
@@ -160,7 +160,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
-   *Custom 405 error.
+   * Custom 405 error.
    */
   @Override
   protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
@@ -179,7 +179,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
-   *Custom 415 error.
+   * Custom 415 error.
    */
   @Override
   protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
@@ -198,7 +198,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
-   *Custom 500 error.
+   * Custom 500 error.
    */
   @ExceptionHandler({Exception.class})
   public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
