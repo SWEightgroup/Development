@@ -1,5 +1,7 @@
 package it.colletta.service;
 
+import static it.colletta.security.Role.DEVELOPER;
+
 import it.colletta.model.SignupRequestModel;
 import it.colletta.model.UserModel;
 import it.colletta.repository.administration.SingupRequestRepository;
@@ -13,7 +15,10 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static it.colletta.security.Role.DEVELOPER;
+import java.util.Calendar;
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 public class SingupService {
@@ -78,7 +83,7 @@ public class SingupService {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)
         .orElseThrow(() -> new ResourceNotFoundException("Signup request not found"));
     UserModel userToEnable = requestModel.getUserToConfirm();
-    if(!userToEnable.getRole().equals(DEVELOPER)) {
+    if (!userToEnable.getRole().equals(DEVELOPER)) {
       userToEnable.setEnabled(true);
     }
     singupRequestRepository.delete(requestModel);
