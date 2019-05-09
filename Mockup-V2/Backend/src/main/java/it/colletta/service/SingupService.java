@@ -8,6 +8,7 @@ import it.colletta.service.signup.EmailServiceImpl;
 import java.util.Calendar;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -52,10 +53,11 @@ public class SingupService {
         final String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         user.setEnabled(false);
-        usersRepository.save(user);
+        user.setId(new ObjectId().toHexString());
         SignupRequestModel signupRequestModel = SignupRequestModel.builder()
-            .userReference(user.getId())
-            .requestDate(Calendar.getInstance().getTime()).build();
+            .userToConfirm(user)
+            .requestDate(Calendar.getInstance().getTime())
+            .build();
         SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
         emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
         user.setPassword(null);
@@ -76,14 +78,9 @@ public class SingupService {
   public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)
         .orElseThrow(() -> new ResourceNotFoundException("Signup request not found"));
-
-    // Date requestTimestamp = requestModel.getRequestDate();
-    // if (requestTimestamp.compareTo(Calendar.getInstance().getTime()) < 1) {
-    UserModel userToEnable = usersRepository.findById(requestModel.getUserReference())
-        .orElseThrow(ResourceNotFoundException::new);
+    UserModel userToEnable = requestModel.getUserToConfirm();
     userToEnable.setEnabled(true);
-    usersRepository.save(userToEnable);
-    // }
     singupRequestRepository.delete(requestModel);
+    usersRepository.save(userToEnable);
   }
 }
