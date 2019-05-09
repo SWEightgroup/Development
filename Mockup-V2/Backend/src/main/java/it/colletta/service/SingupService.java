@@ -15,6 +15,8 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static it.colletta.security.Role.DEVELOPER;
+
 @Service
 public class SingupService {
 
@@ -79,7 +81,9 @@ public class SingupService {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)
         .orElseThrow(() -> new ResourceNotFoundException("Signup request not found"));
     UserModel userToEnable = requestModel.getUserToConfirm();
-    userToEnable.setEnabled(true);
+    if(!userToEnable.getRole().equals(DEVELOPER)) {
+      userToEnable.setEnabled(true);
+    }
     singupRequestRepository.delete(requestModel);
     usersRepository.save(userToEnable);
   }
