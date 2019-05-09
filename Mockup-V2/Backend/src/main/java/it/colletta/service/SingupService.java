@@ -5,15 +5,18 @@ import it.colletta.model.UserModel;
 import it.colletta.repository.administration.SingupRequestRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.EmailServiceImpl;
-import java.util.Calendar;
-import java.util.Objects;
-import javax.validation.constraints.NotNull;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 public class SingupService {
@@ -31,13 +34,14 @@ public class SingupService {
    */
   @Autowired
   public SingupService(BCryptPasswordEncoder passwordEncoder,
-      SingupRequestRepository singupRequestRepository,
-      UsersRepository usersRepository, EmailServiceImpl emailService) {
+      SingupRequestRepository singupRequestRepository, UsersRepository usersRepository,
+      EmailServiceImpl emailService) {
     this.passwordEncoder = passwordEncoder;
     this.singupRequestRepository = singupRequestRepository;
     this.usersRepository = usersRepository;
     this.emailService = emailService;
   }
+
 
   /**
    * Add new user.
@@ -54,10 +58,8 @@ public class SingupService {
         user.setPassword(encode);
         user.setEnabled(false);
         user.setId(new ObjectId().toHexString());
-        SignupRequestModel signupRequestModel = SignupRequestModel.builder()
-            .userToConfirm(user)
-            .requestDate(Calendar.getInstance().getTime())
-            .build();
+        SignupRequestModel signupRequestModel = SignupRequestModel.builder().userToConfirm(user)
+            .requestDate(Calendar.getInstance().getTime()).build();
         SignupRequestModel model = singupRequestRepository.save(signupRequestModel);
         emailService.activateUserMail(user, link.slash(model.getId()).withSelfRel().getHref());
         user.setPassword(null);

@@ -1,7 +1,8 @@
 package it.colletta.library;
 
-import java.io.IOException;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
 
 
 public class FreelingAdapterSocket implements FreelingAdapterInterface {
@@ -17,6 +18,7 @@ public class FreelingAdapterSocket implements FreelingAdapterInterface {
   public FreelingAdapterSocket(final String host, int port) {
     socketClient = new FreelingSocketClient(host, port);
   }
+
 
   /**
    * get a sentence's correction.

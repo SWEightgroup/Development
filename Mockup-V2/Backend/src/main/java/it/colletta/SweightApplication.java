@@ -22,6 +22,7 @@ public class SweightApplication extends SpringBootServletInitializer {
     SpringApplication.run(SweightApplication.class, args);
   }
 
+
   @Bean
   public BCryptPasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();

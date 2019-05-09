@@ -2,8 +2,9 @@ package it.colletta.strategy;
 
 import java.util.ArrayList;
 
-public class DecimalCorrectionStrategyImpl<T extends Number, E extends Comparable<E>> implements
-    CorrectionStrategy<T, E> {
+public class DecimalCorrectionStrategyImpl<T extends Number, E extends Comparable<E>>
+    implements CorrectionStrategy<T, E> {
+
 
   /**
    * Return the mark.

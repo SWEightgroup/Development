@@ -21,6 +21,7 @@ public class CorrectionHelper {
     return solutionFromStudent;
   }
 
+
   /**
    * get Exercise Id.
    */

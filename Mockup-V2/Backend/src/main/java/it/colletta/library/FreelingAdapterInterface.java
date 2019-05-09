@@ -17,5 +17,6 @@ public interface FreelingAdapterInterface {
    *
    * @throws IOException Exception.
    */
+
   void closeConnection() throws IOException;
 }

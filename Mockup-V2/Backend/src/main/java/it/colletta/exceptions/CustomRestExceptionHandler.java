@@ -1,9 +1,5 @@
 package it.colletta.exceptions;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +18,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 
 @ControllerAdvice
@@ -47,6 +49,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
     return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
   }
+
 
   /**
    * Custom BindException error.

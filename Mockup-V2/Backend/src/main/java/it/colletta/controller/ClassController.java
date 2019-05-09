@@ -14,8 +14,7 @@ import it.colletta.model.validator.ClassHelperValidator;
 import it.colletta.model.validator.StudentClassHelperValidator;
 import it.colletta.security.ParseJwt;
 import it.colletta.service.classes.ClassService;
-import java.util.List;
-import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/class")
@@ -50,14 +53,13 @@ public class ClassController {
     binder.setValidator(new StudentClassHelperValidator());
   }
 
+
   /**
    * @param classHelper the new class which needs to be inserted in the database.
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the status of the operation.
    */
-  @RequestMapping(
-      value = "/create",
-      method = RequestMethod.POST,
+  @RequestMapping(value = "/create", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> createClass(@RequestHeader("Authorization") String token,
       @Valid @RequestBody ClassHelper classHelper) {
@@ -75,9 +77,7 @@ public class ClassController {
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the student that was added to the class.
    */
-  @RequestMapping(
-      value = "/modify",
-      method = RequestMethod.PUT,
+  @RequestMapping(value = "/modify", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> modifyStudentsClass(
       @RequestHeader("Authorization") String token,
@@ -96,9 +96,7 @@ public class ClassController {
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the status of the operation.
    */
-  @RequestMapping(
-      value = "/{classId}",
-      method = RequestMethod.DELETE,
+  @RequestMapping(value = "/{classId}", method = RequestMethod.DELETE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> deleteClass(@RequestHeader("Authorization") String token,
       @PathVariable("classId") String classId) {
@@ -115,9 +113,7 @@ public class ClassController {
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the list of teacher classes with all the fields.
    */
-  @RequestMapping(
-      value = "/",
-      method = RequestMethod.GET,
+  @RequestMapping(value = "/", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<TeacherClassesHelper>> getAllClasses(
       @RequestHeader("Authorization") String token) {

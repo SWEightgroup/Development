@@ -6,13 +6,16 @@ import it.colletta.model.helper.StudentClassHelper;
 import it.colletta.model.helper.TeacherClassesHelper;
 import it.colletta.repository.classes.ClassRepository;
 import it.colletta.service.user.UserService;
+
+import lombok.NonNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ClassService {
@@ -27,16 +30,12 @@ public class ClassService {
   }
 
   public String createNewClass(ClassHelper newClass, @NonNull String teacherId) {
-    ClassModel classToAdd = ClassModel.builder()
-        .name(newClass.getName())
-        .teacherId(teacherId)
-        .build();
+    ClassModel classToAdd =
+        ClassModel.builder().name(newClass.getName()).teacherId(teacherId).build();
 
     Optional<List<String>> studentsId = Optional.ofNullable(newClass.getStudentsId());
-    studentsId.ifPresent(strings -> classToAdd.setStudentsId(strings
-        .stream()
-        .distinct()
-        .collect(Collectors.toList())));
+    studentsId.ifPresent(strings -> classToAdd
+        .setStudentsId(strings.stream().distinct().collect(Collectors.toList())));
     classRepository.save(classToAdd);
     return classToAdd.getName();
   }
@@ -57,12 +56,9 @@ public class ClassService {
     List<TeacherClassesHelper> allTeacherClasses = new ArrayList<>();
 
     for (ClassModel actualClassModel : classes) {
-      allTeacherClasses.add(
-          TeacherClassesHelper.builder()
-              .classId(actualClassModel.getId())
-              .className(actualClassModel.getName())
-              .students(userService.getAllListUser(actualClassModel.getStudentsId()))
-              .build());
+      allTeacherClasses.add(TeacherClassesHelper.builder().classId(actualClassModel.getId())
+          .className(actualClassModel.getName())
+          .students(userService.getAllListUser(actualClassModel.getStudentsId())).build());
     }
     return allTeacherClasses;
   }

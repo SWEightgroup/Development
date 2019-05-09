@@ -20,7 +20,6 @@ public class FreelingSocketClient {
   DataInputStream bufferEntrada;
   DataOutputStream bufferSalida;
 
-
   /**
    * Creates a socket.
    *

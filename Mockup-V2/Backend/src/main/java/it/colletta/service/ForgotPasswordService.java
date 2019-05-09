@@ -6,13 +6,15 @@ import it.colletta.model.helper.ChangePasswordHelper;
 import it.colletta.repository.administration.ForgotPasswordRepository;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.service.signup.EmailServiceImpl;
-import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Calendar;
 
 @Service
 public class ForgotPasswordService {
@@ -24,8 +26,8 @@ public class ForgotPasswordService {
 
   @Autowired
   public ForgotPasswordService(UsersRepository usersRepository,
-      ForgotPasswordRepository forgotPasswordRepository,
-      EmailServiceImpl emailService, BCryptPasswordEncoder passwordEncoder) {
+      ForgotPasswordRepository forgotPasswordRepository, EmailServiceImpl emailService,
+      BCryptPasswordEncoder passwordEncoder) {
     this.usersRepository = usersRepository;
     this.forgotPasswordRepository = forgotPasswordRepository;
     this.emailService = emailService;
@@ -47,9 +49,9 @@ public class ForgotPasswordService {
 
   @Transactional
   public void setNewPassword(ChangePasswordHelper passwordHelper) throws Exception {
-    ForgotPasswordModel passwordModel = forgotPasswordRepository
-        .findById(passwordHelper.getRequestId())
-        .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+    ForgotPasswordModel passwordModel =
+        forgotPasswordRepository.findById(passwordHelper.getRequestId())
+            .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
     String password = passwordHelper.getPassword();
     assert password.equals(passwordHelper.getPasswordConfirm());
     String passwordEncoded = passwordEncoder.encode(password);

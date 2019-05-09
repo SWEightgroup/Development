@@ -1,9 +1,11 @@
 package it.colletta.repository.classes;
 
 import it.colletta.model.ClassModel;
-import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface ClassRepository
@@ -14,5 +16,4 @@ public interface ClassRepository
 
   @Override
   void deleteById(final String classId);
-
 }

@@ -10,4 +10,5 @@ public class SecurityConstants {
   public static final String ACTIVATION_URL = "/sign-up/activate";
   public static final String CHANGE_PASS_URL = "/password/change";
   public static final String FORGOT_REQUEST_URL = "/password/forgot";
+
 }

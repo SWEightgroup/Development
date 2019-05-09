@@ -3,15 +3,17 @@ package it.colletta.service.user;
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -101,8 +103,8 @@ public class UserService {
    */
   public UserModel updateUser(final UserModel newUserData, final String token) {
     String email = ParseJwt.getEmailFromJwt(token);
-    UserModel user = applicationUserRepository.findByEmail(email).orElseThrow(
-        ResourceNotFoundException::new);
+    UserModel user =
+        applicationUserRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
     Optional<String> newFirstName = Optional.ofNullable(newUserData.getFirstName());
     newFirstName.ifPresent(user::setFirstName);
     Optional<String> newLastName = Optional.ofNullable(newUserData.getLastName());

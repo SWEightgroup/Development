@@ -4,6 +4,7 @@ import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -17,5 +18,6 @@ public class RepositoryConfig implements RepositoryRestConfigurer {
     config.exposeIdsFor(SolutionModel.class);
     config.exposeIdsFor(PhraseModel.class);
     config.exposeIdsFor(UserModel.class);
+
   }
 }

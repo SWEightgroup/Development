@@ -28,12 +28,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
    * @return HttpStatus of the operation.
    */
   @ExceptionHandler({DataIntegrityViolationException.class})
-  public ResponseEntity<Object> handleBadRequest(
-      final DataIntegrityViolationException ex, final WebRequest request) {
+  public ResponseEntity<Object> handleBadRequest(final DataIntegrityViolationException ex,
+      final WebRequest request) {
     final String bodyOfResponse = "This should be application specific";
-    return handleExceptionInternal(
-        ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST,
+        request);
   }
+
 
   /**
    * Custom error.
@@ -42,9 +43,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
    */
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(
-      final HttpMessageNotReadableException ex,
-      final HttpHeaders headers,
-      final HttpStatus status,
+      final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status,
       final WebRequest request) {
     final String bodyOfResponse = "This should be application specific";
     // ex.getCause() instanceof JsonMappingException, JsonParseException // for additional
@@ -59,9 +58,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
    */
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
-      final MethodArgumentNotValidException ex,
-      final HttpHeaders headers,
-      final HttpStatus status,
+      final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status,
       final WebRequest request) {
     final String bodyOfResponse = "This should be application specific";
     return handleExceptionInternal(ex, bodyOfResponse, headers, HttpStatus.BAD_REQUEST, request);
@@ -73,11 +70,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
    * @return HttpStatus of the operation.
    */
   @ExceptionHandler({AccessDeniedException.class})
-  public ResponseEntity<Object> handleAccessDeniedException(
-      final Exception ex, final WebRequest request) {
+  public ResponseEntity<Object> handleAccessDeniedException(final Exception ex,
+      final WebRequest request) {
     System.out.println("request" + request.getUserPrincipal());
-    return new ResponseEntity<Object>(
-        "Access denied message here", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    return new ResponseEntity<Object>("Access denied message here", new HttpHeaders(),
+        HttpStatus.FORBIDDEN);
   }
 
   /**
@@ -86,11 +83,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
    * @return HttpStatus of the operation.
    */
   @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
-  protected ResponseEntity<Object> handleConflict(
-      final RuntimeException ex, final WebRequest request) {
+  protected ResponseEntity<Object> handleConflict(final RuntimeException ex,
+      final WebRequest request) {
     final String bodyOfResponse = "This should be application specific";
-    return handleExceptionInternal(
-        ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT,
+        request);
   }
 
   /**
@@ -98,16 +95,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
    *
    * @return HttpStatus of the operation.
    */
-  @ExceptionHandler({
-      NullPointerException.class,
-      IllegalArgumentException.class,
-      IllegalStateException.class
-  })
-  /*500*/ public ResponseEntity<Object> handleInternal(
-      final RuntimeException ex, final WebRequest request) {
+  @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class,
+      IllegalStateException.class})
+  /* 500 */ public ResponseEntity<Object> handleInternal(final RuntimeException ex,
+      final WebRequest request) {
     logger.error("500 Status Code", ex);
     final String bodyOfResponse = "This should be application specific";
-    return handleExceptionInternal(
-        ex, bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(),
+        HttpStatus.INTERNAL_SERVER_ERROR, request);
   }
 }

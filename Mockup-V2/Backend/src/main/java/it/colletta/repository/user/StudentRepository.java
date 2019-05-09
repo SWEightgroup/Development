@@ -1,9 +1,11 @@
 package it.colletta.repository.user;
 
 import it.colletta.model.StudentModel;
+
 import org.springframework.data.mongodb.repository.Query;
 
 public interface StudentRepository extends IUserRepository<StudentModel, String> {
+
 
   /**
    * Remove the exercise from the student.

@@ -6,17 +6,20 @@ import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -68,8 +71,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
       String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
           .verify(token.replace(TOKEN_PREFIX, "")).getSubject();
 
-      //ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-      //authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+      // ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+      // authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
       UserDetails userDetails = userDetailsService.loadUserByUsername(user);
 
       if (user != null) {

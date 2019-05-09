@@ -1,13 +1,15 @@
 package it.colletta.model;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -23,6 +25,7 @@ public class ClassModel {
   private List<String> studentsId;
   private String teacherId;
 
+
   /**
    * The method is used to change the name of a class.
    *
@@ -33,7 +36,10 @@ public class ClassModel {
   }
 
   /**
+   *
    * set teacher id.
+   *
+   * @param teacherId TeacherId
    */
   public void setTeacherId(final String teacherId) {
     this.teacherId = teacherId;

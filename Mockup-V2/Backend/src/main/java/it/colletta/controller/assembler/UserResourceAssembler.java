@@ -5,11 +5,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import it.colletta.controller.UserController;
 import it.colletta.controller.assembler.resource.UserResource;
 import it.colletta.model.UserModel;
+
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
-public class UserResourceAssembler extends
-    ResourceAssemblerSupport<UserModel, UserResource> {
+public class UserResourceAssembler extends ResourceAssemblerSupport<UserModel, UserResource> {
 
   private String linkString;
 

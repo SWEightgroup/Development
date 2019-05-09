@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
@@ -16,7 +17,6 @@ import org.springframework.data.annotation.Id;
 @Builder
 @ToString
 public class SolutionModel {
-
   @Id
   @Builder.Default
   private String id = new ObjectId().toHexString();

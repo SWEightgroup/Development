@@ -2,6 +2,7 @@ package it.colletta.service;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.colletta.model.ExerciseModel;
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
@@ -14,6 +15,14 @@ import it.colletta.service.student.StudentService;
 import it.colletta.service.user.UserService;
 import it.colletta.strategy.CorrectionStrategy;
 import it.colletta.strategy.DecimalCorrectionStrategyImpl;
+
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
+
 import java.security.acl.NotOwnerException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,12 +31,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ExerciseService {
@@ -39,8 +42,7 @@ public class ExerciseService {
 
   @Autowired
   public ExerciseService(ExerciseRepository exerciseRepository, PhraseService phraseService,
-      UserService userService,
-      StudentService studentService) {
+      UserService userService, StudentService studentService) {
     this.exerciseRepository = exerciseRepository;
     this.phraseService = phraseService;
     this.userService = userService;
@@ -83,16 +85,16 @@ public class ExerciseService {
    */
   public ExerciseModel insertExercise(ExerciseHelper exercise) {
 
-    PhraseModel phrase = phraseService
-        .createPhrase(exercise.getPhraseText(), exercise.getLanguage());
+    PhraseModel phrase =
+        phraseService.createPhrase(exercise.getPhraseText(), exercise.getLanguage());
 
     Boolean visibilityDev = exercise.getVisibilityDev();
     SolutionModel mainSolution = SolutionModel.builder().visibilityDev(visibilityDev)
         .solutionText(exercise.getMainSolution()).authorId(exercise.getAuthor()).build();
 
     SolutionModel alternativeSolution = null;
-    if (exercise.getAlternativeSolution().length() > 0 && !exercise.getAlternativeSolution()
-        .equals("")) {
+    if (exercise.getAlternativeSolution().length() > 0
+        && !exercise.getAlternativeSolution().equals("")) {
       alternativeSolution = SolutionModel.builder().reliability(0).visibilityDev(visibilityDev)
           .authorId(exercise.getAuthor()).solutionText(exercise.getAlternativeSolution()).build();
     }
@@ -104,16 +106,16 @@ public class ExerciseService {
     phrase = phraseService.insertPhrase(phrase);
 
     Optional<UserModel> userOpt = userService.findById(exercise.getAuthor());
-    UserModel user = userOpt
-        .orElseThrow(() -> new NoSuchElementException("User not found in the system"));
+    UserModel user =
+        userOpt.orElseThrow(() -> new NoSuchElementException("User not found in the system"));
     String authorName = user.getFirstName() + " " + user.getLastName();
-    ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
-        .language(exercise.getLanguage()).dateExercise(System.currentTimeMillis())
-        .mainSolutionId(mainSolution.getId())
-        .alternativeSolutionId(alternativeSolution != null ? alternativeSolution.getId() : null)
-        .phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
-        .visibility(exercise.getVisibility())
-        .authorId(exercise.getAuthor()).authorName(authorName).build();
+    ExerciseModel exerciseModel =
+        ExerciseModel.builder().id((new ObjectId().toHexString())).language(exercise.getLanguage())
+            .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
+            .alternativeSolutionId(alternativeSolution != null ? alternativeSolution.getId() : null)
+            .phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+            .visibility(exercise.getVisibility()).authorId(exercise.getAuthor())
+            .authorName(authorName).build();
     exerciseModel.addStudentToDoIds(exercise.getAssignedUsersIds());
     exerciseModel = exerciseRepository.save(exerciseModel);
     return exerciseModel;
@@ -128,20 +130,19 @@ public class ExerciseService {
    */
   public ExerciseModel insertFreeExercise(ExerciseHelper exercise, String userId) {
 
-    SolutionModel mainSolution = SolutionModel.builder().visibilityDev(exercise.getVisibilityDev())
-        .reliability(0)
-        .authorId(exercise.getAuthor()).solutionText(exercise.getMainSolution()).build();
+    SolutionModel mainSolution =
+        SolutionModel.builder().visibilityDev(exercise.getVisibilityDev()).reliability(0)
+            .authorId(exercise.getAuthor()).solutionText(exercise.getMainSolution()).build();
 
     SolutionModel alternativeSolution = null;
-    if (exercise.getAlternativeSolution().length() > 0 && !exercise.getAlternativeSolution()
-        .equals("")) {
+    if (exercise.getAlternativeSolution().length() > 0
+        && !exercise.getAlternativeSolution().equals("")) {
       alternativeSolution = SolutionModel.builder().reliability(0).authorId(exercise.getAuthor())
           .solutionText(exercise.getAlternativeSolution()).build();
     }
 
     PhraseModel phrase = PhraseModel.builder().language(exercise.getLanguage())
-        .datePhrase(System.currentTimeMillis())
-        .phraseText(exercise.getPhraseText()).build();
+        .datePhrase(System.currentTimeMillis()).phraseText(exercise.getPhraseText()).build();
 
     phrase.addSolution(mainSolution);
     if (alternativeSolution != null) {
@@ -155,9 +156,8 @@ public class ExerciseService {
         .map(userModel -> userModel.getFirstName() + " " + userModel.getLastName()).orElse(null);
     ExerciseModel exerciseModel = ExerciseModel.builder().id((new ObjectId().toHexString()))
         .dateExercise(System.currentTimeMillis()).mainSolutionId(mainSolution.getId())
-        .phraseId(phrase.getId())
-        .phraseText(exercise.getPhraseText()).visibility(exercise.getVisibility()).authorId(userId)
-        .authorName(authorName).build();
+        .phraseId(phrase.getId()).phraseText(exercise.getPhraseText())
+        .visibility(exercise.getVisibility()).authorId(userId).authorName(authorName).build();
     phraseService.increaseReliability(mainSolution);
     return exerciseModel;
   }
@@ -172,46 +172,44 @@ public class ExerciseService {
    */
   public SolutionModel doExercise(CorrectionHelper correctionHelper, String studentId)
       throws Exception {
-    Optional<ExerciseModel> exerciseOptional = exerciseRepository
-        .findById(correctionHelper.getExerciseId());
+    Optional<ExerciseModel> exerciseOptional =
+        exerciseRepository.findById(correctionHelper.getExerciseId());
     if (exerciseOptional.isPresent()) {
       ExerciseModel exerciseToCorrect = exerciseOptional.get();
-      SolutionModel mainSolutionModel = phraseService
-          .getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
+      SolutionModel mainSolutionModel =
+          phraseService.getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
               exerciseToCorrect.getMainSolutionId(), exerciseToCorrect.getAuthorId());
       SolutionModel alternativeSolutionModel = null;
       if (exerciseToCorrect.getAlternativeSolutionId() != null
           && !exerciseToCorrect.getAlternativeSolutionId().isEmpty()) {
-        alternativeSolutionModel = phraseService
-            .getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
+        alternativeSolutionModel =
+            phraseService.getSolutionInPhrase(exerciseToCorrect.getPhraseId(),
                 exerciseToCorrect.getAlternativeSolutionId(), exerciseToCorrect.getAuthorId());
       }
       ObjectMapper objectMapper = new ObjectMapper();
-      JavaType type = objectMapper.getTypeFactory()
-          .constructCollectionType(ArrayList.class, String.class);
-      ArrayList<String> studentSolutionMap = objectMapper
-          .readValue(correctionHelper.getSolutionFromStudent(), type);
-      ArrayList<String> mainSolution = objectMapper
-          .readValue(mainSolutionModel.getSolutionText(), type);
+      JavaType type =
+          objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, String.class);
+      ArrayList<String> studentSolutionMap =
+          objectMapper.readValue(correctionHelper.getSolutionFromStudent(), type);
+      ArrayList<String> mainSolution =
+          objectMapper.readValue(mainSolutionModel.getSolutionText(), type);
       CorrectionStrategy<Double, String> correctionStrategy = new DecimalCorrectionStrategyImpl<>();
       Double mark = correctionStrategy.correction(studentSolutionMap, mainSolution);
       if (mark < 10.00 && alternativeSolutionModel != null) {
-        ArrayList<String> alternativeSolutionMap = objectMapper
-            .readValue(alternativeSolutionModel.getSolutionText(),
-                type);
+        ArrayList<String> alternativeSolutionMap =
+            objectMapper.readValue(alternativeSolutionModel.getSolutionText(), type);
         if (alternativeSolutionMap != null && !alternativeSolutionMap.isEmpty()) {
-          Double alternativeMark = correctionStrategy
-              .correction(studentSolutionMap, alternativeSolutionMap);
+          Double alternativeMark =
+              correctionStrategy.correction(studentSolutionMap, alternativeSolutionMap);
           if (mark < alternativeMark) {
             mark = alternativeMark;
           }
         }
       }
-      Optional<PhraseModel> phraseModel = phraseService
-          .getPhraseById(exerciseToCorrect.getPhraseId());
+      Optional<PhraseModel> phraseModel =
+          phraseService.getPhraseById(exerciseToCorrect.getPhraseId());
       SolutionModel studentSolution = SolutionModel.builder().mark(mark).authorId(studentId)
-          .reliability(0)
-          .solutionText(mainSolutionModel.getSolutionText()).build();
+          .reliability(0).solutionText(mainSolutionModel.getSolutionText()).build();
       if (phraseModel.isPresent()) {
         phraseModel.get().addSolution(studentSolution);
         // phraseService.insertPhrase(phraseModel.get());
@@ -293,21 +291,19 @@ public class ExerciseService {
   public ExerciseInfoHelper getExerciseInfo(final String exerciseId)
       throws ResourceNotFoundException, ParseException {
     ExerciseModel exercise = findById(exerciseId);
-    String dateString = new SimpleDateFormat("MM/dd/yyyy")
-        .format(new Date(exercise.getDateExercise()));
+    String dateString =
+        new SimpleDateFormat("MM/dd/yyyy").format(new Date(exercise.getDateExercise()));
     Optional<String> alternativaSolutionId = exercise.getAlternativeSolutionIdOptional();
     SolutionModel alternativeSolution = null;
     if (alternativaSolutionId.isPresent()) {
-      alternativeSolution = phraseService
-          .getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
-              exercise.getAuthorId());
+      alternativeSolution = phraseService.getSolutionInPhrase(exercise.getPhraseId(),
+          exercise.getMainSolutionId(), exercise.getAuthorId());
     }
     return ExerciseInfoHelper.builder().authorName(exercise.getAuthorName())
-        .exerciseText(exercise.getPhraseText())
-        .language(exercise.getLanguage()).date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
-        .mainSolution(
-            phraseService.getSolutionInPhrase(exercise.getPhraseId(), exercise.getMainSolutionId(),
-                exercise.getAuthorId()))
+        .exerciseText(exercise.getPhraseText()).language(exercise.getLanguage())
+        .date(new SimpleDateFormat("dd/MM/yyyy").parse(dateString))
+        .mainSolution(phraseService.getSolutionInPhrase(exercise.getPhraseId(),
+            exercise.getMainSolutionId(), exercise.getAuthorId()))
         .alternativeSolution(alternativeSolution)
         .studentToDo(userService.getAllListUser(exercise.getStudentIdToDo()))
         .studentDone(userService.getAllListUser(exercise.getStudentIdDone())).build();

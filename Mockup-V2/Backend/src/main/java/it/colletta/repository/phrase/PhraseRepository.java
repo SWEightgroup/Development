@@ -2,10 +2,12 @@ package it.colletta.repository.phrase;
 
 import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
-import java.util.List;
-import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PhraseRepository
@@ -17,6 +19,7 @@ public interface PhraseRepository
    */
   @Override
   void deleteById(final String phraseId);
+
 
   /**
    * @return Optional<PhraseModel>

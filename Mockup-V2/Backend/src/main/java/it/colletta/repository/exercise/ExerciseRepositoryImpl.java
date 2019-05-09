@@ -1,8 +1,9 @@
 package it.colletta.repository.exercise;
 
 import com.mongodb.client.result.UpdateResult;
+
 import it.colletta.model.ExerciseModel;
-import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.List;
 
 public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
@@ -71,10 +74,8 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   @Override
   public Page<ExerciseModel> findAllPublicExercises(Pageable page, String studentId) {
-    Query query = new Query(
-        Criteria.where("studentIdDone").nin(studentId).and("studentIdToDo").nin(studentId)
-            .and("visibility").is(true))
-        .with(page);
+    Query query = new Query(Criteria.where("studentIdDone").nin(studentId).and("studentIdToDo")
+        .nin(studentId).and("visibility").is(true)).with(page);
     return new PageImpl<>(mongoTemplate.find(query, ExerciseModel.class), page,
         mongoTemplate.count(query, ExerciseModel.class));
   }
@@ -89,10 +90,9 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
    */
   @Override
   public Page<ExerciseModel> findAllFavoriteExercises(Pageable page,
-      List<String> teacherFavoriteIds,
-      String studentId) {
-    Query query = new Query(
-        Criteria.where("studentIdDone").nin(studentId).and("studentIdToDo").nin(studentId)
+      List<String> teacherFavoriteIds, String studentId) {
+    Query query =
+        new Query(Criteria.where("studentIdDone").nin(studentId).and("studentIdToDo").nin(studentId)
             .and("visibility").is(true).and("authorId").in(teacherFavoriteIds)).with(page);
     return new PageImpl<>(mongoTemplate.find(query, ExerciseModel.class), page,
         mongoTemplate.count(query, ExerciseModel.class));

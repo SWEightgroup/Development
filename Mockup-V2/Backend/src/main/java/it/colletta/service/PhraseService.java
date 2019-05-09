@@ -4,16 +4,19 @@ import it.colletta.model.PhraseModel;
 import it.colletta.model.SolutionModel;
 import it.colletta.model.helper.FilterHelper;
 import it.colletta.repository.phrase.PhraseRepository;
+
+import lombok.NonNull;
+
+import org.bson.Document;
+import org.bson.json.JsonWriterSettings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
-import lombok.NonNull;
-import org.bson.Document;
-import org.bson.json.JsonWriterSettings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PhraseService {
@@ -26,7 +29,6 @@ public class PhraseService {
    * @param phraseRepository phraseRepository.
    */
   @Autowired
-
   public PhraseService(final PhraseRepository phraseRepository) {
     this.phraseRepository = phraseRepository;
   }
@@ -50,8 +52,8 @@ public class PhraseService {
   public PhraseModel insertPhrase(PhraseModel newPhrase) {
 
     PhraseModel returnPhrase;
-    Optional<PhraseModel> phraseOptional = phraseRepository
-        .findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
+    Optional<PhraseModel> phraseOptional =
+        phraseRepository.findPhraseModelByPhraseTextIs(newPhrase.getPhraseText());
     if (phraseOptional.isPresent()) {
       PhraseModel phrase = phraseOptional.get();
 
@@ -167,8 +169,7 @@ public class PhraseService {
 
   public PhraseModel createPhrase(String phraseText, String language) {
     return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis())
-        .phraseText(phraseText)
-        .build();
+        .phraseText(phraseText).build();
 
   }
 }

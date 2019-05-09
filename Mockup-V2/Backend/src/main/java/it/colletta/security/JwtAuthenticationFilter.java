@@ -8,19 +8,23 @@ import static it.colletta.security.SecurityConstants.TOKEN_PREFIX;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.colletta.model.UserModel;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -45,14 +49,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    */
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
-      HttpServletResponse response)
-      throws AuthenticationException {
+      HttpServletResponse response) throws AuthenticationException {
     try {
       UserModel creds = new ObjectMapper().readValue(request.getInputStream(), UserModel.class);
-      return authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(creds.getUsername().toLowerCase(),
-              creds.getPassword(), new ArrayList<>())
-      );
+      return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+          creds.getUsername().toLowerCase(), creds.getPassword(), new ArrayList<>()));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -67,14 +68,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
    */
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-      FilterChain chain,
-      Authentication auth) throws IOException, ServletException {
+      FilterChain chain, Authentication auth) throws IOException, ServletException {
     UserModel userModel = ((UserModel) auth.getPrincipal());
     userModel.setPassword(null);
-    String token = JWT.create().withJWTId(userModel.getId())
-        .withSubject(userModel.getUsername().toLowerCase())
-        .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-        .sign(HMAC512(SECRET.getBytes()));
+    String token =
+        JWT.create().withJWTId(userModel.getId()).withSubject(userModel.getUsername().toLowerCase())
+            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+            .sign(HMAC512(SECRET.getBytes()));
     response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     response.setHeader("Access-Control-Expose-Headers", "Authorization");
     response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");

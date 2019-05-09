@@ -4,6 +4,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 import it.colletta.model.helper.ChangePasswordHelper;
 import it.colletta.service.ForgotPasswordService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,13 +25,15 @@ public class ForgotPassword {
     this.forgotPasswordService = forgotPasswordService;
   }
 
+
   /**
    * Generate new password forgot.
    *
    * @param forgotObject forgotObject.
    * @return HttpStatus of the operation.
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/forgot", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.POST, value = "/forgot",
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> requestNewPassword(@RequestBody ChangePasswordHelper passwordHelper) {
     try {
       forgotPasswordService.generateNewPasswordRequest(passwordHelper.getUsername(),
@@ -48,7 +51,8 @@ public class ForgotPassword {
    * @param passwordHelper passwordHelper.
    * @return HttpStatus of the operation.
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.POST, value = "/change",
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changePassword(@RequestBody ChangePasswordHelper passwordHelper) {
     try {
       forgotPasswordService.setNewPassword(passwordHelper);

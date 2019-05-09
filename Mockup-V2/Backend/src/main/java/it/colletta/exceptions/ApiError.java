@@ -1,8 +1,9 @@
 package it.colletta.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 
 public class ApiError {
 
@@ -23,6 +24,7 @@ public class ApiError {
     this.message = message;
     this.errors = errors;
   }
+
 
   /**
    * Class constructor.

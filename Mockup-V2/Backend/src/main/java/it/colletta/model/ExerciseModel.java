@@ -2,15 +2,18 @@ package it.colletta.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.ToString;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Builder
@@ -37,6 +40,7 @@ public class ExerciseModel {
   private ArrayList<String> studentIdToDo = new ArrayList<>();
   @Builder.Default
   private ArrayList<String> studentIdDone = new ArrayList<>();
+
 
   /**
    * Constructor.

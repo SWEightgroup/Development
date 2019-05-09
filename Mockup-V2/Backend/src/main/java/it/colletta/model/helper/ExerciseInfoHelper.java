@@ -2,14 +2,16 @@ package it.colletta.model.helper;
 
 import it.colletta.model.SolutionModel;
 import it.colletta.model.UserModel;
-import java.util.Date;
-import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +20,6 @@ import lombok.ToString;
 @ToString
 @Builder
 public class ExerciseInfoHelper {
-
   private String exerciseText;
   private String authorName;
   private Date date;

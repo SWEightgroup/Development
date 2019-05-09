@@ -2,11 +2,13 @@ package it.colletta.service.signup;
 
 import it.colletta.model.UserModel;
 import it.colletta.security.Role;
-import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailServiceImpl {
@@ -37,8 +39,7 @@ public class EmailServiceImpl {
       body = body.append("Please follow the link to activate your account: " + link + "\n");
     }
 
-    body.append("Thank you so much."
-        + "\nRegards, Colletta team");
+    body.append("Thank you so much." + "\nRegards, Colletta team");
 
     helper.setSubject("Activate your account in Colletta");
     helper.setText(body.toString());
@@ -52,8 +53,7 @@ public class EmailServiceImpl {
     StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName()
         + "\n" + "Follow the link to check change the password. \n");
     body.append("Recover password: ").append(link).append("\n");
-    body.append("Thank you so much."
-        + "\nRegards, Colletta team");
+    body.append("Thank you so much." + "\nRegards, Colletta team");
     helper.setSubject("Recover your account in Colletta");
     helper.setText(body.toString());
     sender.send(message);

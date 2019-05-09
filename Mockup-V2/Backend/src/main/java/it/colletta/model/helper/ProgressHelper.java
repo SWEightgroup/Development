@@ -20,6 +20,7 @@ public class ProgressHelper {
     this.nextLevel = .0;
   }
 
+
   /**
    * Class constructor.
    */

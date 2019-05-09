@@ -2,12 +2,13 @@ package it.colletta.repository.classes;
 
 import it.colletta.model.ClassModel;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.List;
 
 public class ClassRepositoryImpl implements ClassCustomQueryInterface {
 
@@ -23,6 +24,7 @@ public class ClassRepositoryImpl implements ClassCustomQueryInterface {
     Query query = new Query(Criteria.where("_id").is(classId));
     mongoTemplate.updateFirst(query, Update.update("name", newClassName), ClassModel.class);
   }
+
 
   @Override
   public List<ClassModel> getAllTeacherClasses(String teacherId) {

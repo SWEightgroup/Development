@@ -1,9 +1,11 @@
 package it.colletta.repository.user;
 
 import it.colletta.model.UserModel;
-import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 // interface for custom query on users collections
 public interface UserCustomQueryInterface {
@@ -17,7 +19,6 @@ public interface UserCustomQueryInterface {
    * @return all the user who are successfully register and activated in the system
    */
   List<UserModel> getAllUsers();
-
 
   /**
    * @return all the user who are in the list
