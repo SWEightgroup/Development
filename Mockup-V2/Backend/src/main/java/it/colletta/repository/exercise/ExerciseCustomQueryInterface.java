@@ -12,9 +12,6 @@ import java.util.List;
 
 public interface ExerciseCustomQueryInterface {
 
-  /**
-   *
-   */
   UpdateResult modifyAuthorName(final String newAuthorName, String authorId);
 
   Page<ExerciseModel> findByIdPaged(Pageable page, List<ObjectId> ids);

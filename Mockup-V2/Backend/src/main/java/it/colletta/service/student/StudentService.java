@@ -24,7 +24,7 @@ public class StudentService {
   private UserService userService;
 
   /**
-   * Construct a new student service using a repository
+   * Construct a new student service using a repository.
    *
    * @param studentRepository the student repository
    */
@@ -48,6 +48,12 @@ public class StudentService {
     return studentRepository.findById(userId);
   }
 
+  /**
+   * increaseLevel.
+   * 
+   * @param mark Mark
+   * @param studentId Student ud
+   */
   public void increaseLevel(Double mark, String studentId) {
     StudentModel student = studentRepository.findById(studentId)
         .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
@@ -60,6 +66,12 @@ public class StudentService {
     studentRepository.save(student);
   }
 
+  /**
+   * getStudentProgress.
+   * 
+   * @param studentId.
+   * @return Progress
+   */
   public ProgressHelper getStudentProgress(String studentId) {
     StudentModel student = studentRepository.findById(studentId)
         .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
@@ -70,7 +82,7 @@ public class StudentService {
   }
 
   /**
-   * Modify the List of the student favorite teacher List
+   * Modify the List of the student favorite teacher List.
    *
    * @param studentId the unique Id of the student
    */
@@ -94,7 +106,7 @@ public class StudentService {
   }
 
   /**
-   * Add teacher of the student favorite teacher List
+   * Add teacher of the student favorite teacher List.
    *
    * @param studentId the unique Id of the student
    */
@@ -110,7 +122,7 @@ public class StudentService {
   }
 
   /**
-   * Delete teacher of the student favorite teacher List
+   * Delete teacher of the student favorite teacher List.
    *
    * @param studentId the unique Id of the student
    */

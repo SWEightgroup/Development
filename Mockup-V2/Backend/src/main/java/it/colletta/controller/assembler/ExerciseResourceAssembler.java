@@ -5,11 +5,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import it.colletta.controller.ExerciseController;
 import it.colletta.controller.assembler.resource.ExerciseResource;
 import it.colletta.model.ExerciseModel;
+
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
-public class ExerciseResourceAssembler extends
-    ResourceAssemblerSupport<ExerciseModel, ExerciseResource> {
+public class ExerciseResourceAssembler
+    extends ResourceAssemblerSupport<ExerciseModel, ExerciseResource> {
 
   private String linkString;
 
@@ -23,7 +24,7 @@ public class ExerciseResourceAssembler extends
   }
 
   /**
-   * Create a new resource for links
+   * Create a new resource for links.
    *
    * @param exercise the exercise we want link
    * @return the resource for pagination

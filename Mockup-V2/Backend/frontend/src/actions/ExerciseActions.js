@@ -238,13 +238,15 @@ export const loadDoneExercises = _link => {
       })
       .then(res => {
         dispatch({ type: 'LOAD_DONE_SUCCESS', todo: res.data });
+        dispatch(innerLoaderOff);
       })
       .catch(err => {
         console.error(err);
         _toastError(
           _translator('gen_error', store.getState().auth.user.language)
         );
-        return dispatch({ type: '' });
+        dispatch(innerLoaderOff);
+        dispatch({ type: '' });
       });
   };
 };
@@ -346,6 +348,28 @@ export const changePublicExerciseFilter = onlyFavourite => {
       })
     );
     dispatch({ type: 'CHANGE_PUBLIC_EXERCISE_FILTER' });
+  };
+};
+
+export const onDeleteExercise = exerciseId => {
+  return dispatch => {
+    dispatch(innerLoaderOn());
+    axios
+      .delete(`http://localhost:8081/exercises/${exerciseId}`, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch(loadDoneExercises());
+      })
+      .catch(err => {
+        console.error(err);
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
   };
 };
 

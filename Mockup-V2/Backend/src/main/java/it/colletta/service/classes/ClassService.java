@@ -29,6 +29,12 @@ public class ClassService {
     this.userService = userService;
   }
 
+  /**
+   * createNewClass.
+   * 
+   * @param newClass A New Class
+   * @param teacherId Teacher Id.
+   */
   public String createNewClass(ClassHelper newClass, @NonNull String teacherId) {
     ClassModel classToAdd =
         ClassModel.builder().name(newClass.getName()).teacherId(teacherId).build();
@@ -41,6 +47,11 @@ public class ClassService {
   }
 
 
+  /**
+   * modifyExistingStudentClass.
+   * 
+   * @throws Exception Exception
+   */
   public void modifyExistingStudentClass(StudentClassHelper studentClassHelper) throws Exception {
     classRepository.updateClass(studentClassHelper.getClassId(), studentClassHelper.getStudentsId(),
         studentClassHelper.getClassName());
@@ -50,6 +61,13 @@ public class ClassService {
     classRepository.deleteById(classId);
   }
 
+  /**
+   * getAllClasses.
+   * 
+   * @param teacherId Teacher Id
+   * @return List of class
+   * @throws NullPointerException Nullpointer exception
+   */
   public List<TeacherClassesHelper> getAllClasses(@NonNull String teacherId)
       throws NullPointerException {
     List<ClassModel> classes = classRepository.getAllTeacherClasses(teacherId);

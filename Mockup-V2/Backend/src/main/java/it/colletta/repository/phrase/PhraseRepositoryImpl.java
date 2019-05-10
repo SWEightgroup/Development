@@ -29,9 +29,6 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
   private MongoTemplate mongoTemplate;
 
-  /**
-   *
-   */
   @Autowired
   public PhraseRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
@@ -59,24 +56,6 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     UpdateResult updateResult = mongoTemplate.updateMulti(query, update, PhraseModel.class);
     return updateResult;
   }
-
-  // aggregate([{$match:{"_id":ObjectId("5ca7bcae83406d3d1c5bfb58")}},{$unwind:
-  // "$solutions"},{$match:{"solutions._id" :
-  // ObjectId("5ca7bcae83406d3d1c5bfb57")}}, { "$project" :
-  // { "solutions": 1, "_id": 0 }}
-
-  /*
-   * @Override public SolutionModel getSolution(final String phraseId, String solutionId) {
-   * Aggregation aggregation = Aggregation.newAggregation( match(Criteria.where("_id").is(new
-   * ObjectId(phraseId))), unwind("$solutions"), match(Criteria.where("solutions._id").is(new
-   * ObjectId(solutionId)))); AggregationResults<Document> doc =
-   * mongoTemplate.aggregate(aggregation, "phrases", Document.class); Document obj =
-   * doc.getUniqueMappedResult().get("solutions", Document.class); return
-   * SolutionModel.builder().id(obj.getObjectId("_id").toHexString())
-   * .solutionText(obj.getString("solutionText")).authorId(obj.getString( "authorId"))
-   * .reliability(obj.getInteger("reliability")).dateSolution(obj.getLong( "dateSolution"))
-   * .build(); }
-   */
 
   @Override
   public SolutionModel getSolution(final String phraseId, String solutionId) {
@@ -106,21 +85,16 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
 
   @Override
   public List<Document> findAllPhrasesWithFilter(FilterHelper filterHelper) {
-    /*
-     * Query query = new Query();
-     * query.addCriteria(Criteria.where("language").in(filter.getLanguages()));
-     * query.addCriteria(Criteria.where("solutions.dateSolution").gte(filter.
-     * getStartDate()).lte(filter.getEndDate()));
-     * query.addCriteria(Criteria.where("solutions.reliability").gte(filter. getMinReliability()));
-     */
+
+    final long oneDay = 86400000;
     long dateStart = filterHelper.getStartDate() != null ? filterHelper.getStartDate() : 0;
-    long dateEnd = filterHelper.getEndDate() != null ? filterHelper.getEndDate() + 86400000
-        : (new Date().getTime() + 86400000);
     GregorianCalendar start = new GregorianCalendar();
     start.setTimeInMillis(dateStart);
     start.set(GregorianCalendar.HOUR, 0);
     start.set(GregorianCalendar.MINUTE, 0);
     start.set(GregorianCalendar.SECOND, 0);
+    long dateEnd = filterHelper.getEndDate() != null ? filterHelper.getEndDate() + oneDay
+        : new Date().getTime() + oneDay;
     GregorianCalendar end = new GregorianCalendar();
     end.setTimeInMillis(dateEnd);
     end.set(GregorianCalendar.HOUR, 0);
@@ -137,14 +111,6 @@ public class PhraseRepositoryImpl implements PhraseCustomQueryInterface {
     AggregationResults<Document> doc =
         mongoTemplate.aggregate(aggregation, "phrases", Document.class);
     return doc.getMappedResults();
-
-    /*
-     * Bson filter = and ( in("language", filterHelper.getLanguages()),
-     * gte("solutions.dateSolution", filterHelper.getStartDate()), lte("solutions.dateSolution",
-     * filterHelper.getEndDate()), gte("solutions.reliability", filterHelper.getMinReliability()) );
-     *
-     * FindIterable<Document> result = mongoTemplate.getCollection("phrases").find();
-     */
   }
 
 }

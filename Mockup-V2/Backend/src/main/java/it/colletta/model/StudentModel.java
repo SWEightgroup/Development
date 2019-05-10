@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection = "users")
+@Document(
+    collection = "users")
 // @TypeAlias("student")
 public class StudentModel extends UserModel {
 
@@ -16,13 +17,21 @@ public class StudentModel extends UserModel {
 
   private List<String> favoriteTeacherIds;
 
+  /**
+   * Constructor.
+   */
   public StudentModel() {
     super();
     this.favoriteTeacherIds = new ArrayList<>();
     this.currentGoal = 0;
   }
 
-  @Builder(builderMethodName = "studentBuilder")
+  /**
+   * Constructor (builder).
+   * 
+   */
+  @Builder(
+      builderMethodName = "studentBuilder")
   public StudentModel(String id, String email, String firstName, String lastName, String password,
       String role, String language, Date dateOfBirth, Boolean enabled) {
     super(id, email, firstName, lastName, password, role, language, dateOfBirth, enabled);

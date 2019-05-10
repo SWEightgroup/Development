@@ -9,20 +9,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-
 /**
- * This class is used to manage the signup request from user
+ * @author Gionata This class is used to manage the signup request from user.
  */
+
 @Builder
 @Getter
-@Document(collection = "singuprequests")
+@Document(
+    collection = "singuprequests")
 public class SignupRequestModel {
 
   @Id
   private String id;
   private String token;
 
-  @Indexed(name = "Time To Live", expireAfterSeconds = 86400)
+  @Indexed(
+      name = "Time To Live",
+      expireAfterSeconds = 86400)
   private Date requestDate;
   private UserModel userToConfirm;
 }

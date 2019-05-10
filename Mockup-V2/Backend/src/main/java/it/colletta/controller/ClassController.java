@@ -59,25 +59,29 @@ public class ClassController {
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the status of the operation.
    */
-  @RequestMapping(value = "/create", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/create",
+      method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> createClass(@RequestHeader("Authorization") String token,
       @Valid @RequestBody ClassHelper classHelper) {
     try {
       String newClassName = classService.createNewClass(classHelper, ParseJwt.getIdFromJwt(token));
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
 
   /**
-   * @param studentClassHelper DTO with unique classId and List<String> userId.
+   * @param studentClassHelper DTO with unique classId and List String userId.
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the student that was added to the class.
    */
-  @RequestMapping(value = "/modify", method = RequestMethod.PUT,
+  @RequestMapping(
+      value = "/modify",
+      method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> modifyStudentsClass(
       @RequestHeader("Authorization") String token,
@@ -85,8 +89,8 @@ public class ClassController {
     try {
       classService.modifyExistingStudentClass(studentClassHelper);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -96,15 +100,17 @@ public class ClassController {
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the status of the operation.
    */
-  @RequestMapping(value = "/{classId}", method = RequestMethod.DELETE,
+  @RequestMapping(
+      value = "/{classId}",
+      method = RequestMethod.DELETE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<HttpStatus> deleteClass(@RequestHeader("Authorization") String token,
       @PathVariable("classId") String classId) {
     try {
       classService.deleteClass(classId);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -113,15 +119,17 @@ public class ClassController {
    * @param token the authorization token of the teacher.
    * @return A new ResponseEntity that contains the list of teacher classes with all the fields.
    */
-  @RequestMapping(value = "/", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<TeacherClassesHelper>> getAllClasses(
-      @RequestHeader("Authorization") String token) {
+  public ResponseEntity<List<TeacherClassesHelper>>
+      getAllClasses(@RequestHeader("Authorization") String token) {
     try {
       return new ResponseEntity<>(classService.getAllClasses(ParseJwt.getIdFromJwt(token)),
           HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }

@@ -23,7 +23,7 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<UserModel, U
   }
 
   /**
-   * Create a new resource for links
+   * Create a new resource for links.
    *
    * @param user the user we want link
    * @return the resource for pagination

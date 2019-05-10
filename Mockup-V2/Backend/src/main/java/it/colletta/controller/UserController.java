@@ -8,6 +8,7 @@
  * @description Menage the HTTP user request regarding the user
  *
  */
+
 package it.colletta.controller;
 
 import it.colletta.controller.assembler.UserResourceAssembler;
@@ -61,7 +62,9 @@ public class UserController {
    * @param userId the user unique id
    * @return the user deleted by the admin.
    */
-  @RequestMapping(value = "/admin/delete-user/{userId}", method = RequestMethod.DELETE,
+  @RequestMapping(
+      value = "/admin/delete-user/{userId}",
+      method = RequestMethod.DELETE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> deleteUser(@PathVariable("userId") String userId) {
     try {
@@ -76,10 +79,12 @@ public class UserController {
    * @param jwtToken the token of the user
    * @return all the developers that are disabled.
    */
-  @RequestMapping(value = "/users/admin/get-all-disabled", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/users/admin/get-all-disabled",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserModel>> getAllDevelopmentToEnable(
-      @RequestHeader("Authorization") String jwtToken) {
+  public ResponseEntity<List<UserModel>>
+      getAllDevelopmentToEnable(@RequestHeader("Authorization") String jwtToken) {
     String userId = ParseJwt.getIdFromJwt(jwtToken);
     return new ResponseEntity<>(userService.getAllDevelopmentToEnable(userId), HttpStatus.OK);
   }
@@ -88,7 +93,9 @@ public class UserController {
    * @param token the token of the user
    * @return all the user, exclude the admin, that are register in the system.
    */
-  @RequestMapping(value = "/users/admin/get-all-user", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/users/admin/get-all-user",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<UserModel>> getAllUser(@RequestHeader("Authorization") String token) {
     return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
@@ -99,7 +106,9 @@ public class UserController {
    * @return An Usermodel if the operation completed correctly otherwise return an unavailable
    *         response.
    */
-  @RequestMapping(value = "/users/get-info", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/users/get-info",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> getUserInfo(@RequestHeader("Authorization") String token) {
     try {
@@ -116,8 +125,11 @@ public class UserController {
    * @param newUserData New data od user
    * @return All user info.
    */
-  @CrossOrigin(origins = "*")
-  @RequestMapping(value = "/users/modify", method = RequestMethod.PUT,
+  @CrossOrigin(
+      origins = "*")
+  @RequestMapping(
+      value = "/users/modify",
+      method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserModel> usersModify(@RequestHeader("Authorization") String token,
       @RequestBody UserModel newUserData) {
@@ -140,14 +152,18 @@ public class UserController {
    * @param id the unique id of the user.
    * @return true if the user has been activated, else return false.
    */
-  @RequestMapping(value = "/users/admin/activate-user/{id}", method = RequestMethod.PUT,
+  @RequestMapping(
+      value = "/users/admin/activate-user/{id}",
+      method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> activateDeveloper(@PathVariable("id") String id) {
     userService.activateUser(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(
+      value = "/count",
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Long> count() {
     return new ResponseEntity<>(userService.count(), HttpStatus.OK);
   }
@@ -155,7 +171,9 @@ public class UserController {
   /**
    * @return all the students that are present in the system.
    */
-  @RequestMapping(value = "/users/get-students", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/users/get-students",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Iterable<StudentModel>> getStudentsList() {
     return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
@@ -170,18 +188,20 @@ public class UserController {
    * @return A paged version of the favorite teacher.
    * @see com.auth0.jwt.JWT
    */
-  @RequestMapping(value = "/users/{Role}", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/users/{Role}",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getUsersByRole(@PageableDefault(value = 10) Pageable pageable,
-      PagedResourcesAssembler<UserModel> assembler, @RequestHeader("Authorization") String token,
-      @PathVariable("Role") String role) {
+  public ResponseEntity<?> getUsersByRole(@PageableDefault(
+      value = 10) Pageable pageable, PagedResourcesAssembler<UserModel> assembler,
+      @RequestHeader("Authorization") String token, @PathVariable("Role") String role) {
     try {
       Page<UserModel> users = userService.findByRole(pageable, role);
       PagedResources<?> resources =
           assembler.toResource(users, new UserResourceAssembler("/user-by-role"));
       return new ResponseEntity<>(resources, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (Exception error) {
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

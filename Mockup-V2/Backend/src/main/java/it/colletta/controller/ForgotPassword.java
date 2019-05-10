@@ -29,18 +29,20 @@ public class ForgotPassword {
   /**
    * Generate new password forgot.
    *
-   * @param forgotObject forgotObject.
+   * @param passwordHelper passwordHelper.
    * @return HttpStatus of the operation.
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/forgot",
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/forgot",
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> requestNewPassword(@RequestBody ChangePasswordHelper passwordHelper) {
     try {
       forgotPasswordService.generateNewPasswordRequest(passwordHelper.getUsername(),
           linkTo(SingnupController.class).slash("/forgot-password"));
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
@@ -51,14 +53,16 @@ public class ForgotPassword {
    * @param passwordHelper passwordHelper.
    * @return HttpStatus of the operation.
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/change",
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/change",
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changePassword(@RequestBody ChangePasswordHelper passwordHelper) {
     try {
       forgotPasswordService.setNewPassword(passwordHelper);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
   }

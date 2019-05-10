@@ -24,7 +24,7 @@ public class DecimalCorrectionStrategyImpl<T extends Number, E extends Comparabl
     }
     int num = points * 10;
     int size = teacherSolution.size();
-    Object t = ((double) num / (double) size);
-    return (T) t;
+    Object var = ((double) num / (double) size);
+    return (T) var;
   }
 }

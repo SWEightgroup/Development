@@ -15,25 +15,25 @@ public interface PhraseRepository
 
 
   /**
-   * @param phraseId the unique Id of the phrase
+   * @param phraseId the unique Id of the phrase.
    */
   @Override
   void deleteById(final String phraseId);
 
 
   /**
-   * @return Optional<PhraseModel>
+   * @return Optional PhraseModel.
    */
   @Override
   Iterable<PhraseModel> findAllById(Iterable<String> ids);
 
   /**
-   * @paramauthorId
+   * findAllByAuthor.
    */
   List<PhraseModel> findAllByAuthor(final String authorId);
 
   /**
-   * @paramauthorId
+   * findAllSolutionsByAuthor.
    */
   List<SolutionModel> findAllSolutionsByAuthor(final String authorId);
 

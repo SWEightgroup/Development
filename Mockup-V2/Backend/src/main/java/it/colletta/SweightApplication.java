@@ -16,15 +16,17 @@ public class SweightApplication extends SpringBootServletInitializer {
   private static final Logger logger = LogManager.getLogger(SweightApplication.class);
 
   /**
-   *
+   * main.
    */
   public static void main(final String[] args) {
     SpringApplication.run(SweightApplication.class, args);
   }
 
-
+  /**
+   * bCryptPasswordEncoder.
+   */
   @Bean
-  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+  public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 }

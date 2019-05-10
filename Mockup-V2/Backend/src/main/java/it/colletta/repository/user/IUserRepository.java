@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface IUserRepository<T, ID> extends MongoRepository<T, ID> {
+public interface IUserRepository<T, I> extends MongoRepository<T, I> {
 
   /**
    * Find the user by his email.

@@ -32,9 +32,9 @@ public class UserService {
 
 
   /**
-   * Return list of user by role
+   * Return list of user by role.
    *
-   * @return List<UserModel> with that role
+   * @return List UserModel with that role
    */
   public Page<UserModel> findByRole(final Pageable page, final String role) {
     return applicationUserRepository.findAllByRolePage(page, role);
@@ -125,7 +125,6 @@ public class UserService {
     return applicationUserRepository.getAllUsers();
   }
 
-  // TODO e' developer....
 
   public long count() {
     return applicationUserRepository.count();

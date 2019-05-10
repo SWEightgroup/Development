@@ -40,6 +40,9 @@ public class ExerciseService {
   private UserService userService;
   private StudentService studentService;
 
+  /**
+   * Constructor.
+   */
   @Autowired
   public ExerciseService(ExerciseRepository exerciseRepository, PhraseService phraseService,
       UserService userService, StudentService studentService) {
@@ -284,6 +287,8 @@ public class ExerciseService {
   }
 
   /**
+   * getExerciseInfo.
+   * 
    * @param exerciseId the unique id of the exercise
    * @return ExerciseInfoHelper a DTO with all the info about the exercise
    * @throws ResourceNotFoundException if the Exercise is not in the system

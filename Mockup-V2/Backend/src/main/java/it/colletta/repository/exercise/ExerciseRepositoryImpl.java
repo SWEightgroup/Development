@@ -20,9 +20,6 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
 
   private MongoTemplate mongoTemplate;
 
-  /**
-   *
-   */
   @Autowired
   public ExerciseRepositoryImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
@@ -60,12 +57,18 @@ public class ExerciseRepositoryImpl implements ExerciseCustomQueryInterface {
     return new PageImpl<>(exerciseModelList, page, total);
   }
 
+  /**
+   * pullStudentToDoList.
+   */
   public void pullStudentToDoList(String exerciseId, String studentId) {
     Query query = new Query(Criteria.where("_id").is(new ObjectId(exerciseId)));
     Update update = new Update().pull("studentIdToDo", studentId);
     mongoTemplate.updateMulti(query, update, ExerciseModel.class);
   }
 
+  /**
+   * pushStudentDoneList.
+   */
   public void pushStudentDoneList(String exerciseId, String studentId) {
     Query query = new Query(Criteria.where("_id").is(new ObjectId(exerciseId)));
     Update update = new Update().push("studentIdDone", studentId);

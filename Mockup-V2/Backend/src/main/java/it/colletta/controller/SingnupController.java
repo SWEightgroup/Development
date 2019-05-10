@@ -42,32 +42,36 @@ public class SingnupController {
    * @param userDataTransferObject the user obj with username and password
    * @return ResponseEntity if the operation completed correctly otherwise return an error response.
    */
-  @RequestMapping(value = "/sign-up", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/sign-up",
+      method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> signUp(@Valid @RequestBody UserHelper userDataTransferObject) {
 
     userDataTransferObject.setEmail(userDataTransferObject.getEmail().toLowerCase());
     UserModel user = (new UserConverter().convert(userDataTransferObject));
     try {
-      if (singupService.addUser(user,
-          linkTo(SingnupController.class).slash("/sign-up/active")) != null) {
+      if (singupService.addUser(user, linkTo(SingnupController.class).slash("/sign-up/active"))
+          != null) {
         return new ResponseEntity<>(user, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-      return new ResponseEntity<>(e.getClass().getCanonicalName(), HttpStatus.UNPROCESSABLE_ENTITY);
+    } catch (Exception error) {
+      error.printStackTrace();
+      return new ResponseEntity<>(error.getClass().getCanonicalName(),
+          HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
-  // TODO URGENTE Sistemare questo servizio
-
   /**
-   * chiedere a Gionata per l'errore
+   * setEnabledToTrue.
+   * 
+   * @param requestId Request Id
    */
-
-  @RequestMapping(value = "/sign-up/activate/{id}", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/sign-up/activate/{id}",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> activateUser(@PathVariable("id") String requestId) {
     try {

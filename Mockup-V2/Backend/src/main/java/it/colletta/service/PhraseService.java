@@ -135,8 +135,13 @@ public class PhraseService {
     return phraseRepository.getSolution(phraseId, solutionId);
   }
 
+
   /**
-   *
+   * downloadPhrasesWithFilter.
+   * 
+   * @param filter Filters
+   * @return File.
+   * @throws IOException IOException
    */
   public File downloadPhrasesWithFilter(FilterHelper filter) throws IOException {
     File file = File.createTempFile("filteredPhrases", ".json");
@@ -153,6 +158,12 @@ public class PhraseService {
     return file;
   }
 
+  /**
+   * downloadAllPhrases.
+   * 
+   * @return File
+   * @throws IOException IOException
+   */
   public File downloadAllPhrases() throws IOException {
     File file = File.createTempFile("allphrases", ".json");
     List<Document> documents = phraseRepository.findAllPhrases();
@@ -167,6 +178,13 @@ public class PhraseService {
     return file;
   }
 
+  /**
+   * createPhrase.
+   * 
+   * @param phraseText Text
+   * @param language language
+   * @return PhraseModel
+   */
   public PhraseModel createPhrase(String phraseText, String language) {
     return PhraseModel.builder().language(language).datePhrase(System.currentTimeMillis())
         .phraseText(phraseText).build();

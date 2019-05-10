@@ -77,7 +77,7 @@ public class SingupService {
   }
 
   /**
-   * @TODO Controllate questo metodo
+   * setEnabledToTrue.
    */
   public void setEnabledToTrue(String requestId) throws ResourceNotFoundException {
     SignupRequestModel requestModel = singupRequestRepository.findById(requestId)

@@ -46,6 +46,13 @@ public class EmailServiceImpl {
     sender.send(message);
   }
 
+  /**
+   * forgotPasswordMail.
+   * 
+   * @param user User
+   * @param link link
+   * @throws Exception Exception
+   */
   public void forgotPasswordMail(UserModel user, String link) throws Exception {
     MimeMessage message = sender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);

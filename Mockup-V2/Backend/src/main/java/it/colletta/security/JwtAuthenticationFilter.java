@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   private AuthenticationManager authenticationManager;
 
   /**
-   * Costructor to filter security class
+   * Costructor to filter security class.
    *
    * @param authenticationManager the authentication custom manager
    * @since 1.0
@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   }
 
   /**
-   * Perform authentication
+   * Perform authentication.
    *
    * @param request the HTTP request from the server
    * @param response the HTTP response
@@ -54,13 +54,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       UserModel creds = new ObjectMapper().readValue(request.getInputStream(), UserModel.class);
       return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
           creds.getUsername().toLowerCase(), creds.getPassword(), new ArrayList<>()));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    } catch (IOException error) {
+      throw new RuntimeException(error);
     }
   }
 
   /**
-   * Menage the creation of JWT token and adds it to the response
+   * Menage the creation of JWT token and adds it to the response.
    *
    * @param request the HTTP request from the client
    * @param response the HTTP reponse with token generated

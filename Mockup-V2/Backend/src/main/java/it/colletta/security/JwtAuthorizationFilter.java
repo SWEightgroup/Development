@@ -28,7 +28,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   /**
    * Constructor for class JWTAuthorizationFilter.
    *
-   * @param AuthenticationManager TODO explain its purpose
+   * @param authManager explain its purpose
    */
   public JwtAuthorizationFilter(AuthenticationManager authManager,
       UserDetailsService userDetailsService) {
@@ -37,6 +37,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   }
 
   /**
+   * doFilterInternal.
+   * 
    * @param HttpServletRequest TODO
    * @param HttpServletResponse TODO
    * @param FilterChain TODO
@@ -61,6 +63,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   }
 
   /**
+   * getAuthentication.
+   * 
    * @param request TODO
    * @return UsernamePasswordAuthenticationToken TODO
    */

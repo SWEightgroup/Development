@@ -24,6 +24,9 @@ public class ForgotPasswordService {
   private EmailServiceImpl emailService;
   private BCryptPasswordEncoder passwordEncoder;
 
+  /**
+   * Constructor.
+   */
   @Autowired
   public ForgotPasswordService(UsersRepository usersRepository,
       ForgotPasswordRepository forgotPasswordRepository, EmailServiceImpl emailService,
@@ -34,6 +37,9 @@ public class ForgotPasswordService {
     this.passwordEncoder = passwordEncoder;
   }
 
+  /**
+   * generateNewPasswordRequest.
+   */
   @Transactional
   public void generateNewPasswordRequest(String username, ControllerLinkBuilder link)
       throws Exception {
@@ -47,6 +53,9 @@ public class ForgotPasswordService {
         link.slash(requestPassword.getId()).withSelfRel().getHref());
   }
 
+  /**
+   * setNewPassword.
+   */
   @Transactional
   public void setNewPassword(ChangePasswordHelper passwordHelper) throws Exception {
     ForgotPasswordModel passwordModel =

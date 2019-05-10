@@ -16,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-@Document(collection = "classes")
+@Document(
+    collection = "classes")
 public class ClassModel {
 
   @Id
@@ -36,7 +37,6 @@ public class ClassModel {
   }
 
   /**
-   *
    * set teacher id.
    *
    * @param teacherId TeacherId

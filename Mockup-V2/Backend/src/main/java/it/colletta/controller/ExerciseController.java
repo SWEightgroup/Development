@@ -64,10 +64,13 @@ public class ExerciseController {
    * @param assembler {@link org.springframework.hateoas.ResourceAssembler}.
    * @return List of exercises inserted by the user.
    */
-  @RequestMapping(value = "/done", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/done",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allExercisesDone(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 4) Pageable pageable,
+      @PageableDefault(
+          value = 4) Pageable pageable,
       PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
 
@@ -85,10 +88,13 @@ public class ExerciseController {
    * @param assembler assembler.
    * @return List of exercises inserted by the user.
    */
-  @RequestMapping(value = "/added", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/added",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allAddedExercises(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 4) Pageable pageable,
+      @PageableDefault(
+          value = 4) Pageable pageable,
       PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
     Page<ExerciseModel> exercisesDone = exerciseService.getAllAddedByTeacherId(pageable, id);
@@ -106,10 +112,13 @@ public class ExerciseController {
    * @return A paged version of the exercises to do.
    * @see com.auth0.jwt.JWT token.
    */
-  @RequestMapping(value = "/todo", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/todo",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> allExercisesToDo(@RequestHeader("Authorization") String token,
-      @PageableDefault(value = 4) Pageable pageable,
+      @PageableDefault(
+          value = 4) Pageable pageable,
       PagedResourcesAssembler<ExerciseModel> assembler) {
     String id = ParseJwt.getIdFromJwt(token);
     Page<ExerciseModel> exercisesToDo = exerciseService.getAllToDoByStudentId(pageable, id);
@@ -127,7 +136,9 @@ public class ExerciseController {
   // @RolesAllowed("TEACHER")
   // @Secured("ROLE_TEACHER")
   @PreAuthorize("hasRole('TEACHER')")
-  @RequestMapping(value = "/insert-exercise", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/insert-exercise",
+      method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertExercise(@RequestBody ExerciseHelper exercise) {
     try {
@@ -147,7 +158,9 @@ public class ExerciseController {
    * @param exercise the free exercise which needs to be inserted in the database.
    * @return the inserted phrase.
    */
-  @RequestMapping(value = "/student/insert-free-exercise", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/student/insert-free-exercise",
+      method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ExerciseModel> insertFreeExercise(
       @RequestHeader("Authorization") String token, @RequestBody ExerciseHelper exercise) {
@@ -171,7 +184,9 @@ public class ExerciseController {
    *        </p>
    * @return the teacher solution of the exercise.
    */
-  @RequestMapping(value = "/student/do", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/student/do",
+      method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> doExercise(@RequestHeader("Authorization") String token,
       @RequestBody CorrectionHelper correctionHelper) {
@@ -192,7 +207,9 @@ public class ExerciseController {
    * @param studentToken the unique token of the user.
    * @return A SolutionModel with the analyzed sentence or empty if the service is unavailable.
    */
-  @RequestMapping(value = "/automatic-solution", method = RequestMethod.POST,
+  @RequestMapping(
+      value = "/automatic-solution",
+      method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SolutionModel> getCorrection(@RequestBody Map<String, String> stringObj,
       @RequestHeader("Authorization") String studentToken) {
@@ -214,10 +231,12 @@ public class ExerciseController {
    * @return A paged version of the exercises public to do.
    * @see com.auth0.jwt.JWT token.
    */
-  @RequestMapping(value = "/public", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/public",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getPublicExercises(@PageableDefault(value = 4) Pageable pageable,
-      PagedResourcesAssembler<ExerciseModel> assembler,
+  public ResponseEntity<?> getPublicExercises(@PageableDefault(
+      value = 4) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler,
       @RequestHeader("Authorization") String studentToken) {
     try {
       Page<ExerciseModel> exercisesToDo =
@@ -225,8 +244,8 @@ public class ExerciseController {
       PagedResources<?> resources =
           assembler.toResource(exercisesToDo, new ExerciseResourceAssembler("/public-exercise"));
       return new ResponseEntity<>(resources, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (Exception error) {
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -235,7 +254,9 @@ public class ExerciseController {
    * @param teacherToken the unique token of a User.
    * @return HttpStatus of the operation.
    */
-  @RequestMapping(value = "/{exerciseId}", method = RequestMethod.DELETE,
+  @RequestMapping(
+      value = "/{exerciseId}",
+      method = RequestMethod.DELETE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> deleteExercise(@PathVariable("exerciseId") String exerciseId,
       @RequestHeader("Authorization") String teacherToken) {
@@ -243,25 +264,27 @@ public class ExerciseController {
       return new ResponseEntity<>(
           exerciseService.deleteExercise(exerciseId, ParseJwt.getIdFromJwt(teacherToken)),
           HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    } catch (Exception error) {
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
   /**
    * @param exerciseId the unique id of a Exercise.
-   * @param Token the unique token of a User.
+   * @param token the unique token of a User.
    * @return ExerciseInfoHelper a DTO with all exercise info.
    */
-  @RequestMapping(value = "/{exerciseId}", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/{exerciseId}",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> infoExercise(@RequestHeader("Authorization") String Token,
+  public ResponseEntity<?> infoExercise(@RequestHeader("Authorization") String token,
       @PathVariable("exerciseId") String exerciseId) {
     try {
       return new ResponseEntity<ExerciseInfoHelper>(exerciseService.getExerciseInfo(exerciseId),
           HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    } catch (Exception error) {
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -274,10 +297,12 @@ public class ExerciseController {
    * @return A paged version of the favorite exercise to do.
    * @see com.auth0.jwt.JWT
    */
-  @RequestMapping(value = "/favourite-public", method = RequestMethod.GET,
+  @RequestMapping(
+      value = "/favourite-public",
+      method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getFavouritePublic(@PageableDefault(value = 4) Pageable pageable,
-      PagedResourcesAssembler<ExerciseModel> assembler,
+  public ResponseEntity<?> getFavouritePublic(@PageableDefault(
+      value = 4) Pageable pageable, PagedResourcesAssembler<ExerciseModel> assembler,
       @RequestHeader("Authorization") String studentToken) {
     try {
       Page<ExerciseModel> exercisesFavoritePublic =
@@ -285,8 +310,8 @@ public class ExerciseController {
       PagedResources<?> resources = assembler.toResource(exercisesFavoritePublic,
           new ExerciseResourceAssembler("/favorite-exercise"));
       return new ResponseEntity<>(resources, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (Exception error) {
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

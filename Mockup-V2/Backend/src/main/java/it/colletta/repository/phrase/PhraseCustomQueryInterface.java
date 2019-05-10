@@ -15,7 +15,7 @@ import java.util.List;
 public interface PhraseCustomQueryInterface {
 
   /**
-   *
+   * findAllByAuthor.
    */
   List<PhraseModel> findAllByAuthor(final String authorId);
 
@@ -28,7 +28,7 @@ public interface PhraseCustomQueryInterface {
   List<SolutionModel> findAllSolutionsByAuthor(final String authorId);
 
   /**
-   *
+   * increaseReliability.
    */
   UpdateResult increaseReliability(SolutionModel solutionModels);
 

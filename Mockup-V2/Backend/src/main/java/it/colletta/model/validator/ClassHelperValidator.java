@@ -9,14 +9,15 @@ import org.springframework.validation.Validator;
 public class ClassHelperValidator implements Validator {
 
   /**
-   * This Validator validates *just* ClassHelper instances
+   * This Validator validates *just* ClassHelper instances.
    */
   public boolean supports(Class clazz) {
     return ClassHelper.class.equals(clazz);
   }
 
-  public void validate(Object obj, Errors e) {
-    ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
-    ClassHelper p = (ClassHelper) obj;
+
+  public void validate(Object obj, Errors err) {
+    ValidationUtils.rejectIfEmpty(err, "name", "name.empty");
+    ClassHelper par = (ClassHelper) obj;
   }
 }

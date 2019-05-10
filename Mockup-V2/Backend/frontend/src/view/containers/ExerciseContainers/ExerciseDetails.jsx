@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import _translator from '../../../helpers/Translator';
 import {
   getExerciseDetails,
-  initExerciseDetails
+  initExerciseDetails,
+  onDeleteExercise
 } from '../../../actions/ExerciseActions';
 import SolutionMapper from '../../../helpers/SolutionMapper';
 import gerarchy from '../../../constants/gerarchia';
@@ -36,10 +37,24 @@ class ExercisesDetails extends Component {
     initExerciseDetailsDispatch();
   }
 
-  render() {
-    const { user, exerciseDetails } = this.props;
+  deleteExercise = () => {
+    const {
+      onDeleteExerciseDispatch,
+      match: { params },
+      history
+    } = this.props;
+    onDeleteExerciseDispatch(params.exerciseId);
+    history.push('../assignedHomework');
+  };
 
-    if (exerciseDetails) {
+  render() {
+    const {
+      user,
+      exerciseDetails,
+      match: { params }
+    } = this.props;
+
+    if (exerciseDetails && params.exerciseId) {
       const textSplitted = exerciseDetails.exerciseText.split(' ');
       const mainSolution = exerciseDetails.mainSolution
         ? JSON.parse(exerciseDetails.mainSolution.solutionText)
@@ -65,7 +80,17 @@ class ExercisesDetails extends Component {
               </li>
             </ol>
           </nav>
+
           <div className="main-card mb-3 card exercise-preview">
+            <div className="card-header">
+              <button
+                type="button"
+                className="btn btn-danger pull-right"
+                onClick={this.deleteExercise}
+              >
+                {_translator('gen_delete', user.language)}
+              </button>
+            </div>
             <div className="card-body">
               <div className="row">
                 <div className="col">
@@ -190,7 +215,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getExerciseDetailsDispatch: exerciseId =>
       dispatch(getExerciseDetails(exerciseId)),
-    initExerciseDetailsDispatch: () => dispatch(initExerciseDetails())
+    initExerciseDetailsDispatch: () => dispatch(initExerciseDetails()),
+    onDeleteExerciseDispatch: exerciseId =>
+      dispatch(onDeleteExercise(exerciseId))
   };
 };
 

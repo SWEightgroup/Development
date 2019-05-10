@@ -45,8 +45,8 @@ public class StudentController {
     try {
       studentService.addFavoriteTeacher(ParseJwt.getIdFromJwt(token), teacherId);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -62,8 +62,8 @@ public class StudentController {
     try {
       studentService.deleteFavoriteTeacher(ParseJwt.getIdFromJwt(token), teacherId);
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -81,8 +81,8 @@ public class StudentController {
       studentService.modifyFavoriteTeachers(ParseJwt.getIdFromJwt(token),
           favoriteTeacherHelper.getTeacherId());
       return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -98,8 +98,8 @@ public class StudentController {
     try {
       return new ResponseEntity<>(studentService.getFavoriteTeachers(ParseJwt.getIdFromJwt(token)),
           HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -114,8 +114,8 @@ public class StudentController {
     try {
       return new ResponseEntity<>(studentService.getStudentProgress(ParseJwt.getIdFromJwt(token)),
           HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception error) {
+      error.printStackTrace();
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }

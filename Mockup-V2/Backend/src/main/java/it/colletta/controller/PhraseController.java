@@ -34,12 +34,15 @@ public class PhraseController {
    * 
    * @param response Response
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/downloadAll")
+  @RequestMapping(
+      method = RequestMethod.GET,
+      value = "/downloadAll")
   public void downloadAllPhrases(HttpServletResponse response) {
     try {
       File file = phraseService.downloadAllPhrases();
       setResponse(response, file);
-    } catch (Exception ignored) {
+    } catch (Exception error) {
+      error.printStackTrace();
     }
   }
 
@@ -66,7 +69,9 @@ public class PhraseController {
    * @param response Response
    * @param filterHelper Filters
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/download")
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/download")
   public void downloadPhrasesWithFilter(HttpServletResponse response,
       @RequestBody FilterHelper filterHelper) {
     try {
