@@ -8,7 +8,10 @@ import {
   changePassword,
   sendRequest
 } from '../../../actions/AuthActions';
+import { _toastError } from '../../../helpers/Utils';
 import _translator from '../../../helpers/Translator';
+import Validator from '../../../helpers/Validator';
+import RegExpression from '../../../constants/RegExpression';
 import HelperMessage from '../../components/HelperMessage';
 
 class Forgot extends Component {
@@ -32,9 +35,18 @@ class Forgot extends Component {
 
   handleSubmitPassword = e => {
     const { props } = this;
+    const { password, passwordConfirm } = props.forgot;
     e.preventDefault();
-    props.loaderOn();
-    props.changePasswordDispatch(props.forgot);
+    if (password !== passwordConfirm) {
+      _toastError('Le due password non coincidono', 'it');
+    } else if (
+      !Validator.validPassword(password, RegExpression.getRegPassword())
+    ) {
+      _toastError('La password inserita non è sicura', 'it');
+    } else {
+      props.loaderOn();
+      props.changePasswordDispatch(props.forgot);
+    }
   };
 
   handleSubmitEmail = e => {
