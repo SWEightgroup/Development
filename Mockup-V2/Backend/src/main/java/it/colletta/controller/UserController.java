@@ -142,7 +142,7 @@ public class UserController {
       // TODO trovare soluzione alternativa, non va nel controller
       UserModel user = userService.updateUser(newUserData, token);
       return new ResponseEntity<>(user, HttpStatus.OK);
-    } catch (UsernameNotFoundException error) {
+    } catch (Exception error) {
       error.printStackTrace();
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, error.getMessage(), error);
     }

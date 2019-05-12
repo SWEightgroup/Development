@@ -89,7 +89,7 @@ public class UserServiceTest {
   @Test
   public void updateUser() {
 
-    Mockito.when(usersRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
+    Mockito.when(usersRepository.findById(anyString())).thenReturn(Optional.ofNullable(user));
     Mockito.when(usersRepository.save(any(UserModel.class))).thenReturn(user);
     UserModel myuser = userService.updateUser(user, token);
 
