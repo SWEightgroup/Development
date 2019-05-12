@@ -1,4 +1,8 @@
 [![Build Status](https://travis-ci.org/SWEightgroup/Development.svg?branch=master)](https://travis-ci.org/SWEightgroup/Development)
+<p aling="center">
+<img src="https://raw.githubusercontent.com/SWEightgroup/Colletta/master/RA/template/img/logoSWEight.png" height="200px">
+</p>
+
 
 # Colletta
 
