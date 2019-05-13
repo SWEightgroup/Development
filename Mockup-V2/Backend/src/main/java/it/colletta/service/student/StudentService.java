@@ -61,7 +61,7 @@ public class StudentService {
     if (mark >= 6.0) {
       student.setCurrentGoal(student.getCurrentGoal() + 1);
     } else {
-      student.setCurrentGoal(Math.min(0, student.getCurrentGoal() - 1));
+      student.setCurrentGoal(Math.max(0, student.getCurrentGoal() - 1));
     }
     studentRepository.save(student);
   }
