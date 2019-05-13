@@ -129,7 +129,7 @@ export const activeAccount = signUpRequestId => {
     axios
       .get(`http://localhost:8081/sign-up/activate/${signUpRequestId}`)
       .then(res => {
-        _toastSuccess('attivazione avvenuta con successo');
+        _toastSuccess(_translator('activation_success_line1'));
         dispatch({
           type: 'ACTIVATION',
           payload: {
@@ -192,10 +192,12 @@ export const updateUserInfo = user => {
         }
       )
       .then(res => {
-        const userInfo = { user: res.data, token: store.getState().auth.token };
+        _toastSuccess(_translator('gen_opSuccess', res.data.language));
 
-        if (userInfo.user.username !== user.username) store.dispatch(signOut());
-        else dispatch({ type: 'LOGIN_SUCCESS', userInfo });
+        const userInfo = { user: res.data, token: store.getState().auth.token };
+        if (userInfo.user.username !== store.getState().auth.user.username) {
+          store.dispatch(signOut());
+        } else dispatch({ type: 'LOGIN_SUCCESS', userInfo });
       })
       .catch(err => console.warn(err));
   };

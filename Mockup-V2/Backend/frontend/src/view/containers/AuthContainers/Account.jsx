@@ -83,7 +83,6 @@ class Account extends Component {
                     type="email"
                     className="form-control"
                     id="username"
-                    readOnly
                     defaultValue={username}
                   />
                 </div>
