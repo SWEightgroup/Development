@@ -63,6 +63,11 @@ class ExercisesDetails extends Component {
       const altSolution = exerciseDetails.alternativeSolution
         ? JSON.parse(exerciseDetails.alternativeSolution.solutionText)
         : [];
+
+      console.log(
+        ': ExercisesDetails -> render -> exerciseDetails.studentDone',
+        exerciseDetails.studentDone
+      );
       return (
         <React.Fragment>
           <nav aria-label="breadcrumb">
@@ -116,7 +121,10 @@ class ExercisesDetails extends Component {
               <ul className="list-group list-group-flush">
                 {mainSolution.map((word, index) => (
                   <li className="list-group-item" key={`main-${word}-${index}`}>
-                    <strong>{textSplitted[index]}</strong> {' : '}
+                    <strong className="text-uppercase">
+                      {textSplitted[index]}
+                    </strong>{' '}
+                    {' : '}
                     {new SolutionMapper(
                       word,
                       gerarchy // [exerciseDetails.language]
@@ -141,7 +149,10 @@ class ExercisesDetails extends Component {
                       className="list-group-item"
                       key={`alt-${word}-${index}`}
                     >
-                      <strong>{textSplitted[index]}</strong> {' : '}
+                      <strong className="text-uppercase">
+                        {textSplitted[index]}
+                      </strong>{' '}
+                      {' : '}
                       {new SolutionMapper(
                         word,
                         gerarchy // [exerciseDetails.language]
@@ -165,7 +176,7 @@ class ExercisesDetails extends Component {
                   <ul className="list-group list-group-flush">
                     {exerciseDetails.studentDone.map(student => (
                       <li className="list-group-item" key={`done${student.id}`}>
-                        {student.firstName} {student.lastname}
+                        {student.firstName} {student.lastName}
                       </li>
                     ))}
                   </ul>
