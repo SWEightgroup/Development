@@ -71,6 +71,7 @@ class HomeworkExercise extends Component {
     let markClass = 'alert-danger';
     if (mark && mark > 8) markClass = 'alert-success';
     if (mark && mark <= 8 && mark > 5) markClass = 'alert-warning';
+    const markToShow = !mark || Number.isNaN(mark) ? 0 : mark.toFixed(2);
     return (
       <div className="row justify-content-center student">
         <div className="col-12 col-md-10">
@@ -89,7 +90,7 @@ class HomeworkExercise extends Component {
                       className={`alert pull-right ${markClass}`}
                       role="alert"
                     >
-                      {mark}/10
+                      {markToShow}/10
                     </div>
                   </div>
                 )}

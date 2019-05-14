@@ -18,7 +18,11 @@ const initState = {
   publicExercises: { exercises: null, page: null, links: null },
   onlyFavouritePublicExercise: false,
   innerLoader: false,
-  exerciseDetails: null
+  exerciseDetails: null,
+  progress: {
+    currentLevel: null,
+    nextLevel: null
+  }
 };
 
 /* EXERCISE MODEL
@@ -150,6 +154,11 @@ const ExerciseReducer = (state = initState, action) => {
       return {
         ...state,
         exerciseDetails: initState.exerciseDetails
+      };
+    case 'LOAD_PROGRESS_SUCCESS':
+      return {
+        ...state,
+        progress: action.progress
       };
     default:
       // console.error('REDUCER ERRATO', state, action);

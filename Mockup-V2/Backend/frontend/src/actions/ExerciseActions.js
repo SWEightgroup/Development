@@ -373,6 +373,27 @@ export const onDeleteExercise = exerciseId => {
   };
 };
 
+export const onLoadProgress = () => {
+  return dispatch => {
+    axios
+      .get(`http://localhost:8081/students/progress`, {
+        headers: {
+          Authorization: store.getState().auth.token
+        }
+      })
+      .then(res => {
+        dispatch({ type: 'LOAD_PROGRESS_SUCCESS', progress: res.data });
+      })
+      .catch(err => {
+        console.error(err);
+        _toastError(
+          _translator('gen_error', store.getState().auth.user.language)
+        );
+        return dispatch({ type: '' });
+      });
+  };
+};
+
 /* {
   "assignedUsersIds": [
     "demoData"
