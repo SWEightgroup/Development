@@ -20,7 +20,6 @@ public class EmailServiceImpl {
     this.sender = sender;
   }
 
-
   /**
    * activateUserMail.
    *
@@ -30,14 +29,12 @@ public class EmailServiceImpl {
     MimeMessage message = sender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
     helper.setTo(user.getUsername());
-    StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName()
-        + "\n" + "We are pleased that you want to subscribe in our system. \n");
+    StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName() + "\n"
+        + "We are pleased that you want to subscribe in our system. \n");
     if (user.getRole().equals(Role.DEVELOPER)) {
-      body = body.append("You asked to subscribe as developer "
-          + "so you need to wait the approval from an admin. \n");
-    } else {
-      body = body.append("Please follow the link to activate your account: " + link + "\n");
+      body.append("You asked to subscribe as developer " + "so you need to wait the approval from an admin. \n");
     }
+    body.append("Please follow the link to confirm your email: " + link + "\n");
 
     body.append("Thank you so much." + "\nRegards, Colletta team");
 
@@ -57,8 +54,8 @@ public class EmailServiceImpl {
     MimeMessage message = sender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
     helper.setTo(user.getUsername());
-    StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName()
-        + "\n" + "Follow the link to check change the password. \n");
+    StringBuilder body = new StringBuilder("Dear " + user.getFirstName() + " " + user.getLastName() + "\n"
+        + "Follow the link to check change the password. \n");
     body.append("Recover password: ").append(link).append("\n");
     body.append("Thank you so much." + "\nRegards, Colletta team");
     helper.setSubject("Recover your account in Colletta");

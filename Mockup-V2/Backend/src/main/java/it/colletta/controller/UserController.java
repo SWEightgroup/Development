@@ -139,7 +139,6 @@ public class UserController {
        * if (role.isPresent() && role.get().equals("ROLE_TEACHER")) {
        * exerciseService.modifyExerciseAuthorName(newUserData, token); }
        */
-      // TODO trovare soluzione alternativa, non va nel controller
       UserModel user = userService.updateUser(newUserData, token);
       return new ResponseEntity<>(user, HttpStatus.OK);
     } catch (Exception error) {

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -35,15 +36,13 @@ public class SingupService {
    * @param passwordEncoder bCryptPasswordEncoder
    */
   @Autowired
-  public SingupService(BCryptPasswordEncoder passwordEncoder,
-      SingupRequestRepository singupRequestRepository, UsersRepository usersRepository,
-      EmailServiceImpl emailService) {
+  public SingupService(BCryptPasswordEncoder passwordEncoder, SingupRequestRepository singupRequestRepository,
+      UsersRepository usersRepository, EmailServiceImpl emailService) {
     this.passwordEncoder = passwordEncoder;
     this.singupRequestRepository = singupRequestRepository;
     this.usersRepository = usersRepository;
     this.emailService = emailService;
   }
-
 
   /**
    * Add new user.
@@ -56,6 +55,9 @@ public class SingupService {
 
     try {
       if (Objects.nonNull(user)) {
+        Optional<UserModel> checkUser = usersRepository.findByEmail(user.getUsername());
+        if (checkUser.isPresent())
+          throw new Exception("This email has already been used");
         final String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         user.setEnabled(false);
@@ -68,10 +70,7 @@ public class SingupService {
       }
       return user;
     } catch (Exception error) {
-      if (user.getId() != null) {
-        usersRepository.deleteById(user.getId());
-      }
-
+      error.printStackTrace();
       throw error;
     }
   }

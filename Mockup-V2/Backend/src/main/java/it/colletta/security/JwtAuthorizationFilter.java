@@ -30,8 +30,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
    *
    * @param authManager explain its purpose
    */
-  public JwtAuthorizationFilter(AuthenticationManager authManager,
-      UserDetailsService userDetailsService) {
+  public JwtAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService) {
     super(authManager);
     this.userDetailsService = userDetailsService;
   }
@@ -39,16 +38,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   /**
    * doFilterInternal.
    * 
-   * @param HttpServletRequest TODO
-   * @param HttpServletResponse TODO
-   * @param FilterChain TODO
+   * @param HttpServletRequest
+   * @param HttpServletResponse
+   * @param FilterChain
    * @return nothing
-   * @throws IOException TODO
-   * @throws ServletException TODO
+   * @throws IOException
+   * @throws ServletException
    */
   @Override
-  protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
-      FilterChain chain) throws IOException, ServletException {
+  protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
     String header = req.getHeader(HEADER_STRING);
 
     if (header == null || !header.startsWith(TOKEN_PREFIX)) {
@@ -65,15 +64,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
   /**
    * getAuthentication.
    * 
-   * @param request TODO
-   * @return UsernamePasswordAuthenticationToken TODO
+   * @param request
+   * @return UsernamePasswordAuthenticationToken
    */
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
     String token = request.getHeader(HEADER_STRING);
     if (token != null) {
       // parse the token.
-      String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build()
-          .verify(token.replace(TOKEN_PREFIX, "")).getSubject();
+      String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build().verify(token.replace(TOKEN_PREFIX, ""))
+          .getSubject();
 
       // ArrayList<GrantedAuthority> authorities = new ArrayList<>();
       // authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
