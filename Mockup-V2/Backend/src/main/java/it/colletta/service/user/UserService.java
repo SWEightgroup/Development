@@ -1,6 +1,7 @@
 package it.colletta.service.user;
 
 import com.mongodb.DuplicateKeyException;
+
 import it.colletta.model.UserModel;
 import it.colletta.repository.user.UsersRepository;
 import it.colletta.security.ParseJwt;
@@ -100,9 +101,9 @@ public class UserService {
    *
    * @param newUserData User info
    * @param token User token
+   * @return User
    * @throws DuplicateKeyException if the email is already in the system
    * @throws ResourceNotFoundException if the user is not found
-   * @return User
    */
   public UserModel updateUser(final UserModel newUserData, final String token)
       throws DuplicateKeyException, ResourceNotFoundException {

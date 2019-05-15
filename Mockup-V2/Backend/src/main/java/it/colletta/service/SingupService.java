@@ -10,6 +10,7 @@ import it.colletta.service.signup.EmailServiceImpl;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,8 +37,9 @@ public class SingupService {
    * @param passwordEncoder bCryptPasswordEncoder
    */
   @Autowired
-  public SingupService(BCryptPasswordEncoder passwordEncoder, SingupRequestRepository singupRequestRepository,
-      UsersRepository usersRepository, EmailServiceImpl emailService) {
+  public SingupService(BCryptPasswordEncoder passwordEncoder,
+      SingupRequestRepository singupRequestRepository, UsersRepository usersRepository,
+      EmailServiceImpl emailService) {
     this.passwordEncoder = passwordEncoder;
     this.singupRequestRepository = singupRequestRepository;
     this.usersRepository = usersRepository;
@@ -56,8 +58,9 @@ public class SingupService {
     try {
       if (Objects.nonNull(user)) {
         Optional<UserModel> checkUser = usersRepository.findByEmail(user.getUsername());
-        if (checkUser.isPresent())
-          throw new Exception("This email has already been used");
+        if (checkUser.isPresent()) {
+          throw new InvalidDataAccessApiUsageException("This email has already been used");
+        }
         final String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         user.setEnabled(false);
