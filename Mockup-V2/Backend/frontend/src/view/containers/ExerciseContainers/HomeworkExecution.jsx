@@ -14,6 +14,10 @@ import {
 class HomeworkExercise extends Component {
   constructor(props) {
     super(props);
+    console.log(
+      ': HomeworkExercise -> constructor -> props.newExercise.sentenceString',
+      props.newExercise.sentenceString
+    );
     if (props.newExercise.sentenceString === '') props.history.push('homework');
   }
 
@@ -64,9 +68,13 @@ class HomeworkExercise extends Component {
     const { language } = user;
 
     const sentenceString = removePunctuation(newExercise.sentenceString);
+    console.log(
+      ': HomeworkExercise -> render -> sentenceString',
+      sentenceString
+    );
     const sentence =
       sentenceString !== ''
-        ? sentenceString.split(' ').filter(item => item.charAt(0) !== 'F')
+        ? sentenceString.split(' ') // .filter(item => item.charAt(0) !== 'F')
         : [];
     let markClass = 'alert-danger';
     if (mark && mark > 8) markClass = 'alert-success';
