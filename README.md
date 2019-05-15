@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SWEightgroup/Development.svg?branch=master)](https://travis-ci.org/SWEightgroup/Development)
+﻿[![Build Status](https://travis-ci.org/SWEightgroup/Development.svg?branch=master)](https://travis-ci.org/SWEightgroup/Development)
 <p aling="center">
 <img src="https://raw.githubusercontent.com/SWEightgroup/Colletta/master/RA/template/img/logoSWEight.png" height="200px">
 </p>
@@ -46,7 +46,8 @@ Colletta is an online platform which allows users to do grammar analysis exercis
 ## Installation
 To install and run the application, simply follow this steps:
 
-1. Open a terminal windows in `Mockup-V2/Backend/`
-2. Run the following command `mvn clean install exec:java`
+1. Open a terminal windows in `Mockup-V2/`
+2. Run `docker-compose up` and wait until the services are loaded
+3. Open the 'Backend' folder and run `mvn clean install exec:java`
 
 At this point, the platform should be up and running at `localhost:8081`
