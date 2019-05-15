@@ -68,10 +68,7 @@ class HomeworkExercise extends Component {
     const { language } = user;
 
     const sentenceString = removePunctuation(newExercise.sentenceString);
-    console.log(
-      ': HomeworkExercise -> render -> sentenceString',
-      sentenceString
-    );
+
     const sentence =
       sentenceString !== ''
         ? sentenceString.split(' ') // .filter(item => item.charAt(0) !== 'F')
