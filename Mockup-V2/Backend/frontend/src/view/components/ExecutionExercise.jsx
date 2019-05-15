@@ -29,7 +29,6 @@ class ExecutionExercise extends Component {
       ? props.response.filter(word => word.tag.charAt(0) !== 'F')
       : null;
     if (sentence && sentence.length) {
-      console.log(': render -> sentence', sentence);
       return (
         <div className="main-card mb-3 card">
           <div className="card-body">
